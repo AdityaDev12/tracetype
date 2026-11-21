@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { HomePage } from './components/HomePage.tsx'
 import { LessonPage } from './components/LessonPage.tsx'
+import { StylePage } from './components/StylePage.tsx'
 import { useRoute } from './router.ts'
 
 export default function App() {
@@ -20,6 +21,7 @@ export default function App() {
       </nav>
       {route.page === 'home' && <HomePage />}
       {route.page === 'lesson' && <LessonPage id={route.id} mode={route.mode} />}
+      {route.page === 'style' && <StylePage />}
       {route.page === 'notfound' && (
         <main className="page">
           <p>Page not found.</p>

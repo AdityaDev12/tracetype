@@ -1,0 +1,161 @@
+/* Logos */
+
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.05em;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.logo-cursor,
+.logo-ghost {
+  font-family: var(--mono);
+  letter-spacing: -0.02em;
+}
+
+.logo-accent {
+  color: var(--accent);
+}
+
+.logo-block {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.12em;
+  border-radius: 0.08em;
+  background: var(--accent);
+  animation: logo-blink 1.1s steps(1) infinite;
+}
+
+.logo-mark {
+  gap: 0.45em;
+}
+
+.logo-mark-text {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+.logo-caret {
+  display: inline-block;
+  width: 0.1em;
+  height: 1.05em;
+  margin: 0 0.06em;
+  border-radius: 0.05em;
+  background: var(--accent);
+  animation: logo-blink 1.1s steps(1) infinite;
+}
+
+.logo-ghost-text {
+  color: var(--text-dim);
+}
+
+@keyframes logo-blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Mascot */
+
+.mascot {
+  display: inline-block;
+  overflow: visible;
+  vertical-align: middle;
+}
+
+.mascot .mascot-body,
+.mascot .mascot-eyes {
+  transform-box: fill-box;
+}
+
+.mascot .mascot-body {
+  transform-origin: 50% 100%;
+}
+
+.mascot .mascot-eyes {
+  transform-origin: 50% 50%;
+  animation: mascot-blink 4.2s infinite;
+}
+
+@keyframes mascot-blink {
+  0%, 92%, 100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+
+.mascot-hop .mascot-body {
+  animation: mascot-hop 420ms var(--ease);
+}
+
+.mascot-hop .mascot-shadow {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: mascot-shadow 420ms var(--ease);
+}
+
+@keyframes mascot-hop {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes mascot-shadow {
+  40% {
+    transform: scaleX(0.7);
+    opacity: 0.6;
+  }
+}
+
+.mascot-tilt .mascot-body {
+  animation: mascot-tilt 700ms var(--ease);
+}
+
+@keyframes mascot-tilt {
+  0%, 100% {
+    transform: rotate(0);
+  }
+  30%, 70% {
+    transform: rotate(-12deg);
+  }
+}
+
+.mascot-bounce .mascot-body {
+  animation: mascot-bounce 800ms var(--ease);
+}
+
+@keyframes mascot-bounce {
+  0%, 100% {
+    transform: translateY(0) scale(1, 1);
+  }
+  15% {
+    transform: translateY(0) scale(1.12, 0.86);
+  }
+  35% {
+    transform: translateY(-6px) scale(0.92, 1.08);
+  }
+  55% {
+    transform: translateY(0) scale(1.08, 0.92);
+  }
+  70% {
+    transform: translateY(-2px) scale(1, 1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .logo-block,
+  .logo-caret,
+  .mascot * {
+    animation: none !important;
+  }
+}

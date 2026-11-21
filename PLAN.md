@@ -1,189 +1,164 @@
-# TraceType: Project Plan
+# TraceType: Project Plan (v2)
 
-Learn Python, data analysis and ML by **typing over real code** while a side panel shows what each line does.
+Learn Python, data analysis and ML by **reading, predicting, typing and writing real code** while a side panel shows what every line does.
 
-Every lesson follows the same loop:
-
-1. **Learn**: read a short intro, step through the code line by line, and watch the visual panel change.
-2. **Trace**: type over faded "ghost" code. Correct characters turn normal, wrong ones turn red. Enter moves to the next line once it matches.
-3. **Recall**: the code is hidden. Each line shows only a task ("Store 22 in age"). Write it from memory. Peek is allowed but counted.
-4. **Quiz**: 3 to 5 multiple choice questions, one at a time, each with a one-line "why".
-
-Target learner: a complete beginner (no Python yet). Plain language, short lessons, no jargon without explaining it.
+This is v2 of the plan. v1 (Milestone 1 and the two fixes) is done and live. v2 replaces the old Milestones 2 and 3 with a stronger lesson design, so lessons are built **once, completely**, and never need to be revisited to add more practice.
 
 ---
 
-## Tech stack
+## 1. Course structure: 4 tracks, learned in order
 
-| Part | Choice |
-|---|---|
-| App | React + TypeScript + Vite |
-| Routing | Hash routing (`#/lesson/py-01`) so GitHub Pages works without server config |
-| Styling | Plain CSS modules or one global CSS file with CSS variables (dark theme) |
-| Code font | JetBrains Mono (Google Fonts) |
-| Tests | Vitest |
-| Python in browser (Milestone 3) | Pyodide, loaded lazily from the jsDelivr CDN only when needed |
-| Lesson trace generation | Local Python 3 script (`scripts/trace_lesson.py`) |
-| Hosting | GitHub Pages, deployed by GitHub Actions on every push to `main` |
-| Progress | `localStorage` (wrapped in try/catch, app must work without it) |
+| # | Track | Main book | Status |
+|---|---|---|---|
+| 1 | **Python** | *Learning Python* (Lutz) | Build fully now |
+| 2 | **Python for Data Analysis** (NumPy, pandas, plotting) | *Python for Data Analysis* (McKinney) | Coming soon |
+| 3 | **Data Science from Scratch** (math, stats, ML built by hand) | *Data Science from Scratch* (Grus) | Coming soon |
+| 4 | **Hands-On Machine Learning** (scikit-learn, Keras) | *Hands-On ML* (Geron) | Coming soon |
 
-Vite `base` must be `/tracetype/` for GitHub Pages.
+Why this order: language first, then the data tools, then how ML works from scratch using those tools, then the real ML frameworks.
 
----
-
-## Repo structure
-
-```
-tracetype/
-  books/                  # reference PDFs, git-ignored, NEVER committed
-  prototype/index.html    # optional: the original single-file prototype, for UI reference
-  content/
-    syllabus.md           # full course outline, built from the books' tables of contents
-    lessons/
-      python-basics/
-        py-01-variables.json
-        ...
-  scripts/
-    trace_lesson.py       # runs a lesson's code and writes the "trace" field
-    validate_lessons.ts   # checks every lesson JSON against the schema
-  src/
-    engine/               # pure logic: typing state, scoring, WPM, trace stepping
-    components/           # Editor, ExplainBox, ModeTabs, Quiz, LessonList, ...
-    visuals/              # MemoryPanel, OutputPanel (more visual types later)
-    pyodide/              # Milestone 3: loader + runner
-    App.tsx
-  .github/workflows/deploy.yml
-  PLAN.md
-  CLAUDE.md
-  README.md
-```
+- The home page shows all 4 tracks from day 1. Tracks 2 to 4 show "Coming soon" with a one-line description.
+- Each track is made of **units**, and each unit is made of **lessons**. Each unit ends with a **mini project** and a **unit review**.
+- Lessons have a recommended order. Next lessons are highlighted, but nothing is hard-locked: the learner can skip ahead.
 
 ---
 
-## Lesson format
+## 2. Teaching method (research-based)
 
-One JSON file per lesson. Authors write `code`, `explain`, `task` and `quiz`. The `trace` field is **generated** by `scripts/trace_lesson.py`, never written by hand, so every value shown on screen comes from a real run.
+The lesson design combines four well-studied ideas:
 
-```json
-{
-  "id": "py-01-variables",
-  "track": "python-basics",
-  "order": 1,
-  "title": "Variables and print",
-  "summary": "Store values in named boxes and show them on screen.",
-  "intro": "A **variable** is a labeled box that stores a value...",
-  "links": [
-    { "title": "Python tutorial: numbers and variables", "url": "https://docs.python.org/3/tutorial/introduction.html#numbers" }
-  ],
-  "bookRefs": [
-    { "book": "learning-python", "chapter": "<chapter title copied from the book's table of contents>" }
-  ],
-  "visual": "memory",
-  "lines": [
-    {
-      "code": "name = \"Adi\"",
-      "explain": "Makes a box called **name** and puts the text \"Adi\" inside...",
-      "task": "Store the text Adi in a variable called name."
-    }
-  ],
-  "quiz": [
-    {
-      "q": "After `x = 5` then `print(x + 2)`, what is stored in x?",
-      "options": ["5", "7", "2", "Error"],
-      "answer": 0,
-      "why": "print only shows 7. Nothing was saved back into x."
-    }
-  ],
-  "trace": [
-    { "line": 1, "vars": { "name": { "repr": "'Adi'", "type": "str" } }, "stdout": "" }
-  ]
-}
-```
+1. **PRIMM** (Predict, Run, Investigate, Modify, Make), a lesson structure from computing education research (Sentance and Waite). Read and predict code before writing it, then change it, then write new code.
+2. **Worked examples and fading**: show complete examples first, then examples with parts blanked out, then a blank page. Trace and Recall already do this.
+3. **Faded Parsons problems** (Weinman, Fox, Hearst, CHI 2021): put shuffled lines in order and fill in blanks. Low friction, and found to build code-writing skill.
+4. **Spaced, interleaved retrieval practice**: things learned come back for review after growing gaps, mixed with other topics, instead of being studied once.
 
-Rules for `links` and `bookRefs`:
-- `links` (required, at least one): free official pages that cover the same topic, mainly docs.python.org. Shown as "Read more". Only use URLs that were opened and confirmed to exist and match the topic (`npm run check-links`).
-- `bookRefs`: chapter titles only, shown as small "Also in" text.
-
-Rules for `trace`:
-- One entry per **executed** step, in execution order (a loop body appears once per iteration).
-- `vars` is the full set of user variables **after** that step ran.
-- `stdout` is only the new text that step printed.
-- Learn mode steps through `trace` (execution order). Trace and Recall modes go through `lines` (source order). Both are needed once loops appear.
+Plus one product lesson from **Execute Program**: machine grading creates annoying false failures from harmless typos. So:
+- Wrong tries never count as failing. Retry as many times as you want.
+- After 2 wrong tries a "Show answer" button appears. Only using it ("giving up") marks the item as weak, so it comes back for review sooner.
+- Code is checked by **meaning, not formatting** (see grading below).
 
 ---
 
-## Milestone 1: Engine
+## 3. Lesson format v2: every lesson has ALL of these
 
-Goal: the full app shell working end to end with **one** lesson (variables and print), deployed live.
+One lesson = one concept, about 15 to 25 minutes. Steps run in this order, shown as a progress bar at the top of the lesson. The validator (`npm run validate`) **fails** any lesson that is missing a required step or is under the minimum counts.
 
-- [x] Vite + React + TS project, ESLint, Vitest
-- [x] Lesson loader + schema validation script (`npm run validate`)
-- [x] `scripts/trace_lesson.py`: reads a lesson JSON, runs the code with `sys.settrace`, captures variables and stdout per executed line, writes `trace` back into the file
-- [x] Home page: track list and lesson list with completion checkmarks
-- [x] Lesson page layout: editor + explain box on the left, visual panel on the right, stacks on mobile
-- [x] **Learn** mode: step forward/back (buttons and arrow keys), current line highlighted, explanation for that step
-- [x] **Trace** mode: ghost text, red wrong chars, Backspace, Enter to submit a line, auto-indent next line, Tab = 4 spaces, shake + message on a wrong submit
-- [x] **Recall** mode: hidden code, task shown, Peek (1.5 s, counted)
-- [x] **Quiz** mode: one question at a time, right/wrong colors, "why" line, score at the end
-- [x] Stats: WPM, accuracy, line X/Y, peeks
-- [x] Memory panel (variable boxes with name, value, type, "was X" when changed, highlight on change) and Output panel
-- [x] Syntax coloring for Python (strings, numbers, keywords, builtins, operators)
-- [x] Progress saved per lesson per mode in `localStorage`
-- [x] Unit tests for the typing engine (correct/wrong chars, backspace, submit, accuracy, WPM)
-- [x] GitHub Actions workflow that builds and deploys to Pages
-- [x] README: what it is, how to run locally, how to add a lesson
-- [x] Commit + push, confirm the live site loads
+| Step | What the learner does | Minimum per lesson |
+|---|---|---|
+| **Intro** | Short explanation in plain words with one analogy | 1 |
+| **Predict → Run** | Sees code, guesses the output (multiple choice or typed), then watches it run in the visual panel | 2 |
+| **Worked examples** (Learn + Trace) | Steps through an example, then types over it with ghost code | 3 examples |
+| **Investigate** | Quick questions about specific lines ("Which line changes x?", "What is total after line 3?") | 3 |
+| **Faded code** | Same kind of code with blanks to fill (`total = ___ + price`) | 2 |
+| **Parsons** | Shuffled lines to put in order (and indent, where it matters) | 1 |
+| **Fix the bug** | Code with one mistake, find and fix it, checked by running | 1 |
+| **Modify** | Change given code so it does something new, checked by running | 2 |
+| **Recall** | Write one of the worked examples from memory, from its tasks | 1 |
+| **Make** | Write a small new program from a plain description, checked by tests | 1 |
+| **Quiz** | Multiple choice, one at a time, each with a one-line "why" | 6 |
+| **Common mistakes** | 2 or 3 typical beginner errors for this topic, with the real error message | 2 |
+| **Links** | Verified docs.python.org (or other official) links, plus "Also in" book chapter titles | 1 |
 
-**Done when:** lesson 1 works in all 4 modes on the live GitHub Pages URL, tests pass.
-
----
-
-## Milestone 2: Python basics track
-
-Goal: a complete beginner track, roughly 8 to 12 lessons.
-
-- [ ] Read the **tables of contents** of all 4 books. Write `content/syllabus.md` covering the whole course (basics, then data, then ML), with each lesson mapped to chapter titles from the books.
-- [ ] For each basics topic: read the matching *Learning Python* chapter(s), write `content/notes/<topic>.md` in your own words, then write the lessons from the notes.
-- [ ] Python basics lessons, in roughly this order (adjust to the syllabus): variables and print, numbers and math, strings, lists, if/else, for loops, while loops, functions, dictionaries, a mini project that combines them
-- [ ] Each lesson: 6 to 15 lines of **original** code, an explanation per line, a task per line, 3 to 5 quiz questions
-- [ ] Run `trace_lesson.py` on every lesson, then `npm run validate`
-- [ ] "Next lesson" button at the end of each quiz, lessons unlock in order (but allow skipping)
-- [ ] Commit + push
-
-**Done when:** all basics lessons are live, traced, validated, and playable in order.
-
----
-
-## Milestone 3: Real Python in the browser
-
-Goal: run actual Python on the page with Pyodide.
-
-- [ ] Lazy-load Pyodide only when a user first needs it, with a loading indicator
-- [ ] In-browser tracer (same idea as `trace_lesson.py`) that returns the same `trace` shape, so the existing Memory/Output panels render it
-- [ ] **Recall** mode: after finishing, a "Run my code" button runs what the user typed and shows real variables/output. Compare against the lesson's expected final output and say if it matches
-- [ ] New **Playground** mode per lesson: the lesson code in an editable box, a Run button, the visual panel updates from the real run. Users can change values and see what happens
-- [ ] Errors show the Python error message in plain words (e.g. NameError: "you used a name that does not exist yet")
-- [ ] Time limit on runs so an infinite loop cannot freeze the page (run Pyodide in a Web Worker)
-- [ ] If Pyodide fails to load, the rest of the site still works and the Run buttons explain why
-- [ ] Commit + push
-
-**Done when:** a user can type their own version of a lesson in Recall or Playground, run it, and see real variables and output.
-
----
-
-## Later milestones (roadmap, not now)
-
-- **M4: NumPy + pandas track** (from *Python for Data Analysis*): new visuals for arrays (grid of boxes) and DataFrames (table with highlighted rows/columns)
-- **M5: ML from scratch track** (from *Data Science from Scratch*): vectors, linear regression, loss, gradient descent, a single neuron, a tiny neural network, backprop. Visuals: scatter plot + fitted line, loss curve, network diagram
-- **M6: Real ML tools track** (from *Hands-On Machine Learning*): scikit-learn and Keras versions of what was built by hand
-- Spaced repetition (bring back lessons you are forgetting), daily streak, lesson editor UI, light theme
-
----
-
-## Content rules (apply to every lesson)
-
-- The books are read chapter by chapter to understand each topic deeply, then lessons are written from Claude's own notes.
-- Never copy text, code examples, exercises, or datasets from the books. Write everything original.
-- Never quote the books in lessons. `bookRefs` contains only chapter titles, so the learner knows where to read more.
+Rules:
+- All code, text and questions are **original**. Every example uses different names and values from the others.
+- Every value shown in a visual comes from a real run (offline tracer or Pyodide tracer). Never typed by hand.
+- A lesson may only use concepts taught in earlier lessons.
 - Plain words, short sentences, no em dashes.
-- One new idea per lesson. If a line needs a concept that has not been taught yet, change the code or add a lesson before it.
+
+Unit-level extras:
+- **Mini project** at the end of each unit: a slightly bigger Make task (20 to 40 lines) that combines the unit's lessons, with step-by-step hints that can be revealed.
+- **Unit review**: a mixed (interleaved) set of Predict, Faded, Fix and Make items from across the unit.
+
+---
+
+## 4. Grading rules
+
+| Exercise | How it is checked |
+|---|---|
+| Trace | Position by position against the ghost code (as now) |
+| Recall | Accepted if the code means the same thing: compare Python ASTs (`ast.dump`) in Pyodide, so spaces, quote style and extra parentheses don't matter. Also accepted if output and final variables match exactly |
+| Faded, Parsons | Accepted if the filled-in program parses and its output/final variables match the expected ones |
+| Modify, Fix, Make | Run in Pyodide against hidden test cases (inputs plus expected output or values). Show which test failed in plain words |
+| Predict, Quiz, Investigate | Exact answer |
+
+- Unlimited retries everywhere. "Show answer" after 2 wrong tries.
+- Python errors are shown with the real message plus a plain explanation (e.g. NameError: "you used a name that does not exist yet").
+- All code runs in a Web Worker with a time limit, so an infinite loop can never freeze the page.
+
+---
+
+## 5. Review system (spaced repetition)
+
+- Every Predict, Faded, Fix, Recall and Make item becomes a **review card** after the lesson is finished.
+- Card intervals: 1, 3, 7, 14, 30, 60 days. A correct answer moves it up one step. "Show answer" moves it back to 1 day. Wrong tries before getting it right do not move it down.
+- Home page shows a **Review** button with the number of cards due today. A review session mixes cards from different lessons and units (interleaving), 10 to 20 cards.
+- Stored in `localStorage` (try/catch, the app works without it). Add **Export / Import progress** (download or paste JSON) so progress can move between devices without accounts.
+
+---
+
+## 6. Python track syllabus
+
+Build `content/syllabus.md` first, from the *Learning Python* table of contents, **reordered for a total beginner**. The book is a deep reference and goes into a lot of detail early; the course should teach the most useful things first and add depth later.
+
+The syllabus must:
+- List every unit and lesson, in order, with the concept, the "Also in" chapter titles, and the docs.python.org links.
+- Cover everything a beginner needs before Track 2 (data analysis), and then the rest of the book's main topics as later units, so the Python track never needs new lessons added later.
+- Mark the deep topics as **Advanced (optional)** units at the end of the track, so the learner can move on to Track 2 after the core units.
+- Include a **coverage table**: each book chapter → which lesson(s) cover it, or "skipped" with a short reason (e.g. Python 2 only, not useful for a beginner).
+
+Show the syllabus to Adi and wait for approval before writing lessons.
+
+---
+
+## 7. Milestones
+
+### Milestone 1: Engine v1 ✅ (done)
+React + TS app, Learn/Trace/Recall/Quiz for lesson 1, CodeMirror editor, offline tracer, validation, link checks, GitHub Pages deploy.
+
+### Milestone 2: Course framework v2
+Goal: the full lesson system working end to end, proven on lesson 1 rebuilt in the v2 format.
+
+- [ ] Home page: 4 tracks in order, Tracks 2 to 4 "Coming soon", units and lessons inside a track, progress per lesson and unit
+- [ ] `tracks.json` + `language` field on every lesson (from UNIVERSAL.md "Rules to follow NOW")
+- [ ] Lesson format v2 schema + validator enforcing the minimums in section 3
+- [ ] Lesson page with a step progress bar, previous/next step, resume where you left off
+- [ ] Pyodide in a Web Worker: lazy load, loading indicator, time limit, plain-word errors, graceful fallback if it fails to load
+- [ ] Pyodide tracer that returns the same trace shape as `trace_lesson.py`
+- [ ] All exercise types from section 3 with the grading rules from section 4
+- [ ] Unit mini project + unit review pages
+- [ ] Review system from section 5, with a Review button on the home page
+- [ ] Export / Import progress
+- [ ] Migrate saved v1 progress if possible, otherwise reset it cleanly
+- [ ] Lesson 1 (variables and print) rebuilt in the full v2 format as the reference lesson
+- [ ] Tests: grading (AST compare, test cases, retries, show answer), review scheduling, every exercise type in the browser
+- [ ] Build, tests, validate, check-links pass. Commit, push, confirm the live site
+
+**Done when:** lesson 1 has every v2 step working on the live site, and a review card from it shows up as due.
+
+### Milestone 3: Complete Python track
+Goal: the whole Python track, every lesson in the full v2 format.
+
+- [ ] Write `content/syllabus.md` (section 6). **Stop and wait for Adi to approve it.**
+- [ ] Build **unit by unit**. For each unit: read the matching *Learning Python* chapters, write `content/notes/<unit>.md` in your own words, then write all lessons, the mini project and the unit review
+- [ ] Run tracer + validate + check-links for every lesson
+- [ ] After **each unit**: commit, push, and tell Adi the unit is live and what to try. Continue to the next unit unless he says stop (he will be learning from finished units while later ones are built)
+- [ ] Final pass: check that every lesson only uses concepts from earlier lessons; fix the order if not
+
+**Done when:** every unit in the approved syllabus is live, validated, and playable from lesson 1 to the end.
+
+### Later milestones (roadmap)
+- **M4: Track 2, Python for Data Analysis.** New visuals: array grid, DataFrame table with highlighted rows/columns, plots
+- **M5: Track 3, Data Science from Scratch.** Visuals: vectors, scatter + fitted line, loss curve, gradient descent, neuron and network diagrams
+- **M6: Track 4, Hands-On ML.** scikit-learn and Keras versions of what was built by hand (Keras/TensorFlow in the browser needs research first)
+- Each new track uses the same lesson format v2, syllabus approval step, and unit-by-unit build
+- Universal platform: see UNIVERSAL.md
+
+---
+
+## 8. Content rules (every lesson)
+
+- Books are read chapter by chapter, just in time, to understand each topic deeply. Lessons are written from Claude's own notes.
+- Never copy or closely paraphrase book text, code, exercises or datasets. Never quote them.
+- `bookRefs` contains chapter titles only, shown as "Also in".
+- Only link URLs that were opened and confirmed to match the topic.
+- If unsure how Python behaves, run it and check.

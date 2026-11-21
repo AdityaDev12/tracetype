@@ -99,7 +99,7 @@ const theme = EditorView.theme({
   '.cm-line': { padding: '0' },
   '.cm-cursor, .cm-dropCursor': { borderLeftColor: 'var(--accent)', borderLeftWidth: '2px' },
   '&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection': {
-    backgroundColor: 'rgba(122, 162, 247, 0.35) !important',
+    backgroundColor: 'rgba(138, 180, 255, 0.3) !important',
   },
 })
 
