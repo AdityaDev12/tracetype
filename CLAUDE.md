@@ -29,6 +29,7 @@ Aditya Dev (Adi). Python beginner, so lesson content must be beginner level. mac
 - Commit at the end of each milestone (smaller commits inside a milestone are fine). Clear messages, e.g. `M1: typing engine + trace mode`.
 - Push to `origin main` after each milestone.
 - Never force-push. Never rewrite history.
+- Never add Co-Authored-By or 'Generated with Claude Code' lines to commit messages or PRs.
 
 ## Quality bar before each commit
 - `npm run build` passes
