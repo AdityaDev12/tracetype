@@ -1,0 +1,1317 @@
+{
+  "id": "py-03-numbers",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 3,
+  "title": "Numbers and math",
+  "summary": "Add, subtract, multiply and divide, and see the order Python works it out in.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "memory",
+    "expr"
+  ],
+  "intro": {
+    "text": "Python has two everyday kinds of number: whole numbers like `7` (**int**) and numbers with a decimal point like `2.5` (**float**).\n\nThe math signs are `+`, `-`, `*` (times) and `/` (divide). `/` always gives a float, so `10 / 2` is `5.0`.\n\nTwo more come in pairs: `//` divides and drops the leftover fraction (`17 // 5` is `3`), and `%` gives only the leftover, the **remainder** (`17 % 5` is `2`). `**` means \"to the power of\": `3 ** 2` is `9`.\n\nPython works out `**` first, then `* / // %`, then `+ -`, going left to right. Anything in brackets goes first. Turn on the **working it out** panel to watch it happen, one step at a time.",
+    "analogy": "Sharing 17 sweets between 5 friends: each friend gets `17 // 5` sweets (3) and `17 % 5` sweets are left in the bag (2). Floor division is the fair share, the remainder is what is left over."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "print(7 / 2)"
+      ],
+      "kind": "choice",
+      "options": [
+        "3",
+        "3.5",
+        "3.0",
+        "4"
+      ],
+      "expr": [
+        1
+      ],
+      "why": "/ always divides fully and gives a float, so 7 / 2 is 3.5. It never drops the half.",
+      "gen": {
+        "hash": "70fda4a1f80dd9c87cf2c3fab07f4debf8b946123ad8044dd3322c9469d10a6b",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "3.5\n",
+            "vars": {},
+            "events": [
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "print(7 / 2)"
+                  },
+                  {
+                    "text": "print(3.5)",
+                    "part": "7 / 2",
+                    "value": "3.5"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "3.5",
+        "answer": 1
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "a = 17",
+        "b = 5",
+        "print(a // b)",
+        "print(a % b)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        3,
+        4
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "17",
+          "label": "a",
+          "kind": "number",
+          "min": 0,
+          "max": 40
+        }
+      ],
+      "why": "17 // 5 is how many whole fives fit in 17, which is 3. 17 % 5 is what is left over, which is 2.",
+      "gen": {
+        "hash": "0d611dadf1e9dfda7f954d484090826e9af05ca50504e30eaa0ca0b7ac12eb40",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "17",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "17",
+                "type": "int"
+              },
+              "b": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "3\n",
+            "vars": {
+              "a": {
+                "repr": "17",
+                "type": "int"
+              },
+              "b": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(a // b)"
+                  },
+                  {
+                    "text": "print(17 // 5)"
+                  },
+                  {
+                    "text": "print(3)",
+                    "part": "17 // 5",
+                    "value": "3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "2\n",
+            "vars": {
+              "a": {
+                "repr": "17",
+                "type": "int"
+              },
+              "b": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(a % b)"
+                  },
+                  {
+                    "text": "print(17 % 5)"
+                  },
+                  {
+                    "text": "print(2)",
+                    "part": "17 % 5",
+                    "value": "2"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "3\n2"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "print(2 + 3 * 4)"
+      ],
+      "kind": "choice",
+      "options": [
+        "20",
+        "14",
+        "24",
+        "9"
+      ],
+      "expr": [
+        1
+      ],
+      "why": "* goes before +, so Python works out 3 * 4 first (12), then adds 2. Brackets would change that: (2 + 3) * 4 is 20.",
+      "gen": {
+        "hash": "7fddb470452fdfdf70ce72e719d597f2839e8f64dae2d1ff6129186cf1e0222f",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "14\n",
+            "vars": {},
+            "events": [
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "print(2 + 3 * 4)"
+                  },
+                  {
+                    "text": "print(2 + 12)",
+                    "part": "3 * 4",
+                    "value": "12"
+                  },
+                  {
+                    "text": "print(14)",
+                    "part": "2 + 12",
+                    "value": "14"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "14",
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Prices and halves",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "4",
+          "label": "price",
+          "kind": "number",
+          "min": 0,
+          "max": 20
+        },
+        {
+          "line": 2,
+          "find": "3",
+          "label": "count",
+          "kind": "number",
+          "min": 0,
+          "max": 10
+        }
+      ],
+      "lines": [
+        {
+          "code": "price = 4",
+          "explain": "A whole number, so **price** is an int.",
+          "task": "Store 4 in a variable called price."
+        },
+        {
+          "code": "count = 3",
+          "explain": "Another int.",
+          "task": "Store 3 in a variable called count."
+        },
+        {
+          "code": "cost = price * count",
+          "explain": "`*` multiplies. Python looks up price and count, then multiplies: 4 * 3 is 12. Watch the working it out panel.",
+          "task": "Make cost hold price times count.",
+          "note": "* means times",
+          "circle": "*",
+          "expr": true
+        },
+        {
+          "code": "print(cost)",
+          "explain": "Prints 12.",
+          "task": "Show the value of cost."
+        },
+        {
+          "code": "half = cost / 2",
+          "explain": "`/` divides. The answer is **6.0**, a float, even though 12 divides evenly. That is how `/` always works.",
+          "task": "Make half hold cost divided by 2.",
+          "note": "/ always gives a float",
+          "circle": "/",
+          "expr": true
+        },
+        {
+          "code": "print(half)",
+          "explain": "Prints 6.0.",
+          "task": "Show the value of half."
+        }
+      ],
+      "gen": {
+        "hash": "58dc50a6338536d865e31448f0f4bac8100d71accbb0d4232a80a4a2066885a0",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "4",
+                "type": "int"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "4",
+                "type": "int"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "cost": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "cost = price * count"
+                  },
+                  {
+                    "text": "cost = 4 * 3"
+                  },
+                  {
+                    "text": "cost = 12",
+                    "part": "4 * 3",
+                    "value": "12"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "12\n",
+            "vars": {
+              "price": {
+                "repr": "4",
+                "type": "int"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "cost": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "4",
+                "type": "int"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "cost": {
+                "repr": "12",
+                "type": "int"
+              },
+              "half": {
+                "repr": "6.0",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "half = cost / 2"
+                  },
+                  {
+                    "text": "half = 12 / 2"
+                  },
+                  {
+                    "text": "half = 6.0",
+                    "part": "12 / 2",
+                    "value": "6.0"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "6.0\n",
+            "vars": {
+              "price": {
+                "repr": "4",
+                "type": "int"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "cost": {
+                "repr": "12",
+                "type": "int"
+              },
+              "half": {
+                "repr": "6.0",
+                "type": "float"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Sharing sweets: // and %",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "23",
+          "label": "sweets",
+          "kind": "number",
+          "min": 0,
+          "max": 50
+        },
+        {
+          "line": 2,
+          "find": "4",
+          "label": "kids",
+          "kind": "number",
+          "min": 1,
+          "max": 10
+        }
+      ],
+      "lines": [
+        {
+          "code": "sweets = 23",
+          "explain": "23 sweets to share.",
+          "task": "Store 23 in a variable called sweets."
+        },
+        {
+          "code": "kids = 4",
+          "explain": "Between 4 kids.",
+          "task": "Store 4 in a variable called kids."
+        },
+        {
+          "code": "each = sweets // kids",
+          "explain": "`//` divides and drops the fraction: 23 / 4 would be 5.75, so 23 // 4 is **5**. Each kid gets 5.",
+          "task": "Make each hold sweets floor-divided by kids.",
+          "note": "drops the .75",
+          "circle": "//",
+          "expr": true
+        },
+        {
+          "code": "left = sweets % kids",
+          "explain": "`%` gives the remainder: 4 kids times 5 sweets is 20, and 23 minus 20 leaves **3**.",
+          "task": "Make left hold the remainder of sweets divided by kids.",
+          "note": "what is left over",
+          "circle": "%",
+          "expr": true
+        },
+        {
+          "code": "print(\"Each kid gets\", each)",
+          "explain": "Prints Each kid gets 5.",
+          "task": "Print Each kid gets, followed by each."
+        },
+        {
+          "code": "print(\"Left over:\", left)",
+          "explain": "Prints Left over: 3. Try the knobs: change sweets and watch each and left.",
+          "task": "Print Left over:, followed by left."
+        }
+      ],
+      "gen": {
+        "hash": "c8df77806967082bb3ec195fc6bbaad3b8a2e1b37796b082fad75a29cad8ad18",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "sweets": {
+                "repr": "23",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "sweets": {
+                "repr": "23",
+                "type": "int"
+              },
+              "kids": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "sweets": {
+                "repr": "23",
+                "type": "int"
+              },
+              "kids": {
+                "repr": "4",
+                "type": "int"
+              },
+              "each": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "each = sweets // kids"
+                  },
+                  {
+                    "text": "each = 23 // 4"
+                  },
+                  {
+                    "text": "each = 5",
+                    "part": "23 // 4",
+                    "value": "5"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "sweets": {
+                "repr": "23",
+                "type": "int"
+              },
+              "kids": {
+                "repr": "4",
+                "type": "int"
+              },
+              "each": {
+                "repr": "5",
+                "type": "int"
+              },
+              "left": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "left = sweets % kids"
+                  },
+                  {
+                    "text": "left = 23 % 4"
+                  },
+                  {
+                    "text": "left = 3",
+                    "part": "23 % 4",
+                    "value": "3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Each kid gets 5\n",
+            "vars": {
+              "sweets": {
+                "repr": "23",
+                "type": "int"
+              },
+              "kids": {
+                "repr": "4",
+                "type": "int"
+              },
+              "each": {
+                "repr": "5",
+                "type": "int"
+              },
+              "left": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "Left over: 3\n",
+            "vars": {
+              "sweets": {
+                "repr": "23",
+                "type": "int"
+              },
+              "kids": {
+                "repr": "4",
+                "type": "int"
+              },
+              "each": {
+                "repr": "5",
+                "type": "int"
+              },
+              "left": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Which part goes first",
+      "lines": [
+        {
+          "code": "base = 10",
+          "explain": "Stores 10.",
+          "task": "Store 10 in a variable called base."
+        },
+        {
+          "code": "extra = base + 2 * 3",
+          "explain": "Two signs. `*` goes before `+`, so Python does 2 * 3 first (6), then 10 + 6. **extra** is 16.",
+          "task": "Make extra hold base plus 2 times 3, with no brackets.",
+          "note": "* before +",
+          "circle": "2 * 3",
+          "expr": true
+        },
+        {
+          "code": "print(extra)",
+          "explain": "Prints 16.",
+          "task": "Show the value of extra."
+        },
+        {
+          "code": "grouped = (base + 2) * 3",
+          "explain": "Brackets go first: 10 + 2 is 12, then 12 * 3 is **36**. Same numbers, different answer.",
+          "task": "Make grouped hold base plus 2, in brackets, times 3.",
+          "note": "brackets first",
+          "circle": "(base + 2)",
+          "expr": true
+        },
+        {
+          "code": "print(grouped)",
+          "explain": "Prints 36.",
+          "task": "Show the value of grouped."
+        },
+        {
+          "code": "square = base ** 2",
+          "explain": "`**` is \"to the power of\": 10 ** 2 is 10 * 10, which is **100**.",
+          "task": "Make square hold base to the power of 2.",
+          "expr": true
+        },
+        {
+          "code": "print(square)",
+          "explain": "Prints 100.",
+          "task": "Show the value of square."
+        }
+      ],
+      "gen": {
+        "hash": "b3ef0a4e951563e37a17e470426f8cfb0cb1b5b04e1ca673331ab69733204407",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              },
+              "extra": {
+                "repr": "16",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "extra = base + 2 * 3"
+                  },
+                  {
+                    "text": "extra = 10 + 2 * 3"
+                  },
+                  {
+                    "text": "extra = 10 + 6",
+                    "part": "2 * 3",
+                    "value": "6"
+                  },
+                  {
+                    "text": "extra = 16",
+                    "part": "10 + 6",
+                    "value": "16"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "16\n",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              },
+              "extra": {
+                "repr": "16",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              },
+              "extra": {
+                "repr": "16",
+                "type": "int"
+              },
+              "grouped": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "grouped = (base + 2) * 3"
+                  },
+                  {
+                    "text": "grouped = (10 + 2) * 3"
+                  },
+                  {
+                    "text": "grouped = 12 * 3",
+                    "part": "10 + 2",
+                    "value": "12"
+                  },
+                  {
+                    "text": "grouped = 36",
+                    "part": "12 * 3",
+                    "value": "36"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "36\n",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              },
+              "extra": {
+                "repr": "16",
+                "type": "int"
+              },
+              "grouped": {
+                "repr": "36",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              },
+              "extra": {
+                "repr": "16",
+                "type": "int"
+              },
+              "grouped": {
+                "repr": "36",
+                "type": "int"
+              },
+              "square": {
+                "repr": "100",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 6,
+                "steps": [
+                  {
+                    "text": "square = base ** 2"
+                  },
+                  {
+                    "text": "square = 10 ** 2"
+                  },
+                  {
+                    "text": "square = 100",
+                    "part": "10 ** 2",
+                    "value": "100"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "100\n",
+            "vars": {
+              "base": {
+                "repr": "10",
+                "type": "int"
+              },
+              "extra": {
+                "repr": "16",
+                "type": "int"
+              },
+              "grouped": {
+                "repr": "36",
+                "type": "int"
+              },
+              "square": {
+                "repr": "100",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 5,
+      "q": "What is stored in half after line 5 runs?",
+      "options": [
+        "6.0",
+        "6",
+        "12",
+        "6.5"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "half"
+      },
+      "why": "/ always gives a float, so 12 / 2 is 6.0, not 6."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 4,
+      "q": "What is stored in left after line 4 runs?",
+      "options": [
+        "3",
+        "5",
+        "5.75",
+        "1"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "left"
+      },
+      "why": "4 times 5 is 20, and 23 minus 20 leaves 3. % gives that leftover."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 2,
+      "q": "On line 2, which part does Python work out first?",
+      "options": [
+        "2 * 3",
+        "base + 2",
+        "base + 2 * 3, all at once",
+        "extra = base"
+      ],
+      "answer": 0,
+      "why": "* comes before +, so 2 * 3 is worked out first, then it is added to base."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the sign so the program prints 15",
+      "code": [
+        "width = 5",
+        "height = 3",
+        "area = width ___ height",
+        "print(area)"
+      ],
+      "answers": [
+        "*"
+      ],
+      "gen": {
+        "hash": "8c81a2f4cfc2a8566ecdebf429d87fb12947cf2aff3756b4c8c8f47767c9277c",
+        "expected": {
+          "stdout": "15",
+          "vars": {
+            "width": {
+              "repr": "5",
+              "type": "int"
+            },
+            "height": {
+              "repr": "3",
+              "type": "int"
+            },
+            "area": {
+              "repr": "15",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the signs so the program prints how many full weeks are in 30 days, then how many days are left over:\n4\n2",
+      "code": [
+        "days = 30",
+        "weeks = days ___ 7",
+        "rest = days ___ 7",
+        "print(weeks)",
+        "print(rest)"
+      ],
+      "answers": [
+        "//",
+        "%"
+      ],
+      "gen": {
+        "hash": "a3352d767446f90e04f6f1fc549df0623ff273d3ec4dd0f5e3806bfe22454b5a",
+        "expected": {
+          "stdout": "4\n2",
+          "vars": {
+            "days": {
+              "repr": "30",
+              "type": "int"
+            },
+            "weeks": {
+              "repr": "4",
+              "type": "int"
+            },
+            "rest": {
+              "repr": "2",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\n50\n2500",
+      "lines": [
+        "speed = 50",
+        "print(speed)",
+        "squared = speed ** 2",
+        "print(squared)"
+      ],
+      "gen": {
+        "hash": "a7bfed85a8e009d6dddecd817a444006f40d4368879958895154586aa1ed52bc",
+        "expected": {
+          "stdout": "50\n2500",
+          "vars": {
+            "speed": {
+              "repr": "50",
+              "type": "int"
+            },
+            "squared": {
+              "repr": "2500",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print the average of three test scores: 80.0\nIt prints 180.0 instead. Fix it.",
+      "code": [
+        "a = 70",
+        "b = 80",
+        "c = 90",
+        "average = a + b + c / 3",
+        "print(average)"
+      ],
+      "solution": [
+        "a = 70",
+        "b = 80",
+        "c = 90",
+        "average = (a + b + c) / 3",
+        "print(average)"
+      ],
+      "tests": [
+        {
+          "name": "prints the average",
+          "stdout": "80.0"
+        },
+        {
+          "name": "average holds 80.0",
+          "post": "assert average == 80, 'average should be 80.0'"
+        }
+      ],
+      "hint": "/ goes before +, so only c is divided. Which part should be worked out first?",
+      "gen": {
+        "hash": "acee5731622c870d0087aeeb440c65d18194476a9b7269de361e85b58ad6d66a",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "This program works out the cost of 3 tickets. Change it to 5 tickets, then add lines that also print the cost with a booking fee of 2 added. It should print:\n60\n62",
+      "code": [
+        "ticket = 12",
+        "count = 3",
+        "cost = ticket * count",
+        "print(cost)"
+      ],
+      "solution": [
+        "ticket = 12",
+        "count = 5",
+        "cost = ticket * count",
+        "print(cost)",
+        "with_fee = cost + 2",
+        "print(with_fee)"
+      ],
+      "tests": [
+        {
+          "name": "prints both costs",
+          "stdout": "60\n62"
+        }
+      ],
+      "hint": "Change count, then add one line that adds 2 and one that prints it.",
+      "gen": {
+        "hash": "a65f5edd6e816b116ef2a0095e61efb2bf9ef8cb9f37612edb763e9cdfa1f2fa"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "The program turns 135 minutes into hours, but prints 2.25. Change it so it prints the whole hours, then the minutes left over:\n2\n15",
+      "code": [
+        "minutes = 135",
+        "hours = minutes / 60",
+        "print(hours)"
+      ],
+      "solution": [
+        "minutes = 135",
+        "hours = minutes // 60",
+        "rest = minutes % 60",
+        "print(hours)",
+        "print(rest)"
+      ],
+      "tests": [
+        {
+          "name": "prints hours then minutes",
+          "stdout": "2\n15"
+        }
+      ],
+      "hint": "// gives whole hours and % gives the minutes left over.",
+      "gen": {
+        "hash": "7b39870855077e821067e2a06eab7a0f6f3899a3caa16288e275d469473cf28e"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "A pizza has 8 slices. Make a variable pizzas holding 3, then a variable slices holding pizzas times 8. Print: 24 slices",
+      "solution": [
+        "pizzas = 3",
+        "slices = pizzas * 8",
+        "print(slices, \"slices\")"
+      ],
+      "tests": [
+        {
+          "name": "prints the slices",
+          "stdout": "24 slices"
+        },
+        {
+          "name": "slices holds 24",
+          "post": "assert slices == 24, 'slices should hold 24'"
+        }
+      ],
+      "hints": [
+        "pizzas = 3",
+        "slices = pizzas * 8",
+        "print(slices, \"slices\")"
+      ],
+      "gen": {
+        "hash": "8671a32a55b3ab27045b6d35bd37d5c4e43daca2bc57f9bdcfa76ca31216d4b9"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What does `print(9 / 3)` show?",
+      "options": [
+        "3",
+        "3.0",
+        "0",
+        "9/3"
+      ],
+      "answer": 1,
+      "why": "/ always gives a float, even when it divides evenly."
+    },
+    {
+      "q": "What is `15 // 4`?",
+      "options": [
+        "3.75",
+        "3",
+        "4",
+        "15"
+      ],
+      "answer": 1,
+      "why": "// divides and drops the fraction: 15 / 4 is 3.75, so 15 // 4 is 3."
+    },
+    {
+      "q": "What is `14 % 4`?",
+      "options": [
+        "2",
+        "3",
+        "3.5",
+        "10"
+      ],
+      "answer": 0,
+      "why": "4 fits into 14 three times (12), leaving 2. % gives that remainder."
+    },
+    {
+      "q": "What is `1 + 2 * 3`?",
+      "options": [
+        "9",
+        "7",
+        "6",
+        "5"
+      ],
+      "answer": 1,
+      "why": "* goes first: 2 * 3 is 6, then 1 + 6 is 7."
+    },
+    {
+      "q": "Which sign means \"to the power of\"?",
+      "options": [
+        "^",
+        "**",
+        "*",
+        "//"
+      ],
+      "answer": 1,
+      "why": "** is power, so 2 ** 3 is 8. ^ means something else in Python, so it is a common trap."
+    },
+    {
+      "q": "What does `print(2 + 3.0)` show?",
+      "options": [
+        "5",
+        "5.0",
+        "2 + 3.0",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "Mixing an int and a float gives a float."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Dividing by zero",
+      "code": [
+        "people = 0",
+        "share = 10 / people"
+      ],
+      "explain": "Nothing can be split between zero people, so Python stops with a ZeroDivisionError. This also happens with // and %.",
+      "fix": [
+        "people = 2",
+        "share = 10 / people"
+      ],
+      "gen": {
+        "hash": "948ed40d5bb07e50ef05075b233a23e5a7db932d3a81bf1f735e4cf55c9f8ace",
+        "error": "ZeroDivisionError: division by zero",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A missing sign",
+      "code": [
+        "total = 5 3"
+      ],
+      "explain": "Two numbers next to each other mean nothing to Python. It needs a sign between them.",
+      "fix": [
+        "total = 5 + 3"
+      ],
+      "gen": {
+        "hash": "3b38e5614d6d7f37733691b2b4ef6ae051f3bfeb9a1778ce6c6fa3f937aec475",
+        "error": "SyntaxError: invalid syntax",
+        "line": 1
+      }
+    },
+    {
+      "id": "c3",
+      "title": "A sign with nothing after it",
+      "code": [
+        "total = 5 +"
+      ],
+      "explain": "The + needs a value on both sides. Python cannot read the line, so nothing runs.",
+      "fix": [
+        "total = 5 + 1"
+      ],
+      "gen": {
+        "hash": "a69dbec26f7cc35015c13f89b2f57c8bb7a2d76deb16305de180029ca7e70961",
+        "error": "SyntaxError: invalid syntax",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: using Python as a calculator",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#numbers"
+    },
+    {
+      "title": "Reference: numeric types int and float",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#numeric-types-int-float-complex"
+    },
+    {
+      "title": "Reference: which operator goes first",
+      "url": "https://docs.python.org/3/reference/expressions.html#operator-precedence"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 5. Numeric Types"
+    }
+  ]
+}

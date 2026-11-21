@@ -1,0 +1,1098 @@
+{
+  "id": "py-05-text",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 5,
+  "title": "Text values",
+  "summary": "Join text with +, repeat it with *, count characters with len, and use special characters.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "memory",
+    "cells"
+  ],
+  "intro": {
+    "text": "Text in Python is called a **string** (type **str**). You can write it with double quotes `\"hi\"` or single quotes `'hi'`; they mean the same. Use the other kind when the text itself has a quote: `\"it's\"`.\n\n`+` joins two strings into one: `\"sun\" + \"set\"` is `\"sunset\"`. It adds **no space** for you.\n\n`*` with a whole number repeats: `\"ha\" * 3` is `\"hahaha\"`.\n\n`len(text)` counts the characters, spaces included.\n\nA backslash starts a special character: `\\n` is a new line and `\\t` is a tab. Each counts as **one** character. The **cells** panel shows every character in its own box, numbered from 0.",
+    "analogy": "A string is like a row of letter tiles. + puts two rows end to end, * lays the same row down several times, and len counts the tiles. A space is a tile too, just a blank one."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "print(\"snow\" + \"ball\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "snow ball",
+        "snowball",
+        "snow+ball",
+        "Error"
+      ],
+      "expr": [
+        1
+      ],
+      "why": "+ joins the two strings exactly as they are. Neither has a space, so there is none in the result.",
+      "gen": {
+        "hash": "7bf9246ae0681a5f988fc9616eb2d765d14f66cffdd3869e729383f6ecb8fdef",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "snowball\n",
+            "vars": {},
+            "events": [
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "print('snow' + 'ball')"
+                  },
+                  {
+                    "text": "print('snowball')",
+                    "part": "'snow' + 'ball'",
+                    "value": "'snowball'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "snowball",
+        "answer": 1
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "line = \"=\" * 6",
+        "print(line)",
+        "print(len(\"hi there\"))"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        1,
+        3
+      ],
+      "why": "\"=\" * 6 repeats the sign six times. \"hi there\" has 8 characters, because the space counts.",
+      "gen": {
+        "hash": "1f30a0a3031034a0f6eb329a1eb889be028776a1366ab302e0fad1de61b81759",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "line": {
+                "repr": "'======'",
+                "type": "str",
+                "text": "======"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "line = '=' * 6"
+                  },
+                  {
+                    "text": "line = '======'",
+                    "part": "'=' * 6",
+                    "value": "'======'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "======\n",
+            "vars": {
+              "line": {
+                "repr": "'======'",
+                "type": "str",
+                "text": "======"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "8\n",
+            "vars": {
+              "line": {
+                "repr": "'======'",
+                "type": "str",
+                "text": "======"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(len('hi there'))"
+                  },
+                  {
+                    "text": "print(8)",
+                    "part": "len('hi there')",
+                    "value": "8"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "======\n8"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "word = \"5\"",
+        "print(word * 3)"
+      ],
+      "kind": "choice",
+      "options": [
+        "15",
+        "555",
+        "5 5 5",
+        "Error"
+      ],
+      "why": "word holds the text \"5\", not the number. Text times 3 repeats it: 555.",
+      "gen": {
+        "hash": "a254682b84f8b74200fc3cd3a7582f898f29519501fbed6c097ebd056ec28e09",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'5'",
+                "type": "str",
+                "text": "5"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "555\n",
+            "vars": {
+              "word": {
+                "repr": "'5'",
+                "type": "str",
+                "text": "5"
+              }
+            }
+          }
+        ],
+        "output": "555",
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Joining text",
+      "focus": [
+        "first",
+        "last",
+        "full"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"Ada\"",
+          "label": "first",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "first = \"Ada\"",
+          "explain": "A string with 3 characters. Look at the cells panel: one box per character, numbered from 0.",
+          "task": "Store the text Ada in first."
+        },
+        {
+          "code": "last = \"Lovelace\"",
+          "explain": "Another string, 8 characters.",
+          "task": "Store the text Lovelace in last."
+        },
+        {
+          "code": "full = first + \" \" + last",
+          "explain": "`+` joins three pieces: first, a space, and last. Without the `\" \"` in the middle you would get AdaLovelace.",
+          "task": "Make full hold first, a space, and last joined together.",
+          "note": "the space is its own piece",
+          "circle": "\" \"",
+          "expr": true
+        },
+        {
+          "code": "print(full)",
+          "explain": "Prints Ada Lovelace.",
+          "task": "Show the value of full."
+        },
+        {
+          "code": "size = len(full)",
+          "explain": "`len` counts the characters: 3 + 1 + 8 is **12**. The space counts.",
+          "task": "Make size hold the length of full.",
+          "note": "spaces count",
+          "circle": "len",
+          "expr": true
+        },
+        {
+          "code": "print(size)",
+          "explain": "Prints 12.",
+          "task": "Show the value of size."
+        }
+      ],
+      "gen": {
+        "hash": "2e41b8c323065adc0fd51b15477ed9b110b6bdf072253d817e070cb5a6039b7a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'Ada'",
+                "type": "str",
+                "text": "Ada"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'Ada'",
+                "type": "str",
+                "text": "Ada"
+              },
+              "last": {
+                "repr": "'Lovelace'",
+                "type": "str",
+                "text": "Lovelace"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'Ada'",
+                "type": "str",
+                "text": "Ada"
+              },
+              "last": {
+                "repr": "'Lovelace'",
+                "type": "str",
+                "text": "Lovelace"
+              },
+              "full": {
+                "repr": "'Ada Lovelace'",
+                "type": "str",
+                "text": "Ada Lovelace"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "full = first + ' ' + last"
+                  },
+                  {
+                    "text": "full = 'Ada' + ' ' + last"
+                  },
+                  {
+                    "text": "full = 'Ada ' + last",
+                    "part": "'Ada' + ' '",
+                    "value": "'Ada '"
+                  },
+                  {
+                    "text": "full = 'Ada ' + 'Lovelace'"
+                  },
+                  {
+                    "text": "full = 'Ada Lovelace'",
+                    "part": "'Ada ' + 'Lovelace'",
+                    "value": "'Ada Lovelace'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Ada Lovelace\n",
+            "vars": {
+              "first": {
+                "repr": "'Ada'",
+                "type": "str",
+                "text": "Ada"
+              },
+              "last": {
+                "repr": "'Lovelace'",
+                "type": "str",
+                "text": "Lovelace"
+              },
+              "full": {
+                "repr": "'Ada Lovelace'",
+                "type": "str",
+                "text": "Ada Lovelace"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'Ada'",
+                "type": "str",
+                "text": "Ada"
+              },
+              "last": {
+                "repr": "'Lovelace'",
+                "type": "str",
+                "text": "Lovelace"
+              },
+              "full": {
+                "repr": "'Ada Lovelace'",
+                "type": "str",
+                "text": "Ada Lovelace"
+              },
+              "size": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "size = len(full)"
+                  },
+                  {
+                    "text": "size = len('Ada Lovelace')"
+                  },
+                  {
+                    "text": "size = 12",
+                    "part": "len('Ada Lovelace')",
+                    "value": "12"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "12\n",
+            "vars": {
+              "first": {
+                "repr": "'Ada'",
+                "type": "str",
+                "text": "Ada"
+              },
+              "last": {
+                "repr": "'Lovelace'",
+                "type": "str",
+                "text": "Lovelace"
+              },
+              "full": {
+                "repr": "'Ada Lovelace'",
+                "type": "str",
+                "text": "Ada Lovelace"
+              },
+              "size": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Repeating text",
+      "lines": [
+        {
+          "code": "star = \"*\"",
+          "explain": "A string with one character.",
+          "task": "Store the text * in star."
+        },
+        {
+          "code": "row = star * 5",
+          "explain": "`*` with a whole number repeats the text: five stars.",
+          "task": "Make row hold star repeated 5 times.",
+          "note": "repeat 5 times",
+          "circle": "* 5",
+          "expr": true
+        },
+        {
+          "code": "print(row)",
+          "explain": "Prints *****.",
+          "task": "Show the value of row."
+        },
+        {
+          "code": "cheer = \"hip \" * 2 + \"hooray\"",
+          "explain": "`*` goes before `+`, like with numbers. `\"hip \" * 2` is `\"hip hip \"`, then `+` adds `\"hooray\"`.",
+          "task": "Make cheer hold hip with a space, repeated twice, then hooray added.",
+          "expr": true
+        },
+        {
+          "code": "print(cheer)",
+          "explain": "Prints hip hip hooray.",
+          "task": "Show the value of cheer."
+        }
+      ],
+      "gen": {
+        "hash": "37aae0dd3f88be9c9ecca18f8f1309971a90827a928b69da058acd41a4118dce",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "star": {
+                "repr": "'*'",
+                "type": "str",
+                "text": "*"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "star": {
+                "repr": "'*'",
+                "type": "str",
+                "text": "*"
+              },
+              "row": {
+                "repr": "'*****'",
+                "type": "str",
+                "text": "*****"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "row = star * 5"
+                  },
+                  {
+                    "text": "row = '*' * 5"
+                  },
+                  {
+                    "text": "row = '*****'",
+                    "part": "'*' * 5",
+                    "value": "'*****'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "*****\n",
+            "vars": {
+              "star": {
+                "repr": "'*'",
+                "type": "str",
+                "text": "*"
+              },
+              "row": {
+                "repr": "'*****'",
+                "type": "str",
+                "text": "*****"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "star": {
+                "repr": "'*'",
+                "type": "str",
+                "text": "*"
+              },
+              "row": {
+                "repr": "'*****'",
+                "type": "str",
+                "text": "*****"
+              },
+              "cheer": {
+                "repr": "'hip hip hooray'",
+                "type": "str",
+                "text": "hip hip hooray"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "cheer = 'hip ' * 2 + 'hooray'"
+                  },
+                  {
+                    "text": "cheer = 'hip hip ' + 'hooray'",
+                    "part": "'hip ' * 2",
+                    "value": "'hip hip '"
+                  },
+                  {
+                    "text": "cheer = 'hip hip hooray'",
+                    "part": "'hip hip ' + 'hooray'",
+                    "value": "'hip hip hooray'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "hip hip hooray\n",
+            "vars": {
+              "star": {
+                "repr": "'*'",
+                "type": "str",
+                "text": "*"
+              },
+              "row": {
+                "repr": "'*****'",
+                "type": "str",
+                "text": "*****"
+              },
+              "cheer": {
+                "repr": "'hip hip hooray'",
+                "type": "str",
+                "text": "hip hip hooray"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Quotes and special characters",
+      "lines": [
+        {
+          "code": "quote = \"It's sunny\"",
+          "explain": "The text has a `'` in it, so it is written with double quotes around it. That way Python knows where it really ends.",
+          "task": "Store the text It's sunny in quote, using double quotes.",
+          "note": "other kind of quote",
+          "circle": "\"It's sunny\""
+        },
+        {
+          "code": "print(quote)",
+          "explain": "Prints It's sunny.",
+          "task": "Show the value of quote."
+        },
+        {
+          "code": "two_lines = \"Line one\\nLine two\"",
+          "explain": "`\\n` is **one** character: a new line. In the cells panel it is a single box.",
+          "task": "Store Line one, a new line character, and Line two in two_lines.",
+          "note": "\\n = new line",
+          "circle": "\\n"
+        },
+        {
+          "code": "print(two_lines)",
+          "explain": "print shows the new line, so the text comes out on two lines.",
+          "task": "Show the value of two_lines."
+        },
+        {
+          "code": "print(len(two_lines))",
+          "explain": "8 + 1 + 8 is 17. The `\\n` counts as one character.",
+          "task": "Print the length of two_lines."
+        }
+      ],
+      "gen": {
+        "hash": "f84983f20f778619553f3e7c1d8ebb5b20f23f555d0018c7b8f55043e45f3824",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "quote": {
+                "repr": "\"It's sunny\"",
+                "type": "str",
+                "text": "It's sunny"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "It's sunny\n",
+            "vars": {
+              "quote": {
+                "repr": "\"It's sunny\"",
+                "type": "str",
+                "text": "It's sunny"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "quote": {
+                "repr": "\"It's sunny\"",
+                "type": "str",
+                "text": "It's sunny"
+              },
+              "two_lines": {
+                "repr": "'Line one\\nLine two'",
+                "type": "str",
+                "text": "Line one\nLine two"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Line one\nLine two\n",
+            "vars": {
+              "quote": {
+                "repr": "\"It's sunny\"",
+                "type": "str",
+                "text": "It's sunny"
+              },
+              "two_lines": {
+                "repr": "'Line one\\nLine two'",
+                "type": "str",
+                "text": "Line one\nLine two"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "17\n",
+            "vars": {
+              "quote": {
+                "repr": "\"It's sunny\"",
+                "type": "str",
+                "text": "It's sunny"
+              },
+              "two_lines": {
+                "repr": "'Line one\\nLine two'",
+                "type": "str",
+                "text": "Line one\nLine two"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in full after line 3 runs?",
+      "options": [
+        "'Ada Lovelace'",
+        "'AdaLovelace'",
+        "'Ada + Lovelace'",
+        "'Ada  Lovelace'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "full"
+      },
+      "why": "The three pieces are joined: Ada, one space, Lovelace."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 5,
+      "q": "What is stored in size after line 5 runs?",
+      "options": [
+        "12",
+        "11",
+        "2",
+        "13"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "size"
+      },
+      "why": "Ada is 3, the space is 1, Lovelace is 8: 12 characters."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 4,
+      "q": "What is stored in cheer after line 4 runs?",
+      "options": [
+        "'hip hip hooray'",
+        "'hip hooray hip hooray'",
+        "'hiphiphooray'",
+        "'hip 2 hooray'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "cheer"
+      },
+      "why": "* goes first, making \"hip hip \", then + adds \"hooray\" on the end."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints: sunflower",
+      "code": [
+        "a = \"sun\"",
+        "b = \"flower\"",
+        "print(a ___ b)"
+      ],
+      "answers": [
+        "+"
+      ],
+      "gen": {
+        "hash": "1bb7c35d61e2e97694468963e8daf1f3f3cf68dc13ca88e7c3b08b620ee169dd",
+        "expected": {
+          "stdout": "sunflower",
+          "vars": {
+            "a": {
+              "repr": "'sun'",
+              "type": "str"
+            },
+            "b": {
+              "repr": "'flower'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints a line of 10 dashes, then the number 10",
+      "code": [
+        "dashes = \"-\" ___ 10",
+        "print(dashes)",
+        "print(___(dashes))"
+      ],
+      "answers": [
+        "*",
+        "len"
+      ],
+      "gen": {
+        "hash": "31340e1d986cf74ab8e0e2b0a8140b19b8b80abe65b2665d497e80a04458b658",
+        "expected": {
+          "stdout": "----------\n10",
+          "vars": {
+            "dashes": {
+              "repr": "'----------'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\nGood night, Sam\n15",
+      "lines": [
+        "name = \"Sam\"",
+        "message = \"Good night, \" + name",
+        "print(message)",
+        "print(len(message))"
+      ],
+      "gen": {
+        "hash": "3a992afab5d730b4615d50963aa748071dc342e42c46fa1de7b99c88a99cc5af",
+        "expected": {
+          "stdout": "Good night, Sam\n15",
+          "vars": {
+            "name": {
+              "repr": "'Sam'",
+              "type": "str"
+            },
+            "message": {
+              "repr": "'Good night, Sam'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print: Hello, Kim\nIt prints Hello,Kim instead. Fix it.",
+      "code": [
+        "name = \"Kim\"",
+        "print(\"Hello,\" + name)"
+      ],
+      "solution": [
+        "name = \"Kim\"",
+        "print(\"Hello, \" + name)"
+      ],
+      "tests": [
+        {
+          "name": "prints the greeting",
+          "stdout": "Hello, Kim"
+        }
+      ],
+      "hint": "+ never adds a space. Where should one go?",
+      "gen": {
+        "hash": "4de9c67132bcffb638aaf3c6e8c965b1a5049debbfe45db3d597e4991d9fbbfa",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the border so it is 12 characters long instead of 4. It should print:\n############\nMENU\n############",
+      "code": [
+        "border = \"#\" * 4",
+        "print(border)",
+        "print(\"MENU\")",
+        "print(border)"
+      ],
+      "solution": [
+        "border = \"#\" * 12",
+        "print(border)",
+        "print(\"MENU\")",
+        "print(border)"
+      ],
+      "tests": [
+        {
+          "name": "prints the menu with long borders",
+          "stdout": "############\nMENU\n############"
+        }
+      ],
+      "hint": "Only one number needs to change.",
+      "gen": {
+        "hash": "3e970d3c3a94e66f4fef54a3b421425fbff29be44f04956d1ba6daaef1befac4"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add a variable shout that holds word followed by three exclamation marks. Build it with + and *, then print it. It should print:\nwow\nwow!!!",
+      "code": [
+        "word = \"wow\"",
+        "print(word)"
+      ],
+      "solution": [
+        "word = \"wow\"",
+        "print(word)",
+        "shout = word + \"!\" * 3",
+        "print(shout)"
+      ],
+      "tests": [
+        {
+          "name": "prints both",
+          "stdout": "wow\nwow!!!"
+        },
+        {
+          "name": "shout holds wow!!!",
+          "post": "assert shout == 'wow!!!', 'shout should hold the text wow!!!'"
+        }
+      ],
+      "hint": "\"!\" * 3 makes three exclamation marks. Join it to word with +.",
+      "gen": {
+        "hash": "3e3005174a844422e2da405f4ed80c4cc02861acc614548b63230712ee40dcaf"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Store Rome in a variable called city and Italy in country. Make label hold them joined as Rome, Italy (a comma and a space in between). Print label, then print how many characters it has:\nRome, Italy\n11",
+      "solution": [
+        "city = \"Rome\"",
+        "country = \"Italy\"",
+        "label = city + \", \" + country",
+        "print(label)",
+        "print(len(label))"
+      ],
+      "tests": [
+        {
+          "name": "prints the label and its length",
+          "stdout": "Rome, Italy\n11"
+        },
+        {
+          "name": "label holds Rome, Italy",
+          "post": "assert label == 'Rome, Italy', 'label should hold the text Rome, Italy'"
+        }
+      ],
+      "hints": [
+        "city = \"Rome\" and country = \"Italy\"",
+        "The middle piece is \", \"",
+        "len(label) counts the characters"
+      ],
+      "gen": {
+        "hash": "c8cf55625b96b2d5f26f32ca0696f81cf1e292da3f21a4d360e308c47c90939c"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `\"ab\" + \"cd\"`?",
+      "options": [
+        "'abcd'",
+        "'ab cd'",
+        "'ab+cd'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "+ joins strings with nothing added between them."
+    },
+    {
+      "q": "What is `len(\"cat \")`?",
+      "options": [
+        "3",
+        "4",
+        "5",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "The space at the end is a character too."
+    },
+    {
+      "q": "What is `\"no\" * 3`?",
+      "options": [
+        "'nonono'",
+        "'no no no'",
+        "'no3'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "* repeats the text, with nothing between the copies."
+    },
+    {
+      "q": "Which of these is a valid string?",
+      "options": [
+        "\"it's\"",
+        "'it's'",
+        "\"it's'",
+        "it's"
+      ],
+      "answer": 0,
+      "why": "The text has a ', so wrap it in double quotes. In 'it's' the ' in the middle ends the string too early."
+    },
+    {
+      "q": "What is `len(\"a\\nb\")`?",
+      "options": [
+        "3",
+        "4",
+        "2",
+        "1"
+      ],
+      "answer": 0,
+      "why": "\\n is one character (a new line), so a, new line, b makes 3."
+    },
+    {
+      "q": "What does `print(\"5\" + \"5\")` show?",
+      "options": [
+        "10",
+        "55",
+        "5 5",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "Both are text, so + joins them. Text that looks like a number is still text."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Mixing quote kinds",
+      "code": [
+        "print(\"hello')"
+      ],
+      "explain": "The text starts with \" so Python looks for another \" to end it, and never finds one. Start and end with the same kind of quote.",
+      "fix": [
+        "print(\"hello\")"
+      ],
+      "gen": {
+        "hash": "6236f87cd429567b4984269c2465a3e42164b0c4601f6193d1f6e33e113082a4",
+        "error": "SyntaxError: unterminated string literal (detected at line 1)",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Repeating by text instead of a number",
+      "code": [
+        "print(\"ha\" * \"3\")"
+      ],
+      "explain": "* can repeat text a whole number of times, but \"3\" in quotes is text, not a number.",
+      "fix": [
+        "print(\"ha\" * 3)"
+      ],
+      "gen": {
+        "hash": "ca9eebac8b6ed01558043280b0d46613159eaa7feaa3b117e4b81d1473654d5c",
+        "error": "TypeError: can't multiply sequence by non-int of type 'str'",
+        "line": 1
+      }
+    },
+    {
+      "id": "c3",
+      "title": "A quote inside the same kind of quotes",
+      "code": [
+        "print('It's late')"
+      ],
+      "explain": "The ' in It's ends the string early, and the rest makes no sense to Python. Use double quotes around text that has a '.",
+      "fix": [
+        "print(\"It's late\")"
+      ],
+      "gen": {
+        "hash": "5a818ca5e26c8ce18886c8a291a9e62d5f5eedb6d5f31dbf68a052603125074f",
+        "error": "SyntaxError: unterminated string literal (detected at line 1)",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: text",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#text"
+    },
+    {
+      "title": "Reference: string literals and escape characters",
+      "url": "https://docs.python.org/3/reference/lexical_analysis.html#string-and-bytes-literals"
+    },
+    {
+      "title": "Reference: len()",
+      "url": "https://docs.python.org/3/builtins/functions.html#len"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}

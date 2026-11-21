@@ -5,6 +5,7 @@ import { canShowAnswer, giveUp, newAttempts, recordTry, type Attempts } from '..
 import { stepForSourceLine, viewAt } from '../../engine/trace.ts'
 import { useLesson } from '../LessonContext.tsx'
 import { CodeBlock, ItemPager, NextButton, StepLayout, StepTitle } from '../common.tsx'
+import { shuffledOrder } from '../shuffle.ts'
 import { Visual } from '../Visual.tsx'
 
 /** Investigate: quick questions about specific lines of a worked example. */
@@ -57,12 +58,13 @@ export function InvestigateStep({ item, setItem, onDone }: { item: number; setIt
             <CodeBlock title={`example_${q.example + 1}.py`} lines={ex.lines.map((l) => l.code)} active={q.line} annoPrefix="inv" />
           </AnnotationLayer>
           <div className="choices" role="group" aria-label="Answer">
-            {q.options.map((o, i) => {
+            {shuffledOrder(q.options.length, `${lesson.id}:${q.id}`).map((i, shown) => {
+              const o = q.options[i]
               const done = picked.includes(i)
               const cls = done ? (i === q.answer ? ' right' : ' wrong') : tries.solved ? ' faded' : ''
               return (
                 <button key={i} className={`choice${cls}`} disabled={tries.solved || done} onClick={() => choose(i)}>
-                  <span className="choice-key">{i + 1}</span>
+                  <span className="choice-key">{shown + 1}</span>
                   <span className="choice-text">
                     <InlineText text={o} />
                   </span>

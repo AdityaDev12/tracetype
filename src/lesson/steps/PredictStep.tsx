@@ -4,6 +4,7 @@ import { gradeTypedOutput } from '../../engine/grade.ts'
 import { linesRun, viewAt } from '../../engine/trace.ts'
 import { useLesson } from '../LessonContext.tsx'
 import { CodeBlock, ItemPager, NextButton, StepLayout, StepTitle } from '../common.tsx'
+import { shuffledOrder } from '../shuffle.ts'
 import { Visual } from '../Visual.tsx'
 import { KnobBar } from '../visuals/Knobs.tsx'
 import { useKnobs } from '../visuals/knobs.ts'
@@ -95,12 +96,13 @@ export function PredictStep({
           )}
           {p.kind === 'choice' ? (
             <div className="choices" role="group" aria-label="Your prediction">
-              {p.options!.map((o, i) => {
+              {shuffledOrder(p.options!.length, `${lesson.id}:${p.id}`).map((i, shown) => {
+                const o = p.options![i]
                 const isAnswer = i === p.gen.answer
                 const cls = guess ? (isAnswer ? ' right' : o === guess.value ? ' wrong' : ' faded') : ''
                 return (
                   <button key={i} className={`choice${cls}`} disabled={guess !== null} onClick={() => answer(o, isAnswer)}>
-                    <span className="choice-key">{i + 1}</span>
+                    <span className="choice-key">{shown + 1}</span>
                     <code className="choice-text">{o}</code>
                   </button>
                 )

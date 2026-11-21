@@ -1,74 +1,110 @@
 {
   "id": "py-u1-project",
   "unit": "py-u1",
-  "title": "Character card",
-  "summary": "Use variables and print to build a card for a made-up game character.",
+  "title": "Trip cost calculator",
+  "summary": "Ask for a trip's distance, fuel use and price, then work out the cost and each person's share.",
   "language": "python",
-  "prompt": "Make a character card for Pip, a made-up game character. Store every fact in its own variable, then print the card exactly as shown below. Pip trains during the game, so the level changes from 3 to 4 before the last part of the card.",
-  "output": "=== CHARACTER CARD ===\nName: Pip\nRole: Explorer\nHome: Cloud Harbor\nLevel: 3\nFavorite food: dumplings\nPet: Nib\nMotto: Keep walking\n----------------------\nPip finished training!\nLevel: 4\nNib is proud of Pip\n======================",
+  "prompt": "Write a program that helps friends split the fuel cost of a road trip. It asks four questions, in this order: Distance in km? , Litres per 100 km? , Price per litre? and How many people? . Then it works out:\n- the fuel needed: distance times litres per 100 km, divided by 100\n- the trip cost: fuel times price\n- what each person pays: cost divided by people\n- the cost per km: cost divided by distance\n- the cost of the return trip: cost times 2\nPrint the report exactly as shown, with numbers rounded to 2 decimals (3 for the cost per km). The example is for the answers 250, 6, 1.8 and 2.",
+  "output": "Distance in km? 250\nLitres per 100 km? 6\nPrice per litre? 1.8\nHow many people? 2\n========================\nTRIP COST\n========================\nFuel needed: 15.0 litres\nTrip cost: 27.0\nEach person pays: 13.5\nCost per km: 0.108\nReturn trip: 54.0\n========================",
   "steps": [
     {
-      "text": "Make the variables: name, role, home, level, food, pet and motto. Text gets quotes, the level is a number.",
-      "hint": "For example: name = \"Pip\" and level = 3"
+      "text": "Ask the four questions with input(). Turn the first three answers into decimal numbers with float() and the number of people into a whole number with int().",
+      "hint": "distance = float(input(\"Distance in km? \")) and the same idea for the others. Remember the space at the end of each prompt."
     },
     {
-      "text": "Print the top border and one line per fact, using a label and the variable, like Name: Pip.",
-      "hint": "print(\"Name:\", name) prints Name: Pip"
+      "text": "Work out fuel, cost, each, per_km and return_cost, one variable per line, in that order.",
+      "hint": "fuel = distance * per_100 / 100, then cost = fuel * price. The others all use cost."
     },
     {
-      "text": "Print the dashed line, then change level to 4.",
-      "hint": "level = 4 replaces the old value"
+      "text": "Make a variable line holding 24 = signs, then print the title block: line, TRIP COST, line.",
+      "hint": "line = \"=\" * 24"
     },
     {
-      "text": "Print the training lines and the bottom border.",
-      "hint": "print(name, \"finished training!\") gives Pip finished training! because print adds the space"
+      "text": "Print the five results, rounded, then the line again.",
+      "hint": "print(\"Trip cost:\", round(cost, 2)) and print(\"Cost per km:\", round(per_km, 3))"
+    },
+    {
+      "text": "Run it with your own answers in the typed answers box, then check it.",
+      "hint": "Try 120, 5, 2 and 3. The trip should cost 12.0 and each person pays 4.0."
     }
   ],
   "starter": [
-    "name = \"Pip\""
+    "# Trip cost calculator",
+    "",
+    "# 1. Ask the questions",
+    "distance = float(input(\"Distance in km? \"))"
   ],
   "solution": [
-    "name = \"Pip\"",
-    "role = \"Explorer\"",
-    "home = \"Cloud Harbor\"",
-    "level = 3",
-    "food = \"dumplings\"",
-    "pet = \"Nib\"",
-    "motto = \"Keep walking\"",
-    "print(\"=== CHARACTER CARD ===\")",
-    "print(\"Name:\", name)",
-    "print(\"Role:\", role)",
-    "print(\"Home:\", home)",
-    "print(\"Level:\", level)",
-    "print(\"Favorite food:\", food)",
-    "print(\"Pet:\", pet)",
-    "print(\"Motto:\", motto)",
-    "print(\"----------------------\")",
-    "level = 4",
-    "print(name, \"finished training!\")",
-    "print(\"Level:\", level)",
-    "print(pet, \"is proud of\", name)",
-    "print(\"======================\")"
+    "# Trip cost calculator",
+    "",
+    "# 1. Ask the questions",
+    "distance = float(input(\"Distance in km? \"))",
+    "per_100 = float(input(\"Litres per 100 km? \"))",
+    "price = float(input(\"Price per litre? \"))",
+    "people = int(input(\"How many people? \"))",
+    "",
+    "# 2. Work it out",
+    "fuel = distance * per_100 / 100",
+    "cost = fuel * price",
+    "each = cost / people",
+    "per_km = cost / distance",
+    "return_cost = cost * 2",
+    "",
+    "# 3. Show the report",
+    "line = \"=\" * 24",
+    "print(line)",
+    "print(\"TRIP COST\")",
+    "print(line)",
+    "print(\"Fuel needed:\", round(fuel, 2), \"litres\")",
+    "print(\"Trip cost:\", round(cost, 2))",
+    "print(\"Each person pays:\", round(each, 2))",
+    "print(\"Cost per km:\", round(per_km, 3))",
+    "print(\"Return trip:\", round(return_cost, 2))",
+    "print(line)"
   ],
   "tests": [
     {
-      "name": "prints the whole card",
-      "stdout": "=== CHARACTER CARD ===\nName: Pip\nRole: Explorer\nHome: Cloud Harbor\nLevel: 3\nFavorite food: dumplings\nPet: Nib\nMotto: Keep walking\n----------------------\nPip finished training!\nLevel: 4\nNib is proud of Pip\n======================"
+      "name": "the example trip",
+      "stdin": [
+        "250",
+        "6",
+        "1.8",
+        "2"
+      ],
+      "stdout": "Distance in km? 250\nLitres per 100 km? 6\nPrice per litre? 1.8\nHow many people? 2\n========================\nTRIP COST\n========================\nFuel needed: 15.0 litres\nTrip cost: 27.0\nEach person pays: 13.5\nCost per km: 0.108\nReturn trip: 54.0\n========================"
     },
     {
-      "name": "level ends at 4",
-      "post": "assert level == 4, 'level should hold the number 4 at the end'"
+      "name": "a short trip for 3",
+      "stdin": [
+        "120",
+        "5",
+        "2",
+        "3"
+      ],
+      "stdout": "Distance in km? 120\nLitres per 100 km? 5\nPrice per litre? 2\nHow many people? 3\n========================\nTRIP COST\n========================\nFuel needed: 6.0 litres\nTrip cost: 12.0\nEach person pays: 4.0\nCost per km: 0.1\nReturn trip: 24.0\n========================"
     },
     {
-      "name": "name holds Pip",
-      "post": "assert name == 'Pip', 'name should hold the text Pip'"
+      "name": "a long trip with rounding",
+      "stdin": [
+        "333",
+        "7.5",
+        "1.95",
+        "4"
+      ],
+      "stdout": "Distance in km? 333\nLitres per 100 km? 7.5\nPrice per litre? 1.95\nHow many people? 4\n========================\nTRIP COST\n========================\nFuel needed: 24.98 litres\nTrip cost: 48.7\nEach person pays: 12.18\nCost per km: 0.146\nReturn trip: 97.4\n========================"
     },
     {
-      "name": "pet holds Nib",
-      "post": "assert pet == 'Nib', 'pet should hold the text Nib'"
+      "name": "cost holds the full trip cost",
+      "stdin": [
+        "250",
+        "6",
+        "1.8",
+        "2"
+      ],
+      "post": "assert round(cost, 2) == 27.0, 'cost should be fuel times price'"
     }
   ],
   "gen": {
-    "hash": "584fea05dfd2b2193f602a2100eea04e2904d46fa85def03e76dc25fd572ac67"
+    "hash": "32031296a25f43f910739fb29cbe657006fda4fe45f2e7765b24e3f4a3300b52"
   }
 }

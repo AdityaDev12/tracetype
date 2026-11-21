@@ -3,7 +3,7 @@ import { CodeLine } from '../../components/CodeLine.tsx'
 import { RichText } from '../../components/RichText.tsx'
 import { AnnotationLayer, type Anno } from '../../design/Annotations.tsx'
 import { Terminal } from '../../design/Terminal.tsx'
-import { lastRunOf, viewAt } from '../../engine/trace.ts'
+import { lastRunOf, linesRun, viewAt } from '../../engine/trace.ts'
 import type { Example } from '../../engine/types.ts'
 import { useLesson } from '../LessonContext.tsx'
 import { ItemPager, StepLayout, StepTitle } from '../common.tsx'
@@ -39,13 +39,16 @@ function LineText({ code, circle, active }: { code: string; circle?: string; act
 function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish: () => void }) {
   const { lesson } = useLesson()
   const original = useMemo(() => example.lines.map((l) => l.code), [example])
-  const run = useKnobs(original, example.knobs, { trace: example.gen.trace }, example)
+  const run = useKnobs(original, example.knobs, { trace: example.gen.trace, error: example.gen.error }, example)
   const trace = run.trace
   const [rawStep, setStep] = useState(-1)
   const last = trace.length - 1
   const step = Math.min(rawStep, last)
   const view = viewAt(trace, step)
   const line = view.line ? example.lines[view.line - 1] : null
+  const stoppedAt = run.error && step >= last ? run.error.line : null
+  const ran = linesRun(trace)
+  const never = (n: number) => stoppedAt !== null && n > (stoppedAt ?? 0) && !ran.has(n)
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -86,7 +89,10 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
             <Terminal title={`example_${n}.py`} label="learn">
               <div className="tcode">
                 {example.lines.map((l, i) => (
-                  <div key={i} className={`tline${view.line === i + 1 ? ' active' : ''}`}>
+                  <div
+                    key={i}
+                    className={`tline${view.line === i + 1 ? ' active' : ''}${stoppedAt === i + 1 ? ' stopped' : ''}${never(i + 1) ? ' never' : ''}`}
+                  >
                     <button
                       type="button"
                       className="tgutter tgutter-btn"

@@ -144,7 +144,7 @@
         }
       ],
       "gen": {
-        "hash": "49504973812d89becf542559109f29ddfc0d9bd58f22ecae43d89c27dff78594",
+        "hash": "eb77391830541f155c9112033a901977dd467fc2d5c981e5ee056b124eafa823",
         "traceVersion": 2,
         "trace": [
           {
@@ -219,7 +219,23 @@
             }
           }
         ]
-      }
+      },
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"Lima\"",
+          "label": "city",
+          "kind": "text"
+        },
+        {
+          "line": 2,
+          "find": "18",
+          "label": "temp",
+          "kind": "number",
+          "min": -10,
+          "max": 40
+        }
+      ]
     },
     {
       "id": "e2",

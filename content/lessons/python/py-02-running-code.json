@@ -1,0 +1,741 @@
+{
+  "id": "py-02-running-code",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 2,
+  "title": "How Python runs your code",
+  "summary": "Top to bottom, one line at a time. Comments are skipped, and an error stops everything after it.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "memory",
+    "halt"
+  ],
+  "intro": {
+    "text": "When you run a program, Python starts at the first line and works down, **one line at a time**. A line can only use names that earlier lines already made.\n\nA line that starts with `#` is a **comment**: a note for people. Python skips it. You can also put a comment at the end of a line.\n\nIf a line goes wrong while it runs, Python **stops right there** and shows an error. The lines after it never run. Some mistakes, like a missing quote, are found before anything runs at all, so nothing prints.\n\nOn your own Mac you can do the same thing in Terminal: save the code in a file and run `python3 my_file.py`, or type `python3` to get the `>>>` prompt, which runs one line at a time.",
+    "analogy": "A program is like a recipe card. You follow the steps from top to bottom. Notes in the margin are for you, not steps. If a step says \"add the sauce\" and there is no sauce, you stop cooking right there and the later steps never happen."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "print(\"one\")",
+        "# print(\"two\")",
+        "print(\"three\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "one\ntwo\nthree",
+        "one\nthree",
+        "three\none",
+        "one"
+      ],
+      "why": "Line 2 starts with #, so it is a comment and Python skips it. The other two lines run in order, top to bottom.",
+      "gen": {
+        "hash": "3642a63c4377cca0c87d392536bb9267c6841812857d5d659204d39dc294a086",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "one\n",
+            "vars": {}
+          },
+          {
+            "line": 3,
+            "stdout": "three\n",
+            "vars": {}
+          }
+        ],
+        "output": "one\nthree",
+        "answer": 1
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "snack = \"plum\"",
+        "print(snack)",
+        "print(snak)",
+        "print(\"done\")"
+      ],
+      "kind": "choice",
+      "raises": true,
+      "q": "What does this show? If Python stops with an error, the last line is the error's name.",
+      "options": [
+        "plum\ndone",
+        "plum\nNameError",
+        "NameError",
+        "plum\nNameError\ndone"
+      ],
+      "visuals": [
+        "memory",
+        "halt"
+      ],
+      "why": "Lines 1 and 2 run, so plum is printed. Line 3 asks for snak, a name that does not exist, so Python stops with a NameError. Line 4 never runs.",
+      "gen": {
+        "hash": "85dec279ed429cf6fd14aabefb8ce389aacb364361ea749f89c4710425084b65",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "snack": {
+                "repr": "'plum'",
+                "type": "str",
+                "text": "plum"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "plum\n",
+            "vars": {
+              "snack": {
+                "repr": "'plum'",
+                "type": "str",
+                "text": "plum"
+              }
+            }
+          }
+        ],
+        "output": "plum\nNameError",
+        "error": {
+          "type": "NameError",
+          "message": "NameError: name 'snak' is not defined. Did you mean: 'snack'?",
+          "line": 3
+        },
+        "events": [
+          {
+            "kind": "raise",
+            "type": "NameError",
+            "message": "NameError: name 'snak' is not defined. Did you mean: 'snack'?",
+            "line": 3,
+            "func": "<module>"
+          }
+        ],
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Top to bottom",
+      "lines": [
+        {
+          "code": "# A tiny weather report",
+          "explain": "A comment. It starts with `#`, so Python skips the whole line. It is here to tell people what the program does.",
+          "task": "Write a comment that says: A tiny weather report",
+          "note": "Python skips this",
+          "circle": "#"
+        },
+        {
+          "code": "place = \"Quito\"",
+          "explain": "The first line that really runs. It makes **place** and stores the text `\"Quito\"`.",
+          "task": "Store the text Quito in a variable called place."
+        },
+        {
+          "code": "print(\"Report for\", place)",
+          "explain": "Prints the fixed text and the value of **place**. This works because line 2 already made place.",
+          "task": "Print the text Report for, followed by place."
+        },
+        {
+          "code": "temp = 14",
+          "explain": "Makes **temp**. Notice it only exists from now on: line 3 could not have used it.",
+          "task": "Store the number 14 in a variable called temp.",
+          "note": "made only now"
+        },
+        {
+          "code": "print(\"It is\", temp, \"degrees\")",
+          "explain": "Prints three values with spaces between them.",
+          "task": "Print: It is, then temp, then degrees."
+        },
+        {
+          "code": "# The end of the report",
+          "explain": "Another comment. Python skips it, so the program simply ends.",
+          "task": "Write a comment that says: The end of the report"
+        }
+      ],
+      "gen": {
+        "hash": "b344917df816d87dd79205099c07e56c443e8620987e982e87c7533e663d1c02",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "place": {
+                "repr": "'Quito'",
+                "type": "str",
+                "text": "Quito"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "Report for Quito\n",
+            "vars": {
+              "place": {
+                "repr": "'Quito'",
+                "type": "str",
+                "text": "Quito"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "place": {
+                "repr": "'Quito'",
+                "type": "str",
+                "text": "Quito"
+              },
+              "temp": {
+                "repr": "14",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "It is 14 degrees\n",
+            "vars": {
+              "place": {
+                "repr": "'Quito'",
+                "type": "str",
+                "text": "Quito"
+              },
+              "temp": {
+                "repr": "14",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Comments do not change anything",
+      "lines": [
+        {
+          "code": "price = 8  # one ticket",
+          "explain": "Stores 8 in **price**. Everything from `#` to the end of the line is a comment, so `one ticket` is only a note.",
+          "task": "Store 8 in price, with the comment one ticket after it.",
+          "note": "the note is skipped",
+          "circle": "# one ticket"
+        },
+        {
+          "code": "print(price)",
+          "explain": "Prints 8.",
+          "task": "Show the value of price."
+        },
+        {
+          "code": "# price = 100",
+          "explain": "This looks like code, but it starts with `#`. Python skips it, so price is **not** changed. Turning a line into a comment like this is a handy way to switch it off.",
+          "task": "Write the line price = 100, but turned off as a comment.",
+          "note": "switched off"
+        },
+        {
+          "code": "print(price)",
+          "explain": "Still prints 8, because line 3 never ran.",
+          "task": "Show the value of price again."
+        }
+      ],
+      "gen": {
+        "hash": "61ca83d3dbf82bbf623686424ef24891474231147aeab926e6a4816e54566985",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "8\n",
+            "vars": {
+              "price": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "8\n",
+            "vars": {
+              "price": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "A mistake stops the program",
+      "raises": true,
+      "visuals": [
+        "memory",
+        "halt"
+      ],
+      "lines": [
+        {
+          "code": "lamp = \"on\"",
+          "explain": "Makes **lamp** and stores `\"on\"`.",
+          "task": "Store the text on in a variable called lamp."
+        },
+        {
+          "code": "print(\"The lamp is\", lamp)",
+          "explain": "Prints The lamp is on. So far so good.",
+          "task": "Print The lamp is, followed by lamp."
+        },
+        {
+          "code": "print(\"Still\", lampp)",
+          "explain": "Look closely: `lampp`, not `lamp`. That name does not exist, so Python stops here with a **NameError**. Step to the end and look at the red line.",
+          "task": "Print Still, followed by a misspelled lampp.",
+          "note": "typo!",
+          "circle": "lampp"
+        },
+        {
+          "code": "print(\"Goodbye\")",
+          "explain": "This line **never runs**. Once Python stops, the rest of the program is skipped.",
+          "task": "Print Goodbye."
+        }
+      ],
+      "gen": {
+        "hash": "8fd971474ba2e24835603f8e4b75da5198db82ff901b9bbc636a36ac5ce3b6ee",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "lamp": {
+                "repr": "'on'",
+                "type": "str",
+                "text": "on"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "The lamp is on\n",
+            "vars": {
+              "lamp": {
+                "repr": "'on'",
+                "type": "str",
+                "text": "on"
+              }
+            }
+          }
+        ],
+        "error": {
+          "type": "NameError",
+          "message": "NameError: name 'lampp' is not defined. Did you mean: 'lamp'?",
+          "line": 3
+        }
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 1,
+      "q": "Line 1 starts with #. What does Python do with it?",
+      "options": [
+        "Skips it",
+        "Prints it",
+        "Stores it in a variable",
+        "Stops with an error"
+      ],
+      "answer": 0,
+      "why": "A line that starts with # is a comment. Python skips it completely."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 4,
+      "q": "What is stored in price after line 4 runs?",
+      "options": [
+        "8",
+        "100",
+        "108",
+        "Nothing, it was deleted"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "price"
+      },
+      "why": "Line 3 is a comment, so price = 100 never ran. price still holds 8."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 4,
+      "q": "Which line never runs?",
+      "options": [
+        "Line 4",
+        "Line 2",
+        "Line 1",
+        "None, all four lines run"
+      ],
+      "answer": 0,
+      "why": "Line 3 has the error, so Python stops there. Line 4 comes after it and never runs."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank to switch off line 2, so the program prints only: Hello",
+      "code": [
+        "print(\"Hello\")",
+        "___ print(\"Bye\")"
+      ],
+      "answers": [
+        "#"
+      ],
+      "gen": {
+        "hash": "8be50aa317e5e10854bd12addd13bb76e718c419fb7e3551c3d3fbeb71a0663b",
+        "expected": {
+          "stdout": "Hello",
+          "vars": {}
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints Mia, then 9. Every name must exist before it is used.",
+      "code": [
+        "player = ___",
+        "level = 9",
+        "print(___)",
+        "print(level)"
+      ],
+      "answers": [
+        "\"Mia\"",
+        "player"
+      ],
+      "gen": {
+        "hash": "6497929f40209a37feddd81fd1207b9c13bafeb4b1406e2020e26a2b374ee024",
+        "expected": {
+          "stdout": "Mia\n9",
+          "vars": {
+            "player": {
+              "repr": "'Mia'",
+              "type": "str"
+            },
+            "level": {
+              "repr": "9",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\nStart\nTea for Lin\nEach name must be made before it is used.",
+      "lines": [
+        "print(\"Start\")",
+        "guest = \"Lin\"",
+        "drink = \"Tea\"",
+        "print(drink, \"for\", guest)"
+      ],
+      "gen": {
+        "hash": "b986235da62100feb8374a18d7e76707cadc683ca71335fc3bc9973430ebf38d",
+        "expected": {
+          "stdout": "Start\nTea for Lin",
+          "vars": {
+            "guest": {
+              "repr": "'Lin'",
+              "type": "str"
+            },
+            "drink": {
+              "repr": "'Tea'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print:\nBread costs 3\nMilk costs 2\nIt stops with an error instead. Fix it.",
+      "code": [
+        "bread = 3",
+        "print(\"Bread costs\", bread)",
+        "print(\"Milk costs\", milk)",
+        "milk = 2"
+      ],
+      "solution": [
+        "bread = 3",
+        "print(\"Bread costs\", bread)",
+        "milk = 2",
+        "print(\"Milk costs\", milk)"
+      ],
+      "tests": [
+        {
+          "name": "prints both prices",
+          "stdout": "Bread costs 3\nMilk costs 2"
+        }
+      ],
+      "hint": "Python runs from the top down. Where is milk made, and where is it used?",
+      "gen": {
+        "hash": "368e4a1029ba7fbbbad4f53221cb7ac727fa0fa2d76ca32da22246e971193895",
+        "error": "NameError: name 'milk' is not defined"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Line 2 is switched off with a comment. Switch it back on so the program prints:\nDoors open at 7\nShow starts at 8",
+      "code": [
+        "print(\"Doors open at 7\")",
+        "# print(\"Show starts at 8\")"
+      ],
+      "solution": [
+        "print(\"Doors open at 7\")",
+        "print(\"Show starts at 8\")"
+      ],
+      "tests": [
+        {
+          "name": "prints both lines",
+          "stdout": "Doors open at 7\nShow starts at 8"
+        }
+      ],
+      "hint": "Remove the # and the space after it.",
+      "gen": {
+        "hash": "0cb75517d63b96d3c2d40209a234266b5b08456cc0e3ba572a399deacc0cf0fa"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add two lines at the end: one that makes a variable seats holding 40, and one that prints: Seats left: 40",
+      "code": [
+        "show = \"Robots on Ice\"",
+        "print(\"Show:\", show)"
+      ],
+      "solution": [
+        "show = \"Robots on Ice\"",
+        "print(\"Show:\", show)",
+        "seats = 40",
+        "print(\"Seats left:\", seats)"
+      ],
+      "tests": [
+        {
+          "name": "prints both lines",
+          "stdout": "Show: Robots on Ice\nSeats left: 40"
+        },
+        {
+          "name": "seats holds 40",
+          "post": "assert seats == 40, 'seats should hold the number 40'"
+        }
+      ],
+      "hint": "Make seats first, then print it.",
+      "gen": {
+        "hash": "0aee4776a5416c34d64fdff82e7ea7bd81fddedb1862f2cf0153c2baae3011b3"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Write a program that starts with a comment saying what it does. Then store the text Nile in a variable called river, and print: River: Nile",
+      "solution": [
+        "# Print the name of a river",
+        "river = \"Nile\"",
+        "print(\"River:\", river)"
+      ],
+      "tests": [
+        {
+          "name": "prints the river",
+          "stdout": "River: Nile"
+        },
+        {
+          "name": "river holds Nile",
+          "post": "assert river == 'Nile', 'river should hold the text Nile'"
+        }
+      ],
+      "hints": [
+        "A comment starts with #, like: # Print the name of a river",
+        "Then: river = \"Nile\"",
+        "print(\"River:\", river) prints River: Nile"
+      ],
+      "gen": {
+        "hash": "ddebb8f6bb9efae5479f591644df8049444ebe3c867dc0c98173a1945f9c4af3"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "In which order does Python run the lines of a program?",
+      "options": [
+        "Bottom to top",
+        "Top to bottom, one at a time",
+        "All at the same time",
+        "In a random order"
+      ],
+      "answer": 1,
+      "why": "Python starts at line 1 and works down, finishing each line before the next."
+    },
+    {
+      "q": "What does Python do with the line `# total = 5`?",
+      "options": [
+        "Makes total and stores 5",
+        "Prints total = 5",
+        "Nothing, it is a comment",
+        "Stops with an error"
+      ],
+      "answer": 2,
+      "why": "Everything after # is a comment, so the whole line is skipped."
+    },
+    {
+      "q": "A program has 5 lines. Line 3 causes a NameError. Which lines run?",
+      "options": [
+        "All 5",
+        "Lines 1 and 2, then it stops at line 3",
+        "Only line 3",
+        "Lines 1, 2, 4 and 5"
+      ],
+      "answer": 1,
+      "why": "Python runs lines 1 and 2, stops at the error on line 3, and never reaches lines 4 and 5."
+    },
+    {
+      "q": "Which mistake stops the program before any line runs at all?",
+      "options": [
+        "Using a name before it is made",
+        "A typo in a variable name",
+        "A missing closing quote",
+        "Printing a number"
+      ],
+      "answer": 2,
+      "why": "Python reads the whole file before it starts. A missing quote means it cannot even read it, so nothing runs. The other mistakes are only found when that line runs."
+    },
+    {
+      "q": "At the >>> prompt you make `city = \"Lima\"`, then type just `city` and press Enter. What happens?",
+      "options": [
+        "It shows 'Lima'",
+        "Nothing, you need print",
+        "An error",
+        "It shows the word city"
+      ],
+      "answer": 0,
+      "why": "The >>> prompt shows the value of whatever you type. In a saved file you need print to see it."
+    },
+    {
+      "q": "What is the comment in `speed = 30  # in km per hour`?",
+      "options": [
+        "speed = 30",
+        "30",
+        "# in km per hour",
+        "The whole line"
+      ],
+      "answer": 2,
+      "why": "A comment starts at # and runs to the end of the line. The code before it still runs."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "A space at the start of a line",
+      "code": [
+        "print(\"Line one\")",
+        " print(\"Line two\")"
+      ],
+      "explain": "Spaces at the start of a line mean something in Python (you will use them in Unit 2). A stray space where none belongs is an IndentationError, and nothing runs.",
+      "fix": [
+        "print(\"Line one\")",
+        "print(\"Line two\")"
+      ],
+      "gen": {
+        "hash": "1a6129d641c196137f3fd87f6d1e61fac28dc6589df5aff2d77109d971df0855",
+        "error": "IndentationError: unexpected indent",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A missing closing quote",
+      "code": [
+        "print(\"Good morning)"
+      ],
+      "explain": "The text starts with a quote but never ends, so Python cannot read the line. It stops before running anything, even the lines before it.",
+      "fix": [
+        "print(\"Good morning\")"
+      ],
+      "gen": {
+        "hash": "592cfac514142af5eecf48cdb3915edf6432ce38103272ed06edf0393bb8902a",
+        "error": "SyntaxError: unterminated string literal (detected at line 1)",
+        "line": 1
+      }
+    },
+    {
+      "id": "c3",
+      "title": "A typo in print",
+      "code": [
+        "pritn(\"Hi\")"
+      ],
+      "explain": "Python only knows print, not pritn. To Python it is a name that does not exist. The error message even suggests what you meant.",
+      "fix": [
+        "print(\"Hi\")"
+      ],
+      "gen": {
+        "hash": "eb7dcfd0d6186c386afe8a71bfea739eaa359b50c892026569227b2ec5ac3b5b",
+        "error": "NameError: name 'pritn' is not defined. Did you mean: 'print'?",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: using the Python interpreter",
+      "url": "https://docs.python.org/3/tutorial/interpreter.html"
+    },
+    {
+      "title": "Python tutorial: comments and the >>> prompt",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#an-informal-introduction-to-python"
+    },
+    {
+      "title": "Python tutorial: errors and exceptions",
+      "url": "https://docs.python.org/3/tutorial/errors.html"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 2. How Python Runs Programs"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 3. How You Run Programs"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 10. Introducing Python Statements"
+    }
+  ]
+}

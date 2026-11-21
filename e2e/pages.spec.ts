@@ -33,7 +33,7 @@ test('returning visitors get the dashboard, and reviews show up as due', async (
   await page.getByRole('button', { name: 'make all review cards due now' }).click()
   await expect(page.locator('.due-badge')).toHaveText('1')
   await page.goto('#/review')
-  await page.locator('.choice').filter({ hasText: /^1mango$/ }).click()
+  await page.locator('.choice').filter({ has: page.locator('.choice-text', { hasText: /^mango$/ }) }).click()
   await expect(page.locator('.reveal')).toContainText('You called it')
   await page.getByRole('button', { name: 'Continue →' }).click({ timeout: 10000 })
   await expect(page.locator('.page-title')).toContainText('Done for now')

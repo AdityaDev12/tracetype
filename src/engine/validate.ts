@@ -190,7 +190,10 @@ export function validateLesson(data: unknown): string[] {
       if (l.expr !== undefined) c.need(typeof l.expr === 'boolean', `${w}.lines[${j}].expr must be true or false`)
     })
     const gen = checkGen(c, ex, w)
-    if (gen) checkTrace(c, gen.trace, lines.length, w, gen.traceVersion)
+    if (gen) {
+      checkTrace(c, gen.trace, lines.length, w, gen.traceVersion)
+      c.need(Boolean(ex.raises) === isObj(gen.error), `${w}: "raises" must be set exactly when the example stops with an error`)
+    }
   })
 
   list('investigate').forEach((q, i) => {
@@ -256,6 +259,7 @@ export function validateLesson(data: unknown): string[] {
 
   list('recall').forEach((r, i) => {
     c.need(examples[r.example as number] !== undefined, `recall[${i}].example must point at an example`)
+    c.need(!examples[r.example as number]?.raises, `recall[${i}] cannot use an example that stops with an error`)
   })
 
   list('quiz').forEach((q, i) => checkChoice(c, q, `quiz[${i}]`))

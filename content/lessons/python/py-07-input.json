@@ -1,0 +1,962 @@
+{
+  "id": "py-07-input",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 7,
+  "title": "Asking the user",
+  "summary": "Read what the user types with input(), and turn it into a number when you need math.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "stdin",
+    "types"
+  ],
+  "intro": {
+    "text": "`input(\"Your name? \")` shows the text in the brackets (the **prompt**), waits for the user to type a line and press Enter, and gives back what they typed.\n\nWhat comes back is **always text**, even when the user types digits. To do math with it, convert it: `age = int(input(\"Age? \"))`. Python runs the inside first: input gives text, then int turns it into a number.\n\nThe prompt does not add a space after itself, so end it with one.\n\nIn these lessons the user's answers are on the **keyboard** panel: each `input()` takes the next one and crosses it off. When you run your own code, you type the answers in a box, one per line.",
+    "analogy": "input() is like a waiter taking an order. The waiter asks a question (the prompt), writes down exactly what you say on a note, and brings back the note. The note is always words on paper, even if you said a number, so the kitchen has to read it as a number itself."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "n = input(\"Number? \")",
+        "print(n * 2)"
+      ],
+      "kind": "choice",
+      "stdin": [
+        "4"
+      ],
+      "q": "The user types 4. What does the screen show?",
+      "options": [
+        "Number? 4\n8",
+        "Number? 4\n44",
+        "8",
+        "44"
+      ],
+      "why": "The prompt and the typed 4 appear on the first line. n holds the text \"4\", and text times 2 repeats it: 44.",
+      "gen": {
+        "hash": "365e994a4bb1c0f5ebc6a582966a201fc96047d4228ec5cbb8a64a2c81a90bb1",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "Number? 4\n",
+            "vars": {
+              "n": {
+                "repr": "'4'",
+                "type": "str",
+                "text": "4"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Number? ",
+                "value": "4",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "44\n",
+            "vars": {
+              "n": {
+                "repr": "'4'",
+                "type": "str",
+                "text": "4"
+              }
+            }
+          }
+        ],
+        "output": "Number? 4\n44",
+        "answer": 1
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "a = int(input())",
+        "b = int(input())",
+        "print(a + b)"
+      ],
+      "kind": "choice",
+      "stdin": [
+        "3",
+        "5"
+      ],
+      "q": "The user types 3, then 5. What does the screen show?",
+      "options": [
+        "3\n5\n8",
+        "3\n5\n35",
+        "8",
+        "35"
+      ],
+      "why": "There is no prompt, so each line shows only what the user typed. Both answers are turned into ints, so a + b is 8.",
+      "gen": {
+        "hash": "b450baa76fae85b70673f1e000c7d732312eb1095e73a3a3367bf5f4a84225a1",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "3\n",
+            "vars": {
+              "a": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "",
+                "value": "3",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "5\n",
+            "vars": {
+              "a": {
+                "repr": "3",
+                "type": "int"
+              },
+              "b": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "",
+                "value": "5",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "8\n",
+            "vars": {
+              "a": {
+                "repr": "3",
+                "type": "int"
+              },
+              "b": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "3\n5\n8",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "input() gives back text",
+      "stdin": [
+        "Bea"
+      ],
+      "lines": [
+        {
+          "code": "name = input(\"What is your name? \")",
+          "explain": "Shows the prompt and waits. The user types Bea (see the keyboard panel), and **name** gets the text `\"Bea\"`.",
+          "task": "Ask What is your name? and store the answer in name.",
+          "note": "waits for Enter",
+          "circle": "input"
+        },
+        {
+          "code": "print(\"Nice to meet you,\", name)",
+          "explain": "Prints Nice to meet you, Bea.",
+          "task": "Print Nice to meet you, followed by name."
+        },
+        {
+          "code": "print(type(name))",
+          "explain": "`<class 'str'>`: input always gives text.",
+          "task": "Print the type of name."
+        }
+      ],
+      "gen": {
+        "hash": "5687df27d03da45ef88ec040e621edc591664623206e22bfe6c3b0d3ab8d679d",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "What is your name? Bea\n",
+            "vars": {
+              "name": {
+                "repr": "'Bea'",
+                "type": "str",
+                "text": "Bea"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "What is your name? ",
+                "value": "Bea",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Nice to meet you, Bea\n",
+            "vars": {
+              "name": {
+                "repr": "'Bea'",
+                "type": "str",
+                "text": "Bea"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "<class 'str'>\n",
+            "vars": {
+              "name": {
+                "repr": "'Bea'",
+                "type": "str",
+                "text": "Bea"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Converting the answer",
+      "stdin": [
+        "7"
+      ],
+      "lines": [
+        {
+          "code": "text = input(\"How many hours? \")",
+          "explain": "The user types 7. text holds `\"7\"`, a string, not a number yet.",
+          "task": "Ask How many hours? and store the answer in text.",
+          "note": "still text",
+          "circle": "text"
+        },
+        {
+          "code": "hours = int(text)",
+          "explain": "Now **hours** is the number 7.",
+          "task": "Make hours hold text turned into a whole number.",
+          "circle": "int(text)",
+          "expr": true
+        },
+        {
+          "code": "minutes = hours * 60",
+          "explain": "Real math: 7 times 60 is 420.",
+          "task": "Make minutes hold hours times 60.",
+          "expr": true
+        },
+        {
+          "code": "print(hours, \"hours is\", minutes, \"minutes\")",
+          "explain": "Prints 7 hours is 420 minutes.",
+          "task": "Print hours, the text hours is, minutes, and the text minutes."
+        }
+      ],
+      "gen": {
+        "hash": "0a5cc39d23275e49c74027c9f0d9bbfccac000f72d9b8cf75fb48e3271338919",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "How many hours? 7\n",
+            "vars": {
+              "text": {
+                "repr": "'7'",
+                "type": "str",
+                "text": "7"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "How many hours? ",
+                "value": "7",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'7'",
+                "type": "str",
+                "text": "7"
+              },
+              "hours": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "hours = int(text)"
+                  },
+                  {
+                    "text": "hours = int('7')"
+                  },
+                  {
+                    "text": "hours = 7",
+                    "part": "int('7')",
+                    "value": "7"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'7'",
+                "type": "str",
+                "text": "7"
+              },
+              "hours": {
+                "repr": "7",
+                "type": "int"
+              },
+              "minutes": {
+                "repr": "420",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "minutes = hours * 60"
+                  },
+                  {
+                    "text": "minutes = 7 * 60"
+                  },
+                  {
+                    "text": "minutes = 420",
+                    "part": "7 * 60",
+                    "value": "420"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "7 hours is 420 minutes\n",
+            "vars": {
+              "text": {
+                "repr": "'7'",
+                "type": "str",
+                "text": "7"
+              },
+              "hours": {
+                "repr": "7",
+                "type": "int"
+              },
+              "minutes": {
+                "repr": "420",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Two answers, one calculator",
+      "stdin": [
+        "12.5",
+        "4"
+      ],
+      "lines": [
+        {
+          "code": "price = float(input(\"Price? \"))",
+          "explain": "input and float in one line: the inside runs first and gives `\"12.5\"`, then float makes it 12.5.",
+          "task": "Ask Price?, turn the answer into a decimal number, and store it in price.",
+          "note": "inside first",
+          "circle": "input(\"Price? \")"
+        },
+        {
+          "code": "count = int(input(\"How many? \"))",
+          "explain": "The second input takes the second answer on the keyboard panel: 4.",
+          "task": "Ask How many?, turn the answer into a whole number, and store it in count."
+        },
+        {
+          "code": "total = price * count",
+          "explain": "12.5 times 4 is 50.0.",
+          "task": "Make total hold price times count.",
+          "expr": true
+        },
+        {
+          "code": "print(\"Total:\", total)",
+          "explain": "Prints Total: 50.0.",
+          "task": "Print Total:, followed by total."
+        }
+      ],
+      "gen": {
+        "hash": "ca079c275a7e306ef7403af482ccea7ff2a16df38dd680bcad7d8f328b715c0c",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "Price? 12.5\n",
+            "vars": {
+              "price": {
+                "repr": "12.5",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Price? ",
+                "value": "12.5",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "How many? 4\n",
+            "vars": {
+              "price": {
+                "repr": "12.5",
+                "type": "float"
+              },
+              "count": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "How many? ",
+                "value": "4",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "12.5",
+                "type": "float"
+              },
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "total": {
+                "repr": "50.0",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "total = price * count"
+                  },
+                  {
+                    "text": "total = 12.5 * 4"
+                  },
+                  {
+                    "text": "total = 50.0",
+                    "part": "12.5 * 4",
+                    "value": "50.0"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Total: 50.0\n",
+            "vars": {
+              "price": {
+                "repr": "12.5",
+                "type": "float"
+              },
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "total": {
+                "repr": "50.0",
+                "type": "float"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 1,
+      "line": 1,
+      "q": "What is stored in text after line 1 runs?",
+      "options": [
+        "'7'",
+        "7",
+        "7.0",
+        "'How many hours? '"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 1,
+        "name": "text"
+      },
+      "why": "input always gives back text, so it is the string '7'."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 3,
+      "q": "What is stored in minutes after line 3 runs?",
+      "options": [
+        "420",
+        "'7777777...'",
+        "67",
+        "7"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "minutes"
+      },
+      "why": "hours is the number 7, so 7 * 60 is 420."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 2,
+      "q": "Which answer does line 2 get?",
+      "options": [
+        "4",
+        "12.5",
+        "Both",
+        "None, it waits forever"
+      ],
+      "answer": 0,
+      "why": "Each input() takes the next answer in order. Line 1 used 12.5, so line 2 gets 4."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program asks for a name and greets the user. When the user types Ola it shows:\nName? Ola\nHi Ola",
+      "stdin": [
+        "Ola"
+      ],
+      "code": [
+        "who = ___(\"Name? \")",
+        "print(\"Hi\", who)"
+      ],
+      "answers": [
+        "input"
+      ],
+      "gen": {
+        "hash": "741a89b47677b001237ac76710f17c8490e87175329c5de0ba582339303ed10c",
+        "expected": {
+          "stdout": "Name? Ola\nHi Ola",
+          "vars": {
+            "who": {
+              "repr": "'Ola'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the typed number is doubled. When the user types 6 it shows:\n6\n12",
+      "stdin": [
+        "6"
+      ],
+      "code": [
+        "n = ___(input())",
+        "print(n * 2)"
+      ],
+      "answers": [
+        "int"
+      ],
+      "gen": {
+        "hash": "c339ef9d22f6560be7d0b40ba338f2c5fbf0884b7b36cd81e2a93c9cbbf71442",
+        "expected": {
+          "stdout": "6\n12",
+          "vars": {
+            "n": {
+              "repr": "6",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order. When the user types 9 the program shows:\nSide? 9\n81",
+      "stdin": [
+        "9"
+      ],
+      "lines": [
+        "side = input(\"Side? \")",
+        "size = int(side)",
+        "area = size * size",
+        "print(area)"
+      ],
+      "gen": {
+        "hash": "0ba4095f712e31c9b76ab96b2cffdb44c98caafbe2170f35288f5db0affb04ac",
+        "expected": {
+          "stdout": "Side? 9\n81",
+          "vars": {
+            "side": {
+              "repr": "'9'",
+              "type": "str"
+            },
+            "size": {
+              "repr": "9",
+              "type": "int"
+            },
+            "area": {
+              "repr": "81",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should ask for an age and print the age next year. When the user types 14 it should show:\nAge? 14\n15\nIt stops with an error. Fix it.",
+      "stdin": [
+        "14"
+      ],
+      "code": [
+        "age = input(\"Age? \")",
+        "print(age + 1)"
+      ],
+      "solution": [
+        "age = int(input(\"Age? \"))",
+        "print(age + 1)"
+      ],
+      "tests": [
+        {
+          "name": "works for 14",
+          "stdin": [
+            "14"
+          ],
+          "stdout": "Age? 14\n15"
+        },
+        {
+          "name": "works for 30",
+          "stdin": [
+            "30"
+          ],
+          "stdout": "Age? 30\n31"
+        }
+      ],
+      "hint": "The answer is text. Turn it into a number before adding 1.",
+      "gen": {
+        "hash": "e097518ab5726916ea41a57226fcbbb985754d41966123935eb7c2fad24578dd",
+        "error": "TypeError: can only concatenate str (not \"int\") to str"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "The program prints the word once. Change it so it prints the word 3 times in a row, with no spaces. When the user types ha:\nWord? ha\nhahaha",
+      "code": [
+        "word = input(\"Word? \")",
+        "print(word)"
+      ],
+      "solution": [
+        "word = input(\"Word? \")",
+        "print(word * 3)"
+      ],
+      "tests": [
+        {
+          "name": "works for ha",
+          "stdin": [
+            "ha"
+          ],
+          "stdout": "Word? ha\nhahaha"
+        },
+        {
+          "name": "works for go",
+          "stdin": [
+            "go"
+          ],
+          "stdout": "Word? go\ngogogo"
+        }
+      ],
+      "hint": "Text times a whole number repeats it.",
+      "gen": {
+        "hash": "bef8565db11d366ac24e2aec10d7cc9c3da9b46374c01934d41444cb0e80db93"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "The program reads a temperature in Celsius but only prints it back. Change it so it prints the temperature in Fahrenheit, which is C * 9 / 5 + 32. When the user types 20:\nCelsius? 20\n68.0",
+      "code": [
+        "c = input(\"Celsius? \")",
+        "print(c)"
+      ],
+      "solution": [
+        "c = float(input(\"Celsius? \"))",
+        "print(c * 9 / 5 + 32)"
+      ],
+      "tests": [
+        {
+          "name": "works for 20",
+          "stdin": [
+            "20"
+          ],
+          "stdout": "Celsius? 20\n68.0"
+        },
+        {
+          "name": "works for 100",
+          "stdin": [
+            "100"
+          ],
+          "stdout": "Celsius? 100\n212.0"
+        }
+      ],
+      "hint": "Turn the answer into a number first, then print the formula.",
+      "gen": {
+        "hash": "b19553cebfe2bed8379179761832cb06844196930ed0a64cf08e7dbb3319b05b"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Write a program that asks Width? and then Height? and prints the area of the rectangle (width times height). When the user types 4 and 5 it shows:\nWidth? 4\nHeight? 5\n20",
+      "solution": [
+        "width = int(input(\"Width? \"))",
+        "height = int(input(\"Height? \"))",
+        "print(width * height)"
+      ],
+      "tests": [
+        {
+          "name": "4 by 5",
+          "stdin": [
+            "4",
+            "5"
+          ],
+          "stdout": "Width? 4\nHeight? 5\n20"
+        },
+        {
+          "name": "7 by 3",
+          "stdin": [
+            "7",
+            "3"
+          ],
+          "stdout": "Width? 7\nHeight? 3\n21"
+        }
+      ],
+      "hints": [
+        "width = int(input(\"Width? \"))",
+        "Do the same for height",
+        "print(width * height)"
+      ],
+      "gen": {
+        "hash": "b469abc6f9a65c7c6d68d021b87a391d45c6b3df7c2ba2b3404c4ed5fb6eb0f4"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "The user types 8 at `x = input()`. What is stored in x?",
+      "options": [
+        "'8'",
+        "8",
+        "8.0",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "input always gives text, so x is the string '8'."
+    },
+    {
+      "q": "What does `int(input())` do?",
+      "options": [
+        "Reads an answer and turns it into a whole number",
+        "Only lets the user type digits",
+        "Prints a number",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "The inside runs first: input gives text, then int turns it into a number."
+    },
+    {
+      "q": "The program runs `input(\"Name?\")` and the user types Jo. What does the line on screen look like?",
+      "options": [
+        "Name?Jo",
+        "Name? Jo",
+        "Jo",
+        "Name?"
+      ],
+      "answer": 0,
+      "why": "The prompt is shown exactly as written. With no space at its end, the answer sticks to it."
+    },
+    {
+      "q": "The user types 2, then 3, for `a = input()` and `b = input()`. What does `print(a + b)` show?",
+      "options": [
+        "5",
+        "23",
+        "2 3",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "Both are text, so + joins them."
+    },
+    {
+      "q": "What happens if the user types hello at `n = int(input())`?",
+      "options": [
+        "ValueError",
+        "n becomes 0",
+        "n becomes 'hello'",
+        "n becomes 5"
+      ],
+      "answer": 0,
+      "why": "int() cannot turn hello into a number, so Python stops with a ValueError."
+    },
+    {
+      "q": "A program calls input() three times. How many answers does the user type?",
+      "options": [
+        "3",
+        "1",
+        "0",
+        "As many as they like"
+      ],
+      "answer": 0,
+      "why": "Each input() waits for one answer."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Doing math on the raw answer",
+      "stdin": [
+        "5"
+      ],
+      "code": [
+        "n = input()",
+        "print(n + 1)"
+      ],
+      "explain": "n is the text \"5\", and + cannot join text and a number. Convert the answer with int() first.",
+      "fix": [
+        "n = int(input())",
+        "print(n + 1)"
+      ],
+      "gen": {
+        "hash": "0d1ce87dea5457beeb85ab8227fd2fd97e52fd8fe7fc2ba7f5393789c25111e9",
+        "error": "TypeError: can only concatenate str (not \"int\") to str",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Forgetting the brackets after input",
+      "stdin": [
+        "Al"
+      ],
+      "code": [
+        "name = input",
+        "print(\"Hi \" + name)"
+      ],
+      "explain": "Without ( ) the function is not called, so name holds the input function itself, not an answer. Always write input().",
+      "fix": [
+        "name = input()",
+        "print(\"Hi \" + name)"
+      ],
+      "gen": {
+        "hash": "36e7d04c403f70bef65d1a7137cfc31824a6a885c49756989f5d22ee6f4f9b86",
+        "error": "TypeError: can only concatenate str (not \"method\") to str",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "int() on a decimal answer",
+      "stdin": [
+        "2.5"
+      ],
+      "code": [
+        "n = int(input())"
+      ],
+      "explain": "The user typed 2.5, which is not a whole number, so int() gives a ValueError. Use float() when decimals are allowed.",
+      "fix": [
+        "n = float(input())"
+      ],
+      "gen": {
+        "hash": "3a08df32f1c4d6d885fb0fb78783ffeaf2eea1ffcff27efb84d45d227f531bab",
+        "error": "ValueError: invalid literal for int() with base 10: '2.5'",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: input()",
+      "url": "https://docs.python.org/3/builtins/functions.html#input"
+    },
+    {
+      "title": "Reference: int()",
+      "url": "https://docs.python.org/3/builtins/functions.html#int"
+    },
+    {
+      "title": "Reference: float()",
+      "url": "https://docs.python.org/3/builtins/functions.html#float"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 10. Introducing Python Statements"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}

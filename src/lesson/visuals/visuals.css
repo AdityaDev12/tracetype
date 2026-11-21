@@ -578,4 +578,8 @@
   .step-controls {
     flex-wrap: wrap;
   }
+  .step-controls .timeline {
+    order: -1;
+    flex-basis: 100%;
+  }
 }

@@ -4,8 +4,16 @@
     {
       "id": "py-u1",
       "title": "First steps",
-      "summary": "Store values under names and show them on screen.",
-      "lessons": ["py-01-variables"],
+      "summary": "Store values, do math with them, work with text, and ask the user.",
+      "lessons": [
+        "py-01-variables",
+        "py-02-running-code",
+        "py-03-numbers",
+        "py-04-changing-variables",
+        "py-05-text",
+        "py-06-types",
+        "py-07-input"
+      ],
       "project": "py-u1-project"
     }
   ]

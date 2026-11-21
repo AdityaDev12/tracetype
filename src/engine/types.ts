@@ -205,7 +205,9 @@ export interface Example extends WithRunOptions, WithVisuals {
   id: string
   title: string
   lines: ExampleLine[]
-  gen: Gen & { trace: TraceStep[]; traceVersion?: number }
+  /** The example stops with an error on purpose (it cannot be used for Recall). */
+  raises?: boolean
+  gen: Gen & { trace: TraceStep[]; traceVersion?: number; error?: { type: string; message: string; line: number | null } }
 }
 
 export interface InvestigateItem {

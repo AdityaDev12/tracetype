@@ -121,8 +121,18 @@ def gen_lesson(lesson):
         p["gen"] = gen
 
     for i, ex in enumerate(lesson.get("examples", [])):
-        r = must_run(f"examples[{i}]", rt.source_of([l["code"] for l in ex["lines"]]), options(ex, ex["lines"]))
+        label = f"examples[{i}]"
+        src = rt.source_of([l["code"] for l in ex["lines"]])
+        if ex.get("raises"):
+            # An example that shows where a program stops with an error.
+            r = rt.run_trace(src, options(ex, ex["lines"]))
+            if not r["error"] or not r["steps"]:
+                raise LessonError(f"{label}: marked raises, so some lines must run and then an error must stop it")
+        else:
+            r = must_run(label, src, options(ex, ex["lines"]))
         ex["gen"] = {"hash": rt.canonical_hash(authored(ex)), "traceVersion": rt.TRACE_VERSION, "trace": r["steps"]}
+        if r["error"]:
+            ex["gen"]["error"] = r["error"]
 
     for i, f in enumerate(lesson.get("faded", [])):
         label = f"faded[{i}]"

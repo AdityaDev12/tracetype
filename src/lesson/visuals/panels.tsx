@@ -218,7 +218,7 @@ function Cells({ name, items }: { name: string; items: string[] }) {
         <div className="cells" role="list">
           {items.map((c, i) => (
             <span key={i} className="cell" role="listitem">
-              <span className="cell-val">{c === ' ' ? '␣' : c}</span>
+              <span className="cell-val">{c === ' ' ? '␣' : c === '\n' ? '\\n' : c === '\t' ? '\\t' : c}</span>
               <span className="cell-idx">{i}</span>
             </span>
           ))}

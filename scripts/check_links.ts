@@ -15,15 +15,23 @@ function walk(dir: string): string[] {
   })
 }
 
+/** Fetch a page, trying again a few times: a flaky network should not fail every link to that page. */
+async function fetchPage(url: string, tries = 4): Promise<{ status: number; html: string }> {
+  for (let i = 1; ; i++) {
+    try {
+      const r = await fetch(url, { redirect: 'follow', signal: AbortSignal.timeout(30_000) })
+      return { status: r.status, html: r.ok ? await r.text() : '' }
+    } catch (e) {
+      if (i >= tries) throw e
+      await new Promise((ok) => setTimeout(ok, 1500 * i))
+    }
+  }
+}
+
 const pages = new Map<string, Promise<{ status: number; html: string }>>()
 function load(url: string) {
   const base = url.split('#')[0]
-  if (!pages.has(base)) {
-    pages.set(
-      base,
-      fetch(base, { redirect: 'follow' }).then(async (r) => ({ status: r.status, html: r.ok ? await r.text() : '' })),
-    )
-  }
+  if (!pages.has(base)) pages.set(base, fetchPage(base))
   return pages.get(base)!
 }
 

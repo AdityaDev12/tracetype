@@ -1,0 +1,992 @@
+{
+  "id": "py-04-changing-variables",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 4,
+  "title": "Changing variables",
+  "summary": "Update a value using its old value, the += shorthand, swapping, and good names.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "memory",
+    "history"
+  ],
+  "intro": {
+    "text": "`=` always works **right side first**. Python works out the value on the right using the values names have right now, then puts the result in the name on the left. So `score = score + 10` is fine: take the old score, add 10, store the new score.\n\nThis is so common that Python has a shorthand: `score += 10` means the same. There is also `-=`, `*=`, `/=`, `//=` and `%=`.\n\nTo swap two values you need a spare name to hold one of them for a moment, or one of the values gets lost.\n\nNames may use letters, digits and `_`, must not start with a digit, and cannot be words Python already uses, like `class` or `for`. Good names say what they hold: `total_price` beats `tp`.",
+    "analogy": "Think of a scoreboard. To add 10 points, you read the number that is up there now, add 10 in your head, then wipe the board and write the new number. Reading always happens before writing."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "steps = 10",
+        "steps = steps + 5",
+        "print(steps)"
+      ],
+      "kind": "choice",
+      "options": [
+        "10",
+        "15",
+        "5",
+        "Error"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "The right side goes first: the old value 10 plus 5 is 15, and that is stored back in steps.",
+      "gen": {
+        "hash": "373ff1d308b2e5e7dc2e64c84ab57186acfd9354682064e3674894b8eb0b4d76",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "15",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "steps = steps + 5"
+                  },
+                  {
+                    "text": "steps = 10 + 5"
+                  },
+                  {
+                    "text": "steps = 15",
+                    "part": "10 + 5",
+                    "value": "15"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "15\n",
+            "vars": {
+              "steps": {
+                "repr": "15",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "15",
+        "answer": 1
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "coins = 4",
+        "coins += 3",
+        "coins *= 2",
+        "print(coins)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "why": "coins += 3 makes it 7, then coins *= 2 doubles that to 14.",
+      "gen": {
+        "hash": "70297cfef6665b6e70767c055787596adc58fd08138005ed7df8033d3e6d07a9",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "coins": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "coins": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "coins": {
+                "repr": "14",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "14\n",
+            "vars": {
+              "coins": {
+                "repr": "14",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "14"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Right side first",
+      "lines": [
+        {
+          "code": "score = 0",
+          "explain": "Starts **score** at 0. A name must exist before you can add to it.",
+          "task": "Start score at 0."
+        },
+        {
+          "code": "score = score + 10",
+          "explain": "Right side first: Python reads score (0), adds 10, and stores 10 back in score. The old 0 is gone.",
+          "task": "Add 10 to score, writing score twice.",
+          "note": "read, add, store",
+          "circle": "score + 10",
+          "expr": true
+        },
+        {
+          "code": "score = score + 5",
+          "explain": "Same again with the new value: 10 plus 5 is 15. Look at the history panel: every value score has held.",
+          "task": "Add 5 to score the same way.",
+          "expr": true
+        },
+        {
+          "code": "print(score)",
+          "explain": "Prints 15.",
+          "task": "Show the value of score."
+        }
+      ],
+      "gen": {
+        "hash": "6bf695fd60693cccdf028a1b2756d89da7507f862c183d73bdd64709eab6a353",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "score = score + 10"
+                  },
+                  {
+                    "text": "score = 0 + 10"
+                  },
+                  {
+                    "text": "score = 10",
+                    "part": "0 + 10",
+                    "value": "10"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "15",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "score = score + 5"
+                  },
+                  {
+                    "text": "score = 10 + 5"
+                  },
+                  {
+                    "text": "score = 15",
+                    "part": "10 + 5",
+                    "value": "15"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "15\n",
+            "vars": {
+              "score": {
+                "repr": "15",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "The shorthand",
+      "lines": [
+        {
+          "code": "lives = 3",
+          "explain": "Three lives to start.",
+          "task": "Start lives at 3."
+        },
+        {
+          "code": "lives -= 1",
+          "explain": "`-=` takes away: same as `lives = lives - 1`. lives is now 2.",
+          "task": "Take 1 away from lives using the shorthand.",
+          "note": "same as lives - 1",
+          "circle": "-="
+        },
+        {
+          "code": "print(lives)",
+          "explain": "Prints 2.",
+          "task": "Show the value of lives."
+        },
+        {
+          "code": "gems = 2",
+          "explain": "A new name, gems, starts at 2.",
+          "task": "Start gems at 2."
+        },
+        {
+          "code": "gems *= 5",
+          "explain": "`*=` multiplies: 2 times 5 is 10.",
+          "task": "Multiply gems by 5 using the shorthand."
+        },
+        {
+          "code": "gems += 1",
+          "explain": "`+=` adds: 10 plus 1 is 11.",
+          "task": "Add 1 to gems using the shorthand."
+        },
+        {
+          "code": "print(gems)",
+          "explain": "Prints 11. The history panel shows 2, then 10, then 11.",
+          "task": "Show the value of gems."
+        }
+      ],
+      "gen": {
+        "hash": "717dc1bede6be34ccb4d021b72c040d5c868952ca205c8d4cac3408163fa2a52",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "lives": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "lives": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "2\n",
+            "vars": {
+              "lives": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "lives": {
+                "repr": "2",
+                "type": "int"
+              },
+              "gems": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "lives": {
+                "repr": "2",
+                "type": "int"
+              },
+              "gems": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "lives": {
+                "repr": "2",
+                "type": "int"
+              },
+              "gems": {
+                "repr": "11",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "11\n",
+            "vars": {
+              "lives": {
+                "repr": "2",
+                "type": "int"
+              },
+              "gems": {
+                "repr": "11",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Swapping two values",
+      "lines": [
+        {
+          "code": "left = \"cat\"",
+          "explain": "left holds `\"cat\"`.",
+          "task": "Store the text cat in left."
+        },
+        {
+          "code": "right = \"dog\"",
+          "explain": "right holds `\"dog\"`.",
+          "task": "Store the text dog in right."
+        },
+        {
+          "code": "spare = left",
+          "explain": "Before changing left, save its value in a spare name. Now spare also holds `\"cat\"`.",
+          "task": "Save the value of left in a name called spare.",
+          "note": "save it first",
+          "circle": "spare"
+        },
+        {
+          "code": "left = right",
+          "explain": "left gets `\"dog\"`. Without spare, `\"cat\"` would now be lost forever.",
+          "task": "Make left hold the value of right."
+        },
+        {
+          "code": "right = spare",
+          "explain": "right gets the saved `\"cat\"`. The swap is done.",
+          "task": "Make right hold the value of spare."
+        },
+        {
+          "code": "print(left, right)",
+          "explain": "Prints dog cat.",
+          "task": "Print left and right in one print."
+        }
+      ],
+      "gen": {
+        "hash": "852d1496bf14cd3706be294960f84f7be07cfe4f95bff4840386dbc5b56dd2d5",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "left": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "left": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              },
+              "right": {
+                "repr": "'dog'",
+                "type": "str",
+                "text": "dog"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "left": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              },
+              "right": {
+                "repr": "'dog'",
+                "type": "str",
+                "text": "dog"
+              },
+              "spare": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "left": {
+                "repr": "'dog'",
+                "type": "str",
+                "text": "dog"
+              },
+              "right": {
+                "repr": "'dog'",
+                "type": "str",
+                "text": "dog"
+              },
+              "spare": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "left": {
+                "repr": "'dog'",
+                "type": "str",
+                "text": "dog"
+              },
+              "right": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              },
+              "spare": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "dog cat\n",
+            "vars": {
+              "left": {
+                "repr": "'dog'",
+                "type": "str",
+                "text": "dog"
+              },
+              "right": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              },
+              "spare": {
+                "repr": "'cat'",
+                "type": "str",
+                "text": "cat"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in score right after line 2 runs?",
+      "options": [
+        "10",
+        "0",
+        "20",
+        "score + 10"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "score"
+      },
+      "why": "Python worked out 0 + 10 and stored the result, 10."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 6,
+      "q": "What is stored in gems right after line 6 runs?",
+      "options": [
+        "11",
+        "10",
+        "8",
+        "2"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 6,
+        "name": "gems"
+      },
+      "why": "gems went 2, then 10 (times 5), then 11 (plus 1)."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 3,
+      "q": "Why is line 3 needed?",
+      "options": [
+        "Line 4 replaces left, so its old value would be lost",
+        "print needs three names",
+        "It makes the program faster",
+        "It is not needed"
+      ],
+      "answer": 0,
+      "why": "After left = right, nothing holds \"cat\" any more unless it was saved first."
+    },
+    {
+      "id": "i4",
+      "example": 2,
+      "line": 5,
+      "q": "What is stored in right after line 5 runs?",
+      "options": [
+        "'cat'",
+        "'dog'",
+        "'spare'",
+        "Nothing"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "right"
+      },
+      "why": "right gets the value saved in spare, which is 'cat'."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints 25",
+      "code": [
+        "points = 20",
+        "points = points ___ 5",
+        "print(points)"
+      ],
+      "answers": [
+        "+"
+      ],
+      "gen": {
+        "hash": "a6cca87a6a4400876f4316259ed19663b369e8a705d80241a9652a34b4264581",
+        "expected": {
+          "stdout": "25",
+          "vars": {
+            "points": {
+              "repr": "25",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the shorthand signs so the program prints 9, then 3",
+      "code": [
+        "level = 3",
+        "level ___ 3",
+        "print(level)",
+        "level ___ 6",
+        "print(level)"
+      ],
+      "answers": [
+        "*=",
+        "-="
+      ],
+      "gen": {
+        "hash": "5dab1bfba283718469178b610e6684d4bf19ad2b2456d44f6e9b54599d2e37db",
+        "expected": {
+          "stdout": "9\n3",
+          "vars": {
+            "level": {
+              "repr": "3",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order to swap the two values, so the program prints:\nblue red",
+      "lines": [
+        "a = \"red\"",
+        "b = \"blue\"",
+        "temp = a",
+        "a = b",
+        "b = temp",
+        "print(a, b)"
+      ],
+      "gen": {
+        "hash": "da9b67fad07d6145047116aa8bca0aa63eb2890ca150add7b8e0824922b31f5b",
+        "expected": {
+          "stdout": "blue red",
+          "vars": {
+            "a": {
+              "repr": "'blue'",
+              "type": "str"
+            },
+            "b": {
+              "repr": "'red'",
+              "type": "str"
+            },
+            "temp": {
+              "repr": "'red'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should swap the values and print: 8 2\nIt prints 8 8 instead. Fix it.",
+      "code": [
+        "x = 2",
+        "y = 8",
+        "x = y",
+        "y = x",
+        "print(x, y)"
+      ],
+      "solution": [
+        "x = 2",
+        "y = 8",
+        "keep = x",
+        "x = y",
+        "y = keep",
+        "print(x, y)"
+      ],
+      "tests": [
+        {
+          "name": "prints the swapped values",
+          "stdout": "8 2"
+        }
+      ],
+      "hint": "When line 3 runs, the 2 in x is lost. Save it in another name first.",
+      "gen": {
+        "hash": "ba46fac131b0bfe76970a965a5a68b99710c436de0440cd4082d816ef5e4b676",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Each level gives 50 points. Add two lines that add 50 more using +=, then print the total again. It should print:\n100\n150",
+      "code": [
+        "total = 50",
+        "total += 50",
+        "print(total)"
+      ],
+      "solution": [
+        "total = 50",
+        "total += 50",
+        "print(total)",
+        "total += 50",
+        "print(total)"
+      ],
+      "tests": [
+        {
+          "name": "prints both totals",
+          "stdout": "100\n150"
+        },
+        {
+          "name": "total ends at 150",
+          "post": "assert total == 150, 'total should end at 150'"
+        }
+      ],
+      "hint": "Copy line 2 and line 3.",
+      "gen": {
+        "hash": "91a96d93614f9c6f29faa656bf78f307df5b73843d075091c9f1394885e0e01a"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "The name a says nothing about what it holds. Rename it to total_steps everywhere. The program must still print: 7500",
+      "code": [
+        "a = 5000",
+        "a += 2500",
+        "print(a)"
+      ],
+      "solution": [
+        "total_steps = 5000",
+        "total_steps += 2500",
+        "print(total_steps)"
+      ],
+      "tests": [
+        {
+          "name": "still prints 7500",
+          "stdout": "7500"
+        },
+        {
+          "name": "uses the name total_steps",
+          "post": "assert total_steps == 7500, 'make a variable called total_steps that ends at 7500'"
+        }
+      ],
+      "hint": "Change a on all three lines.",
+      "gen": {
+        "hash": "5b2d18f978fe82340aba77246fbb7d83efbcb3a2ad4b020b48d8ff9c10474908"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Start a variable count at 0. Then three times: add 1 to it with += and print it. It should print:\n1\n2\n3",
+      "solution": [
+        "count = 0",
+        "count += 1",
+        "print(count)",
+        "count += 1",
+        "print(count)",
+        "count += 1",
+        "print(count)"
+      ],
+      "tests": [
+        {
+          "name": "counts to 3",
+          "stdout": "1\n2\n3"
+        },
+        {
+          "name": "count ends at 3",
+          "post": "assert count == 3, 'count should end at 3'"
+        }
+      ],
+      "hints": [
+        "count = 0",
+        "count += 1 adds one",
+        "Repeat the += line and a print three times"
+      ],
+      "gen": {
+        "hash": "4762122e62fef0d47c2cfa4cb04f61d91021cf678b3bff5723c6dc7dadc33ca3"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "After `x = 5` and then `x = x * 2`, what is in x?",
+      "options": [
+        "5",
+        "10",
+        "7",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "The right side goes first: 5 * 2 is 10, and that is stored in x."
+    },
+    {
+      "q": "What does `n += 4` do?",
+      "options": [
+        "Adds 4 to n and stores the result in n",
+        "Checks if n equals 4",
+        "Makes a new name n4",
+        "Prints n plus 4"
+      ],
+      "answer": 0,
+      "why": "n += 4 is short for n = n + 4."
+    },
+    {
+      "q": "Which of these is a valid name?",
+      "options": [
+        "total_price",
+        "total-price",
+        "2total",
+        "total price"
+      ],
+      "answer": 0,
+      "why": "Names use letters, digits and _, cannot start with a digit, and cannot have spaces or dashes."
+    },
+    {
+      "q": "Why does `class = 3` fail?",
+      "options": [
+        "class is a word Python already uses",
+        "class is too short",
+        "3 needs quotes",
+        "Names must be in capitals"
+      ],
+      "answer": 0,
+      "why": "Words like class, for and if have a special job in Python, so they cannot be names."
+    },
+    {
+      "q": "The very first line of a program is `count += 1`. What happens?",
+      "options": [
+        "NameError: count does not exist yet",
+        "count becomes 1",
+        "count becomes 0",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "+= needs the old value, and there is none yet. Start with count = 0."
+    },
+    {
+      "q": "`a = 1` and `b = 2`. Then `a = b` and `b = a`. What are a and b now?",
+      "options": [
+        "2 and 2",
+        "2 and 1",
+        "1 and 2",
+        "1 and 1"
+      ],
+      "answer": 0,
+      "why": "After a = b, a is 2 and the 1 is lost. Then b = a copies that 2. You need a spare name to swap."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Updating a name that does not exist yet",
+      "code": [
+        "total += 10"
+      ],
+      "explain": "+= reads the old value first, but total was never made, so it is a NameError. Give it a starting value first.",
+      "fix": [
+        "total = 0",
+        "total += 10"
+      ],
+      "gen": {
+        "hash": "e3744a9e5883735c2411366f3de6dbad666e6117b08d353abbe9c7b893e6fae7",
+        "error": "NameError: name 'total' is not defined",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A space in a name",
+      "code": [
+        "top speed = 120"
+      ],
+      "explain": "Python reads top and speed as two separate words and cannot make sense of the line. Use _ instead of a space.",
+      "fix": [
+        "top_speed = 120"
+      ],
+      "gen": {
+        "hash": "b0ddfab2bea99e53507768f4626aebdc7a026e27c0e7dcef2599e3c6df28b4c8",
+        "error": "SyntaxError: invalid syntax",
+        "line": 1
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Using a word Python already uses",
+      "code": [
+        "for = 3"
+      ],
+      "explain": "for starts a loop in Python, so it cannot be a name. Pick another word.",
+      "fix": [
+        "rounds = 3"
+      ],
+      "gen": {
+        "hash": "2634af22aadd17b1d5de51d7cbc3f45632297cf8483a325182bcb8af019ea969",
+        "error": "SyntaxError: invalid syntax",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: augmented assignment (+= and friends)",
+      "url": "https://docs.python.org/3/reference/simple_stmts.html#augmented-assignment-statements"
+    },
+    {
+      "title": "Reference: rules for names",
+      "url": "https://docs.python.org/3/reference/lexical_analysis.html#identifiers"
+    },
+    {
+      "title": "Reference: words Python reserves",
+      "url": "https://docs.python.org/3/reference/lexical_analysis.html#keywords"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 11. Assignments, Expressions, and Prints"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 6. The Dynamic Typing Interlude"
+    }
+  ]
+}

@@ -1,0 +1,1226 @@
+{
+  "id": "py-06-types",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 6,
+  "title": "Types and converting",
+  "summary": "Every value has a type. Turn text into numbers and numbers into text on purpose.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "types",
+    "expr"
+  ],
+  "intro": {
+    "text": "Every value has a **type**: `7` is an **int**, `2.5` is a **float**, `\"hi\"` is a **str**. `type(x)` tells you which.\n\nPython never mixes text and numbers by itself. `\"3\" + 4` is an error, because Python cannot know if you meant 7 or \"34\". You convert on purpose:\n\n- `int(\"42\")` turns text into a whole number, 42\n- `float(\"2.5\")` turns text into a decimal number, 2.5\n- `str(42)` turns a number into text, \"42\"\n\n`int()` only accepts text that is a whole number: `int(\"hi\")` and `int(\"3.5\")` are errors. Given a float, `int()` just drops the decimals (`int(3.9)` is 3). To round to the nearest whole number, use `round()`.",
+    "analogy": "Types are like different currencies. You cannot pay with euros in a shop that only takes dollars, even if the number is the same. You change the money first, on purpose, at the exchange: int(), float() and str() are the exchange desks."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "age = \"12\"",
+        "print(age + 1)"
+      ],
+      "kind": "choice",
+      "raises": true,
+      "visuals": [
+        "types",
+        "halt"
+      ],
+      "q": "What does this show? If Python stops with an error, the last line is the error's name.",
+      "options": [
+        "13",
+        "121",
+        "TypeError",
+        "12 1"
+      ],
+      "why": "age holds the text \"12\", and + cannot join text and a number. Python stops with a TypeError instead of guessing.",
+      "gen": {
+        "hash": "cf22069d577f95e23f342c812fa75d9cf2b8027b9318c01f0b8f01cf06440d66",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "'12'",
+                "type": "str",
+                "text": "12"
+              }
+            }
+          }
+        ],
+        "output": "TypeError",
+        "error": {
+          "type": "TypeError",
+          "message": "TypeError: can only concatenate str (not \"int\") to str",
+          "line": 2
+        },
+        "events": [
+          {
+            "kind": "raise",
+            "type": "TypeError",
+            "message": "TypeError: can only concatenate str (not \"int\") to str",
+            "line": 2,
+            "func": "<module>"
+          }
+        ],
+        "answer": 2
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "text = \"40\"",
+        "number = int(text)",
+        "print(number + 2)",
+        "print(text + \"2\")"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        2,
+        3,
+        4
+      ],
+      "why": "number is the int 40, so number + 2 is 42. text is still the string \"40\", so text + \"2\" joins them into 402.",
+      "gen": {
+        "hash": "a233992342d3e8131703eb50b2a89dee623bf129a9eb53e32bcc17a94d1e0833",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'40'",
+                "type": "str",
+                "text": "40"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'40'",
+                "type": "str",
+                "text": "40"
+              },
+              "number": {
+                "repr": "40",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "number = int(text)"
+                  },
+                  {
+                    "text": "number = int('40')"
+                  },
+                  {
+                    "text": "number = 40",
+                    "part": "int('40')",
+                    "value": "40"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "42\n",
+            "vars": {
+              "text": {
+                "repr": "'40'",
+                "type": "str",
+                "text": "40"
+              },
+              "number": {
+                "repr": "40",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(number + 2)"
+                  },
+                  {
+                    "text": "print(40 + 2)"
+                  },
+                  {
+                    "text": "print(42)",
+                    "part": "40 + 2",
+                    "value": "42"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "402\n",
+            "vars": {
+              "text": {
+                "repr": "'40'",
+                "type": "str",
+                "text": "40"
+              },
+              "number": {
+                "repr": "40",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(text + '2')"
+                  },
+                  {
+                    "text": "print('40' + '2')"
+                  },
+                  {
+                    "text": "print('402')",
+                    "part": "'40' + '2'",
+                    "value": "'402'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "42\n402"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "print(int(7.9))"
+      ],
+      "kind": "choice",
+      "options": [
+        "8",
+        "7",
+        "7.9",
+        "Error"
+      ],
+      "expr": [
+        1
+      ],
+      "why": "int() drops everything after the decimal point. It does not round.",
+      "gen": {
+        "hash": "50d4a5bed77677bedf57355087a48f6a50b057f30337b4b87ef65672a2a762fe",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "7\n",
+            "vars": {},
+            "events": [
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "print(int(7.9))"
+                  },
+                  {
+                    "text": "print(7)",
+                    "part": "int(7.9)",
+                    "value": "7"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "7",
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "What type is it?",
+      "lines": [
+        {
+          "code": "count = 3",
+          "explain": "A whole number: **int**.",
+          "task": "Store 3 in count."
+        },
+        {
+          "code": "ratio = 0.5",
+          "explain": "Has a decimal point: **float**.",
+          "task": "Store 0.5 in ratio."
+        },
+        {
+          "code": "label = \"box\"",
+          "explain": "In quotes: **str**.",
+          "task": "Store the text box in label."
+        },
+        {
+          "code": "print(type(count))",
+          "explain": "`type()` gives the type. print shows it as `<class 'int'>`; class is Python's word for a type.",
+          "task": "Print the type of count.",
+          "note": "class means type",
+          "circle": "type"
+        },
+        {
+          "code": "print(type(ratio))",
+          "explain": "Shows `<class 'float'>`.",
+          "task": "Print the type of ratio."
+        },
+        {
+          "code": "print(type(label))",
+          "explain": "Shows `<class 'str'>`.",
+          "task": "Print the type of label."
+        }
+      ],
+      "gen": {
+        "hash": "5896321477fe14e98b23e4058ddc9711122ccae8002d2636c599762af21fc64e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ratio": {
+                "repr": "0.5",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ratio": {
+                "repr": "0.5",
+                "type": "float"
+              },
+              "label": {
+                "repr": "'box'",
+                "type": "str",
+                "text": "box"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "<class 'int'>\n",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ratio": {
+                "repr": "0.5",
+                "type": "float"
+              },
+              "label": {
+                "repr": "'box'",
+                "type": "str",
+                "text": "box"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "<class 'float'>\n",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ratio": {
+                "repr": "0.5",
+                "type": "float"
+              },
+              "label": {
+                "repr": "'box'",
+                "type": "str",
+                "text": "box"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "<class 'str'>\n",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ratio": {
+                "repr": "0.5",
+                "type": "float"
+              },
+              "label": {
+                "repr": "'box'",
+                "type": "str",
+                "text": "box"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Text to number and back",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"25\"",
+          "label": "typed",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "typed = \"25\"",
+          "explain": "Looks like a number, but the quotes make it text. Try changing it with the knob, even to a word.",
+          "task": "Store the text 25 in typed."
+        },
+        {
+          "code": "amount = int(typed)",
+          "explain": "`int()` turns the text \"25\" into the number 25. Watch the types panel: str goes in, int comes out.",
+          "task": "Make amount hold typed turned into a whole number.",
+          "note": "text in, number out",
+          "circle": "int(typed)",
+          "expr": true
+        },
+        {
+          "code": "doubled = amount * 2",
+          "explain": "Now real math works: 50.",
+          "task": "Make doubled hold amount times 2.",
+          "expr": true
+        },
+        {
+          "code": "print(doubled)",
+          "explain": "Prints 50.",
+          "task": "Show the value of doubled."
+        },
+        {
+          "code": "message = \"Total: \" + str(doubled)",
+          "explain": "To join a number to text with `+`, turn it into text first with `str()`.",
+          "task": "Make message hold the text Total: joined to doubled turned into text.",
+          "note": "number to text",
+          "circle": "str(doubled)",
+          "expr": true
+        },
+        {
+          "code": "print(message)",
+          "explain": "Prints Total: 50.",
+          "task": "Show the value of message."
+        }
+      ],
+      "gen": {
+        "hash": "6a5d8d8f89105a5aada32e82a1fd0ef40801f5fa37baf8172f66c3751c378bf5",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "typed": {
+                "repr": "'25'",
+                "type": "str",
+                "text": "25"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "typed": {
+                "repr": "'25'",
+                "type": "str",
+                "text": "25"
+              },
+              "amount": {
+                "repr": "25",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "amount = int(typed)"
+                  },
+                  {
+                    "text": "amount = int('25')"
+                  },
+                  {
+                    "text": "amount = 25",
+                    "part": "int('25')",
+                    "value": "25"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "typed": {
+                "repr": "'25'",
+                "type": "str",
+                "text": "25"
+              },
+              "amount": {
+                "repr": "25",
+                "type": "int"
+              },
+              "doubled": {
+                "repr": "50",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "doubled = amount * 2"
+                  },
+                  {
+                    "text": "doubled = 25 * 2"
+                  },
+                  {
+                    "text": "doubled = 50",
+                    "part": "25 * 2",
+                    "value": "50"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "50\n",
+            "vars": {
+              "typed": {
+                "repr": "'25'",
+                "type": "str",
+                "text": "25"
+              },
+              "amount": {
+                "repr": "25",
+                "type": "int"
+              },
+              "doubled": {
+                "repr": "50",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "typed": {
+                "repr": "'25'",
+                "type": "str",
+                "text": "25"
+              },
+              "amount": {
+                "repr": "25",
+                "type": "int"
+              },
+              "doubled": {
+                "repr": "50",
+                "type": "int"
+              },
+              "message": {
+                "repr": "'Total: 50'",
+                "type": "str",
+                "text": "Total: 50"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "message = 'Total: ' + str(doubled)"
+                  },
+                  {
+                    "text": "message = 'Total: ' + str(50)"
+                  },
+                  {
+                    "text": "message = 'Total: ' + '50'",
+                    "part": "str(50)",
+                    "value": "'50'"
+                  },
+                  {
+                    "text": "message = 'Total: 50'",
+                    "part": "'Total: ' + '50'",
+                    "value": "'Total: 50'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "Total: 50\n",
+            "vars": {
+              "typed": {
+                "repr": "'25'",
+                "type": "str",
+                "text": "25"
+              },
+              "amount": {
+                "repr": "25",
+                "type": "int"
+              },
+              "doubled": {
+                "repr": "50",
+                "type": "int"
+              },
+              "message": {
+                "repr": "'Total: 50'",
+                "type": "str",
+                "text": "Total: 50"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Decimal numbers",
+      "lines": [
+        {
+          "code": "weight = \"2.75\"",
+          "explain": "Text again, this time with a decimal point.",
+          "task": "Store the text 2.75 in weight."
+        },
+        {
+          "code": "kilos = float(weight)",
+          "explain": "`float()` turns it into the number 2.75. `int(\"2.75\")` would be an error, because it is not a whole number.",
+          "task": "Make kilos hold weight turned into a decimal number.",
+          "circle": "float(weight)",
+          "expr": true
+        },
+        {
+          "code": "whole = int(kilos)",
+          "explain": "`int()` of a float drops the decimals: **2**. It does not round up.",
+          "task": "Make whole hold kilos with the decimals dropped.",
+          "note": "drops .75",
+          "circle": "int(kilos)",
+          "expr": true
+        },
+        {
+          "code": "rounded = round(kilos)",
+          "explain": "`round()` goes to the nearest whole number: **3**.",
+          "task": "Make rounded hold kilos rounded to the nearest whole number.",
+          "expr": true
+        },
+        {
+          "code": "print(kilos, whole, rounded)",
+          "explain": "Prints 2.75 2 3.",
+          "task": "Print kilos, whole and rounded in one print."
+        }
+      ],
+      "gen": {
+        "hash": "25a7c1b1d8ad9b52fd51b3ad493d691b9860c5fcd8b8cdd15e49e446eb55f83b",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "weight": {
+                "repr": "'2.75'",
+                "type": "str",
+                "text": "2.75"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "weight": {
+                "repr": "'2.75'",
+                "type": "str",
+                "text": "2.75"
+              },
+              "kilos": {
+                "repr": "2.75",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "kilos = float(weight)"
+                  },
+                  {
+                    "text": "kilos = float('2.75')"
+                  },
+                  {
+                    "text": "kilos = 2.75",
+                    "part": "float('2.75')",
+                    "value": "2.75"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "weight": {
+                "repr": "'2.75'",
+                "type": "str",
+                "text": "2.75"
+              },
+              "kilos": {
+                "repr": "2.75",
+                "type": "float"
+              },
+              "whole": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "whole = int(kilos)"
+                  },
+                  {
+                    "text": "whole = int(2.75)"
+                  },
+                  {
+                    "text": "whole = 2",
+                    "part": "int(2.75)",
+                    "value": "2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "weight": {
+                "repr": "'2.75'",
+                "type": "str",
+                "text": "2.75"
+              },
+              "kilos": {
+                "repr": "2.75",
+                "type": "float"
+              },
+              "whole": {
+                "repr": "2",
+                "type": "int"
+              },
+              "rounded": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "rounded = round(kilos)"
+                  },
+                  {
+                    "text": "rounded = round(2.75)"
+                  },
+                  {
+                    "text": "rounded = 3",
+                    "part": "round(2.75)",
+                    "value": "3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "2.75 2 3\n",
+            "vars": {
+              "weight": {
+                "repr": "'2.75'",
+                "type": "str",
+                "text": "2.75"
+              },
+              "kilos": {
+                "repr": "2.75",
+                "type": "float"
+              },
+              "whole": {
+                "repr": "2",
+                "type": "int"
+              },
+              "rounded": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 1,
+      "line": 2,
+      "q": "What is stored in amount after line 2 runs?",
+      "options": [
+        "25",
+        "'25'",
+        "2",
+        "Nothing, it is an error"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "amount"
+      },
+      "why": "int(\"25\") gives the number 25, with no quotes."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 5,
+      "q": "What is stored in message after line 5 runs?",
+      "options": [
+        "'Total: 50'",
+        "'Total: 2525'",
+        "'Total: 25'",
+        "Nothing, it is an error"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "message"
+      },
+      "why": "str(50) is the text \"50\", which joins onto \"Total: \"."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 3,
+      "q": "What is stored in whole after line 3 runs?",
+      "options": [
+        "2",
+        "3",
+        "2.75",
+        "2.8"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "whole"
+      },
+      "why": "int() drops the decimals of 2.75 and keeps 2. Only round() would give 3."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints 15",
+      "code": [
+        "pages = \"10\"",
+        "more = 5",
+        "print(___(pages) + more)"
+      ],
+      "answers": [
+        "int"
+      ],
+      "gen": {
+        "hash": "f9e3f3b510ba51093cafea673a508ecfd56e4c3eae4893e7d91d5734441bdb28",
+        "expected": {
+          "stdout": "15",
+          "vars": {
+            "pages": {
+              "repr": "'10'",
+              "type": "str"
+            },
+            "more": {
+              "repr": "5",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the program prints: Level 7",
+      "code": [
+        "level = 7",
+        "print(\"Level \" + ___(level))"
+      ],
+      "answers": [
+        "str"
+      ],
+      "gen": {
+        "hash": "8912e1ef654d8cf15f6d80ab059218882492c81d2129a9442ab2ae316e5dad90",
+        "expected": {
+          "stdout": "Level 7",
+          "vars": {
+            "level": {
+              "repr": "7",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\n3.5\n<class 'float'>",
+      "lines": [
+        "text = \"3.5\"",
+        "value = float(text)",
+        "print(value)",
+        "print(type(value))"
+      ],
+      "gen": {
+        "hash": "528cab91316059079211e181ed042dfa2d7b0839f6c0df0e1d77d5344811df9a",
+        "expected": {
+          "stdout": "3.5\n<class 'float'>",
+          "vars": {
+            "text": {
+              "repr": "'3.5'",
+              "type": "str"
+            },
+            "value": {
+              "repr": "3.5",
+              "type": "float"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print: You have 6 apples\nIt stops with an error. Fix it.",
+      "code": [
+        "apples = 6",
+        "print(\"You have \" + apples + \" apples\")"
+      ],
+      "solution": [
+        "apples = 6",
+        "print(\"You have \" + str(apples) + \" apples\")"
+      ],
+      "tests": [
+        {
+          "name": "prints the sentence",
+          "stdout": "You have 6 apples"
+        }
+      ],
+      "hint": "+ cannot join text and a number. Turn the number into text first.",
+      "gen": {
+        "hash": "0c6442bed3ed8dd1b2fd316c33134bd2056011f4b7f166aa82bee3273ccd5437",
+        "error": "TypeError: can only concatenate str (not \"int\") to str"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "The two numbers are stored as text, so the program prints 1020. Change the print so it adds them as numbers and prints 30.",
+      "code": [
+        "a = \"10\"",
+        "b = \"20\"",
+        "print(a + b)"
+      ],
+      "solution": [
+        "a = \"10\"",
+        "b = \"20\"",
+        "print(int(a) + int(b))"
+      ],
+      "tests": [
+        {
+          "name": "prints 30",
+          "stdout": "30"
+        }
+      ],
+      "hint": "Turn each one into an int before adding.",
+      "gen": {
+        "hash": "bebe18a067fff930fc0dc5bcad8f80bd4ab9643f81fa6c15469e8315503cc73b"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add a line so the program also prints the price rounded to the nearest whole number. It should print:\n4.6\n5",
+      "code": [
+        "price = float(\"4.6\")",
+        "print(price)"
+      ],
+      "solution": [
+        "price = float(\"4.6\")",
+        "print(price)",
+        "print(round(price))"
+      ],
+      "tests": [
+        {
+          "name": "prints the price and the rounded price",
+          "stdout": "4.6\n5"
+        }
+      ],
+      "hint": "round() goes to the nearest whole number. int() would give 4.",
+      "gen": {
+        "hash": "916ff3985134b214e81c65a73b888c59735849cac0be9fe5ca142a42b0e16c8a"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "length holds the text \"12\". Turn it into a number, multiply by 3, and store the result in total. Then print: Total length: 36",
+      "starter": [
+        "length = \"12\""
+      ],
+      "solution": [
+        "length = \"12\"",
+        "total = int(length) * 3",
+        "print(\"Total length: \" + str(total))"
+      ],
+      "tests": [
+        {
+          "name": "prints the total",
+          "stdout": "Total length: 36"
+        },
+        {
+          "name": "total holds 36",
+          "post": "assert total == 36, 'total should hold the number 36'"
+        }
+      ],
+      "hints": [
+        "int(length) gives the number 12",
+        "total = int(length) * 3",
+        "Join with + and str(total), or use a comma in print"
+      ],
+      "gen": {
+        "hash": "a0c8e7dadf4faa932e9c442529aefdce8472ddece3616859a7cbdc6881e056e5"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What does `print(type(\"7\"))` show?",
+      "options": [
+        "<class 'str'>",
+        "<class 'int'>",
+        "7",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "The quotes make it text, so its type is str."
+    },
+    {
+      "q": "What is `int(\"42\") + 1`?",
+      "options": [
+        "43",
+        "421",
+        "'421'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "int(\"42\") is the number 42, and 42 + 1 is 43."
+    },
+    {
+      "q": "What happens with `int(\"4.5\")`?",
+      "options": [
+        "4",
+        "5",
+        "4.5",
+        "ValueError"
+      ],
+      "answer": 3,
+      "why": "int() only accepts text that is a whole number. Use float(\"4.5\") instead."
+    },
+    {
+      "q": "What is `str(9) + \"9\"`?",
+      "options": [
+        "'99'",
+        "18",
+        "'9 9'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "str(9) is the text \"9\", and + joins two texts."
+    },
+    {
+      "q": "What is `int(6.99)`?",
+      "options": [
+        "7",
+        "6",
+        "6.99",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "int() drops the decimals without rounding."
+    },
+    {
+      "q": "What is `float(\"2\")`?",
+      "options": [
+        "2",
+        "2.0",
+        "'2.0'",
+        "Error"
+      ],
+      "answer": 1,
+      "why": "float() gives a decimal number, so 2 becomes 2.0."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Joining text and a number with +",
+      "code": [
+        "score = 50",
+        "print(\"Score: \" + score)"
+      ],
+      "explain": "+ means join for text and add for numbers, so Python will not guess. Turn the number into text with str(), or use a comma in print.",
+      "fix": [
+        "score = 50",
+        "print(\"Score: \" + str(score))"
+      ],
+      "gen": {
+        "hash": "2954eb6b76ff3227d10a865fc2f02c8618a4ad5d7be5d7748f1daac77e9ff88a",
+        "error": "TypeError: can only concatenate str (not \"int\") to str",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "int() of a decimal in text",
+      "code": [
+        "height = int(\"1.75\")"
+      ],
+      "explain": "\"1.75\" is not a whole number, so int() refuses it with a ValueError. Use float() for decimals.",
+      "fix": [
+        "height = float(\"1.75\")"
+      ],
+      "gen": {
+        "hash": "f1cc86c6e3386420a40c8e7da0c8a7bc2b046b8a863b73de8e76ce4599e31cd9",
+        "error": "ValueError: invalid literal for int() with base 10: '1.75'",
+        "line": 1
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Converting text that is not a number",
+      "code": [
+        "n = int(\"ten\")"
+      ],
+      "explain": "int() reads digits, not words. \"ten\" gives a ValueError.",
+      "fix": [
+        "n = int(\"10\")"
+      ],
+      "gen": {
+        "hash": "caa59dc282071f4a4b8fd6e20a3520a227845d11fe7e33fe6a5040f04c3e4c22",
+        "error": "ValueError: invalid literal for int() with base 10: 'ten'",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: int()",
+      "url": "https://docs.python.org/3/builtins/functions.html#int"
+    },
+    {
+      "title": "Reference: float()",
+      "url": "https://docs.python.org/3/builtins/functions.html#float"
+    },
+    {
+      "title": "Reference: str()",
+      "url": "https://docs.python.org/3/builtins/functions.html#func-str"
+    },
+    {
+      "title": "Reference: type() and round()",
+      "url": "https://docs.python.org/3/builtins/functions.html#type"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 4. Introducing Python Object Types"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 5. Numeric Types"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}
