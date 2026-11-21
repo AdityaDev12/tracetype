@@ -155,7 +155,15 @@ export function Footer() {
     <footer className="lp-footer">
       <span className="box-label">{'> exit'}</span>
       <p>
-        TraceType is free, with no account. The code is on{' '}
+        TraceType is free and open source, with no account. The code is under the{' '}
+        <a href="https://github.com/AdityaDev12/tracetype/blob/main/LICENSE" target="_blank" rel="noreferrer">
+          MIT license ↗
+        </a>{' '}
+        and the lessons under{' '}
+        <a href="https://github.com/AdityaDev12/tracetype/blob/main/LICENSE-CONTENT" target="_blank" rel="noreferrer">
+          CC BY 4.0 ↗
+        </a>
+        . It all lives on{' '}
         <a href="https://github.com/AdityaDev12/tracetype" target="_blank" rel="noreferrer">
           GitHub ↗
         </a>

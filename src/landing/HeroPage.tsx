@@ -89,7 +89,7 @@ export function HeroPage() {
               See the course
             </a>
           </div>
-          <p className="lp-free">free, no account, code on GitHub</p>
+          <p className="lp-free">free and open source, no account</p>
         </div>
         <HeroDemo />
       </section>

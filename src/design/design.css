@@ -237,25 +237,50 @@
   background: var(--bg);
   padding: 6px 10px 8px;
   font-family: var(--mono);
-  animation: mem-pop 240ms var(--ease);
 }
 
-.mem-box.is-changed {
-  animation: mem-pop 240ms var(--ease), mem-flash 1.3s ease-out;
+/* A new variable: a slightly slow pop-in. */
+.mem-box.is-new {
+  animation: mem-pop 480ms var(--ease) both;
 }
 
 @keyframes mem-pop {
-  from {
+  0% {
     opacity: 0;
-    transform: scale(0.9);
+    transform: scale(0.82) translateY(4px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.03);
+  }
+  100% {
+    transform: none;
   }
 }
 
+/* A changed value, staged over about 1.3 s:
+   0 to 0.35 s   old value holds
+   0.2 to 0.6 s  red pen strikes it, left to right
+   0.65 to 1 s   it slides and fades down toward the "was" spot
+   0.85 to 1.1 s the "was X" note appears
+   0.9 to 1.3 s  the new value fades in with an amber flash */
+.mem-box.is-changed {
+  animation: mem-flash 1.6s ease-out 0.9s both;
+}
+
 @keyframes mem-flash {
-  0%,
-  20% {
+  0% {
+    border-color: var(--line);
+    box-shadow: none;
+  }
+  15%,
+  35% {
     border-color: var(--phosphor);
-    box-shadow: 0 0 0 3px var(--phosphor-soft), 0 0 18px rgba(255, 181, 71, 0.25);
+    box-shadow: 0 0 0 3px var(--phosphor-soft), 0 0 18px rgba(255, 181, 71, 0.3);
+  }
+  100% {
+    border-color: var(--line);
+    box-shadow: none;
   }
 }
 
@@ -279,6 +304,10 @@
   color: var(--ghost);
 }
 
+.mem-cell {
+  position: relative;
+}
+
 .mem-value {
   font-size: 1.05rem;
   color: var(--chalk);
@@ -287,6 +316,60 @@
 
 .mem-box.is-changed .mem-value {
   color: var(--phosphor);
+  animation: mem-new-in 400ms ease-out 0.9s both;
+}
+
+@keyframes mem-new-in {
+  from {
+    opacity: 0;
+    text-shadow: 0 0 14px rgba(255, 181, 71, 0.9);
+  }
+  60% {
+    opacity: 1;
+    text-shadow: 0 0 12px rgba(255, 181, 71, 0.7);
+  }
+  to {
+    text-shadow: 0 0 6px rgba(255, 181, 71, 0.25);
+  }
+}
+
+/* The old value, laid over the cell until it moves away. */
+.mem-old {
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.05rem;
+  color: var(--chalk);
+  white-space: nowrap;
+  pointer-events: none;
+  animation: mem-old-out 350ms ease-in 0.65s both;
+}
+
+@keyframes mem-old-out {
+  to {
+    opacity: 0;
+    transform: translate(18px, 22px) scale(0.75) rotate(-4deg);
+  }
+}
+
+.mem-old-strike {
+  position: absolute;
+  left: -2px;
+  top: 40%;
+  width: calc(100% + 4px);
+  height: 8px;
+  overflow: visible;
+}
+
+.mem-old-strike path {
+  fill: none;
+  stroke: var(--pen-red);
+  stroke-width: 2;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 400ms var(--ease) 0.2s forwards;
 }
 
 .mem-was {
@@ -294,6 +377,17 @@
   right: 4px;
   bottom: -17px;
   transform: rotate(-4deg);
+}
+
+.mem-box.is-changed .mem-was {
+  animation: mem-was-in 250ms ease-out 0.85s both;
+}
+
+@keyframes mem-was-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) rotate(-4deg);
+  }
 }
 
 .mem-was-text {
@@ -322,7 +416,6 @@
   stroke: var(--pen-red);
   stroke-width: 1.6;
   vector-effect: non-scaling-stroke;
-  animation-delay: 350ms;
 }
 
 /* ---------- Headings ---------- */
@@ -826,8 +919,15 @@
   .tt-step.current,
   .mascot *,
   .mem-box,
+  .mem-box *,
   .toutput .fresh {
     animation: none !important;
+  }
+  .mem-old {
+    display: none;
+  }
+  .mem-old-strike path {
+    stroke-dashoffset: 0;
   }
 }
 

@@ -60,3 +60,8 @@ e2e/              browser tests (Playwright), including a full lesson with real 
 ```
 
 Reference books are kept locally in `books/`, which is git-ignored and never committed.
+
+## License
+
+- Code: [MIT](LICENSE).
+- Lesson content in `content/` (lessons, projects, notes, syllabus): [CC BY 4.0](LICENSE-CONTENT). You may share and adapt it, with credit to TraceType.
