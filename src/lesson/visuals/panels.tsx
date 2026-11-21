@@ -5,6 +5,7 @@ import type { ExprStep, TraceEvent, TraceStep, VarValue } from '../../engine/typ
 import { useLanguagePack } from '../../languages/LanguageContext.tsx'
 import { ladderAt } from './branch.ts'
 import { useHoverProps } from './hover.ts'
+import { gridAt, loopRunAt, loopVar } from './loops.ts'
 
 type ExprEvent = Extract<TraceEvent, { kind: 'expr' }>
 
@@ -206,7 +207,7 @@ export function StdinPanel({ trace, index, stdin }: { trace: TraceStep[]; index:
   )
 }
 
-function Cells({ name, items }: { name: string; items: string[] }) {
+function Cells({ name, items, pointer }: { name: string; items: string[]; pointer?: number }) {
   const hover = useHoverProps(name)
   return (
     <div className="cells-row" {...hover}>
@@ -218,7 +219,7 @@ function Cells({ name, items }: { name: string; items: string[] }) {
       ) : (
         <div className="cells" role="list">
           {items.map((c, i) => (
-            <span key={i} className="cell" role="listitem">
+            <span key={i} className={`cell${pointer === i ? ' at' : ''}`} role="listitem">
               <span className="cell-val">{c === ' ' ? '␣' : c === '\n' ? '\\n' : c === '\t' ? '\\t' : c}</span>
               <span className="cell-idx">{i}</span>
             </span>
@@ -231,7 +232,7 @@ function Cells({ name, items }: { name: string; items: string[] }) {
 
 /** Sequence cells: each character of a string (or item of a list) in its own
  * numbered cell. */
-export function CellsPanel({ view, focus }: { view: StepView; focus?: string[] }) {
+export function CellsPanel({ view, focus, pointer }: { view: StepView; focus?: string[]; pointer?: number }) {
   const rows: { name: string; items: string[] }[] = []
   for (const v of view.vars) {
     if (focus?.length && !focus.includes(v.name)) continue
@@ -249,7 +250,9 @@ export function CellsPanel({ view, focus }: { view: StepView; focus?: string[] }
       {rows.length === 0 ? (
         <p className="mem-empty">{'> no text stored yet'}</p>
       ) : (
-        rows.map((r) => <Cells key={`${r.name}:${r.items.join('\u0000')}`} name={r.name} items={r.items} />)
+        rows.map((r, k) => (
+          <Cells key={`${r.name}:${r.items.join('\u0000')}`} name={r.name} items={r.items} pointer={k === 0 && focus?.length ? pointer : undefined} />
+        ))
       )}
     </Terminal>
   )
@@ -279,6 +282,138 @@ export function BranchPanel({ trace, index, code }: { trace: TraceStep[]; index:
             </li>
           ))}
         </ol>
+      )}
+    </Terminal>
+  )
+}
+
+/** Loop panel: round counter, the loop variable each round, test results and break/continue. */
+export function LoopPanel({ trace, index, code }: { trace: TraceStep[]; index: number; code: string[] }) {
+  const run = loopRunAt(trace, index, code)
+  if (!run) {
+    return (
+      <Terminal title="loop" className="viz-loop">
+        <p className="mem-empty">{'> step to a loop to count its rounds'}</p>
+      </Terminal>
+    )
+  }
+  const header = (code[run.line - 1] ?? '').trim()
+  const status = run.done
+    ? run.broke
+      ? `stopped by break in round ${run.current}`
+      : `done after ${run.rounds.length} round${run.rounds.length === 1 ? '' : 's'}`
+    : `round ${run.current}`
+  return (
+    <Terminal title="loop" label={`line ${run.line}`} className="viz-loop">
+      <p className="loop-head">
+        <code>{header}</code>
+        <span className={`loop-status${run.done ? ' done' : ''}`}>{status}</span>
+      </p>
+      {run.rounds.length === 0 ? (
+        <p className="mem-empty">{run.stmt === 'while' ? '> the test was False at the start, so the body never ran' : '> nothing to loop over'}</p>
+      ) : (
+        <ol className="loop-rounds">
+          {run.rounds.map((r) => (
+            <li key={r.n} className={`loop-round${!run.done && r.n === run.current ? ' now' : ''}${r.jump ? ` ${r.jump}` : ''}`}>
+              <span className="loop-n">{r.n}</span>
+              {r.value && <code className="loop-val">{r.value.repr}</code>}
+              {run.stmt === 'while' && <span className="loop-test">True</span>}
+              {r.jump && <span className="loop-jump">{r.jump}</span>}
+            </li>
+          ))}
+          {run.done && !run.broke && (
+            <li className="loop-round end">
+              <span className="loop-n">end</span>
+              <span className="loop-test">{run.stmt === 'while' ? 'False' : 'no more items'}</span>
+            </li>
+          )}
+        </ol>
+      )}
+    </Terminal>
+  )
+}
+
+/** Trace table: one row per loop round, one column per variable, values at the end of the round. */
+export function TraceTablePanel({ trace, index, code, focus }: { trace: TraceStep[]; index: number; code: string[]; focus?: string[] }) {
+  const run = loopRunAt(trace, index, code)
+  if (!run || run.rounds.length === 0) {
+    return (
+      <Terminal title="trace table" className="viz-tracetable">
+        <p className="mem-empty">{'> the table fills in one row per round of the loop'}</p>
+      </Terminal>
+    )
+  }
+  const lv = run.stmt === 'for' ? loopVar(code, run.line) : null
+  const rows = run.rounds.map((r) => {
+    const s = trace[r.end]
+    return { n: r.n, vals: { ...s.vars, ...(s.locals ?? {}) } as Record<string, VarValue> }
+  })
+  let cols = focus?.length ? focus : []
+  if (!cols.length) {
+    const names = new Set<string>()
+    for (const row of rows) for (const [k, v] of Object.entries(row.vals)) if (!['function', 'module', 'type'].includes(v.type)) names.add(k)
+    cols = [...names].filter((k) => k === lv || new Set(rows.map((row) => row.vals[k]?.repr)).size > 1)
+    if (lv) cols = [lv, ...cols.filter((c) => c !== lv)]
+  }
+  return (
+    <Terminal title="trace table" label="values at the end of each round" className="viz-tracetable">
+      <div className="tt-wrap">
+        <table className="ttable">
+          <thead>
+            <tr>
+              <th>round</th>
+              {cols.map((c) => (
+                <th key={c}>{c}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row, k) => (
+              <tr key={row.n} className={!run.done && k === rows.length - 1 ? 'now' : ''}>
+                <td>{row.n}</td>
+                {cols.map((c) => (
+                  <td key={c}>
+                    <code>{row.vals[c]?.repr ?? ''}</code>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </Terminal>
+  )
+}
+
+/** Nested loops as a grid: each inner round lights a cell in its outer round's row. */
+export function GridPanel({ trace, index, code }: { trace: TraceStep[]; index: number; code: string[] }) {
+  const grid = gridAt(trace, index, code)
+  return (
+    <Terminal title="grid" label="outer loop rows, inner loop columns" className="viz-grid">
+      {!grid ? (
+        <p className="mem-empty">{'> step into the inner loop to light up the grid'}</p>
+      ) : (
+        <table className="lgrid">
+          <thead>
+            <tr>
+              <th />
+              {grid.colLabels.map((c, i) => (
+                <th key={i}>{c}</th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {grid.rowLabels.map((r, row) => (
+              <tr key={row}>
+                <th>{r}</th>
+                {grid.colLabels.map((_, col) => {
+                  const cell = grid.cells.find((c) => c.row === row && c.col === col)
+                  return <td key={col} className={cell ? (cell.current ? 'now' : 'seen') : ''} />
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </Terminal>
   )

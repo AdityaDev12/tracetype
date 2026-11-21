@@ -4,7 +4,8 @@ import { Terminal } from '../design/Terminal.tsx'
 import type { RunError } from '../engine/grade.ts'
 import type { StepView } from '../engine/trace.ts'
 import type { TraceStep, VisualKind } from '../engine/types.ts'
-import { BranchPanel, CellsPanel, ExprPanel, HaltPanel, HistoryPanel, StdinPanel, TypesPanel } from './visuals/panels.tsx'
+import { loopRunAt } from './visuals/loops.ts'
+import { BranchPanel, CellsPanel, ExprPanel, GridPanel, HaltPanel, HistoryPanel, LoopPanel, StdinPanel, TraceTablePanel, TypesPanel } from './visuals/panels.tsx'
 
 export interface VisualProps {
   view: StepView
@@ -30,6 +31,9 @@ export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, foc
   const list: VisualKind[] = kinds?.length ? kinds : ['memory']
   const t = trace ?? []
   const atEnd = t.length > 0 && view.index >= t.length - 1
+  // The cells panel points at the current item of a running for loop.
+  const run = list.includes('cells') ? loopRunAt(t, view.index, code) : null
+  const pointer = run && !run.done && run.stmt === 'for' && run.current > 0 ? run.current - 1 : undefined
   const panels = list.map((k) => {
     switch (k) {
       case 'memory':
@@ -45,9 +49,15 @@ export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, foc
       case 'stdin':
         return <StdinPanel key={k} trace={t} index={view.index} stdin={stdin} />
       case 'cells':
-        return <CellsPanel key={k} view={view} focus={focus} />
+        return <CellsPanel key={k} view={view} focus={focus} pointer={pointer} />
       case 'branch':
         return <BranchPanel key={k} trace={t} index={view.index} code={code} />
+      case 'loop':
+        return <LoopPanel key={k} trace={t} index={view.index} code={code} />
+      case 'tracetable':
+        return <TraceTablePanel key={k} trace={t} index={view.index} code={code} focus={focus} />
+      case 'grid':
+        return <GridPanel key={k} trace={t} index={view.index} code={code} />
     }
   })
   return (

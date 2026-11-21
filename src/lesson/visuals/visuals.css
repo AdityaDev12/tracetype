@@ -654,3 +654,165 @@
     animation: none;
   }
 }
+
+/* ---------- Loop panel ---------- */
+
+.loop-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 0;
+  padding: 6px 16px;
+}
+
+.loop-head code {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--chalk);
+}
+
+.loop-status {
+  font-family: var(--hand);
+  font-size: 1.25rem;
+  color: var(--phosphor);
+}
+
+.loop-status.done {
+  color: var(--ok);
+}
+
+.loop-rounds {
+  list-style: none;
+  margin: 0;
+  padding: 4px 16px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.loop-round {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 42px;
+  padding: 4px 6px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: 13px;
+  animation: mem-pop 300ms var(--ease) both;
+}
+
+.loop-round.now {
+  border-color: var(--phosphor);
+  box-shadow: 0 0 0 3px var(--phosphor-soft);
+}
+
+.loop-round.end {
+  border-style: dashed;
+}
+
+.loop-n {
+  font-size: 11px;
+  color: var(--ghost);
+}
+
+.loop-val {
+  color: var(--chalk);
+}
+
+.loop-test {
+  font-size: 11px;
+  color: var(--ok);
+}
+
+.loop-round.end .loop-test {
+  color: var(--pen-red);
+}
+
+.loop-jump {
+  font-family: var(--hand);
+  font-size: 1rem;
+  color: var(--pen-red);
+}
+
+.loop-round.continue .loop-jump {
+  color: var(--pen-blue);
+}
+
+/* ---------- Trace table ---------- */
+
+.tt-wrap {
+  overflow-x: auto;
+  padding: 4px 16px 14px;
+}
+
+.ttable,
+.lgrid {
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.ttable th,
+.ttable td {
+  border: 1px solid var(--line);
+  padding: 4px 10px;
+  text-align: left;
+}
+
+.ttable th {
+  color: var(--chalk-dim);
+  font-weight: normal;
+}
+
+.ttable tr.now td {
+  background: var(--phosphor-soft);
+}
+
+.ttable td code {
+  color: var(--chalk);
+}
+
+/* ---------- Grid ---------- */
+
+.lgrid {
+  margin: 4px 16px 14px;
+}
+
+.lgrid th {
+  padding: 2px 6px;
+  color: var(--chalk-dim);
+  font-weight: normal;
+}
+
+.lgrid td {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--line);
+}
+
+.lgrid td.seen {
+  background: rgba(255, 181, 71, 0.35);
+}
+
+.lgrid td.now {
+  background: var(--phosphor);
+  box-shadow: 0 0 10px rgba(255, 181, 71, 0.6);
+}
+
+/* ---------- Cells pointer ---------- */
+
+.cell.at {
+  border-color: var(--phosphor);
+  background: var(--phosphor-soft);
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loop-round {
+    animation: none;
+  }
+}
