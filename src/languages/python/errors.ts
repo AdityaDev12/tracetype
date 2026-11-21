@@ -1,0 +1,64 @@
+// Plain-word explanations of Python errors, shown under the real message.
+// Written for someone in their first weeks of Python.
+
+interface Rule {
+  test: RegExp
+  explain: (m: RegExpMatchArray) => string
+}
+
+const RULES: Rule[] = [
+  { test: /^Timeout/, explain: () => 'The code ran for too long and was stopped. Look for a loop that never ends.' },
+  {
+    test: /^NameError: name '(.+?)' is not defined(?:\. Did you mean: '(.+?)'\?)?/,
+    explain: (m) =>
+      m[2]
+        ? `You used the name ${m[1]}, which does not exist. Did you mean ${m[2]}?`
+        : `You used the name ${m[1]}, which does not exist yet. Check the spelling, or make it before this line. If it is text, it needs quotes.`,
+  },
+  {
+    test: /^SyntaxError: unterminated string literal/,
+    explain: () => 'A piece of text is missing its closing quote.',
+  },
+  { test: /^SyntaxError: '(.)' was never closed/, explain: (m) => `A ${m[1]} was opened but never closed.` },
+  { test: /^SyntaxError: unmatched '(.)'/, explain: (m) => `There is a ${m[1]} with no matching opening bracket.` },
+  { test: /^SyntaxError: expected ':'/, explain: () => 'This line needs a colon : at the end.' },
+  { test: /^SyntaxError: invalid decimal literal/, explain: () => 'A name cannot start with a digit, and numbers cannot have letters in them.' },
+  {
+    test: /^SyntaxError: cannot assign to/,
+    explain: () => 'The left side of = must be a plain name. Names cannot contain spaces or dashes.',
+  },
+  { test: /^SyntaxError: invalid syntax\. Perhaps you forgot a comma\?/, explain: () => 'Two values are next to each other. Did you forget a comma between them?' },
+  { test: /^SyntaxError/, explain: () => 'Python could not read this line. Check for a missing quote, bracket, comma or colon.' },
+  { test: /^IndentationError: unexpected indent/, explain: () => 'This line starts with spaces it should not have.' },
+  { test: /^IndentationError: expected an indented block/, explain: () => 'The line after a colon must be indented by 4 spaces.' },
+  { test: /^IndentationError/, explain: () => 'The spaces at the start of a line do not line up with the lines around it.' },
+  {
+    test: /^TypeError: can only concatenate str \(not "(.+?)"\) to str/,
+    explain: (m) => `You tried to join text with + to a ${m[1]}. Turn it into text first with str(), or use a comma in print.`,
+  },
+  {
+    test: /^TypeError: unsupported operand type\(s\) for (.+?): '(.+?)' and '(.+?)'/,
+    explain: (m) => `${m[1]} does not work between a ${m[2]} and a ${m[3]}.`,
+  },
+  { test: /^TypeError: '(.+?)' object is not callable/, explain: (m) => `You put ( ) after something that is a ${m[1]}, not a function.` },
+  { test: /^TypeError/, explain: () => 'A value of the wrong type was used here.' },
+  { test: /^ZeroDivisionError/, explain: () => 'You divided by zero, which has no answer.' },
+  { test: /^ValueError: invalid literal for int\(\)/, explain: () => 'int() can only turn text made of digits into a number.' },
+  { test: /^ValueError/, explain: () => 'The type is right, but the value cannot be used here.' },
+  { test: /^IndexError/, explain: () => 'You asked for a position that does not exist. Positions start at 0.' },
+  { test: /^KeyError: (.+)/, explain: (m) => `The dictionary has no key ${m[1]}.` },
+  { test: /^AttributeError: '(.+?)' object has no attribute '(.+?)'/, explain: (m) => `A ${m[1]} has no ${m[2]}.` },
+  { test: /^EOFError/, explain: () => 'input() cannot be used in these exercises. Put the value in a variable instead.' },
+  {
+    test: /^OSError: \[Errno 29\]/,
+    explain: () => 'input() cannot be used in these exercises. Put the value in a variable instead.',
+  },
+]
+
+export function explainPythonError(message: string): string | null {
+  for (const r of RULES) {
+    const m = message.match(r.test)
+    if (m) return r.explain(m)
+  }
+  return null
+}

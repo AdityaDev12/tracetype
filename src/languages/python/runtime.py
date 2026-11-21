@@ -209,3 +209,12 @@ def canonical_hash(obj):
 
 def source_of(lines):
     return "\n".join(lines) + "\n"
+
+
+_OPS = {"trace": run_trace, "run": run_program, "tests": run_tests, "same_ast": same_ast}
+
+
+def call(op, args_json):
+    """Entry point for the browser worker: JSON in, JSON out."""
+    args = json.loads(args_json)
+    return json.dumps(_OPS[op](*args), ensure_ascii=False)
