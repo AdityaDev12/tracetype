@@ -72,6 +72,9 @@ One JSON file per lesson. Authors write `code`, `explain`, `task` and `quiz`. Th
   "title": "Variables and print",
   "summary": "Store values in named boxes and show them on screen.",
   "intro": "A **variable** is a labeled box that stores a value...",
+  "links": [
+    { "title": "Python tutorial: numbers and variables", "url": "https://docs.python.org/3/tutorial/introduction.html#numbers" }
+  ],
   "bookRefs": [
     { "book": "learning-python", "chapter": "<chapter title copied from the book's table of contents>" }
   ],
@@ -96,6 +99,10 @@ One JSON file per lesson. Authors write `code`, `explain`, `task` and `quiz`. Th
   ]
 }
 ```
+
+Rules for `links` and `bookRefs`:
+- `links` (required, at least one): free official pages that cover the same topic, mainly docs.python.org. Shown as "Read more". Only use URLs that were opened and confirmed to exist and match the topic (`npm run check-links`).
+- `bookRefs`: chapter titles only, shown as small "Also in" text.
 
 Rules for `trace`:
 - One entry per **executed** step, in execution order (a loop body appears once per iteration).

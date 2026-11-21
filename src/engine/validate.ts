@@ -3,7 +3,7 @@ import { BOOK_TITLES, type Lesson } from './types.ts'
 // Pure schema checks. No Node or browser APIs here so both the app and the
 // validate script can use it. The script adds the traceHash check on top.
 
-const EM_DASH = /[—–]/
+const EM_DASH = /[\u2014\u2013]/
 
 function isObj(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v)
@@ -22,6 +22,14 @@ function checkVars(v: unknown, where: string, errors: string[]) {
     if (!isObj(val) || !isStr(val.repr) || !isStr(val.type)) {
       errors.push(`${where}.${name} must be { repr: string, type: string }`)
     }
+  }
+}
+
+function isHttpsUrl(url: string): boolean {
+  try {
+    return new URL(url).protocol === 'https:'
+  } catch {
+    return false
   }
 }
 
@@ -50,6 +58,21 @@ export function validateLesson(data: unknown): string[] {
       if (!isObj(r) || !isStr(r.book) || !(r.book in BOOK_TITLES) || !isStr(r.chapter) || r.chapter === '') {
         errors.push(`bookRefs[${i}] needs a known "book" id and a "chapter" title`)
       }
+    })
+  }
+
+  if (!Array.isArray(data.links) || data.links.length === 0) {
+    errors.push('"links" must list at least one free page to read more')
+  } else {
+    const seen = new Set<string>()
+    data.links.forEach((l, i) => {
+      if (!isObj(l) || !isStr(l.title) || l.title.trim() === '' || !isStr(l.url)) {
+        errors.push(`links[${i}] needs a "title" and a "url"`)
+        return
+      }
+      if (!isHttpsUrl(l.url)) errors.push(`links[${i}].url must be a full https:// address`)
+      if (seen.has(l.url)) errors.push(`links[${i}].url is listed twice`)
+      seen.add(l.url)
     })
   }
 
@@ -124,6 +147,7 @@ export function validateLesson(data: unknown): string[] {
   // Writing style: no em or en dashes anywhere in authored text.
   const authored: string[] = []
   for (const key of ['title', 'summary', 'intro'] as const) if (isStr(data[key])) authored.push(data[key] as string)
+  if (Array.isArray(data.links)) for (const l of data.links) if (isObj(l)) authored.push(String(l.title))
   if (Array.isArray(lines)) for (const l of lines) if (isObj(l)) authored.push(String(l.code), String(l.explain), String(l.task))
   if (Array.isArray(quiz)) for (const q of quiz) if (isObj(q)) authored.push(String(q.q), String(q.why), ...(Array.isArray(q.options) ? q.options.map(String) : []))
   if (authored.some((t) => EM_DASH.test(t))) errors.push('lesson text contains an em dash or en dash')

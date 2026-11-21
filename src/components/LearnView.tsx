@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { viewAt } from '../engine/trace.ts'
-import { BOOK_TITLES, type Lesson } from '../engine/types.ts'
+import type { Lesson } from '../engine/types.ts'
 import { VisualPanel } from '../visuals/VisualPanel.tsx'
 import { CodeLine } from './CodeLine.tsx'
 import { LessonLayout } from './LessonLayout.tsx'
+import { ReadMore } from './ReadMore.tsx'
 import { RichText } from './RichText.tsx'
 
 interface Props {
@@ -49,18 +50,7 @@ export function LearnView({ lesson, onComplete, onNextMode }: Props) {
       <details className="intro card" open={step === -1}>
         <summary>About this lesson</summary>
         <RichText text={lesson.intro} className="prose" />
-        {lesson.bookRefs.length > 0 && (
-          <div className="book-refs">
-            <span className="muted">Read more:</span>
-            <ul>
-              {lesson.bookRefs.map((r) => (
-                <li key={r.book + r.chapter}>
-                  <em>{BOOK_TITLES[r.book]}</em>, {r.chapter}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <ReadMore lesson={lesson} />
       </details>
 
       <div className="editor" role="region" aria-label="Lesson code">

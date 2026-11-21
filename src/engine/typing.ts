@@ -1,46 +1,39 @@
-// Pure typing engine for Trace and Recall modes. Every function returns a new
-// state; nothing here touches the DOM, so it is easy to unit test.
+// Pure line-checking engine for Trace and Recall modes. The editor (CodeMirror)
+// owns the text being typed; this module decides what is right or wrong and keeps
+// score. Nothing here touches the DOM, so it is easy to unit test.
 
 export const INDENT = '    '
-/** How far past the end of a line the learner may type (extra chars show red). */
-export const MAX_OVERTYPE = 12
 
 export type MatchMode = 'exact' | 'loose'
 
 export interface TypingState {
   targets: string[]
   lineIndex: number
-  /** What the learner has typed on the current line. */
-  typed: string
   done: boolean
-  /** Keystrokes that put the right character in the right place. */
-  correctKeys: number
-  /** Keystrokes that put a wrong character somewhere. */
-  wrongKeys: number
+  match: MatchMode
   startedAt: number | null
   finishedAt: number | null
-  /** Characters of lines already submitted (used for progress, not WPM). */
+  /** Characters of finished lines, not counting leading indentation (used for WPM). */
   submittedChars: number
-  /** Enter presses that were checked, and how many of those were refused. */
+  /** Enter presses that were checked, and how many were refused. */
   submits: number
   failedSubmits: number
-  match: MatchMode
+  /** Wrong characters that were present at each refused Enter, added up. */
+  errorChars: number
 }
 
 export function createTyping(targets: string[], match: MatchMode = 'exact'): TypingState {
   return {
     targets,
     lineIndex: 0,
-    typed: autoIndentFor(targets, 0),
     done: targets.length === 0,
-    correctKeys: 0,
-    wrongKeys: 0,
+    match,
     startedAt: null,
     finishedAt: null,
     submittedChars: 0,
     submits: 0,
     failedSubmits: 0,
-    match,
+    errorChars: 0,
   }
 }
 
@@ -68,61 +61,86 @@ export function autoIndentFor(targets: string[], i: number): string {
   return ''
 }
 
-/** Index of the first wrong character, or -1 if everything typed so far is right. */
-export function firstWrongIndex(typed: string, target: string): number {
-  for (let i = 0; i < typed.length; i++) {
-    if (i >= target.length || typed[i] !== target[i]) return i
-  }
-  return -1
+/** Spaces that Tab inserts at this column: up to the next multiple of 4. */
+export function tabSpaces(column: number): string {
+  return ' '.repeat(INDENT.length - (column % INDENT.length))
 }
 
-function start(s: TypingState, now: number): TypingState {
-  return s.startedAt === null ? { ...s, startedAt: now } : s
+export function markStarted(s: TypingState, now: number): TypingState {
+  return s.startedAt === null && !s.done ? { ...s, startedAt: now } : s
 }
 
-export function typeChar(s: TypingState, ch: string, now: number): TypingState {
-  if (s.done) return s
-  const target = currentTarget(s)
-  if (s.typed.length >= target.length + MAX_OVERTYPE) return s
-  const next = start(s, now)
-  const ok = target[s.typed.length] === ch
-  return {
-    ...next,
-    typed: s.typed + ch,
-    correctKeys: next.correctKeys + (ok ? 1 : 0),
-    wrongKeys: next.wrongKeys + (ok ? 0 : 1),
-  }
+export interface Ghost {
+  /** Offset into the typed text where this faded piece is drawn. */
+  at: number
+  text: string
 }
 
-export function typeText(s: TypingState, text: string, now: number): TypingState {
-  let out = s
-  for (const ch of text) {
-    if (ch === '\n' || ch === '\r') continue
-    out = typeChar(out, ch === '\t' ? ' ' : ch, now)
-  }
-  return out
-}
-
-/** Tab inserts spaces up to the next multiple of 4. */
-export function typeTab(s: TypingState, now: number): TypingState {
-  const width = INDENT.length - (s.typed.length % INDENT.length)
-  return typeText(s, ' '.repeat(width), now)
-}
-
-/** Backspace removes one char, or a whole indent level when only spaces are typed. */
-export function backspace(s: TypingState): TypingState {
-  if (s.done || s.typed.length === 0) return s
-  const onlySpaces = /^ +$/.test(s.typed)
-  if (onlySpaces) {
-    const remove = s.typed.length % INDENT.length || INDENT.length
-    return { ...s, typed: s.typed.slice(0, -remove) }
-  }
-  return { ...s, typed: s.typed.slice(0, -1) }
+export interface LineCompare {
+  /** One entry per character of the typed text: true if it matches the target. */
+  ok: boolean[]
+  wrong: number
+  /** Missing parts of the target, shown faded where they belong. */
+  ghosts: Ghost[]
 }
 
 /**
- * Loose comparison for Recall mode: indentation must match, spaces outside
- * strings are ignored, and ' and " count as the same quote.
+ * Compares typed text against the target.
+ *
+ * Text before the cursor is compared position by position with the start of
+ * the target. Text after the cursor is usually compared the same way. The
+ * exception is auto-closed brackets and quotes: typing `print("` gives
+ * `print("")` with the cursor between the quotes. Those closing characters
+ * belong further along the target, so they are matched in order from the end
+ * of the target instead, and the missing pieces are shown as ghost text in the
+ * gaps. Whichever reading has fewer wrong characters wins; ties go to plain
+ * position by position.
+ */
+export function compareLine(text: string, cursor: number, target: string): LineCompare {
+  const c = Math.max(0, Math.min(cursor, text.length))
+  const left: boolean[] = []
+  for (let i = 0; i < text.length; i++) left.push(i < target.length && text[i] === target[i])
+  const leftWrong = left.filter((x) => !x).length
+  const leftResult: LineCompare = {
+    ok: left,
+    wrong: leftWrong,
+    ghosts: text.length < target.length ? [{ at: text.length, text: target.slice(text.length) }] : [],
+  }
+
+  const after = text.slice(c)
+  if (after.length === 0 || leftWrong === 0 || text.length > target.length) return leftResult
+
+  // Match the characters after the cursor, in order, as far right in the target as possible.
+  const pos: (number | null)[] = new Array(after.length).fill(null)
+  let hi = target.length - 1
+  for (let j = after.length - 1; j >= 0; j--) {
+    let k = hi
+    while (k >= c && target[k] !== after[j]) k--
+    if (k >= c) {
+      pos[j] = k
+      hi = k - 1
+    }
+  }
+  const ok = left.slice(0, c)
+  for (let j = 0; j < after.length; j++) ok.push(pos[j] !== null)
+  const wrong = ok.filter((x) => !x).length
+  if (wrong >= leftWrong) return leftResult
+
+  const ghosts: Ghost[] = []
+  let next = c // next target index not yet shown
+  for (let j = 0; j < after.length; j++) {
+    const p = pos[j]
+    if (p === null) continue
+    if (p > next) ghosts.push({ at: c + j, text: target.slice(next, p) })
+    next = p + 1
+  }
+  if (next < target.length) ghosts.push({ at: text.length, text: target.slice(next) })
+  return { ok, wrong, ghosts }
+}
+
+/**
+ * Loose form for Recall mode: indentation must match, spaces outside
+ * strings and comments are ignored, and ' and " count as the same quote.
  */
 export function normalizeLoose(line: string): string {
   const indent = leadingSpaces(line)
@@ -162,73 +180,103 @@ export function lineMatches(typed: string, target: string, match: MatchMode): bo
   return typed.trimEnd() === target.trimEnd()
 }
 
+/** Wrong characters in the typed line, as the learner sees them. */
+export function wrongCount(text: string, cursor: number, target: string, match: MatchMode): number {
+  if (match === 'loose') {
+    const a = normalizeLoose(text)
+    const b = normalizeLoose(target)
+    let n = 0
+    for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) n++
+    return n
+  }
+  const t = text.trimEnd()
+  return compareLine(t, Math.min(cursor, t.length), target).wrong
+}
+
+/** Length used for accuracy. */
+function unitLength(line: string, match: MatchMode): number {
+  return match === 'loose' ? normalizeLoose(line).length : line.length
+}
+
 export type SubmitResult =
   | { ok: true; state: TypingState }
-  | { ok: false; state: TypingState; message: string; wrongAt: number }
+  | { ok: false; state: TypingState; message: string; wrong: number }
 
-export function submit(s: TypingState, now: number): SubmitResult {
+/** Enter: checks the line and moves on only if it matches. */
+export function submitLine(s: TypingState, text: string, cursor: number, now: number): SubmitResult {
   if (s.done) return { ok: true, state: s }
   const target = currentTarget(s)
-  if (lineMatches(s.typed, target, s.match)) {
+  const started = markStarted(s, now)
+  if (lineMatches(text, target, s.match)) {
     const nextIndex = s.lineIndex + 1
     const done = nextIndex >= s.targets.length
     return {
       ok: true,
       state: {
-        ...start(s, now),
+        ...started,
         lineIndex: done ? s.lineIndex : nextIndex,
-        typed: done ? s.typed : autoIndentFor(s.targets, nextIndex),
         done,
         finishedAt: done ? now : s.finishedAt,
-        submittedChars: s.submittedChars + target.length,
+        submittedChars: s.submittedChars + target.trimStart().length,
         submits: s.submits + 1,
       },
     }
   }
-  const wrongAt = firstWrongIndex(s.typed, target)
+  const wrong = wrongCount(text, cursor, target, s.match)
   let message: string
-  if (s.match === 'loose') {
-    message = 'Not quite. Compare with the task and try again.'
-  } else if (wrongAt === -1) {
-    message = 'Not finished yet. Keep typing the rest of the line.'
-  } else if (wrongAt >= target.length) {
-    message = 'Too many characters. Delete the extra ones at the end.'
-  } else {
-    message = 'Some characters are wrong. Fix the red ones with Backspace.'
-  }
+  if (s.match === 'loose') message = 'Not quite. Compare with the task and try again.'
+  else if (wrong > 0) message = 'Some characters are wrong. Fix the red ones.'
+  else message = 'Not finished yet. Type the rest of the faded code.'
   return {
     ok: false,
-    state: { ...s, submits: s.submits + 1, failedSubmits: s.failedSubmits + 1 },
+    state: {
+      ...started,
+      submits: s.submits + 1,
+      failedSubmits: s.failedSubmits + 1,
+      errorChars: s.errorChars + wrong,
+    },
     message,
-    wrongAt: wrongAt === -1 ? s.typed.length : wrongAt,
+    wrong,
   }
 }
 
 /**
- * Trace (exact): percentage of keystrokes that were right.
- * Recall (loose): percentage of line checks that passed, since spacing and
- * quote style are allowed to differ from the lesson code.
- * 100 before any typing.
+ * Accuracy from mistakes that were actually submitted: wrong characters
+ * present when Enter was pressed, plus one for each refused Enter, compared
+ * with the characters of the lines reached so far. Typing order and fixed
+ * typos do not count. 100 before anything is submitted.
  */
-export function accuracy(
-  s: Pick<TypingState, 'correctKeys' | 'wrongKeys' | 'match' | 'submits' | 'failedSubmits'>,
-): number {
-  if (s.match === 'loose') {
-    if (s.submits === 0) return 100
-    return Math.round(((s.submits - s.failedSubmits) / s.submits) * 100)
-  }
-  const total = s.correctKeys + s.wrongKeys
+export function accuracy(s: TypingState): number {
+  const errors = s.errorChars + s.failedSubmits
+  if (errors === 0) return 100
+  const reached = s.done ? s.targets.length : s.lineIndex + 1
+  let total = 0
+  for (let i = 0; i < reached; i++) total += unitLength(s.targets[i], s.match)
   if (total === 0) return 100
-  return Math.round((s.correctKeys / total) * 100)
+  return Math.max(0, Math.round((1 - errors / total) * 100))
 }
 
-/** Words per minute, counting 5 correct characters as one word. */
-export function wpm(s: Pick<TypingState, 'correctKeys' | 'startedAt' | 'finishedAt'>, now: number): number {
+/**
+ * Words per minute, counting 5 characters as one word. Uses finished lines
+ * plus `liveChars` (correct characters on the current line, if known).
+ */
+export function wpm(s: TypingState, now: number, liveChars = 0): number {
   if (s.startedAt === null) return 0
   const end = s.finishedAt ?? now
-  const minutes = (end - s.startedAt) / 60000
-  if (minutes <= 0) return 0
-  // Ignore the very first second so a single key does not show 600 WPM.
-  if (end - s.startedAt < 1000) return 0
-  return Math.round(s.correctKeys / 5 / minutes)
+  const ms = end - s.startedAt
+  // Ignore the very first second so a single key does not show a silly number.
+  if (ms < 1000) return 0
+  const chars = s.submittedChars + (s.done ? 0 : liveChars)
+  return Math.round(chars / 5 / (ms / 60000))
+}
+
+/** Correct characters on the current line, not counting auto-indent. */
+export function liveCorrectChars(text: string, cursor: number, target: string): number {
+  const cmp = compareLine(text, cursor, target)
+  const indent = leadingSpaces(target).length
+  let n = 0
+  cmp.ok.forEach((ok, i) => {
+    if (ok && i >= indent) n++
+  })
+  return n
 }

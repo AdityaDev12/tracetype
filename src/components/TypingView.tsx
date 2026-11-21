@@ -1,20 +1,21 @@
-import { useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent } from 'react'
-import { charKinds } from '../engine/highlight.ts'
+import type { EditorView } from '@codemirror/view'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { stepForSourceLine, viewAt } from '../engine/trace.ts'
 import type { Lesson } from '../engine/types.ts'
 import {
   accuracy,
-  backspace,
+  autoIndentFor,
   createTyping,
-  submit,
-  typeTab,
-  typeText,
+  liveCorrectChars,
+  markStarted,
+  submitLine,
   wpm,
   type TypingState,
 } from '../engine/typing.ts'
 import { VisualPanel } from '../visuals/VisualPanel.tsx'
 import { CodeLine } from './CodeLine.tsx'
 import { LessonLayout } from './LessonLayout.tsx'
+import { LineEditor } from './LineEditor.tsx'
 import { InlineText, RichText } from './RichText.tsx'
 import { StatsBar } from './StatsBar.tsx'
 
@@ -34,65 +35,21 @@ interface Props {
 
 const PEEK_MS = 1500
 
-/** The line being typed in Trace mode: typed chars over faded ghost text. */
-function GhostLine({ target, typed, focused }: { target: string; typed: string; focused: boolean }) {
-  const kinds = useMemo(() => charKinds(target), [target])
-  const len = Math.max(target.length, typed.length)
-  const cells = []
-  for (let i = 0; i <= len; i++) {
-    const caret = i === typed.length && focused ? ' caret' : ''
-    if (i === len) {
-      cells.push(<span key={i} className={`ch end${caret}`}>{' '}</span>)
-      break
-    }
-    if (i < typed.length) {
-      const ok = typed[i] === target[i]
-      const shown = typed[i] === ' ' && !ok ? '·' : typed[i]
-      cells.push(
-        <span key={i} className={ok ? `ch tok-${kinds[i]}` : 'ch wrong'}>
-          {shown}
-        </span>,
-      )
-    } else {
-      cells.push(
-        <span key={i} className={`ch ghost${caret}`}>
-          {target[i]}
-        </span>,
-      )
-    }
-  }
-  return <>{cells}</>
-}
-
-/** The line being typed in Recall mode: plain text, no hints. */
-function RecallLine({ typed, focused, peek }: { typed: string; focused: boolean; peek: string | null }) {
-  return (
-    <span className="recall-line">
-      <span className="recall-typed">
-        {typed}
-        <span className={`ch end${focused ? ' caret' : ''}`}>{' '}</span>
-      </span>
-      {peek !== null && (
-        <span className="peek-overlay" aria-label="Peek">
-          <CodeLine code={peek} />
-        </span>
-      )}
-    </span>
-  )
-}
-
 export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel }: Props) {
   const targets = useMemo(() => lesson.lines.map((l) => l.code), [lesson])
   const isRecall = variant === 'recall'
-  const [state, setState] = useState<TypingState>(() => createTyping(targets, isRecall ? 'loose' : 'exact'))
+  const match = isRecall ? 'loose' : 'exact'
+  const [state, setState] = useState<TypingState>(() => createTyping(targets, match))
+  const [live, setLive] = useState(() => ({ text: '', cursor: 0 }))
   const [error, setError] = useState<{ message: string; n: number } | null>(null)
   const [peeks, setPeeks] = useState(0)
   const [peeking, setPeeking] = useState(false)
   const [focused, setFocused] = useState(false)
   const [now, setNow] = useState(() => Date.now())
-  const inputRef = useRef<HTMLTextAreaElement>(null)
-  const currentRowRef = useRef<HTMLDivElement>(null)
+  const [attempt, setAttempt] = useState(0)
+  const viewRef = useRef<EditorView | null>(null)
   const reported = useRef(false)
+  const currentRowRef = useRef<HTMLDivElement>(null)
 
   // Tick once a second so live WPM moves while typing.
   useEffect(() => {
@@ -118,78 +75,59 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
     currentRowRef.current?.scrollIntoView({ block: 'nearest' })
   }, [state.lineIndex])
 
-  useEffect(() => {
-    inputRef.current?.focus({ preventScroll: true })
+  const onEnter = useCallback(
+    (text: string, cursor: number) => {
+      const t = Date.now()
+      const r = submitLine(state, text, cursor, t)
+      setState(r.state)
+      setNow(t)
+      setError(r.ok ? null : { message: r.message, n: (error?.n ?? 0) + 1 })
+    },
+    [state, error],
+  )
+
+  const onChange = useCallback((text: string, cursor: number, docChanged: boolean) => {
+    setLive({ text, cursor })
+    if (docChanged) setState((s) => markStarted(s, Date.now()))
   }, [])
 
   const restart = () => {
-    setState(createTyping(targets, isRecall ? 'loose' : 'exact'))
+    setState(createTyping(targets, match))
+    setLive({ text: '', cursor: 0 })
     setPeeks(0)
     setPeeking(false)
     setError(null)
+    setAttempt((a) => a + 1)
     reported.current = false
-    inputRef.current?.focus()
   }
 
   const doPeek = () => {
     if (state.done || peeking) return
     setPeeks((p) => p + 1)
     setPeeking(true)
-    inputRef.current?.focus()
-  }
-
-  const onKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.nativeEvent.isComposing) return
-    const t = Date.now()
-    if (e.key === 'Enter') {
-      e.preventDefault()
-      const r = submit(state, t)
-      setState(r.state)
-      setNow(t)
-      setError(r.ok ? null : { message: r.message, n: (error?.n ?? 0) + 1 })
-    } else if (e.key === 'Backspace') {
-      e.preventDefault()
-      setState((s) => backspace(s))
-    } else if (e.key === 'Tab') {
-      e.preventDefault()
-      setState((s) => typeTab(s, t))
-    }
-  }
-
-  const onInput = (e: FormEvent<HTMLTextAreaElement>) => {
-    const el = e.currentTarget
-    const text = el.value
-    el.value = ''
-    if (!text) return
-    const t = Date.now()
-    setState((s) => typeText(s, text, t))
+    viewRef.current?.focus()
   }
 
   const completedLines = state.done ? targets.length : state.lineIndex
   const view = viewAt(lesson.trace, stepForSourceLine(lesson.trace, completedLines))
   const current = lesson.lines[state.lineIndex]
+  const target = targets[state.lineIndex]
+  const liveChars = isRecall || state.done ? 0 : liveCorrectChars(live.text, live.cursor, target)
 
   const left = (
     <>
       <div
-        className={`editor typing${error ? ' has-error' : ''}`}
-        onClick={() => inputRef.current?.focus()}
+        className={`editor typing${focused ? ' focused' : ''}`}
+        onMouseDown={(e) => {
+          // Clicking anywhere in the box (not on the line itself) puts the cursor back in the line.
+          if (!(e.target as HTMLElement).closest('.line-editor')) {
+            e.preventDefault()
+            viewRef.current?.focus()
+          }
+        }}
         role="region"
         aria-label={isRecall ? 'Write the code from memory' : 'Type over the code'}
       >
-        <textarea
-          ref={inputRef}
-          className="hidden-input"
-          aria-label="Type here"
-          autoCapitalize="off"
-          autoComplete="off"
-          autoCorrect="off"
-          spellCheck={false}
-          onKeyDown={onKeyDown}
-          onInput={onInput}
-          onFocus={() => setFocused(true)}
-          onBlur={() => setFocused(false)}
-        />
         {lesson.lines.map((l, i) => {
           const n = i + 1
           const isDone = i < state.lineIndex || state.done
@@ -198,10 +136,25 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
           if (isDone) {
             content = <CodeLine code={l.code} />
           } else if (isCurrent) {
-            content = isRecall ? (
-              <RecallLine typed={state.typed} focused={focused} peek={peeking ? l.code : null} />
-            ) : (
-              <GhostLine target={l.code} typed={state.typed} focused={focused} />
+            content = (
+              <span className="current-line-wrap">
+                <LineEditor
+                  key={`${attempt}:${i}`}
+                  initial={autoIndentFor(targets, i)}
+                  target={l.code}
+                  variant={variant}
+                  onEnter={onEnter}
+                  onChange={onChange}
+                  onFocusChange={setFocused}
+                  viewRef={viewRef}
+                  ariaLabel={isRecall ? `Line ${n}: ${l.task}` : `Line ${n}`}
+                />
+                {isRecall && peeking && (
+                  <span className="peek-overlay" aria-label="Peek">
+                    <CodeLine code={l.code} />
+                  </span>
+                )}
+              </span>
             )
           } else if (isRecall) {
             content = <span className="task-placeholder"># {l.task}</span>
@@ -220,7 +173,7 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
             </div>
           )
         })}
-        {!focused && !state.done && <div className="focus-hint">Click here to start typing</div>}
+        {!focused && !state.done && <div className="focus-hint">Click the highlighted line to type</div>}
       </div>
 
       {error && !state.done && (
@@ -230,7 +183,7 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
       )}
 
       <StatsBar
-        wpm={wpm(state, now)}
+        wpm={wpm(state, now, liveChars)}
         accuracy={accuracy(state)}
         line={Math.min(state.lineIndex + 1, targets.length)}
         total={targets.length}
@@ -262,7 +215,7 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
                 <InlineText text={current.task} />
               </p>
               <div className="row">
-                <button className="btn small" onClick={doPeek} disabled={peeking}>
+                <button className="btn small" onMouseDown={(e) => e.preventDefault()} onClick={doPeek} disabled={peeking}>
                   {peeking ? 'Peeking...' : 'Peek (1.5 s)'}
                 </button>
                 <span className="muted small-text">
@@ -275,7 +228,7 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
               <div className="explain-meta">Line {state.lineIndex + 1}</div>
               <RichText text={current.explain} className="prose" />
               <p className="muted small-text">
-                Type the faded code. Enter moves to the next line. Tab adds 4 spaces.
+                Type the faded code. Brackets and quotes close themselves. Enter checks the line. Tab adds 4 spaces.
               </p>
             </>
           )}

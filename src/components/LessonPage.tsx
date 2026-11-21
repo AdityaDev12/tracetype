@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { lazy, Suspense, useCallback } from 'react'
 import { MODES, type Mode } from '../engine/types.ts'
 import { findLesson, tracks } from '../lessons.ts'
 import { saveModeResult, useProgress } from '../progress.ts'
@@ -7,7 +7,10 @@ import { LearnView } from './LearnView.tsx'
 import { MODE_LABELS } from '../modeLabels.ts'
 import { ModeTabs } from './ModeTabs.tsx'
 import { QuizView } from './QuizView.tsx'
-import { TypingView, type TypingResult } from './TypingView.tsx'
+import type { TypingResult } from './TypingView.tsx'
+
+// The editor (CodeMirror) is only downloaded when Trace or Recall is opened.
+const TypingView = lazy(() => import('./TypingView.tsx').then((m) => ({ default: m.TypingView })))
 
 export function LessonPage({ id, mode }: { id: string; mode: Mode }) {
   const lesson = findLesson(id)
@@ -55,13 +58,15 @@ export function LessonPage({ id, mode }: { id: string; mode: Mode }) {
       <div key={`${lesson.id}:${mode}`}>
         {mode === 'learn' && <LearnView lesson={lesson} onComplete={learnDone} onNextMode={goNext} />}
         {(mode === 'trace' || mode === 'recall') && (
-          <TypingView
-            lesson={lesson}
-            variant={mode}
-            onComplete={typingDone}
-            onNextMode={goNext}
-            nextLabel={nextLabel}
-          />
+          <Suspense fallback={<p className="muted">Loading editor...</p>}>
+            <TypingView
+              lesson={lesson}
+              variant={mode}
+              onComplete={typingDone}
+              onNextMode={goNext}
+              nextLabel={nextLabel}
+            />
+          </Suspense>
         )}
         {mode === 'quiz' && <QuizView lesson={lesson} onComplete={quizDone} onBack={() => navigate('#/')} />}
       </div>

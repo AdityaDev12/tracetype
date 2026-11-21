@@ -450,15 +450,29 @@ kbd {
   margin: 0.35em 0;
 }
 
-.book-refs {
-  margin-top: 10px;
-  font-size: 0.85rem;
+.read-more {
+  margin-top: 12px;
+  font-size: 0.92rem;
 }
 
-.book-refs ul {
+.read-more-title {
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.read-more ul {
   margin: 4px 0 0;
   padding-left: 18px;
-  color: var(--muted);
+}
+
+.read-more li {
+  margin: 2px 0;
+}
+
+.also-in {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: var(--dim);
 }
 
 .explain {
@@ -500,7 +514,7 @@ kbd {
   cursor: text;
 }
 
-.editor.typing:focus-within {
+.editor.typing.focused {
   border-color: var(--accent);
 }
 
@@ -539,25 +553,14 @@ kbd {
 }
 
 .ghost,
-.ch.ghost {
+.cm-ghost {
   color: var(--dim);
 }
 
-.ch.wrong {
+.cm-wrong {
   color: #0f1117;
   background: var(--red);
   border-radius: 2px;
-}
-
-.ch.caret {
-  box-shadow: inset 2px 0 0 var(--accent);
-  animation: blink 1s steps(1) infinite;
-}
-
-@keyframes blink {
-  50% {
-    box-shadow: none;
-  }
 }
 
 .task-placeholder {
@@ -565,8 +568,17 @@ kbd {
   font-style: italic;
 }
 
-.recall-line {
+.code-row.current .code-text {
+  flex: 1;
+}
+
+.current-line-wrap {
+  display: block;
   position: relative;
+}
+
+.line-editor {
+  display: block;
 }
 
 .peek-overlay {
@@ -580,19 +592,7 @@ kbd {
   padding: 0 4px;
   margin-left: -4px;
   z-index: 2;
-}
-
-.hidden-input {
-  position: absolute;
-  opacity: 0;
-  left: 0;
-  top: 0;
-  width: 1px;
-  height: 1px;
-  border: 0;
-  padding: 0;
-  resize: none;
-  font-size: 16px; /* stops iOS zooming in on focus */
+  pointer-events: none;
 }
 
 .focus-hint {

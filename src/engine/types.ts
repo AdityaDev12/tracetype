@@ -18,6 +18,12 @@ export interface BookRef {
   chapter: string
 }
 
+/** A free page online that covers the lesson topic (mainly docs.python.org). */
+export interface LessonLink {
+  title: string
+  url: string
+}
+
 export interface LessonLine {
   code: string
   explain: string
@@ -58,6 +64,9 @@ export interface Lesson {
   title: string
   summary: string
   intro: string
+  /** Free official pages to read more. Shown as "Read more". */
+  links: LessonLink[]
+  /** Book chapters, shown as small "Also in" text. Titles only. */
   bookRefs: BookRef[]
   visual: VisualKind
   lines: LessonLine[]
