@@ -2,19 +2,34 @@ import { useSyncExternalStore } from 'react'
 
 export type Route =
   | { page: 'home' }
+  | { page: 'welcome' }
+  | { page: 'course' }
+  | { page: 'track'; id: string }
   | { page: 'lesson'; id: string; step?: string }
+  | { page: 'project'; id: string }
+  | { page: 'unit-review'; id: string }
+  | { page: 'review' }
+  | { page: 'settings' }
   | { page: 'style' }
-  | { page: 'hero' }
   | { page: 'notfound' }
 
 export function parseHash(hash: string): Route {
-  const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
-  if (parts.length === 0) return { page: 'home' }
-  if (parts[0] === 'style') return { page: 'style' }
-  if (parts[0] === 'hero') return { page: 'hero' }
-  if (parts[0] === 'lesson' && parts[1]) {
-    return { page: 'lesson', id: decodeURIComponent(parts[1]), step: parts[2] }
-  }
+  const parts = hash
+    .replace(/^#\/?/, '')
+    .split('/')
+    .filter(Boolean)
+    .map((p) => decodeURIComponent(p))
+  const [a, b, c] = parts
+  if (!a) return { page: 'home' }
+  if (a === 'welcome' || a === 'hero') return { page: 'welcome' }
+  if (a === 'course' && !b) return { page: 'course' }
+  if (a === 'track' && b) return { page: 'track', id: b }
+  if (a === 'lesson' && b) return { page: 'lesson', id: b, step: c }
+  if (a === 'project' && b) return { page: 'project', id: b }
+  if (a === 'unit-review' && b) return { page: 'unit-review', id: b }
+  if (a === 'review') return { page: 'review' }
+  if (a === 'settings') return { page: 'settings' }
+  if (a === 'style') return { page: 'style' }
   return { page: 'notfound' }
 }
 

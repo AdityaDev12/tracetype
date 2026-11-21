@@ -26,7 +26,7 @@ export function FadedStep({ item, setItem, onDone }: { item: number; setItem: (n
   )
 }
 
-function FadedItemView({ index, solvedList, onSolved, onNext }: { index: number; solvedList: boolean[]; onSolved: () => void; onNext: () => void }) {
+export function FadedItemView({ index, solvedList, onSolved, onNext }: { index: number; solvedList: boolean[]; onSolved: () => void; onNext: () => void }) {
   const { lesson } = useLesson()
   const f = lesson.faded[index]
   const [values, setValues] = useState<string[]>(() => f.answers.map(() => ''))

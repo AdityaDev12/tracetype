@@ -9,7 +9,18 @@ import { Visual } from '../Visual.tsx'
 const STEP_MS = 750
 
 /** Predict, then Run: guess the output, then watch the code run line by line. */
-export function PredictStep({ item, setItem, onDone }: { item: number; setItem: (n: number) => void; onDone: () => void }) {
+export function PredictStep({
+  item,
+  setItem,
+  onDone,
+  onResult,
+}: {
+  item: number
+  setItem: (n: number) => void
+  onDone: () => void
+  /** Reports whether the guess was right (used by reviews). */
+  onResult?: (right: boolean) => void
+}) {
   const { lesson, react } = useLesson()
   const items = lesson.predict
   const p = items[item]
@@ -31,6 +42,7 @@ export function PredictStep({ item, setItem, onDone }: { item: number; setItem: 
   const answer = (value: string, right: boolean) => {
     if (guess) return
     setGuess({ value, right })
+    onResult?.(right)
     setStep(-1)
     react(right ? 'hop' : 'tilt')
     setSolved((s) => s.map((x, i) => (i === item ? true : x)))

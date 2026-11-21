@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { lessonHref } from '../router.ts'
 import { HeroDemo } from './HeroDemo.tsx'
+import { Footer, HowItWorks, ThePath, WhyItWorks } from './Sections.tsx'
 
 // Rough landing hero (DESIGN.md section 8), built to judge the feel in motion.
 // Boot line first (once per visit, any key skips), then headline + live demo.
@@ -84,14 +85,18 @@ export function HeroPage() {
             <a className="tt-btn primary" href={lessonHref('py-01-variables')}>
               Start learning →
             </a>
-            <a className="tt-btn bracket" href="#/">
+            <a className="tt-btn bracket" href="#/course">
               See the course
             </a>
           </div>
-          <p className="lp-free">free, open source, no account</p>
+          <p className="lp-free">free, no account, code on GitHub</p>
         </div>
         <HeroDemo />
       </section>
+      <HowItWorks />
+      <ThePath />
+      <WhyItWorks />
+      <Footer />
     </main>
   )
 }
