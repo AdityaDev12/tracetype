@@ -1,46 +1,69 @@
 :root {
-  /* Palette (DESIGN.md section 2) */
-  --bg: #0e1117;
-  --surface: #161b26;
-  --surface-2: #1c2230;
-  --border: #262d3d;
-  --text: #e6e9f0;
-  --text-muted: #8b93a7;
-  --text-dim: #5a6378;
-  --accent: #8ab4ff;
-  --success: #7dd3a8;
-  --error: #f28b82;
-  --warn: #f2c879;
-  --on-accent: #0e1117;
+  /* DESIGN.md v2: a terminal, marked up by a tutor */
+  --bg: #0c0b09;
+  --grid: #1a1813;
+  --panel: #13110e;
+  --panel-bar: #1c1914;
+  --line: #2a2620;
+  --chalk: #ede6d6;
+  --chalk-dim: #9c9384;
+  --phosphor: #ffb547;
+  --ghost: #6e6554; /* tuned from #5a5243 so ghost code reaches 3.3:1 */
+  --ok: #8be38b;
+  --pen-blue: #86b6ff;
+  --pen-red: #ff6f5e;
+  --pen-yellow: #f7d774;
+  --on-phosphor: #1a1207;
 
-  /* Soft tints for backgrounds */
-  --accent-soft: rgba(138, 180, 255, 0.12);
-  --success-soft: rgba(125, 211, 168, 0.1);
-  --error-soft: rgba(242, 139, 130, 0.1);
-  --warn-soft: rgba(242, 200, 121, 0.12);
+  --phosphor-glow: rgba(255, 181, 71, 0.08);
+  --phosphor-soft: rgba(255, 181, 71, 0.14);
+  --ok-soft: rgba(139, 227, 139, 0.1);
+  --red-soft: rgba(255, 111, 94, 0.1);
+  --yellow-soft: rgba(247, 215, 116, 0.22);
 
-  /* Muted syntax colors */
-  --syn-keyword: #c0a8f0;
-  --syn-builtin: #8fc7e6;
-  --syn-string: #a6d9b4;
-  --syn-number: #e8bd8f;
-  --syn-comment: #6b7489;
-  --syn-operator: #9fb0cc;
-  --syn-punct: #8b93a7;
+  /* Warm terminal syntax colors */
+  --syn-keyword: #e0a46a;
+  --syn-builtin: #cdb78c;
+  --syn-string: #a9c98a;
+  --syn-number: #ee9a82;
+  --syn-comment: #857b68;
+  --syn-operator: #c2b7a2;
+  --syn-punct: #9c9384;
 
   /* Type */
-  --mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --hand: 'Caveat', 'Comic Sans MS', cursive;
 
   /* Shape and motion */
-  --radius: 12px;
-  --radius-sm: 8px;
+  --radius: 3px;
+  --radius-sm: 2px;
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
   --fast: 150ms;
   --mid: 220ms;
-  --shadow-float: 0 8px 28px rgba(0, 0, 0, 0.35);
+  --draw: 420ms;
+  --shadow-float: 0 10px 30px rgba(0, 0, 0, 0.5);
+
+  /* Older names used by M1 screens, mapped onto v2 until those screens are rebuilt */
+  --surface: var(--panel);
+  --surface-2: var(--panel-bar);
+  --border: var(--line);
+  --text: var(--chalk);
+  --text-muted: var(--chalk-dim);
+  --text-dim: var(--ghost);
+  --accent: var(--phosphor);
+  --success: var(--ok);
+  --error: var(--pen-red);
+  --warn: var(--pen-yellow);
+  --on-accent: var(--on-phosphor);
+  --accent-soft: var(--phosphor-soft);
+  --success-soft: var(--ok-soft);
+  --error-soft: var(--red-soft);
+  --warn-soft: var(--yellow-soft);
   color-scheme: dark;
 }
+
 
 * {
   box-sizing: border-box;
@@ -49,7 +72,13 @@
 html,
 body {
   margin: 0;
-  background: var(--bg);
+  background-color: var(--bg);
+  /* Faint graph paper */
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 28px 28px;
+  background-position: -1px -1px;
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
@@ -69,8 +98,29 @@ a:hover {
 h1,
 h2,
 h3 {
-  line-height: 1.25;
+  font-family: var(--serif);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
   margin: 0;
+  font-optical-sizing: auto;
+}
+
+/* Barely visible film grain. Turned off with reduced motion or in settings. */
+.grain::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 0.9 0 0 0 0 0.75 0 0 0 0.6 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .grain::after {
+    display: none;
+  }
 }
 
 p {
@@ -1283,164 +1333,6 @@ kbd {
   text-align: center;
   padding: 28px 16px;
   gap: 2px;
-}
-
-/* Style preview page */
-.style-page h2 {
-  font-size: 1.125rem;
-  margin-bottom: 12px;
-}
-
-.sp-head {
-  margin-bottom: 8px;
-}
-
-.sp-head h1 {
-  font-size: 1.75rem;
-  letter-spacing: -0.02em;
-}
-
-.sp-section {
-  margin-top: 36px;
-}
-
-.sp-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 14px;
-}
-
-.sp-option {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.sp-option h3 {
-  font-size: 1rem;
-}
-
-.sp-logo-big {
-  font-size: 2.2rem;
-  padding: 18px 0 8px;
-}
-
-.sp-logo-nav,
-.sp-logo-icons {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 12px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-}
-
-.sp-mascot-row {
-  display: flex;
-  align-items: flex-end;
-  gap: 24px;
-  padding: 8px 0;
-}
-
-.sp-in-context {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.sp-context-bar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 12px;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-}
-
-.sp-swatches {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 10px;
-}
-
-.sp-swatch {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  padding: 10px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-}
-
-.sp-swatch code {
-  font-family: var(--mono);
-  font-size: 0.85rem;
-}
-
-.sp-chip {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border);
-  flex: none;
-}
-
-.sp-pass { color: var(--success); }
-.sp-fail { color: var(--text-muted); }
-
-.sp-type {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.sp-inputs {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 14px;
-  margin-top: 18px;
-  align-items: end;
-}
-
-.sp-caption {
-  margin: 12px 0 6px;
-}
-
-.sp-two {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 14px;
-  align-items: start;
-}
-
-@media (max-width: 700px) {
-  .sp-two {
-    grid-template-columns: 1fr;
-  }
-  .t-display {
-    font-size: 2rem;
-  }
-}
-
-.sp-toasts {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 8px;
-  margin-bottom: 10px;
-}
-
-.sp-progress {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.sp-badges {
-  margin-top: 0;
 }
 
 /* Show code exactly as typed: no == or >= ligatures in JetBrains Mono. */

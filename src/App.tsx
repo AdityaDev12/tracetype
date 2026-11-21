@@ -13,7 +13,7 @@ export default function App() {
   }, [pageKey])
 
   return (
-    <div className="app">
+    <div className="app grain">
       <nav className="topbar">
         <a href="#/" className="brand">
           Trace<span className="accent">Type</span>

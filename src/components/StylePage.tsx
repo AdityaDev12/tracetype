@@ -1,27 +1,36 @@
 import { useState } from 'react'
+import heroDemo from '../../content/demos/hero.json'
+import styleDemo from '../../content/demos/style.json'
 import { Logo, LogoIcon, type LogoVariant } from '../brand/Logo.tsx'
 import { Mascot, type MascotMood, type MascotVariant } from '../brand/Mascot.tsx'
+import { AnnotationLayer, type Anno } from '../design/Annotations.tsx'
+import { MemoryBoxes } from '../design/MemoryBoxes.tsx'
+import { wavyLine } from '../design/sketch.ts'
+import { Terminal } from '../design/Terminal.tsx'
+import { TypedHeading } from '../design/TypedHeading.tsx'
 import { viewAt } from '../engine/trace.ts'
 import type { TraceStep } from '../engine/types.ts'
-import { MemoryPanel } from '../visuals/MemoryPanel.tsx'
 import { CodeLine } from './CodeLine.tsx'
-import { LevelRing, ProgressBar, StepProgress, StreakFlame, Toast, type ToastKind } from './ui/Bits.tsx'
 
-// #style: the design preview from DESIGN.md. Shows every token and building
-// block so the look can be approved before pages are built with it.
+// #style v2: "a terminal, marked up by a tutor". Every token and building block
+// on one page so the look can be judged before it goes everywhere.
 
 const PALETTE: [string, string, string][] = [
-  ['--bg', '#0e1117', 'Page background'],
-  ['--surface', '#161b26', 'Cards, panels'],
-  ['--surface-2', '#1c2230', 'Inputs, hover, inner boxes'],
-  ['--border', '#262d3d', '1px borders'],
-  ['--text', '#e6e9f0', 'Main text'],
-  ['--text-muted', '#8b93a7', 'Secondary text'],
-  ['--accent', '#8ab4ff', 'Links, focus, active step, progress'],
-  ['--success', '#7dd3a8', 'Correct, completed'],
-  ['--error', '#f28b82', 'Wrong characters, failed tests'],
-  ['--warn', '#f2c879', 'Hints, streak flame'],
+  ['--bg', '#0c0b09', 'warm near-black page'],
+  ['--grid', '#1a1813', 'graph-paper lines'],
+  ['--panel', '#13110e', 'terminal panels'],
+  ['--panel-bar', '#1c1914', 'terminal title bars'],
+  ['--line', '#2a2620', 'borders, dashed dividers'],
+  ['--chalk', '#ede6d6', 'main text'],
+  ['--chalk-dim', '#9c9384', 'secondary text'],
+  ['--phosphor', '#ffb547', 'cursor, active line, primary button'],
+  ['--ghost', '#6e6554', 'ghost code (tuned up from #5a5243)'],
+  ['--ok', '#8be38b', 'correct, done'],
+  ['--pen-blue', '#86b6ff', "tutor's notes and arrows"],
+  ['--pen-red', '#ff6f5e', 'mistakes, wrong characters'],
+  ['--pen-yellow', '#f7d774', 'highlighter: hints, streak'],
 ]
+const SURFACES = new Set(['--bg', '--grid', '--panel', '--panel-bar', '--line'])
 
 function luminance(hex: string): number {
   const n = parseInt(hex.slice(1), 16)
@@ -37,47 +46,26 @@ function contrast(a: string, b: string): number {
   return (x + 0.05) / (y + 0.05)
 }
 
-const CODE = [
-  '# Count the apples in the basket',
-  'basket = ["apple", "pear", "apple"]',
-  'count = 0',
-  'for fruit in basket:',
-  '    if fruit == "apple":',
-  '        count = count + 1',
-  'print("Apples:", count, len(basket) > 2)',
-]
-
-// Example boxes for the preview only. Lesson visuals always come from real runs.
-const DEMO_TRACE: TraceStep[] = [
-  { line: 1, vars: { city: { repr: "'Oslo'", type: 'str' }, days: { repr: '3', type: 'int' } }, stdout: '' },
-  {
-    line: 2,
-    vars: {
-      city: { repr: "'Oslo'", type: 'str' },
-      days: { repr: '4', type: 'int' },
-      rainy: { repr: 'True', type: 'bool' },
-    },
-    stdout: '',
-  },
-]
-
 const LOGOS: { id: LogoVariant; name: string; note: string }[] = [
-  { id: 'cursor', name: 'A. Cursor wordmark', note: 'Monospace name with a blinking block cursor at the end. Simple, reads as "typing".' },
-  { id: 'mark', name: 'B. Icon + wordmark', note: 'A prompt chevron and the mascot in a small tile, next to the name in Inter.' },
-  { id: 'ghost', name: 'C. Ghost type', note: '"Type" is faded like ghost code, with the cursor about to type over it.' },
+  { id: 'ghost', name: 'A  ghost', note: '"Type" is ghost code. The amber cursor is about to type over it.' },
+  { id: 'marked', name: 'B  marked up', note: 'Same, but the tutor has circled the cursor and underlined "Type".' },
+  { id: 'serif', name: 'C  serif', note: 'Bookish Fraunces with a prompt in front and the cursor behind.' },
 ]
 
 const MASCOTS: { id: MascotVariant; name: string; note: string }[] = [
-  { id: 'cursor', name: '1. Caret', note: 'A tall block cursor with two dot eyes. The most minimal.' },
-  { id: 'buddy', name: '2. Buddy', note: 'A softer, wider block on an underscore, with a tiny smile.' },
-  { id: 'brackets', name: '3. Brackets', note: 'A slim cursor holding two square brackets like little arms.' },
+  { id: 'block', name: '1  block', note: 'The plain terminal block cursor, glowing, with two eyes.' },
+  { id: 'peeker', name: '2  peeker', note: 'An underscore cursor with eyes peeking over it. Shy and small.' },
+  { id: 'walker', name: '3  walker', note: 'A block cursor on two short legs, so it can hop and walk around.' },
 ]
 
 const MOODS: { mood: MascotMood; label: string }[] = [
-  { mood: 'hop', label: 'Correct (hop)' },
-  { mood: 'tilt', label: 'Error (tilt)' },
-  { mood: 'bounce', label: 'Lesson done (bounce)' },
+  { mood: 'hop', label: 'correct' },
+  { mood: 'tilt', label: 'error' },
+  { mood: 'bounce', label: 'lesson done' },
 ]
+
+const styleTrace = styleDemo.trace as TraceStep[]
+const heroLines = heroDemo.lines.map((l) => l.code)
 
 function MascotCard({ id, name, note }: { id: MascotVariant; name: string; note: string }) {
   const [mood, setMood] = useState<MascotMood>('idle')
@@ -87,92 +75,185 @@ function MascotCard({ id, name, note }: { id: MascotVariant; name: string; note:
     setKey((k) => k + 1)
   }
   return (
-    <div className="card sp-option">
-      <h3>{name}</h3>
-      <div className="sp-mascot-row">
-        <Mascot variant={id} size={96} mood={mood} moodKey={key} title={`Mascot ${name}`} />
-        <Mascot variant={id} size={32} mood={mood} moodKey={key} />
-        <Mascot variant={id} size={24} mood={mood} moodKey={key} />
-      </div>
-      <p className="muted small-text">{note} Idle: blinks now and then.</p>
-      <div className="row">
-        {MOODS.map((m) => (
-          <button key={m.mood} className="btn small secondary" onClick={() => play(m.mood)}>
-            {m.label}
-          </button>
-        ))}
-      </div>
-      <div className="sp-in-context">
-        <span className="muted small-text">In context:</span>
-        <div className="sp-context-bar">
-          <StepProgress
-            steps={['Intro', 'Predict', 'Examples', 'Investigate', 'Faded', 'Parsons', 'Quiz'].map((label, i) => ({
-              label,
-              state: i < 3 ? 'done' : i === 3 ? 'current' : 'todo',
-            }))}
-          />
+    <Terminal title={`mascot ${name}`} className="sp-card">
+      <div className="term-pad sp-stack">
+        <div className="sp-mascots">
+          <Mascot variant={id} size={96} mood={mood} moodKey={key} title={`Mascot ${name}`} />
+          <Mascot variant={id} size={32} mood={mood} moodKey={key} />
+          <Mascot variant={id} size={24} mood={mood} moodKey={key} />
+          <span className="sp-sketch-wrap">
+            <Mascot variant={id} size={56} mood={mood} moodKey={key} sketch />
+            <span className="sp-hand">in the tutor's pen</span>
+          </span>
+        </div>
+        <p className="sp-note">{note} Idle: blinks.</p>
+        <div className="sp-row">
+          {MOODS.map((m) => (
+            <button key={m.mood} className="tt-btn bracket small" onClick={() => play(m.mood)}>
+              {m.label}
+            </button>
+          ))}
+        </div>
+        <div className="sp-context">
+          <span className="box-label">└─ in a lesson</span>
+          <ol className="tt-steps" aria-label="Example lesson steps">
+            {Array.from({ length: 11 }, (_, i) => (
+              <li key={i} className={`tt-step${i < 4 ? ' done' : i === 4 ? ' current' : ''}`} />
+            ))}
+          </ol>
           <Mascot variant={id} size={28} mood={mood} moodKey={key} />
         </div>
+      </div>
+    </Terminal>
+  )
+}
+
+function AnnotatedCode() {
+  const [run, setRun] = useState(0)
+  const annos: Anno[] = [
+    {
+      id: `old-${run}`,
+      target: 'old-value',
+      mark: 'circle',
+      color: 'blue',
+      note: 'reads the old value first!',
+      side: 'right',
+      dx: 46,
+      dy: -34,
+      delay: 300,
+    },
+    { id: `typo-${run}`, target: 'typo', mark: 'underline', color: 'red', delay: 1200 },
+    {
+      id: `done-${run}`,
+      target: 'done-line',
+      mark: 'check',
+      color: 'green',
+      delay: 1700,
+    },
+  ]
+  return (
+    <div className="sp-stack">
+      <AnnotationLayer annotations={annos}>
+        <Terminal title="lesson_01.py" label="python">
+          <div className="tcode">
+            <div className="tline">
+              <span className="tgutter">1</span>
+              <span className="ttext" data-anno="done-line">
+                <CodeLine code={heroLines[0]} />
+              </span>
+            </div>
+            <div className="tline active">
+              <span className="tgutter">2</span>
+              <span className="ttext">
+                <span className="tok-name">cups</span> <span className="tok-operator">=</span>{' '}
+                <span data-anno="old-value">
+                  <span className="tok-name">cups</span> <span className="tok-operator">+</span>{' '}
+                  <span className="tok-number">1</span>
+                </span>
+              </span>
+            </div>
+            <div className="tline">
+              <span className="tgutter">3</span>
+              <span className="ttext">
+                <span className="tok-name">name</span> <span className="tok-operator">=</span>{' '}
+                <span data-anno="typo">
+                  <span className="tok-string">"R</span>
+                  <span className="twrong">o</span>
+                </span>
+                <span className="tcaret inline" />
+                <span className="tghost">n"</span>
+              </span>
+            </div>
+            <div className="tline">
+              <span className="tgutter">4</span>
+              <span className="ttext tghost">{heroLines[3]}</span>
+            </div>
+          </div>
+        </Terminal>
+      </AnnotationLayer>
+      <div className="sp-row">
+        <button className="tt-btn bracket small" onClick={() => setRun((r) => r + 1)}>
+          draw it again
+        </button>
+        <span className="sp-note">Blue pen explains, red pen marks a mistake, green ticks a finished line.</span>
       </div>
     </div>
   )
 }
 
-export function StylePage() {
-  const [toast, setToast] = useState<{ kind: ToastKind; text: string; n: number } | null>(null)
-  const [boxesKey, setBoxesKey] = useState(0)
-  const [fill, setFill] = useState(0.35)
+function Streak({ days }: { days: number }) {
+  return (
+    <span className="tt-streak" aria-label={`${days} day streak`}>
+      <span className="num">
+        <svg className="hl" viewBox="0 0 100 16" preserveAspectRatio="none" aria-hidden>
+          <path d={wavyLine(2, 98, 8, 11, 1.5, 60)} pathLength={1} className="draw" />
+        </svg>
+        {days}
+      </span>
+      <small>day streak</small>
+    </span>
+  )
+}
 
-  const showToast = (kind: ToastKind, text: string) => {
+export function StylePage() {
+  const [toast, setToast] = useState<{ cls: string; tag: string; text: string; n: number } | null>(null)
+  const [boxesStep, setBoxesStep] = useState(2)
+  const [meter, setMeter] = useState(6)
+
+  const pop = (cls: string, tag: string, text: string) => {
     const n = Date.now()
-    setToast({ kind, text, n })
+    setToast({ cls, tag, text, n })
     window.setTimeout(() => setToast((t) => (t?.n === n ? null : t)), 2400)
   }
 
+  const view = viewAt(styleTrace, boxesStep)
+
   return (
-    <main className="page style-page">
+    <main className="page sp-page">
       <header className="sp-head">
-        <h1>Style preview</h1>
-        <p className="muted">
-          Everything the site is built from. Pick one logo and one mascot below. Press Tab to see focus rings.
+        <span className="box-label">{'> tracetype --style'}</span>
+        <TypedHeading level={1} text="The look, marked up." className="sp-title" />
+        <p className="sp-lede">
+          A terminal, marked up by a tutor. Warm glowing code panels, and a friendly hand drawing arrows, circles and
+          notes on top of everything.
         </p>
+        <p className="sp-hand sp-pick">pick one logo and one mascot below ↓</p>
       </header>
 
       <section className="sp-section">
-        <h2>Logo options</h2>
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>Logo
+        </h2>
         <div className="sp-grid">
           {LOGOS.map((l) => (
-            <div key={l.id} className="card sp-option">
-              <h3>{l.name}</h3>
-              <div className="sp-logo-big">
-                <Logo variant={l.id} />
-              </div>
-              <div className="sp-logo-nav">
-                <span className="muted small-text">Nav bar:</span>
-                <span style={{ fontSize: '1.1rem' }}>
+            <Terminal key={l.id} title={`logo ${l.name}`} className="sp-card">
+              <div className="term-pad sp-stack">
+                <div className="sp-logo-big">
                   <Logo variant={l.id} />
-                </span>
+                </div>
+                <div className="sp-nav-mock">
+                  <span className="sp-logo-nav">
+                    <Logo variant={l.id} />
+                  </span>
+                  <span className="sp-nav-links">learn · review · map</span>
+                </div>
+                <div className="sp-row">
+                  <span className="box-label">icon</span>
+                  <LogoIcon variant={l.id} px={48} />
+                  <LogoIcon variant={l.id} px={32} />
+                  <LogoIcon variant={l.id} px={16} />
+                </div>
+                <p className="sp-note">{l.note}</p>
               </div>
-              <div className="sp-logo-icons">
-                <span className="muted small-text">Icon:</span>
-                <span style={{ fontSize: 24 }}>
-                  <LogoIcon variant={l.id} size={2} />
-                </span>
-                <span style={{ fontSize: 16 }}>
-                  <LogoIcon variant={l.id} size={2} />
-                </span>
-                <span style={{ fontSize: 8 }}>
-                  <LogoIcon variant={l.id} size={2} />
-                </span>
-              </div>
-              <p className="muted small-text">{l.note}</p>
-            </div>
+            </Terminal>
           ))}
         </div>
       </section>
 
       <section className="sp-section">
-        <h2>Mascot sketches</h2>
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>Mascot
+        </h2>
         <div className="sp-grid">
           {MASCOTS.map((m) => (
             <MascotCard key={m.id} {...m} />
@@ -181,196 +262,255 @@ export function StylePage() {
       </section>
 
       <section className="sp-section">
-        <h2>Palette</h2>
-        <div className="sp-swatches">
-          {PALETTE.map(([token, hex, use]) => {
-            const ratio = contrast(hex, '#0e1117')
-            return (
-              <div key={token} className="sp-swatch">
-                <span className="sp-chip" style={{ background: `var(${token})` }} />
-                <div>
-                  <code>{token}</code>
-                  <div className="muted small-text">
-                    {hex} · {use}
-                  </div>
-                  {token !== '--bg' && token !== '--surface' && token !== '--surface-2' && token !== '--border' && (
-                    <div className={`small-text ${ratio >= 4.5 ? 'sp-pass' : 'sp-fail'}`}>
-                      {ratio.toFixed(1)}:1 on background {ratio >= 4.5 ? '(AA)' : '(decorative only)'}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )
-          })}
-        </div>
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>The tutor's pen
+        </h2>
+        <AnnotatedCode />
       </section>
 
-      <section className="sp-section">
-        <h2>Type</h2>
-        <div className="card sp-type">
-          <div className="t-display">Learn Python by typing it.</div>
-          <div className="t-h1">Heading 1 · Variables and print</div>
-          <div className="t-h2">Heading 2 · Worked examples</div>
-          <div className="t-h3">Heading 3 · Predict the output</div>
-          <p className="t-body">
-            Body text. A variable is a name that points at a value. Short sentences, plain words, lots of space.
+      <section className="sp-section sp-two">
+        <div className="sp-stack">
+          <h2 className="sp-h2">
+            <span className="box-label">├─ </span>Memory
+          </h2>
+          <Terminal title="memory" label={`after line ${view.line ?? 0}`}>
+            <MemoryBoxes vars={view.vars} />
+          </Terminal>
+          <div className="sp-row">
+            {styleTrace.map((s, i) => (
+              <button
+                key={i}
+                className={`tt-btn small ${i === boxesStep ? 'primary' : 'bracket'}`}
+                onClick={() => setBoxesStep(i)}
+              >
+                line {s.line}
+              </button>
+            ))}
+          </div>
+          <p className="sp-note">
+            New boxes pop in. A changed value flashes amber and the old one gets crossed out in red pen. Values come
+            from a real run of a 4 line demo program.
           </p>
-          <p className="t-small muted">Small text for hints and secondary details.</p>
-          <div className="t-label">Label · Step 3 of 12</div>
-          <code className="t-mono">score = score + 1</code>
+        </div>
+        <div className="sp-stack">
+          <h2 className="sp-h2">
+            <span className="box-label">├─ </span>Output
+          </h2>
+          <Terminal title="output">
+            <div className="toutput">
+              <span className="prompt">{'$ python lesson_01.py\n'}</span>
+              {heroDemo.trace.map((s) => s.stdout).join('')}
+            </div>
+          </Terminal>
         </div>
       </section>
 
       <section className="sp-section">
-        <h2>Buttons and inputs</h2>
-        <div className="card">
-          <div className="row">
-            <button className="btn primary">Start learning</button>
-            <button className="btn secondary">See the course</button>
-            <button className="btn ghost">Skip</button>
-            <button className="btn primary" disabled>
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>Type
+        </h2>
+        <Terminal title="fonts">
+          <div className="term-pad sp-type">
+            <div className="sp-type-row">
+              <span className="box-label">Fraunces</span>
+              <span className="sp-display">Learn Python by typing it.</span>
+            </div>
+            <div className="sp-type-row">
+              <span className="box-label">Fraunces</span>
+              <h3 className="sp-h3">Variables are labelled boxes</h3>
+            </div>
+            <div className="sp-type-row">
+              <span className="box-label">Plex Sans</span>
+              <p className="sp-body">
+                A variable is a name that points at a value. When you write a new value into it, the old one is gone.
+                Short sentences, plain words.
+              </p>
+            </div>
+            <div className="sp-type-row">
+              <span className="box-label">Plex Mono</span>
+              <code className="sp-mono">
+                <CodeLine code='if score == 10 and name != "Rin":' />
+              </code>
+            </div>
+            <div className="sp-type-row">
+              <span className="box-label">Caveat</span>
+              <span className="sp-hand sp-hand-big">only for the tutor's notes, never for body text</span>
+            </div>
+          </div>
+        </Terminal>
+      </section>
+
+      <section className="sp-section">
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>Palette
+        </h2>
+        <Terminal title="palette" label="contrast on --bg">
+          <div className="sp-palette">
+            {PALETTE.map(([token, hex, use]) => {
+              const surface = SURFACES.has(token)
+              const r = contrast(hex, '#0c0b09')
+              return (
+                <div key={token} className="sp-swatch">
+                  <span className="sp-chip" style={{ background: hex }} />
+                  <code className="sp-token">{token}</code>
+                  <code className="sp-hex">{hex}</code>
+                  <span className="sp-use">{use}</span>
+                  <span className={`sp-ratio ${surface ? '' : r >= 4.5 ? 'pass' : r >= 3 ? 'ui' : 'fail'}`}>
+                    {surface ? 'surface' : `${r.toFixed(1)}:1 ${r >= 4.5 ? 'AA' : r >= 3 ? 'AA large/UI' : 'fail'}`}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </Terminal>
+      </section>
+
+      <section className="sp-section sp-two">
+        <div className="sp-stack">
+          <h2 className="sp-h2">
+            <span className="box-label">├─ </span>Buttons
+          </h2>
+          <div className="sp-row">
+            <button className="tt-btn primary">Start learning →</button>
+            <button className="tt-btn bracket">See the course</button>
+            <button className="tt-btn prompt"> skip for now</button>
+          </div>
+          <div className="sp-row">
+            <button className="tt-btn primary small">Check</button>
+            <button className="tt-btn bracket small">show answer</button>
+            <button className="tt-btn primary" disabled>
               Disabled
             </button>
-            <button className="btn small secondary">Small</button>
-            <button className="icon-btn" aria-label="Settings" title="Settings">
+            <button className="tt-icon" aria-label="Settings" title="Settings">
               <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden>
-                <circle cx="8" cy="8" r="2.2" fill="none" stroke="currentColor" strokeWidth="1.4" />
-                <path
-                  d="M8 1.8v1.6M8 12.6v1.6M1.8 8h1.6M12.6 8h1.6M3.6 3.6l1.1 1.1M11.3 11.3l1.1 1.1M3.6 12.4l1.1-1.1M11.3 4.7l1.1-1.1"
-                  stroke="currentColor"
-                  strokeWidth="1.4"
-                  strokeLinecap="round"
-                />
+                <path d="M2 4h12M2 8h12M2 12h12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+                <rect x="9" y="2.5" width="2.5" height="3" fill="currentColor" />
+                <rect x="4" y="6.5" width="2.5" height="3" fill="currentColor" />
+                <rect x="10" y="10.5" width="2.5" height="3" fill="currentColor" />
               </svg>
             </button>
           </div>
-          <div className="sp-inputs">
-            <label className="field">
-              <span className="field-label">Your answer</span>
-              <input className="input" placeholder="Type what it prints" />
-            </label>
-            <label className="field">
-              <span className="field-label">Code</span>
-              <textarea className="input mono" rows={2} defaultValue={'total = price * 2'} />
-            </label>
-            <label className="check">
-              <input type="checkbox" defaultChecked /> Show the mascot
-            </label>
-            <label className="switch">
-              <input type="checkbox" role="switch" />
-              <span className="switch-track" aria-hidden />
-              Sound
-            </label>
-          </div>
+          <p className="sp-note">Hover the bracket button. Press Tab to see focus rings.</p>
+        </div>
+        <div className="sp-stack">
+          <h2 className="sp-h2">
+            <span className="box-label">├─ </span>Inputs
+          </h2>
+          <label className="tt-field">
+            <span className="tt-field-label">{'> what will it print?'}</span>
+            <input className="tt-input" placeholder="type your guess" />
+          </label>
+          <label className="tt-check">
+            <input type="checkbox" defaultChecked />
+            <span className="box" aria-hidden />
+            show the mascot
+          </label>
+          <label className="tt-check">
+            <input type="checkbox" />
+            <span className="box" aria-hidden />
+            paper texture
+          </label>
         </div>
       </section>
 
       <section className="sp-section">
-        <h2>Code</h2>
-        <div className="editor">
-          {CODE.map((l, i) => (
-            <div className={`code-row${i === 5 ? ' current' : ''}`} key={i}>
-              <span className="gutter">{i + 1}</span>
-              <span className="code-text">
-                <CodeLine code={l} />
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>Feedback
+        </h2>
+        <div className="sp-stack sp-toasts">
+          <div className="tt-toast ok">
+            <span className="tag">✓ correct</span> +10 xp<span className="aside">nice one</span>
+          </div>
+          <div className="tt-toast err">
+            <span className="tag">✗ not yet</span> line 3 printed 7, the test wanted 8
+          </div>
+          <div className="tt-toast hint">
+            <span className="tag">hint</span> the loop runs once for each item
+          </div>
+          <div className="tt-toast sys">
+            <span className="tag">{'>'}</span> progress saved
+          </div>
+        </div>
+        <div className="sp-row">
+          <button className="tt-btn bracket small" onClick={() => pop('ok', '✓ correct', '+10 xp')}>
+            pop a toast
+          </button>
+          <button className="tt-btn bracket small" onClick={() => pop('err', '✗ not yet', 'try again, no penalty')}>
+            pop an error
+          </button>
+        </div>
+      </section>
+
+      <section className="sp-section">
+        <h2 className="sp-h2">
+          <span className="box-label">├─ </span>Progress, level, streak
+        </h2>
+        <Terminal title="you" label="today">
+          <div className="term-pad sp-stack">
+            <div className="sp-row">
+              <span className="box-label">lesson</span>
+              <ol className="tt-steps" aria-label="Lesson steps">
+                {Array.from({ length: 13 }, (_, i) => (
+                  <li key={i} className={`tt-step${i < 5 ? ' done' : i === 5 ? ' current' : ''}`} />
+                ))}
+              </ol>
+              <span className="box-label">6/13</span>
+            </div>
+            <div className="sp-row">
+              <span className="box-label">unit  </span>
+              <span className="tt-meter" aria-label={`Unit ${meter * 10} percent`}>
+                [<span className="fill">{'█'.repeat(meter)}</span>
+                {'░'.repeat(10 - meter)}] {meter * 10}%
               </span>
+              <button className="tt-btn bracket small" onClick={() => setMeter((m) => (m >= 10 ? 2 : m + 2))}>
+                more
+              </button>
             </div>
-          ))}
-        </div>
-        <p className="muted small-text sp-caption">Trace mode: typed text, one wrong character, faded ghost code.</p>
-        <div className="editor">
-          <div className="code-row current">
-            <span className="gutter">2</span>
-            <span className="code-text">
-              <span className="tok-name">cou</span>
-              <span className="cm-wrong">y</span>
-              <span className="ghost"> = 0</span>
-            </span>
-          </div>
-          <div className="code-row">
-            <span className="gutter">3</span>
-            <span className="code-text ghost">for fruit in basket:</span>
-          </div>
-          <div className="code-row">
-            <span className="gutter">4</span>
-            <span className="code-text ghost">    if fruit == "apple":</span>
-          </div>
-        </div>
-      </section>
-
-      <section className="sp-section">
-        <h2>Variable boxes</h2>
-        <div className="sp-two">
-          <div key={boxesKey}>
-            <MemoryPanel vars={viewAt(DEMO_TRACE, 1).vars} />
-          </div>
-          <div>
-            <p className="muted small-text">
-              New boxes pop in with a "new" tag. Changed boxes glow and show the old value. (Example values for this
-              page only.)
-            </p>
-            <button className="btn small secondary" onClick={() => setBoxesKey((k) => k + 1)}>
-              Replay
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section className="sp-section">
-        <h2>Feedback</h2>
-        <div className="sp-toasts">
-          <Toast kind="success">Correct! +10 XP</Toast>
-          <Toast kind="error">Not quite. Line 3 prints 7, the test expected 8.</Toast>
-          <Toast kind="warn">Hint: the loop runs once for each item.</Toast>
-          <Toast kind="info">Progress saved.</Toast>
-        </div>
-        <div className="row">
-          <button className="btn small secondary" onClick={() => showToast('success', 'Correct! +10 XP')}>
-            Show a toast
-          </button>
-          <button className="btn small secondary" onClick={() => showToast('error', 'Not quite. Try again.')}>
-            Show an error toast
-          </button>
-        </div>
-      </section>
-
-      <section className="sp-section">
-        <h2>Progress, XP and streak</h2>
-        <div className="card sp-progress">
-          <StepProgress
-            steps={['Intro', 'Predict', 'Examples', 'Investigate', 'Faded', 'Parsons', 'Fix', 'Modify', 'Recall', 'Make', 'Quiz'].map(
-              (label, i) => ({ label, state: i < 4 ? 'done' : i === 4 ? 'current' : 'todo' }),
-            )}
-          />
-          <div className="row">
-            <div style={{ flex: 1, minWidth: 200 }}>
-              <ProgressBar value={fill} label="Unit progress" />
+            <div className="sp-row">
+              <span className="tt-level">
+                <span className="lv">lv 4</span> 620 / 1000 xp
+              </span>
+              <Streak days={12} />
             </div>
-            <button className="btn small secondary" onClick={() => setFill((f) => (f >= 1 ? 0.1 : Math.min(1, f + 0.3)))}>
-              Fill more
-            </button>
           </div>
-          <div className="row sp-badges">
-            <LevelRing level={4} progress={0.62} />
-            <span className="muted small-text">Level 4 · 620 / 1000 XP</span>
-            <StreakFlame days={12} />
-          </div>
-        </div>
+        </Terminal>
       </section>
 
-      <section className="sp-section">
-        <h2>Empty state</h2>
-        <div className="card empty-state">
-          <Mascot size={40} />
-          <p>No reviews due. Nice.</p>
-          <p className="muted small-text">Come back tomorrow, or start the next lesson.</p>
+      <section className="sp-section sp-two">
+        <div className="sp-stack">
+          <h2 className="sp-h2">
+            <span className="box-label">├─ </span>Empty state
+          </h2>
+          <Terminal title="review">
+            <div className="term-pad sp-empty">
+              <Mascot size={40} />
+              <div>
+                <div className="box-label">{'> 0 cards due'}</div>
+                <div className="sp-hand sp-hand-big">all caught up. go learn something new!</div>
+              </div>
+            </div>
+          </Terminal>
+        </div>
+        <div className="sp-stack">
+          <h2 className="sp-h2">
+            <span className="box-label">└─ </span>404
+          </h2>
+          <Terminal title="404">
+            <div className="term-pad sp-empty">
+              <Mascot size={40} mood="tilt" />
+              <div>
+                <div className="box-label">{'> page not found'}</div>
+                <button className="tt-btn prompt"> cd ~</button>
+              </div>
+            </div>
+          </Terminal>
         </div>
       </section>
 
       {toast && (
-        <Toast kind={toast.kind} floating key={toast.n}>
-          {toast.text}
-        </Toast>
+        <div className={`tt-toast floating ${toast.cls}`} role="status" key={toast.n}>
+          <span className="tag">{toast.tag}</span> {toast.text}
+        </div>
       )}
     </main>
   )
