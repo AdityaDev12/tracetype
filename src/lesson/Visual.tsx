@@ -1,21 +1,54 @@
+import './visuals/visuals.css'
 import { MemoryBoxes } from '../design/MemoryBoxes.tsx'
 import { Terminal } from '../design/Terminal.tsx'
+import type { RunError } from '../engine/grade.ts'
 import type { StepView } from '../engine/trace.ts'
-import type { VisualKind } from '../engine/types.ts'
+import type { TraceStep, VisualKind } from '../engine/types.ts'
+import { CellsPanel, ExprPanel, HaltPanel, HistoryPanel, StdinPanel, TypesPanel } from './visuals/panels.tsx'
 
-/** The right-hand panels: memory boxes and output. Chosen by the lesson's visual field. */
-export function Visual({ view, kind = 'memory', file = 'main.py' }: { view: StepView; kind?: VisualKind; file?: string }) {
-  void kind // only "memory" exists so far; later tracks add arrays, tables and plots
+export interface VisualProps {
+  view: StepView
+  /** Panels to show, in order (output is always last). Defaults to memory. */
+  kinds?: VisualKind[]
+  file?: string
+  /** The whole run, for panels that look back (history, stdin, halt). */
+  trace?: TraceStep[]
+  /** The error the program stopped with, if any. */
+  error?: RunError | null
+  /** Typed answers for input(). */
+  stdin?: string[]
+  /** Names the cells and history panels focus on. */
+  focus?: string[]
+  /** Number of code lines (for "never ran"). */
+  lineCount?: number
+}
+
+/** The right-hand panels, chosen by the item's (or lesson's) visuals list. */
+export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, focus, lineCount = 0 }: VisualProps) {
+  const list: VisualKind[] = kinds?.length ? kinds : ['memory']
+  const t = trace ?? []
+  const atEnd = t.length > 0 && view.index >= t.length - 1
+  const panels = list.map((k) => {
+    switch (k) {
+      case 'memory':
+        return <MemoryPanel key={k} view={view} />
+      case 'history':
+        return <HistoryPanel key={k} trace={t} index={view.index} focus={focus} />
+      case 'expr':
+        return <ExprPanel key={k} trace={t} index={view.index} />
+      case 'halt':
+        return <HaltPanel key={k} trace={t} index={view.index} error={error} lineCount={lineCount} />
+      case 'types':
+        return <TypesPanel key={k} view={view} />
+      case 'stdin':
+        return <StdinPanel key={k} trace={t} index={view.index} stdin={stdin} />
+      case 'cells':
+        return <CellsPanel key={k} view={view} focus={focus} />
+    }
+  })
   return (
     <div className="visual-stack">
-      {view.func && (
-        <Terminal title={`inside ${view.func}()`}>
-          <MemoryBoxes vars={view.locals} empty="no local variables yet" />
-        </Terminal>
-      )}
-      <Terminal title="memory" label={view.line ? `after line ${view.line}` : 'empty'}>
-        <MemoryBoxes vars={view.vars} />
-      </Terminal>
+      {panels}
       <Terminal title="output">
         <div className="toutput">
           <span className="prompt">{`$ python ${file}\n`}</span>
@@ -25,8 +58,24 @@ export function Visual({ view, kind = 'memory', file = 'main.py' }: { view: Step
               {view.newOutput}
             </span>
           )}
+          {error && atEnd && <span className="out-error">{error.message}</span>}
         </div>
       </Terminal>
     </div>
+  )
+}
+
+function MemoryPanel({ view }: { view: StepView }) {
+  return (
+    <>
+      {view.func && (
+        <Terminal title={`inside ${view.func}()`}>
+          <MemoryBoxes vars={view.locals} empty="no local variables yet" />
+        </Terminal>
+      )}
+      <Terminal title="memory" label={view.line ? `after line ${view.line}` : 'empty'}>
+        <MemoryBoxes vars={view.vars} />
+      </Terminal>
+    </>
   )
 }

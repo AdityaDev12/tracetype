@@ -228,6 +228,11 @@ class Expressions(unittest.TestCase):
         r = trace("a = 2\nb = 3\nc = a + b * 4\n", expr=[3])
         self.assertEqual(self.texts(r, 3)[0], ["c = a + b * 4", "c = 2 + 3 * 4", "c = 2 + 12", "c = 14"])
 
+    def test_each_step_says_what_was_computed(self):
+        r = trace("t = int('4') * 2\n", expr=[1])
+        steps = events(r, "expr")[0]["steps"]
+        self.assertEqual([(s.get("part"), s.get("value")) for s in steps[1:]], [("int('4')", "4"), ("4 * 2", "8")])
+
     def test_parentheses(self):
         r = trace("c = (2 + 3) * 4\n", expr=[1])
         self.assertEqual(self.texts(r, 1)[0], ["c = (2 + 3) * 4", "c = 5 * 4", "c = 20"])

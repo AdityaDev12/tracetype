@@ -1,6 +1,6 @@
 import { authored } from './hash.ts'
 import { stepForSourceLine } from './trace.ts'
-import { BOOK_TITLES, STEP_MINIMUMS, type TraceStep } from './types.ts'
+import { BOOK_TITLES, STEP_MINIMUMS, VISUAL_KINDS, type TraceStep } from './types.ts'
 
 // Pure schema checks for lesson format v2 (no Node or browser APIs). The
 // validate script adds the hash checks (is every gen field up to date?).
@@ -35,6 +35,30 @@ function checkCode(c: Checker, code: unknown, where: string) {
   ;(code as string[]).forEach((line, i) => {
     c.need(!line.includes('\t'), `${where}[${i}] uses a tab, use spaces`)
     c.need(line === line.trimEnd(), `${where}[${i}] has trailing spaces`)
+  })
+}
+
+/** visuals, knobs and focus on an item (or the lesson). */
+function checkVisuals(c: Checker, item: Obj, code: string[], where: string) {
+  if (item.visuals !== undefined) {
+    const ok = Array.isArray(item.visuals) && item.visuals.every((v) => (VISUAL_KINDS as readonly unknown[]).includes(v))
+    c.need(ok, `${where}.visuals must be a list of: ${VISUAL_KINDS.join(', ')}`)
+  }
+  if (item.focus !== undefined) c.need(Array.isArray(item.focus) && item.focus.every(nonEmpty), `${where}.focus must be a list of names`)
+  if (item.knobs === undefined) return
+  if (!c.need(Array.isArray(item.knobs), `${where}.knobs must be a list`)) return
+  ;(item.knobs as unknown[]).forEach((raw, i) => {
+    const w = `${where}.knobs[${i}]`
+    if (!c.need(isObj(raw), `${w} must be an object`)) return
+    const k = raw as Obj
+    const line = code[(k.line as number) - 1]
+    c.need(Number.isInteger(k.line) && line !== undefined, `${w}.line must be a line of the code`)
+    c.need(nonEmpty(k.label), `${w}.label is missing`)
+    c.need(k.kind === 'number' || k.kind === 'text', `${w}.kind must be "number" or "text"`)
+    if (!c.need(nonEmpty(k.find) && line !== undefined && line.includes(k.find as string), `${w}.find must be part of line ${String(k.line)}`)) return
+    const find = k.find as string
+    if (k.kind === 'number') c.need(!Number.isNaN(Number(find)), `${w}.find must be a number for a number knob`)
+    if (k.kind === 'text') c.need(/^(["']).*\1$/.test(find), `${w}.find must be a quoted string for a text knob`)
   })
 }
 
@@ -105,6 +129,7 @@ export function validateLesson(data: unknown): string[] {
   c.need(Number.isInteger(data.order) && (data.order as number) >= 1, '"order" must be a positive integer')
   c.need(Number.isInteger(data.minutes) && (data.minutes as number) > 0, '"minutes" must be a positive whole number')
   c.need(data.visual === 'memory', '"visual" must be "memory"')
+  checkVisuals(c, data, [], 'lesson')
   c.need(isObj(data.intro) && nonEmpty(data.intro.text) && nonEmpty(data.intro.analogy), '"intro" needs text and an analogy')
 
   // Minimum counts per step (docs/PLAN.md section 3).
@@ -130,10 +155,17 @@ export function validateLesson(data: unknown): string[] {
     c.need(p.kind === 'choice' || p.kind === 'typed', `${w}.kind must be "choice" or "typed"`)
     c.need(nonEmpty(p.why), `${w}.why must explain the answer`)
     if (p.kind === 'choice') c.need(Array.isArray(p.options) && p.options.length >= 2, `${w}.options needs 2 or more`)
+    checkVisuals(c, p, isCode(p.code) ? p.code : [], w)
     const gen = checkGen(c, p, w)
     if (gen) {
       checkTrace(c, gen.trace, isCode(p.code) ? p.code.length : 0, w, gen.traceVersion)
       c.need(isStr(gen.output), `${w}.gen.output missing`)
+      if (p.raises) {
+        const err = gen.error as Obj | undefined
+        c.need(isObj(err) && isStr(gen.output) && gen.output.split('\n').pop() === err.type, `${w}: raises, so gen.output must end with the error type`)
+      } else {
+        c.need(gen.error === undefined, `${w}: the code raised an error. Add "raises": true if that is the point`)
+      }
       if (p.kind === 'choice') c.need(typeof gen.answer === 'number', `${w}.gen.answer missing`)
     }
   })
@@ -152,6 +184,10 @@ export function validateLesson(data: unknown): string[] {
       if (l.circle !== undefined) {
         c.need(isStr(l.circle) && isStr(l.code) && l.code.includes(l.circle), `${w}.lines[${j}].circle must be part of the code`)
       }
+    })
+    checkVisuals(c, ex, lines.map((l) => (isStr(l.code) ? l.code : '')), w)
+    lines.forEach((l, j) => {
+      if (l.expr !== undefined) c.need(typeof l.expr === 'boolean', `${w}.lines[${j}].expr must be true or false`)
     })
     const gen = checkGen(c, ex, w)
     if (gen) checkTrace(c, gen.trace, lines.length, w, gen.traceVersion)

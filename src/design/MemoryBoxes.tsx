@@ -1,4 +1,5 @@
 import type { VarView } from '../engine/trace.ts'
+import { useHoverName } from '../lesson/visuals/hover.ts'
 import { roughLine } from './sketch.ts'
 
 /** v2 memory boxes: a labelled cell per variable.
@@ -11,6 +12,7 @@ import { roughLine } from './sketch.ts'
  * Boxes are keyed by name and value, so each new value remounts the box and
  * the animation plays from the start. */
 export function MemoryBoxes({ vars, empty = 'nothing stored yet' }: { vars: VarView[]; empty?: string }) {
+  const hover = useHoverName()
   if (vars.length === 0) return <p className="mem-empty">{`> ${empty}`}</p>
   return (
     <div className="mem-grid">
@@ -21,6 +23,9 @@ export function MemoryBoxes({ vars, empty = 'nothing stored yet' }: { vars: VarV
             key={`${v.name}:${v.value.repr}`}
             className={`mem-box${v.isNew ? ' is-new' : ''}${changed ? ' is-changed' : ''}`}
             data-anno={`var-${v.name}`}
+            data-hl={hover.name === v.name ? 'on' : undefined}
+            onMouseEnter={() => hover.set(v.name)}
+            onMouseLeave={() => hover.set(null)}
           >
             <div className="mem-head">
               <span className="mem-name">{v.name}</span>

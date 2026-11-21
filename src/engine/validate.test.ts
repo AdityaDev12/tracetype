@@ -26,6 +26,27 @@ describe('validateLesson (format v2)', () => {
     expect(errors).toMatch(/"examples" needs at least 3/)
   })
 
+  it('checks visuals and knobs', () => {
+    const l = clone()
+    l.examples[0].visuals = ['memory', 'sparkles']
+    l.examples[0].knobs = [
+      { line: 2, find: '18', label: 'temp', kind: 'number' },
+      { line: 1, find: '"Paris"', label: 'city', kind: 'text' },
+      { line: 1, find: 'city', label: 'x', kind: 'number' },
+    ]
+    const errors = validateLesson(l).join()
+    expect(errors).toMatch(/visuals must be a list/)
+    expect(errors).toMatch(/knobs\[1\].find must be part of line 1/)
+    expect(errors).toMatch(/knobs\[2\].find must be a number/)
+    expect(errors).not.toMatch(/knobs\[0\]/)
+  })
+
+  it('needs raises when a predict program errors', () => {
+    const l = clone()
+    l.predict[0].gen.error = { type: 'NameError', message: 'NameError: x', line: 1 }
+    expect(validateLesson(l).join()).toMatch(/Add "raises": true/)
+  })
+
   it('needs an intro with an analogy', () => {
     const l = clone()
     l.intro.analogy = ''

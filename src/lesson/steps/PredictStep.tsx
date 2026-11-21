@@ -1,10 +1,13 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { InlineText } from '../../components/RichText.tsx'
 import { gradeTypedOutput } from '../../engine/grade.ts'
-import { viewAt } from '../../engine/trace.ts'
+import { linesRun, viewAt } from '../../engine/trace.ts'
 import { useLesson } from '../LessonContext.tsx'
 import { CodeBlock, ItemPager, NextButton, StepLayout, StepTitle } from '../common.tsx'
 import { Visual } from '../Visual.tsx'
+import { KnobBar } from '../visuals/Knobs.tsx'
+import { useKnobs } from '../visuals/knobs.ts'
+import { Timeline } from '../visuals/Timeline.tsx'
 
 const STEP_MS = 750
 
@@ -28,22 +31,25 @@ export function PredictStep({
   const [guess, setGuess] = useState<{ value: string; right: boolean } | null>(null)
   const [typed, setTyped] = useState('')
   const [step, setStep] = useState(-1)
+  // Playback runs once after a guess; then the learner scrubs the timeline.
+  const [playFlag, setPlaying] = useState(false)
+  const playing = playFlag && step < p.gen.trace.length - 1
 
-  const running = guess !== null && step < p.gen.trace.length - 1
+  const running = guess !== null && playing
 
   // After a guess, play the run one line at a time.
   useEffect(() => {
-    if (!guess) return
-    if (step >= p.gen.trace.length - 1) return
+    if (!guess || !playing) return
     const t = window.setTimeout(() => setStep((s) => s + 1), step < 0 ? 250 : STEP_MS)
     return () => window.clearTimeout(t)
-  }, [guess, step, p])
+  }, [guess, step, p, playing])
 
   const answer = (value: string, right: boolean) => {
     if (guess) return
     setGuess({ value, right })
     onResult?.(right)
     setStep(-1)
+    setPlaying(true)
     react(right ? 'hop' : 'tilt')
     setSolved((s) => s.map((x, i) => (i === item ? true : x)))
   }
@@ -54,11 +60,19 @@ export function PredictStep({
       setGuess(null)
       setTyped('')
       setStep(-1)
+      setPlaying(false)
     } else onDone()
   }
 
-  const view = viewAt(p.gen.trace, step)
+  const original = useMemo(() => p.code, [p])
+  const knobs = useKnobs(original, guess && !playing ? p.knobs : undefined, { trace: p.gen.trace, error: p.gen.error }, p)
+  const trace = knobs.trace
+  const shown = Math.min(step, trace.length - 1)
+  const view = viewAt(trace, shown)
   const output = p.gen.output
+  const atEnd = guess !== null && !playing && shown >= trace.length - 1
+  const ran = linesRun(trace)
+  const neverRan = atEnd && knobs.error ? (n: number) => n > (knobs.error?.line ?? 0) && !ran.has(n) : undefined
 
   return (
     <StepLayout
@@ -66,7 +80,19 @@ export function PredictStep({
         <div className="step-body">
           <StepTitle kicker="> predict, then run" title={p.q ?? 'What does this print?'} />
           <ItemPager index={item} count={items.length} solved={solved} />
-          <CodeBlock title={`predict_${item + 1}${'.py'}`} lines={p.code} active={guess ? view.line : null} />
+          <CodeBlock
+            title={`predict_${item + 1}${'.py'}`}
+            lines={knobs.lines}
+            active={guess ? view.line : null}
+            errorLine={atEnd ? knobs.error?.line ?? null : null}
+            neverRan={neverRan}
+          />
+          {guess && !playing && (
+            <>
+              <Timeline trace={trace} step={shown} setStep={setStep} stopped={!!knobs.error} />
+              <KnobBar knobs={p.knobs} run={knobs} />
+            </>
+          )}
           {p.kind === 'choice' ? (
             <div className="choices" role="group" aria-label="Your prediction">
               {p.options!.map((o, i) => {
@@ -134,7 +160,22 @@ export function PredictStep({
           </div>
         </div>
       }
-      right={guess ? <Visual view={view} file={`predict_${item + 1}.py`} /> : <div className="visual-placeholder">{'> make a guess, then watch it run'}</div>}
+      right={
+        guess ? (
+          <Visual
+            view={view}
+            kinds={p.visuals ?? lesson.visuals}
+            file={`predict_${item + 1}.py`}
+            trace={trace}
+            error={knobs.error}
+            stdin={p.stdin}
+            focus={p.focus}
+            lineCount={p.code.length}
+          />
+        ) : (
+          <div className="visual-placeholder">{'> make a guess, then watch it run'}</div>
+        )
+      }
     />
   )
 }

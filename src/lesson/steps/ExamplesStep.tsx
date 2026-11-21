@@ -1,13 +1,16 @@
-import { lazy, Suspense, useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { CodeLine } from '../../components/CodeLine.tsx'
 import { RichText } from '../../components/RichText.tsx'
 import { AnnotationLayer, type Anno } from '../../design/Annotations.tsx'
 import { Terminal } from '../../design/Terminal.tsx'
-import { viewAt } from '../../engine/trace.ts'
+import { lastRunOf, viewAt } from '../../engine/trace.ts'
 import type { Example } from '../../engine/types.ts'
 import { useLesson } from '../LessonContext.tsx'
 import { ItemPager, StepLayout, StepTitle } from '../common.tsx'
 import { Visual } from '../Visual.tsx'
+import { KnobBar } from '../visuals/Knobs.tsx'
+import { useKnobs } from '../visuals/knobs.ts'
+import { Timeline } from '../visuals/Timeline.tsx'
 
 // The Trace part uses CodeMirror, so it is only downloaded when needed.
 const TypingView = lazy(() => import('../../components/TypingView.tsx').then((m) => ({ default: m.TypingView })))
@@ -34,9 +37,13 @@ function LineText({ code, circle, active }: { code: string; circle?: string; act
 
 /** Learn: step through an example and watch memory change, with the tutor's notes. */
 function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish: () => void }) {
-  const trace = example.gen.trace
-  const [step, setStep] = useState(-1)
+  const { lesson } = useLesson()
+  const original = useMemo(() => example.lines.map((l) => l.code), [example])
+  const run = useKnobs(original, example.knobs, { trace: example.gen.trace }, example)
+  const trace = run.trace
+  const [rawStep, setStep] = useState(-1)
   const last = trace.length - 1
+  const step = Math.min(rawStep, last)
   const view = viewAt(trace, step)
   const line = view.line ? example.lines[view.line - 1] : null
 
@@ -56,7 +63,7 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
   }, [last])
 
   const annos: Anno[] = []
-  if (line?.note || line?.circle) {
+  if (!run.changed && (line?.note || line?.circle)) {
     annos.push({
       id: `${example.id}-${step}`,
       target: line.circle ? 'circle' : 'line',
@@ -80,15 +87,26 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
               <div className="tcode">
                 {example.lines.map((l, i) => (
                   <div key={i} className={`tline${view.line === i + 1 ? ' active' : ''}`}>
-                    <span className="tgutter">{i + 1}</span>
+                    <button
+                      type="button"
+                      className="tgutter tgutter-btn"
+                      title={`jump to the last time line ${i + 1} ran`}
+                      onClick={() => {
+                        const at = lastRunOf(trace, i + 1)
+                        if (at >= 0) setStep(at)
+                      }}
+                    >
+                      {i + 1}
+                    </button>
                     <span className="ttext">
-                      <LineText code={l.code} circle={l.circle} active={view.line === i + 1} />
+                      <LineText code={run.lines[i]} circle={run.changed ? undefined : l.circle} active={view.line === i + 1} />
                     </span>
                   </div>
                 ))}
               </div>
             </Terminal>
           </AnnotationLayer>
+          <KnobBar knobs={example.knobs} run={run} />
           <div className="explain-card" aria-live="polite">
             {step < 0 ? (
               <p className="muted">
@@ -100,6 +118,7 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
                   step {step + 1} of {trace.length} · ran line {view.line}
                 </span>
                 {line && <RichText text={line.explain} className="prose" />}
+                {run.changed && <p className="box-label">{'> you changed the code: the notes describe the original values'}</p>}
               </>
             )}
           </div>
@@ -107,11 +126,7 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
             <button className="tt-btn bracket" onClick={() => setStep((s) => Math.max(s - 1, -1))} disabled={step < 0}>
               ← back
             </button>
-            <span className="step-dots" aria-hidden>
-              {trace.map((_, i) => (
-                <span key={i} className={i <= step ? 'on' : ''} />
-              ))}
-            </span>
+            <Timeline trace={trace} step={step} setStep={setStep} stopped={!!run.error} />
             {step < last ? (
               <button className="tt-btn primary" onClick={() => setStep((s) => s + 1)}>
                 Next →
@@ -124,7 +139,18 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
           </div>
         </div>
       }
-      right={<Visual view={view} file={`example_${n}.py`} />}
+      right={
+        <Visual
+          view={view}
+          kinds={example.visuals ?? lesson.visuals}
+          file={`example_${n}.py`}
+          trace={trace}
+          error={run.error}
+          stdin={example.stdin}
+          focus={example.focus}
+          lineCount={example.lines.length}
+        />
+      }
     />
   )
 }

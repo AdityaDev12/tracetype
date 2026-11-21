@@ -1,14 +1,17 @@
 import type { ReactNode } from 'react'
 import { CodeLine } from '../components/CodeLine.tsx'
 import { Terminal } from '../design/Terminal.tsx'
+import { HoverNameProvider } from './visuals/HoverName.tsx'
 
 /** Two columns: the exercise on the left, memory/output on the right. Stacks on phones. */
 export function StepLayout({ left, right }: { left: ReactNode; right?: ReactNode }) {
   return (
-    <div className={`step-layout${right ? '' : ' single'}`}>
-      <div className="step-left">{left}</div>
-      {right && <aside className="step-right">{right}</aside>}
-    </div>
+    <HoverNameProvider>
+      <div className={`step-layout${right ? '' : ' single'}`}>
+        <div className="step-left">{left}</div>
+        {right && <aside className="step-right">{right}</aside>}
+      </div>
+    </HoverNameProvider>
   )
 }
 
@@ -19,10 +22,16 @@ export function CodeBlock({
   active,
   annoPrefix,
   label,
+  errorLine,
+  neverRan,
 }: {
   title: string
   lines: string[]
   active?: number | null
+  /** 1-based line the program stopped on with an error. */
+  errorLine?: number | null
+  /** Lines that never ran (shown greyed). */
+  neverRan?: (line: number) => boolean
   /** Adds data-anno="<prefix>-<n>" on each line's text for tutor annotations. */
   annoPrefix?: string
   label?: ReactNode
@@ -31,7 +40,10 @@ export function CodeBlock({
     <Terminal title={title} label={label}>
       <div className="tcode">
         {lines.map((code, i) => (
-          <div key={i} className={`tline${active === i + 1 ? ' active' : ''}`}>
+          <div
+            key={i}
+            className={`tline${active === i + 1 ? ' active' : ''}${errorLine === i + 1 ? ' stopped' : ''}${neverRan?.(i + 1) ? ' never' : ''}`}
+          >
             <span className="tgutter">{i + 1}</span>
             <span className="ttext">
               <span data-anno={annoPrefix ? `${annoPrefix}-${i + 1}` : undefined}>

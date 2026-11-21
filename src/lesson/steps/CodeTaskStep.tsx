@@ -1,14 +1,17 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { InlineText } from '../../components/RichText.tsx'
 import { gradeTests, runOptions, sourceOf, type RunError, type TraceResult } from '../../engine/grade.ts'
 import { viewAt } from '../../engine/trace.ts'
 import { CodeEditor } from '../CodeEditor.tsx'
 import { ErrorBox, RunnerNotice, VerdictBox } from '../Feedback.tsx'
 import { ItemPager, NextButton, StepLayout, StepTitle } from '../common.tsx'
-import { canRun, useLesson } from '../LessonContext.tsx'
+import { canRun, LessonContext, useLesson } from '../LessonContext.tsx'
 import { useCheck } from '../useCheck.ts'
 import { Visual } from '../Visual.tsx'
 import { tasksFor, type CodeTask } from '../tasks.ts'
+import { StdinBox } from '../visuals/StdinBox.tsx'
+import { stdinLines } from '../visuals/stdin.ts'
+import { Timeline } from '../visuals/Timeline.tsx'
 
 const KICKERS = {
   fix: '> fix the bug',
@@ -66,6 +69,11 @@ export function CodeTaskView({
   const [run, setRun] = useState<TraceResult | null>(null)
   const [runError, setRunError] = useState<RunError | null>(null)
   const [running, setRunning] = useState(false)
+  const [runStep, setRunStep] = useState(0)
+  const sample = task.tests.find((t) => t.stdin || t.files)
+  const [typedIn, setTypedIn] = useState((sample?.stdin ?? []).join('\n'))
+  const usesInput = code.includes('input(') || !!sample?.stdin
+  const visuals = useContext(LessonContext)?.lesson.visuals
   const { ctx, tries, verdict, busy, check, showAnswer, canShow } = useCheck(task.id, onSolved)
   const fileName = file ?? `${kind}_${index + 1}.py`
   const noRunner = ctx.status === 'failed'
@@ -74,9 +82,11 @@ export function CodeTaskView({
     if (!canRun(ctx) || running) return
     setRunning(true)
     try {
-      // A plain run uses the first test's typed answers and files, so input() and open() work.
-      const r = await ctx.runner!.trace(code, runOptions(task.tests.find((t) => t.stdin || t.files)))
+      // A plain run uses the first test's files and the typed answers in the box, so input() and open() work.
+      const opts = { ...runOptions(sample), ...(usesInput ? { stdin: stdinLines(typedIn) } : {}) }
+      const r = await ctx.runner!.trace(code, opts)
       setRun(r)
+      setRunStep(r.steps.length - 1)
       setRunError(r.error)
     } catch (e) {
       setRun(null)
@@ -100,7 +110,7 @@ export function CodeTaskView({
   }
 
   const prompt = task.prompt.split('\n')
-  const view = run ? viewAt(run.steps, run.steps.length - 1) : null
+  const view = run ? viewAt(run.steps, Math.min(runStep, run.steps.length - 1)) : null
 
   return (
     <StepLayout
@@ -118,6 +128,8 @@ export function CodeTaskView({
             </header>
             <CodeEditor value={code} onChange={setCode} onSubmit={() => void submit()} resetKey={resetKey} ariaLabel={`Code for ${fileName}`} readOnly={tries.solved} />
           </div>
+          {usesInput && !tries.solved && <StdinBox value={typedIn} onChange={setTypedIn} />}
+          {run && run.steps.length > 0 && <Timeline trace={run.steps} step={Math.min(runStep, run.steps.length - 1)} setStep={setRunStep} stopped={!!run.error} />}
           <RunnerNotice status={ctx.status} failure={ctx.failure} onRetry={ctx.retryRunner} />
           {runError && !verdict && <ErrorBox error={runError} pack={ctx.pack} />}
           <VerdictBox verdict={verdict} pack={ctx.pack} okText="all checks pass" />
@@ -157,7 +169,21 @@ export function CodeTaskView({
           {!tries.solved && <p className="box-label">tip: Ctrl+Enter (Cmd+Enter on a Mac) checks your code</p>}
         </div>
       }
-      right={view ? <Visual view={view} file={fileName} /> : <div className="visual-placeholder">{'> press run to see memory and output'}</div>}
+      right={
+        view && run ? (
+          <Visual
+            view={view}
+            kinds={visuals}
+            file={fileName}
+            trace={run.steps}
+            error={run.error}
+            stdin={usesInput ? stdinLines(typedIn) : undefined}
+            lineCount={code.split('\n').length}
+          />
+        ) : (
+          <div className="visual-placeholder">{'> press run to see memory and output'}</div>
+        )
+      }
     />
   )
 }

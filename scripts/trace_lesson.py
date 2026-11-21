@@ -8,7 +8,10 @@ Usage:
 Every value the site shows comes from here (or the same runtime in Pyodide),
 never typed by hand. For each code-bearing item it writes a "gen" field:
 
-    predict      gen.trace, gen.output, gen.answer (from the real output)
+    predict      gen.trace, gen.output, gen.answer (from the real output).
+                 With "raises": true the program must stop with an error:
+                 gen.output is the printed text plus the error type on the
+                 last line, gen.error has the full message
     (traces use format v2, see src/languages/python/runtime.py; items may set
      "stdin", "files" and "expr" run options, examples may mark lines "expr")
     examples     gen.trace (one step per finished line, loop bodies repeat)
@@ -94,9 +97,22 @@ def gen_lesson(lesson):
     out = dict(lesson)
     for i, p in enumerate(lesson.get("predict", [])):
         label = f"predict[{i}]"
-        r = must_run(label, rt.source_of(p["code"]), options(p))
-        output = rt.normalize_output(r["stdout"])
+        if p.get("raises"):
+            # The point of this item is that the program stops with an error.
+            r = rt.run_trace(rt.source_of(p["code"]), options(p))
+            if not r["error"]:
+                raise LessonError(f"{label}: marked raises but runs without an error")
+            output = rt.normalize_output(r["stdout"] + r["error"]["type"])
+            if not r["steps"]:
+                raise LessonError(f"{label}: at least one line must run before the error")
+        else:
+            r = must_run(label, rt.source_of(p["code"]), options(p))
+            output = rt.normalize_output(r["stdout"])
         gen = {"hash": rt.canonical_hash(authored(p)), "traceVersion": rt.TRACE_VERSION, "trace": r["steps"], "output": output}
+        if r["error"]:
+            gen["error"] = r["error"]
+            if r.get("events"):
+                gen["events"] = r["events"]
         if p["kind"] == "choice":
             hits = [k for k, o in enumerate(p["options"]) if rt.normalize_output(o) == output]
             if len(hits) != 1:

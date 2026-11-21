@@ -88,7 +88,21 @@ export function InvestigateStep({ item, setItem, onDone }: { item: number; setIt
           </div>
         </div>
       }
-      right={tries.solved ? <Visual view={view} /> : <div className="visual-placeholder">{'> answer first, then memory is shown'}</div>}
+      right={
+        tries.solved ? (
+          <Visual
+            view={view}
+            kinds={ex.visuals ?? lesson.visuals}
+            file={`example_${q.example + 1}.py`}
+            trace={trace}
+            stdin={ex.stdin}
+            focus={ex.focus}
+            lineCount={ex.lines.length}
+          />
+        ) : (
+          <div className="visual-placeholder">{'> answer first, then memory is shown'}</div>
+        )
+      }
     />
   )
 }

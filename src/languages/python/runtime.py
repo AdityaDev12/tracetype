@@ -564,10 +564,12 @@ class ExprPlan:
             if leaves:
                 out.append({"text": _render(root, vals, prefix, suffix)})
                 leaves = False
+            part = _render(node, vals, "", "")
+            value = text
             if text.startswith("-") and node is not root:
                 text = f"({text})"
             vals[nid] = text
-            step = {"text": _render(root, vals, prefix, suffix)}
+            step = {"text": _render(root, vals, prefix, suffix), "part": part, "value": value}
             if skipped:
                 step["skipped"] = skipped
             out.append(step)

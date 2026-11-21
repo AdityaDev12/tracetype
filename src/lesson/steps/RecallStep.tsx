@@ -9,6 +9,7 @@ import { NextButton, StepLayout, StepTitle } from '../common.tsx'
 import { canRun, useLesson } from '../LessonContext.tsx'
 import { useCheck } from '../useCheck.ts'
 import { Visual } from '../Visual.tsx'
+import { Timeline } from '../visuals/Timeline.tsx'
 
 const PEEK_MS = 1500
 
@@ -40,6 +41,7 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
   const [peeks, setPeeks] = useState(0)
   const [peeking, setPeeking] = useState(false)
   const [ran, setRan] = useState<TraceResult | null>(null)
+  const [ranStep, setRanStep] = useState(0)
   const { ctx, tries, verdict, busy, check, showAnswer, canShow } = useCheck(itemId, () => {})
   const solution = sourceOf(ex.lines.map((l) => l.code))
 
@@ -57,7 +59,9 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
   const runMine = async () => {
     if (!canRun(ctx)) return
     try {
-      setRan(await ctx.runner!.trace(code, runOptions(ex)))
+      const r = await ctx.runner!.trace(code, runOptions(ex))
+      setRan(r)
+      setRanStep(r.steps.length - 1)
     } catch {
       setRan(null)
     }
@@ -69,7 +73,7 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
     showAnswer()
   }
 
-  const view = ran ? viewAt(ran.steps, ran.steps.length - 1) : null
+  const view = ran ? viewAt(ran.steps, Math.min(ranStep, ran.steps.length - 1)) : null
 
   return (
     <StepLayout
@@ -98,6 +102,7 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
               </div>
             )}
           </div>
+          {ran && ran.steps.length > 0 && <Timeline trace={ran.steps} step={Math.min(ranStep, ran.steps.length - 1)} setStep={setRanStep} stopped={!!ran.error} />}
           <RunnerNotice status={ctx.status} failure={ctx.failure} onRetry={ctx.retryRunner} />
           <VerdictBox verdict={verdict} pack={ctx.pack} okText={verdict?.ok && verdict.how === 'same-code' ? 'same code' : 'correct'} />
           {tries.gaveUp && <p className="fb-retry">Here is the example. It will come back in your reviews soon.</p>}
@@ -135,7 +140,16 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
       }
       right={
         view ? (
-          <Visual view={view} file="recall.py" />
+          <Visual
+            view={view}
+            kinds={ex.visuals ?? lesson.visuals}
+            file="recall.py"
+            trace={ran!.steps}
+            error={ran!.error}
+            stdin={ex.stdin}
+            focus={ex.focus}
+            lineCount={code.split('\n').length}
+          />
         ) : (
           <Terminal title="tasks">
             <ol className="task-list">

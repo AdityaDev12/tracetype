@@ -59,6 +59,10 @@ export interface StackFrame {
 
 export interface ExprStep {
   text: string
+  /** The part that was just computed (absent when names were looked up). */
+  part?: string
+  /** Its value. */
+  value?: string
   /** Parts never run because of short-circuit (and, or, a if b else c). */
   skipped?: string[]
 }
@@ -131,6 +135,29 @@ export interface WithRunOptions {
   expr?: number[]
 }
 
+/** "Change this value and watch": a literal in the code the learner can edit. */
+export interface Knob {
+  /** 1-based line the value is on. */
+  line: number
+  /** The exact text to replace on that line (its first occurrence). */
+  find: string
+  label: string
+  /** number: a slider/number box. text: a text box (quotes are kept). */
+  kind: 'number' | 'text'
+  min?: number
+  max?: number
+  step?: number
+}
+
+/** What an item can say about how it is shown. */
+export interface WithVisuals {
+  /** Panels to show, in order. Defaults to the lesson's visuals, then memory. Output is always shown. */
+  visuals?: VisualKind[]
+  knobs?: Knob[]
+  /** Variable names the cells and history panels focus on. */
+  focus?: string[]
+}
+
 export interface Expected {
   stdout: string
   vars: Record<string, VarValue>
@@ -141,7 +168,7 @@ export interface Gen {
   hash: string
 }
 
-export interface PredictItem extends WithRunOptions {
+export interface PredictItem extends WithRunOptions, WithVisuals {
   id: string
   code: Code
   /** Defaults to "What does this print?" */
@@ -149,7 +176,16 @@ export interface PredictItem extends WithRunOptions {
   kind: 'choice' | 'typed'
   options?: string[]
   why: string
-  gen: Gen & { trace: TraceStep[]; traceVersion?: number; output: string; answer?: number }
+  /** The program is meant to stop with an error (the answer's last line is the error type). */
+  raises?: boolean
+  gen: Gen & {
+    trace: TraceStep[]
+    traceVersion?: number
+    output: string
+    answer?: number
+    error?: { type: string; message: string; line: number | null }
+    events?: TraceEvent[]
+  }
 }
 
 export interface ExampleLine {
@@ -165,7 +201,7 @@ export interface ExampleLine {
   expr?: boolean
 }
 
-export interface Example extends WithRunOptions {
+export interface Example extends WithRunOptions, WithVisuals {
   id: string
   title: string
   lines: ExampleLine[]
@@ -257,7 +293,9 @@ export interface Mistake extends WithRunOptions {
   gen: Gen & { error: string; line: number | null }
 }
 
-export type VisualKind = 'memory'
+/** Visual panels (docs: content/syllabus.md "Visuals"). Output is always shown. */
+export const VISUAL_KINDS = ['memory', 'history', 'expr', 'halt', 'types', 'stdin', 'cells'] as const
+export type VisualKind = (typeof VISUAL_KINDS)[number]
 
 export interface Lesson {
   id: string
@@ -270,6 +308,8 @@ export interface Lesson {
   language: string
   minutes: number
   visual: VisualKind
+  /** Default panels for this lesson's items. */
+  visuals?: VisualKind[]
   intro: { text: string; analogy: string }
   predict: PredictItem[]
   examples: Example[]
