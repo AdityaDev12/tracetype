@@ -9,6 +9,8 @@ Every value the site shows comes from here (or the same runtime in Pyodide),
 never typed by hand. For each code-bearing item it writes a "gen" field:
 
     predict      gen.trace, gen.output, gen.answer (from the real output)
+    (traces use format v2, see src/languages/python/runtime.py; items may set
+     "stdin", "files" and "expr" run options, examples may mark lines "expr")
     examples     gen.trace (one step per finished line, loop bodies repeat)
     faded        gen.expected {stdout, vars} of the filled-in program
     parsons      gen.expected {stdout, vars} of the lines in order
@@ -44,8 +46,25 @@ def authored(item):
     return {k: v for k, v in item.items() if k != "gen"}
 
 
-def must_run(label, src):
-    r = rt.run_trace(src)
+def options(item, code_lines=None):
+    """Run options from an item: typed answers, seeded files, expression lines.
+    Expression lines come from "expr": [line numbers] on the item, or from
+    "expr": true on an example line."""
+    opts = {}
+    for key in ("stdin", "files"):
+        if key in item:
+            opts[key] = item[key]
+    expr = list(item.get("expr", []))
+    for n, line in enumerate(code_lines or [], start=1):
+        if isinstance(line, dict) and line.get("expr"):
+            expr.append(n)
+    if expr:
+        opts["expr"] = expr
+    return opts
+
+
+def must_run(label, src, opts=None):
+    r = rt.run_trace(src, opts or {})
     if r["error"]:
         raise LessonError(f"{label}: code raised {r['error']['message']} (line {r['error']['line']})")
     return r
@@ -75,9 +94,9 @@ def gen_lesson(lesson):
     out = dict(lesson)
     for i, p in enumerate(lesson.get("predict", [])):
         label = f"predict[{i}]"
-        r = must_run(label, rt.source_of(p["code"]))
+        r = must_run(label, rt.source_of(p["code"]), options(p))
         output = rt.normalize_output(r["stdout"])
-        gen = {"hash": rt.canonical_hash(authored(p)), "trace": r["steps"], "output": output}
+        gen = {"hash": rt.canonical_hash(authored(p)), "traceVersion": rt.TRACE_VERSION, "trace": r["steps"], "output": output}
         if p["kind"] == "choice":
             hits = [k for k, o in enumerate(p["options"]) if rt.normalize_output(o) == output]
             if len(hits) != 1:
@@ -86,24 +105,24 @@ def gen_lesson(lesson):
         p["gen"] = gen
 
     for i, ex in enumerate(lesson.get("examples", [])):
-        r = must_run(f"examples[{i}]", rt.source_of([l["code"] for l in ex["lines"]]))
-        ex["gen"] = {"hash": rt.canonical_hash(authored(ex)), "trace": r["steps"]}
+        r = must_run(f"examples[{i}]", rt.source_of([l["code"] for l in ex["lines"]]), options(ex, ex["lines"]))
+        ex["gen"] = {"hash": rt.canonical_hash(authored(ex)), "traceVersion": rt.TRACE_VERSION, "trace": r["steps"]}
 
     for i, f in enumerate(lesson.get("faded", [])):
         label = f"faded[{i}]"
         src = fill_blanks(f["code"], f["answers"], label)
-        r = must_run(label, src)
+        r = must_run(label, src, options(f))
         f["gen"] = {"hash": rt.canonical_hash(authored(f)), "expected": {"stdout": rt.normalize_output(r["stdout"]), "vars": r["vars"]}}
 
     for i, p in enumerate(lesson.get("parsons", [])):
-        r = must_run(f"parsons[{i}]", rt.source_of(p["lines"]))
+        r = must_run(f"parsons[{i}]", rt.source_of(p["lines"]), options(p))
         p["gen"] = {"hash": rt.canonical_hash(authored(p)), "expected": {"stdout": rt.normalize_output(r["stdout"]), "vars": r["vars"]}}
 
     for i, x in enumerate(lesson.get("fix", [])):
         label = f"fix[{i}]"
         check_tests(label, rt.source_of(x["code"]), x["tests"], should_pass=False)
         check_tests(label, rt.source_of(x["solution"]), x["tests"], should_pass=True)
-        err = rt.run_program(rt.source_of(x["code"]))["error"]
+        err = rt.run_program(rt.source_of(x["code"]), options=options(x))["error"]
         x["gen"] = {"hash": rt.canonical_hash(authored(x)), "error": err["message"] if err else None}
 
     for i, m in enumerate(lesson.get("modify", [])):
@@ -121,10 +140,10 @@ def gen_lesson(lesson):
 
     for i, m in enumerate(lesson.get("mistakes", [])):
         label = f"mistakes[{i}]"
-        err = rt.run_program(rt.source_of(m["code"]))["error"]
+        err = rt.run_program(rt.source_of(m["code"]), options=options(m))["error"]
         if not err:
             raise LessonError(f"{label}: the mistake code runs without an error")
-        must_run(f"{label}.fix", rt.source_of(m["fix"]))
+        must_run(f"{label}.fix", rt.source_of(m["fix"]), options(m))
         m["gen"] = {"hash": rt.canonical_hash(authored(m)), "error": err["message"], "line": err["line"]}
     return out
 
@@ -141,7 +160,7 @@ def gen_project(project):
 def gen_demo(demo):
     """Small demo programs for the landing page and the style page."""
     src = rt.source_of([l["code"] for l in demo["lines"]])
-    r = must_run(demo["id"], src)
+    r = must_run(demo["id"], src, options(demo, demo["lines"]))
     demo["trace"] = r["steps"]
     demo["traceHash"] = rt.canonical_hash([l["code"] for l in demo["lines"]])
     return demo

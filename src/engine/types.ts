@@ -23,17 +23,87 @@ export interface LessonLink {
 export interface VarValue {
   repr: string
   type: string
+  /** Heap id when the value is a container or an object (trace v2). */
+  ref?: string
+  /** The real characters, for strings (capped). */
+  text?: string
+  /** How many characters or items were cut off. */
+  more?: number
 }
+
+/** Objects in the heap of a trace step (trace v2), keyed by stable ids like "o1". */
+export type HeapObject =
+  | { kind: 'list' | 'tuple' | 'set'; type: string; items: VarValue[]; more?: number }
+  | { kind: 'dict'; type: string; items: [VarValue, VarValue][]; more?: number }
+  | { kind: 'range'; type: string; start: number; stop: number; step: number; len: number }
+  | { kind: 'function'; type: string; name: string; params: string[] }
+  | { kind: 'module'; type: string; name: string }
+  | { kind: 'generator'; type: string; name: string; state: 'new' | 'running' | 'paused' | 'done'; line: number | null }
+  | { kind: 'file'; type: string; name: string; mode: string; closed: boolean; pos?: number }
+  | {
+      kind: 'class'
+      type: string
+      name: string
+      bases: string[]
+      attrs: Record<string, VarValue>
+      methods: string[]
+    }
+  | { kind: 'object'; type: string; cls: string; classRef: string; attrs: Record<string, VarValue> }
+
+export interface StackFrame {
+  func: string
+  /** For the frame that just ran a line: that line. For callers: the calling line. */
+  line: number
+  locals: Record<string, VarValue>
+}
+
+export interface ExprStep {
+  text: string
+  /** Parts never run because of short-circuit (and, or, a if b else c). */
+  skipped?: string[]
+}
+
+/** What happened during a step (trace v2). */
+export type TraceEvent =
+  | { kind: 'call'; func: string; args: Record<string, VarValue> }
+  | { kind: 'resume'; func: string }
+  | { kind: 'return' | 'yield'; func: string; value: VarValue }
+  | { kind: 'test'; line: number; stmt: 'if' | 'elif' | 'while' | 'case'; result: boolean }
+  | { kind: 'loop'; line: number; stmt: 'for' | 'while'; round: number; done?: boolean }
+  | { kind: 'break' | 'continue'; line: number; loop: number }
+  | { kind: 'raise'; type: string; message: string; line: number; func: string }
+  | { kind: 'unwind'; func: string; line: number }
+  | { kind: 'caught'; type: string; line: number }
+  | { kind: 'finally'; line: number }
+  | { kind: 'input'; prompt: string; value: string; index: number }
+  | { kind: 'expr'; line: number; steps: ExprStep[] }
 
 export interface TraceStep {
   /** 1-based source line that just finished running. */
   line: number
-  /** Every variable after this step ran. */
+  /** Every module-level variable after this step ran. */
   vars: Record<string, VarValue>
   /** Only the new text printed by this step. */
   stdout: string
+  /** Innermost function frame, when this step ran inside a function. */
   func?: string
   locals?: Record<string, VarValue>
+  /** Every active function frame, outermost first (trace v2). */
+  stack?: StackFrame[]
+  heap?: Record<string, HeapObject>
+  events?: TraceEvent[]
+  /** The virtual folder, only on steps where it changed. */
+  files?: Record<string, string>
+}
+
+/** Run options shared by tracing, running and tests. */
+export interface RunOptions {
+  /** What input() returns, in order. */
+  stdin?: string[]
+  /** Seed files for the virtual folder (also turns on file recording). */
+  files?: Record<string, string>
+  /** Lines (1-based) that get expression steps. */
+  expr?: number[]
 }
 
 /** Lines of code. */
@@ -48,6 +118,17 @@ export interface CodeTest {
   post?: string
   /** Exact expected output (trailing spaces and blank lines ignored). */
   stdout?: string
+  /** What input() returns, in order. */
+  stdin?: string[]
+  /** Seed files for the virtual folder. */
+  files?: Record<string, string>
+}
+
+/** Optional run options an item can carry (see RunOptions). */
+export interface WithRunOptions {
+  stdin?: string[]
+  files?: Record<string, string>
+  expr?: number[]
 }
 
 export interface Expected {
@@ -60,7 +141,7 @@ export interface Gen {
   hash: string
 }
 
-export interface PredictItem {
+export interface PredictItem extends WithRunOptions {
   id: string
   code: Code
   /** Defaults to "What does this print?" */
@@ -68,7 +149,7 @@ export interface PredictItem {
   kind: 'choice' | 'typed'
   options?: string[]
   why: string
-  gen: Gen & { trace: TraceStep[]; output: string; answer?: number }
+  gen: Gen & { trace: TraceStep[]; traceVersion?: number; output: string; answer?: number }
 }
 
 export interface ExampleLine {
@@ -80,13 +161,15 @@ export interface ExampleLine {
   note?: string
   /** Part of the line the tutor circles in Learn. */
   circle?: string
+  /** Record expression steps for this line. */
+  expr?: boolean
 }
 
-export interface Example {
+export interface Example extends WithRunOptions {
   id: string
   title: string
   lines: ExampleLine[]
-  gen: Gen & { trace: TraceStep[] }
+  gen: Gen & { trace: TraceStep[]; traceVersion?: number }
 }
 
 export interface InvestigateItem {
@@ -103,7 +186,7 @@ export interface InvestigateItem {
   verify?: { line: number; name: string }
 }
 
-export interface FadedItem {
+export interface FadedItem extends WithRunOptions {
   id: string
   prompt: string
   /** Code with ___ for each blank. */
@@ -113,7 +196,7 @@ export interface FadedItem {
   gen: Gen & { expected: Expected }
 }
 
-export interface ParsonsItem {
+export interface ParsonsItem extends WithRunOptions {
   id: string
   prompt: string
   /** The lines in the right order (shown shuffled). */
@@ -123,7 +206,7 @@ export interface ParsonsItem {
   gen: Gen & { expected: Expected }
 }
 
-export interface FixItem {
+export interface FixItem extends WithRunOptions {
   id: string
   prompt: string
   code: Code
@@ -165,7 +248,7 @@ export interface QuizQuestion {
   why: string
 }
 
-export interface Mistake {
+export interface Mistake extends WithRunOptions {
   id: string
   title: string
   code: Code

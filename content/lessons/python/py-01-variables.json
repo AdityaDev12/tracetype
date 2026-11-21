@@ -29,26 +29,29 @@
       "why": "print looks inside fruit and shows the value. The quotes only mark where the text starts and ends, so they are not printed.",
       "gen": {
         "hash": "ec756873526045ef6dbd28c96b3fc698c86a704c02ae1241577a9b50d9270105",
+        "traceVersion": 2,
         "trace": [
           {
             "line": 1,
+            "stdout": "",
             "vars": {
               "fruit": {
                 "repr": "'mango'",
-                "type": "str"
+                "type": "str",
+                "text": "mango"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 2,
+            "stdout": "mango\n",
             "vars": {
               "fruit": {
                 "repr": "'mango'",
-                "type": "str"
+                "type": "str",
+                "text": "mango"
               }
-            },
-            "stdout": "mango\n"
+            }
           }
         ],
         "output": "mango",
@@ -67,36 +70,37 @@
       "why": "The second line replaces 1 with 5. A variable only holds its latest value.",
       "gen": {
         "hash": "2d975d429a00f8ce892e77970f63a9b806d1ba2a9dd9890ab093398d6a6117dd",
+        "traceVersion": 2,
         "trace": [
           {
             "line": 1,
+            "stdout": "",
             "vars": {
               "level": {
                 "repr": "1",
                 "type": "int"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 2,
+            "stdout": "",
             "vars": {
               "level": {
                 "repr": "5",
                 "type": "int"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 3,
+            "stdout": "5\n",
             "vars": {
               "level": {
                 "repr": "5",
                 "type": "int"
               }
-            },
-            "stdout": "5\n"
+            }
           }
         ],
         "output": "5"
@@ -141,72 +145,78 @@
       ],
       "gen": {
         "hash": "49504973812d89becf542559109f29ddfc0d9bd58f22ecae43d89c27dff78594",
+        "traceVersion": 2,
         "trace": [
           {
             "line": 1,
+            "stdout": "",
             "vars": {
               "city": {
                 "repr": "'Lima'",
-                "type": "str"
+                "type": "str",
+                "text": "Lima"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 2,
+            "stdout": "",
             "vars": {
               "city": {
                 "repr": "'Lima'",
-                "type": "str"
+                "type": "str",
+                "text": "Lima"
               },
               "temp": {
                 "repr": "18",
                 "type": "int"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 3,
+            "stdout": "Lima\n",
             "vars": {
               "city": {
                 "repr": "'Lima'",
-                "type": "str"
+                "type": "str",
+                "text": "Lima"
               },
               "temp": {
                 "repr": "18",
                 "type": "int"
               }
-            },
-            "stdout": "Lima\n"
+            }
           },
           {
             "line": 4,
+            "stdout": "18\n",
             "vars": {
               "city": {
                 "repr": "'Lima'",
-                "type": "str"
+                "type": "str",
+                "text": "Lima"
               },
               "temp": {
                 "repr": "18",
                 "type": "int"
               }
-            },
-            "stdout": "18\n"
+            }
           },
           {
             "line": 5,
+            "stdout": "Lima 18\n",
             "vars": {
               "city": {
                 "repr": "'Lima'",
-                "type": "str"
+                "type": "str",
+                "text": "Lima"
               },
               "temp": {
                 "repr": "18",
                 "type": "int"
               }
-            },
-            "stdout": "Lima 18\n"
+            }
           }
         ]
       }
@@ -240,46 +250,47 @@
       ],
       "gen": {
         "hash": "e9f367eeff9f73484ab9515272bb1cdb0ae4b1cc837ec800d959bdcc2e881c56",
+        "traceVersion": 2,
         "trace": [
           {
             "line": 1,
+            "stdout": "",
             "vars": {
               "coins": {
                 "repr": "3",
                 "type": "int"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 2,
+            "stdout": "Coins: 3\n",
             "vars": {
               "coins": {
                 "repr": "3",
                 "type": "int"
               }
-            },
-            "stdout": "Coins: 3\n"
+            }
           },
           {
             "line": 3,
+            "stdout": "",
             "vars": {
               "coins": {
                 "repr": "7",
                 "type": "int"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 4,
+            "stdout": "Coins: 7\n",
             "vars": {
               "coins": {
                 "repr": "7",
                 "type": "int"
               }
-            },
-            "stdout": "Coins: 7\n"
+            }
           }
         ]
       }
@@ -319,72 +330,82 @@
       ],
       "gen": {
         "hash": "54cd95f501b8aab6213f2e8dfa9ff781128ed24a019fa863cdc22794d012778f",
+        "traceVersion": 2,
         "trace": [
           {
             "line": 1,
+            "stdout": "",
             "vars": {
               "first": {
                 "repr": "'Ana'",
-                "type": "str"
+                "type": "str",
+                "text": "Ana"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 2,
+            "stdout": "",
             "vars": {
               "first": {
                 "repr": "'Ana'",
-                "type": "str"
+                "type": "str",
+                "text": "Ana"
               },
               "leader": {
                 "repr": "'Ana'",
-                "type": "str"
+                "type": "str",
+                "text": "Ana"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 3,
+            "stdout": "",
             "vars": {
               "first": {
                 "repr": "'Bo'",
-                "type": "str"
+                "type": "str",
+                "text": "Bo"
               },
               "leader": {
                 "repr": "'Ana'",
-                "type": "str"
+                "type": "str",
+                "text": "Ana"
               }
-            },
-            "stdout": ""
+            }
           },
           {
             "line": 4,
+            "stdout": "Ana\n",
             "vars": {
               "first": {
                 "repr": "'Bo'",
-                "type": "str"
+                "type": "str",
+                "text": "Bo"
               },
               "leader": {
                 "repr": "'Ana'",
-                "type": "str"
+                "type": "str",
+                "text": "Ana"
               }
-            },
-            "stdout": "Ana\n"
+            }
           },
           {
             "line": 5,
+            "stdout": "Bo\n",
             "vars": {
               "first": {
                 "repr": "'Bo'",
-                "type": "str"
+                "type": "str",
+                "text": "Bo"
               },
               "leader": {
                 "repr": "'Ana'",
-                "type": "str"
+                "type": "str",
+                "text": "Ana"
               }
-            },
-            "stdout": "Bo\n"
+            }
           }
         ]
       }
@@ -777,7 +798,7 @@
     },
     {
       "title": "Reference: the print() function",
-      "url": "https://docs.python.org/3/library/functions.html#print"
+      "url": "https://docs.python.org/3/builtins/functions.html#print"
     }
   ],
   "bookRefs": [

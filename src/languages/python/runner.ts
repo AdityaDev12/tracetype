@@ -1,5 +1,5 @@
 import type { RunResult, TestResult, TraceResult } from '../../engine/grade.ts'
-import type { CodeTest } from '../../engine/types.ts'
+import type { CodeTest, RunOptions } from '../../engine/types.ts'
 import type { LiveRunner, RunnerStatus } from '../index.ts'
 
 // Main-thread side of the Python worker. One shared runner for the whole app.
@@ -112,11 +112,11 @@ class PythonWorkerRunner implements LiveRunner {
     })
   }
 
-  trace(src: string) {
-    return this.call<TraceResult>('trace', [src])
+  trace(src: string, options: RunOptions = {}) {
+    return this.call<TraceResult>('trace', [src, options])
   }
-  run(src: string, pre = '', post = '') {
-    return this.call<RunResult>('run', [src, pre, post])
+  run(src: string, pre = '', post = '', options: RunOptions = {}) {
+    return this.call<RunResult>('run', [src, pre, post, options])
   }
   tests(src: string, tests: CodeTest[]) {
     return this.call<TestResult[]>('tests', [src, tests])

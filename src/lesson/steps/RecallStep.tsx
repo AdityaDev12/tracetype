@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { CodeLine } from '../../components/CodeLine.tsx'
 import { Terminal } from '../../design/Terminal.tsx'
-import { expectedFromTrace, fallbackRecall, gradeRecall, sourceOf, type TraceResult } from '../../engine/grade.ts'
+import { expectedFromTrace, fallbackRecall, gradeRecall, runOptions, sourceOf, type TraceResult } from '../../engine/grade.ts'
 import { viewAt } from '../../engine/trace.ts'
 import { CodeEditor } from '../CodeEditor.tsx'
 import { RunnerNotice, VerdictBox } from '../Feedback.tsx'
@@ -51,13 +51,13 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
 
   const submit = () =>
     check((runner) =>
-      runner ? gradeRecall(runner, code, solution, expectedFromTrace(ex.gen.trace)) : fallbackRecall(code, solution),
+      runner ? gradeRecall(runner, code, solution, expectedFromTrace(ex.gen.trace), runOptions(ex)) : fallbackRecall(code, solution),
     )
 
   const runMine = async () => {
     if (!canRun(ctx)) return
     try {
-      setRan(await ctx.runner!.trace(code))
+      setRan(await ctx.runner!.trace(code, runOptions(ex)))
     } catch {
       setRan(null)
     }

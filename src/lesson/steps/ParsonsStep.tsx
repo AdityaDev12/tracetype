@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { CodeLine } from '../../components/CodeLine.tsx'
 import { Terminal } from '../../design/Terminal.tsx'
 import { rng } from '../../design/sketch.ts'
-import { fallbackParsons, gradeByResult, sourceOf } from '../../engine/grade.ts'
+import { fallbackParsons, gradeByResult, runOptions, sourceOf } from '../../engine/grade.ts'
 import { INDENT } from '../../engine/typing.ts'
 import { RunnerNotice, VerdictBox } from '../Feedback.tsx'
 import { ItemPager, NextButton, StepLayout, StepTitle } from '../common.tsx'
@@ -69,7 +69,7 @@ function ParsonsItemView({ index, solvedList, onSolved, onNext }: { index: numbe
   const lines = () => rows.map((row) => INDENT.repeat(row.indent) + row.text)
   const submit = () =>
     check((runner) =>
-      runner ? gradeByResult(runner, sourceOf(lines()), p.gen.expected) : fallbackParsons(lines(), p.lines),
+      runner ? gradeByResult(runner, sourceOf(lines()), p.gen.expected, runOptions(p)) : fallbackParsons(lines(), p.lines),
     )
   const reveal = () => {
     setRows(p.lines.map((l, key) => ({ key, text: l.trimStart(), indent: (l.length - l.trimStart().length) / 4 })))

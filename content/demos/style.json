@@ -18,48 +18,53 @@
   "trace": [
     {
       "line": 1,
+      "stdout": "",
       "vars": {
         "city": {
           "repr": "'Oslo'",
-          "type": "str"
+          "type": "str",
+          "text": "Oslo"
         }
-      },
-      "stdout": ""
+      }
     },
     {
       "line": 2,
+      "stdout": "",
       "vars": {
         "city": {
           "repr": "'Oslo'",
-          "type": "str"
+          "type": "str",
+          "text": "Oslo"
         },
         "days": {
           "repr": "3",
           "type": "int"
         }
-      },
-      "stdout": ""
+      }
     },
     {
       "line": 3,
+      "stdout": "",
       "vars": {
         "city": {
           "repr": "'Oslo'",
-          "type": "str"
+          "type": "str",
+          "text": "Oslo"
         },
         "days": {
           "repr": "4",
           "type": "int"
         }
-      },
-      "stdout": ""
+      }
     },
     {
       "line": 4,
+      "stdout": "",
       "vars": {
         "city": {
           "repr": "'Oslo'",
-          "type": "str"
+          "type": "str",
+          "text": "Oslo"
         },
         "days": {
           "repr": "4",
@@ -69,8 +74,7 @@
           "repr": "True",
           "type": "bool"
         }
-      },
-      "stdout": ""
+      }
     }
   ],
   "traceHash": "5151182ae1ef8efb4b34da60a1c9afe555971f8ef84de5457e4b6e62dd488897"

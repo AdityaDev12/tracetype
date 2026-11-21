@@ -9,12 +9,13 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
-    "test": "vitest run",
+    "test": "vitest run && npm run test:py",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "validate": "tsx scripts/validate_lessons.ts",
     "check-links": "tsx scripts/check_links.ts",
-    "trace": "python3 scripts/trace_lesson.py"
+    "trace": "python3 scripts/trace_lesson.py",
+    "test:py": "python3 -m unittest discover -s tests/python"
   },
   "dependencies": {
     "@codemirror/autocomplete": "^6.20.4",

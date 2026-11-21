@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { InlineText } from '../../components/RichText.tsx'
-import { gradeTests, sourceOf, type RunError, type TraceResult } from '../../engine/grade.ts'
+import { gradeTests, runOptions, sourceOf, type RunError, type TraceResult } from '../../engine/grade.ts'
 import { viewAt } from '../../engine/trace.ts'
 import { CodeEditor } from '../CodeEditor.tsx'
 import { ErrorBox, RunnerNotice, VerdictBox } from '../Feedback.tsx'
@@ -74,7 +74,8 @@ export function CodeTaskView({
     if (!canRun(ctx) || running) return
     setRunning(true)
     try {
-      const r = await ctx.runner!.trace(code)
+      // A plain run uses the first test's typed answers and files, so input() and open() work.
+      const r = await ctx.runner!.trace(code, runOptions(task.tests.find((t) => t.stdin || t.files)))
       setRun(r)
       setRunError(r.error)
     } catch (e) {

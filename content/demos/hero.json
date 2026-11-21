@@ -18,26 +18,27 @@
   "trace": [
     {
       "line": 1,
+      "stdout": "",
       "vars": {
         "cups": {
           "repr": "2",
           "type": "int"
         }
-      },
-      "stdout": ""
+      }
     },
     {
       "line": 2,
+      "stdout": "",
       "vars": {
         "cups": {
           "repr": "3",
           "type": "int"
         }
-      },
-      "stdout": ""
+      }
     },
     {
       "line": 3,
+      "stdout": "",
       "vars": {
         "cups": {
           "repr": "3",
@@ -45,13 +46,14 @@
         },
         "name": {
           "repr": "'Rin'",
-          "type": "str"
+          "type": "str",
+          "text": "Rin"
         }
-      },
-      "stdout": ""
+      }
     },
     {
       "line": 4,
+      "stdout": "Rin has 3 cups\n",
       "vars": {
         "cups": {
           "repr": "3",
@@ -59,10 +61,10 @@
         },
         "name": {
           "repr": "'Rin'",
-          "type": "str"
+          "type": "str",
+          "text": "Rin"
         }
-      },
-      "stdout": "Rin has 3 cups\n"
+      }
     }
   ],
   "traceHash": "f2239210cc2f7429b3b38e8026a3a90a9a26a8f8daf77dcf8372453a8dd363d8"

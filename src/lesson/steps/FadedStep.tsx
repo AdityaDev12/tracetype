@@ -1,7 +1,7 @@
 import { Fragment, useState } from 'react'
 import { CodeLine } from '../../components/CodeLine.tsx'
 import { Terminal } from '../../design/Terminal.tsx'
-import { fallbackFaded, gradeByResult, sourceOf } from '../../engine/grade.ts'
+import { fallbackFaded, gradeByResult, runOptions, sourceOf } from '../../engine/grade.ts'
 import { RunnerNotice, VerdictBox } from '../Feedback.tsx'
 import { ItemPager, NextButton, StepLayout, StepTitle } from '../common.tsx'
 import { useCheck } from '../useCheck.ts'
@@ -38,7 +38,7 @@ export function FadedItemView({ index, solvedList, onSolved, onNext }: { index: 
   }
 
   const submit = () =>
-    check((runner) => (runner ? gradeByResult(runner, filled(), f.gen.expected) : fallbackFaded(values, f.answers)))
+    check((runner) => (runner ? gradeByResult(runner, filled(), f.gen.expected, runOptions(f)) : fallbackFaded(values, f.answers)))
 
   const reveal = () => {
     setValues(f.answers)

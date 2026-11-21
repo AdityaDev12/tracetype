@@ -46,8 +46,15 @@ function checkGen(c: Checker, item: Obj, where: string): Obj | null {
   return gen as Obj
 }
 
-function checkTrace(c: Checker, trace: unknown, lines: number, where: string) {
+/** Trace format written by runtime.py (v2: heap, stack, events, files). */
+export const TRACE_VERSION = 2
+/** Stored traces stay small: a lesson example should be short enough to step through. */
+export const MAX_TRACE_STEPS = 400
+
+function checkTrace(c: Checker, trace: unknown, lines: number, where: string, version?: unknown) {
   if (!c.need(Array.isArray(trace) && trace.length > 0, `${where} trace is empty`)) return
+  c.need(version === TRACE_VERSION, `${where} trace is not format v${TRACE_VERSION}. Run: npm run trace -- <file>`)
+  c.need((trace as unknown[]).length <= MAX_TRACE_STEPS, `${where} trace has ${(trace as unknown[]).length} steps (max ${MAX_TRACE_STEPS}). Make the example shorter`)
   ;(trace as Obj[]).forEach((s, i) => {
     c.need(typeof s.line === 'number' && s.line >= 1 && s.line <= lines, `${where} trace[${i}].line out of range`)
     c.need(isObj(s.vars) && isStr(s.stdout), `${where} trace[${i}] needs vars and stdout`)
@@ -125,7 +132,7 @@ export function validateLesson(data: unknown): string[] {
     if (p.kind === 'choice') c.need(Array.isArray(p.options) && p.options.length >= 2, `${w}.options needs 2 or more`)
     const gen = checkGen(c, p, w)
     if (gen) {
-      checkTrace(c, gen.trace, isCode(p.code) ? p.code.length : 0, w)
+      checkTrace(c, gen.trace, isCode(p.code) ? p.code.length : 0, w, gen.traceVersion)
       c.need(isStr(gen.output), `${w}.gen.output missing`)
       if (p.kind === 'choice') c.need(typeof gen.answer === 'number', `${w}.gen.answer missing`)
     }
@@ -147,7 +154,7 @@ export function validateLesson(data: unknown): string[] {
       }
     })
     const gen = checkGen(c, ex, w)
-    if (gen) checkTrace(c, gen.trace, lines.length, w)
+    if (gen) checkTrace(c, gen.trace, lines.length, w, gen.traceVersion)
   })
 
   list('investigate').forEach((q, i) => {

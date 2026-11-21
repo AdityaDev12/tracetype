@@ -1,4 +1,4 @@
-import type { CodeTest, Expected, TraceStep, VarValue } from './types.ts'
+import type { CodeTest, Expected, RunOptions, TraceEvent, TraceStep, VarValue } from './types.ts'
 import { normalizeLoose } from './typing.ts'
 
 // Grading rules (docs/PLAN.md section 4). Language neutral: code is run through a
@@ -16,10 +16,16 @@ export interface RunResult {
   stdout: string
   vars: Record<string, VarValue>
   error: RunError | null
+  /** The virtual folder at the end, when files were used. */
+  files?: Record<string, string>
 }
 
 export interface TraceResult extends RunResult {
+  version?: number
   steps: TraceStep[]
+  /** Events after the last step (for example the error that stopped the program). */
+  events?: TraceEvent[]
+  stdin?: { given: number; used: number }
 }
 
 export interface TestResult {
@@ -32,8 +38,8 @@ export interface TestResult {
 }
 
 export interface CodeRunner {
-  trace(src: string): Promise<TraceResult>
-  run(src: string, pre?: string, post?: string): Promise<RunResult>
+  trace(src: string, options?: RunOptions): Promise<TraceResult>
+  run(src: string, pre?: string, post?: string, options?: RunOptions): Promise<RunResult>
   tests(src: string, tests: CodeTest[]): Promise<TestResult[]>
   sameAst(a: string, b: string): Promise<boolean>
 }
@@ -81,8 +87,13 @@ function varsDiff(got: Record<string, VarValue>, want: Record<string, VarValue>)
 }
 
 /** Faded and Parsons: the program must run and end with the same output and variables. */
-export async function gradeByResult(runner: CodeRunner, code: string, expected: Expected): Promise<Verdict> {
-  const r = await runner.run(code)
+export async function gradeByResult(
+  runner: CodeRunner,
+  code: string,
+  expected: Expected,
+  options?: RunOptions,
+): Promise<Verdict> {
+  const r = await runner.run(code, '', '', runOptions(options))
   if (r.error) return { ok: false, message: r.error.message, error: r.error }
   const got = normalizeOutput(r.stdout)
   if (got !== expected.stdout) {
@@ -94,9 +105,25 @@ export async function gradeByResult(runner: CodeRunner, code: string, expected: 
 }
 
 /** Recall: accepted if the code means the same (AST), or gives the same output and variables. */
-export async function gradeRecall(runner: CodeRunner, code: string, solution: string, expected: Expected): Promise<Verdict> {
+export async function gradeRecall(
+  runner: CodeRunner,
+  code: string,
+  solution: string,
+  expected: Expected,
+  options?: RunOptions,
+): Promise<Verdict> {
   if (await runner.sameAst(code, solution)) return { ok: true, how: 'same-code' }
-  return gradeByResult(runner, code, expected)
+  return gradeByResult(runner, code, expected, options)
+}
+
+/** Only the run options from an item (stdin, files, expr), or undefined. */
+export function runOptions(item?: RunOptions): RunOptions | undefined {
+  if (!item) return undefined
+  const out: RunOptions = {}
+  if (item.stdin) out.stdin = item.stdin
+  if (item.files) out.files = item.files
+  if (item.expr) out.expr = item.expr
+  return Object.keys(out).length ? out : undefined
 }
 
 /** Fix, Modify, Make, projects: run against hidden tests. */
