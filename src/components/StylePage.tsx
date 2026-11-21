@@ -218,6 +218,11 @@ export function StylePage() {
           notes on top of everything.
         </p>
         <p className="sp-hand sp-pick">pick one logo and one mascot below ↓</p>
+        <p>
+          <a className="tt-btn prompt" href="#/hero">
+            {' see it in motion: the landing hero'}
+          </a>
+        </p>
       </header>
 
       <section className="sp-section">

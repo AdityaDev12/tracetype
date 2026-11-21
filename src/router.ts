@@ -5,12 +5,14 @@ export type Route =
   | { page: 'home' }
   | { page: 'lesson'; id: string; mode: Mode }
   | { page: 'style' }
+  | { page: 'hero' }
   | { page: 'notfound' }
 
 export function parseHash(hash: string): Route {
   const parts = hash.replace(/^#\/?/, '').split('/').filter(Boolean)
   if (parts.length === 0) return { page: 'home' }
   if (parts[0] === 'style') return { page: 'style' }
+  if (parts[0] === 'hero') return { page: 'hero' }
   if (parts[0] === 'lesson' && parts[1]) {
     const mode = MODES.includes(parts[2] as Mode) ? (parts[2] as Mode) : 'learn'
     return { page: 'lesson', id: decodeURIComponent(parts[1]), mode }

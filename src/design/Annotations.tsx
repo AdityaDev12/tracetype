@@ -21,6 +21,8 @@ export interface Anno {
   dx?: number
   dy?: number
   arrow?: boolean
+  /** Max width of the note in px (default 220). */
+  width?: number
   /** Start drawing after this many ms. */
   delay?: number
   seed?: number
@@ -114,7 +116,7 @@ function Annotation({ a, box }: { a: Anno; box: Box }) {
       {a.note && place && (
         <div
           className={`anno-note pen-${color} align-${place.align}`}
-          style={{ left: place.note.x, top: place.note.y, animationDelay: `${delay + 380}ms` }}
+          style={{ left: place.note.x, top: place.note.y, maxWidth: a.width, animationDelay: `${delay + 380}ms` }}
         >
           {a.note}
         </div>

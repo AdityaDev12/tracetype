@@ -1154,3 +1154,182 @@
   align-items: center;
   gap: 16px;
 }
+
+/* ---------- Landing hero ---------- */
+
+@keyframes boot-in {
+  from {
+    opacity: 0;
+    transform: translateY(3px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.hidden-input {
+  position: absolute;
+  opacity: 0;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1px;
+  border: 0;
+  padding: 0;
+  resize: none;
+  font-size: 16px; /* stops iOS zooming in on focus */
+}
+
+.boot {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 18vh 20px 0;
+  font-family: var(--mono);
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--chalk-dim);
+}
+
+.boot-line {
+  opacity: 0;
+  animation: boot-in 160ms var(--ease) forwards;
+  white-space: pre;
+}
+
+.boot-line:first-child {
+  color: var(--chalk);
+}
+
+.boot-ok {
+  color: var(--ok);
+}
+
+.boot-caret {
+  margin-left: 0.5ch;
+}
+
+.lp-page {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 20px 80px;
+  animation: hero-in 420ms var(--ease);
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.lp-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.25fr);
+  gap: 56px;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 40px 0;
+}
+
+.lp-title {
+  font-size: clamp(2.8rem, 6.4vw, 5.2rem);
+  font-weight: 600;
+  letter-spacing: -0.022em;
+  line-height: 1;
+  margin: 16px 0 22px;
+  font-variation-settings: 'SOFT' 50;
+}
+
+.lp-sub {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--chalk-dim);
+  max-width: 34ch;
+}
+
+.lp-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.lp-free {
+  margin-top: 16px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--ghost);
+}
+
+.hero-demo {
+  position: relative;
+}
+
+.hero-demo .anno-layer {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.hero-editor {
+  cursor: text;
+}
+
+.hero-editor .tcode {
+  font-size: 16px;
+}
+
+.hero-demo.is-live .hero-editor .term {
+  border-color: var(--phosphor);
+  box-shadow: 0 0 0 3px var(--phosphor-glow), 0 0 40px -10px rgba(255, 181, 71, 0.35);
+}
+
+.hero-panels {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 14px;
+}
+
+.hero-panels .term-body {
+  min-height: 96px;
+}
+
+.hero-mascot {
+  position: absolute;
+  right: 14px;
+  top: -30px;
+  z-index: 4;
+}
+
+.hero-try {
+  position: absolute;
+  left: -8px;
+  top: -44px;
+  margin: 0;
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--pen-blue);
+  transform: rotate(-2.5deg);
+  pointer-events: none;
+}
+
+.hero-demo:not(.is-live) .hero-try::after {
+  content: ' \2193';
+}
+
+@media (max-width: 900px) {
+  .lp-hero {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 72px;
+    min-height: 0;
+    padding-top: 28px;
+  }
+  .hero-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .hero-editor .tcode {
+    font-size: 14px;
+  }
+}
