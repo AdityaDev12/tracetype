@@ -1,0 +1,8 @@
+[
+  {
+    "id": "python-basics",
+    "title": "Python basics",
+    "description": "Your first steps: variables, numbers, text, lists, decisions, loops and functions.",
+    "order": 1
+  }
+]

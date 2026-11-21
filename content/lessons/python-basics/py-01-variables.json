@@ -1,0 +1,256 @@
+{
+  "id": "py-01-variables",
+  "track": "python-basics",
+  "order": 1,
+  "title": "Variables and print",
+  "summary": "Store values under names and show them on screen.",
+  "intro": "A **variable** is a name that points at a value, like a label on a box. You make one by writing the name, then `=`, then the value. Read `=` as \"gets\": `score = 10` means \"score gets 10\".\n\nTo see a value on screen you use `print(...)`. In this lesson you will make a few variables, print them, change one, and watch the boxes on the right change as each line runs.",
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 6. The Dynamic Typing Interlude"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 11. Assignments, Expressions, and Prints"
+    }
+  ],
+  "visual": "memory",
+  "lines": [
+    {
+      "code": "player = \"Maya\"",
+      "explain": "Makes a new variable called **player** and puts the text `\"Maya\"` in it. The quotes tell Python this is text (a **str**, short for string). The quotes are not part of the value.",
+      "task": "Store the text Maya in a variable called player."
+    },
+    {
+      "code": "score = 10",
+      "explain": "Makes a second variable, **score**, holding the whole number 10. Numbers have no quotes. Python calls whole numbers **int**.",
+      "task": "Store the number 10 in a variable called score."
+    },
+    {
+      "code": "print(player)",
+      "explain": "`print` shows a value in the output. Python looks inside **player**, finds `\"Maya\"`, and prints it without the quotes. The variable itself does not change.",
+      "task": "Show the value of player."
+    },
+    {
+      "code": "print(score)",
+      "explain": "Same idea with a number. Python looks up **score** and prints 10.",
+      "task": "Show the value of score."
+    },
+    {
+      "code": "print(player, \"has\", score, \"points\")",
+      "explain": "You can give `print` several values separated by commas. It shows them in order with one space between each. Here two values come from variables and two are plain text.",
+      "task": "Print player, the word has, score and the word points in one print."
+    },
+    {
+      "code": "score = 25",
+      "explain": "Assigning to a name that already exists **replaces** its value. The box now holds 25 and the old 10 is gone. Look for the \"was 10\" note in the panel.",
+      "task": "Change score to 25."
+    },
+    {
+      "code": "print(player, \"now has\", score, \"points\")",
+      "explain": "The same kind of print as before, but `score` now gives 25. A variable always gives its **current** value at the moment the line runs.",
+      "task": "Print player, the words now has, score and the word points."
+    },
+    {
+      "code": "winner = player",
+      "explain": "Makes **winner** point at the same value that **player** has right now, which is `\"Maya\"`. No quotes around `player`, so Python uses the variable, not the word.",
+      "task": "Make a variable called winner that gets the value of player."
+    },
+    {
+      "code": "print(\"Winner:\", winner)",
+      "explain": "Prints some fixed text and then the value inside **winner**. The text in quotes is printed exactly as written.",
+      "task": "Print the text Winner: followed by the value of winner."
+    }
+  ],
+  "quiz": [
+    {
+      "q": "After `score = 10` and then `score = 25`, what is stored in score?",
+      "options": [
+        "10",
+        "25",
+        "35",
+        "Both 10 and 25"
+      ],
+      "answer": 1,
+      "why": "A new assignment replaces the old value. A variable holds one value at a time."
+    },
+    {
+      "q": "In this lesson player holds \"Maya\". What does `print(\"player\")` show?",
+      "options": [
+        "Maya",
+        "\"Maya\"",
+        "player",
+        "An error"
+      ],
+      "answer": 2,
+      "why": "The quotes make it plain text, so Python prints the word player instead of looking up the variable."
+    },
+    {
+      "q": "What does `print(\"a\", 5, \"b\")` show?",
+      "options": [
+        "a5b",
+        "a 5 b",
+        "a, 5, b",
+        "\"a\" 5 \"b\""
+      ],
+      "answer": 1,
+      "why": "print puts one space between the values and leaves out the quotes."
+    },
+    {
+      "q": "These lines run in order: `x = 4`, then `y = x`, then `x = 3`. What is in y?",
+      "options": [
+        "3",
+        "7",
+        "Error",
+        "4"
+      ],
+      "answer": 3,
+      "why": "`y = x` gives y the value x had at that moment, 4. Changing x later does not touch y."
+    },
+    {
+      "q": "Which line gives an error if it is the very first line of a program?",
+      "options": [
+        "total = 0",
+        "print(total)",
+        "print(\"total\")",
+        "total = \"zero\""
+      ],
+      "answer": 1,
+      "why": "total does not exist yet. A name must get a value before you can use it."
+    }
+  ],
+  "trace": [
+    {
+      "line": 1,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        }
+      },
+      "stdout": ""
+    },
+    {
+      "line": 2,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "10",
+          "type": "int"
+        }
+      },
+      "stdout": ""
+    },
+    {
+      "line": 3,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "10",
+          "type": "int"
+        }
+      },
+      "stdout": "Maya\n"
+    },
+    {
+      "line": 4,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "10",
+          "type": "int"
+        }
+      },
+      "stdout": "10\n"
+    },
+    {
+      "line": 5,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "10",
+          "type": "int"
+        }
+      },
+      "stdout": "Maya has 10 points\n"
+    },
+    {
+      "line": 6,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "25",
+          "type": "int"
+        }
+      },
+      "stdout": ""
+    },
+    {
+      "line": 7,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "25",
+          "type": "int"
+        }
+      },
+      "stdout": "Maya now has 25 points\n"
+    },
+    {
+      "line": 8,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "25",
+          "type": "int"
+        },
+        "winner": {
+          "repr": "'Maya'",
+          "type": "str"
+        }
+      },
+      "stdout": ""
+    },
+    {
+      "line": 9,
+      "vars": {
+        "player": {
+          "repr": "'Maya'",
+          "type": "str"
+        },
+        "score": {
+          "repr": "25",
+          "type": "int"
+        },
+        "winner": {
+          "repr": "'Maya'",
+          "type": "str"
+        }
+      },
+      "stdout": "Winner: Maya\n"
+    }
+  ],
+  "traceHash": "3aa05ff3654c232419a39faf49e8042288847b480f6c0e7ae6341bf6c06b57ec"
+}
