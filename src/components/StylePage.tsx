@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import heroDemo from '../../content/demos/hero.json'
 import styleDemo from '../../content/demos/style.json'
-import { Logo, LogoIcon, type LogoVariant } from '../brand/Logo.tsx'
-import { Mascot, type MascotMood, type MascotVariant } from '../brand/Mascot.tsx'
+import { Logo } from '../brand/Logo.tsx'
+import { Mascot, type MascotMood } from '../brand/Mascot.tsx'
 import { AnnotationLayer, type Anno } from '../design/Annotations.tsx'
 import { MemoryBoxes } from '../design/MemoryBoxes.tsx'
 import { wavyLine } from '../design/sketch.ts'
@@ -46,18 +46,6 @@ function contrast(a: string, b: string): number {
   return (x + 0.05) / (y + 0.05)
 }
 
-const LOGOS: { id: LogoVariant; name: string; note: string }[] = [
-  { id: 'ghost', name: 'A  ghost', note: '"Type" is ghost code. The amber cursor is about to type over it.' },
-  { id: 'marked', name: 'B  marked up', note: 'Same, but the tutor has circled the cursor and underlined "Type".' },
-  { id: 'serif', name: 'C  serif', note: 'Bookish Fraunces with a prompt in front and the cursor behind.' },
-]
-
-const MASCOTS: { id: MascotVariant; name: string; note: string }[] = [
-  { id: 'block', name: '1  block', note: 'The plain terminal block cursor, glowing, with two eyes.' },
-  { id: 'peeker', name: '2  peeker', note: 'An underscore cursor with eyes peeking over it. Shy and small.' },
-  { id: 'walker', name: '3  walker', note: 'A block cursor on two short legs, so it can hop and walk around.' },
-]
-
 const MOODS: { mood: MascotMood; label: string }[] = [
   { mood: 'hop', label: 'correct' },
   { mood: 'tilt', label: 'error' },
@@ -67,7 +55,7 @@ const MOODS: { mood: MascotMood; label: string }[] = [
 const styleTrace = styleDemo.trace as TraceStep[]
 const heroLines = heroDemo.lines.map((l) => l.code)
 
-function MascotCard({ id, name, note }: { id: MascotVariant; name: string; note: string }) {
+function MascotCard() {
   const [mood, setMood] = useState<MascotMood>('idle')
   const [key, setKey] = useState(0)
   const play = (m: MascotMood) => {
@@ -75,18 +63,17 @@ function MascotCard({ id, name, note }: { id: MascotVariant; name: string; note:
     setKey((k) => k + 1)
   }
   return (
-    <Terminal title={`mascot ${name}`} className="sp-card">
+    <Terminal title="mascot" className="sp-card">
       <div className="term-pad sp-stack">
         <div className="sp-mascots">
-          <Mascot variant={id} size={96} mood={mood} moodKey={key} title={`Mascot ${name}`} />
-          <Mascot variant={id} size={32} mood={mood} moodKey={key} />
-          <Mascot variant={id} size={24} mood={mood} moodKey={key} />
+          <Mascot size={120} mood={mood} moodKey={key} title="The TraceType mascot" />
+          <Mascot size={32} mood={mood} moodKey={key} />
+          <Mascot size={24} mood={mood} moodKey={key} line={false} />
           <span className="sp-sketch-wrap">
-            <Mascot variant={id} size={56} mood={mood} moodKey={key} sketch />
+            <Mascot size={64} mood={mood} moodKey={key} sketch />
             <span className="sp-hand">in the tutor's pen</span>
           </span>
         </div>
-        <p className="sp-note">{note} Idle: blinks.</p>
         <div className="sp-row">
           {MOODS.map((m) => (
             <button key={m.mood} className="tt-btn bracket small" onClick={() => play(m.mood)}>
@@ -101,7 +88,7 @@ function MascotCard({ id, name, note }: { id: MascotVariant; name: string; note:
               <li key={i} className={`tt-step${i < 4 ? ' done' : i === 4 ? ' current' : ''}`} />
             ))}
           </ol>
-          <Mascot variant={id} size={28} mood={mood} moodKey={key} />
+          <Mascot size={28} mood={mood} moodKey={key} />
         </div>
       </div>
     </Terminal>
@@ -217,7 +204,6 @@ export function StylePage() {
           A terminal, marked up by a tutor. Warm glowing code panels, and a friendly hand drawing arrows, circles and
           notes on top of everything.
         </p>
-        <p className="sp-hand sp-pick">pick one logo and one mascot below ↓</p>
         <p>
           <a className="tt-btn prompt" href="#/hero">
             {' see it in motion: the landing hero'}
@@ -227,42 +213,33 @@ export function StylePage() {
 
       <section className="sp-section">
         <h2 className="sp-h2">
-          <span className="box-label">├─ </span>Logo
+          <span className="box-label">├─ </span>Logo and mascot
         </h2>
         <div className="sp-grid">
-          {LOGOS.map((l) => (
-            <Terminal key={l.id} title={`logo ${l.name}`} className="sp-card">
-              <div className="term-pad sp-stack">
-                <div className="sp-logo-big">
-                  <Logo variant={l.id} />
-                </div>
-                <div className="sp-nav-mock">
-                  <span className="sp-logo-nav">
-                    <Logo variant={l.id} />
-                  </span>
-                  <span className="sp-nav-links">learn · review · map</span>
-                </div>
-                <div className="sp-row">
-                  <span className="box-label">icon</span>
-                  <LogoIcon variant={l.id} px={48} />
-                  <LogoIcon variant={l.id} px={32} />
-                  <LogoIcon variant={l.id} px={16} />
-                </div>
-                <p className="sp-note">{l.note}</p>
+          <Terminal title="logo" className="sp-card">
+            <div className="term-pad sp-stack">
+              <div className="sp-logo-big">
+                <Logo height={72} />
               </div>
-            </Terminal>
-          ))}
-        </div>
-      </section>
-
-      <section className="sp-section">
-        <h2 className="sp-h2">
-          <span className="box-label">├─ </span>Mascot
-        </h2>
-        <div className="sp-grid">
-          {MASCOTS.map((m) => (
-            <MascotCard key={m.id} {...m} />
-          ))}
+              <div className="sp-nav-mock">
+                <Logo height={22} animate={false} />
+                <span className="sp-nav-links">course · review · settings</span>
+              </div>
+              <div className="sp-row">
+                <span className="box-label">favicon</span>
+                <span className="sp-tab light">
+                  <img src={`${import.meta.env.BASE_URL}favicon.svg`} width={16} height={16} alt="" />
+                  <img src={`${import.meta.env.BASE_URL}favicon-32.png`} width={32} height={32} alt="" />
+                </span>
+                <span className="sp-tab dark">
+                  <img src={`${import.meta.env.BASE_URL}favicon.svg`} width={16} height={16} alt="" />
+                  <img src={`${import.meta.env.BASE_URL}favicon-32.png`} width={32} height={32} alt="" />
+                </span>
+                <img src={`${import.meta.env.BASE_URL}apple-touch-icon.png`} width={60} height={60} alt="" className="sp-touch" />
+              </div>
+            </div>
+          </Terminal>
+          <MascotCard />
         </div>
       </section>
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 180">
+  <rect width="180" height="180" fill="#0c0b09"/>
+  <defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="8"/></filter></defs>
+  <rect x="58" y="26" width="64" height="104" rx="16" fill="#ffb547" opacity="0.45" filter="url(#g)"/>
+  <rect x="58" y="26" width="64" height="104" rx="16" fill="#ffb547"/>
+  <circle cx="78" cy="56" r="8" fill="#1a1207"/>
+  <circle cx="102" cy="56" r="8" fill="#1a1207"/>
+  <path d="M44 150 C 70 143, 110 147, 136 141" fill="none" stroke="#86b6ff" stroke-width="7" stroke-linecap="round"/>
+</svg>

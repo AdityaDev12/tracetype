@@ -697,95 +697,25 @@
 
 /* ---------- Logo ---------- */
 
-.logo-wrap {
-  display: inline-block;
-  line-height: 1;
-}
-
 .logo {
-  display: inline-flex;
-  align-items: center;
-  white-space: nowrap;
-  color: var(--chalk);
-  font-variant-ligatures: none;
-}
-
-.logo-mono {
-  font-family: var(--mono);
-  font-weight: 600;
-  letter-spacing: -0.02em;
-}
-
-.logo-block {
   display: inline-block;
-  width: 0.58em;
-  height: 1.02em;
-  margin: 0 0.06em;
-  background: var(--phosphor);
-  box-shadow: 0 0 0.4em rgba(255, 181, 71, 0.5);
+  line-height: 0;
+}
+
+.logo svg {
+  height: 100%;
+  width: auto;
+  overflow: visible;
+}
+
+.logo-animated .tt-cursor {
   animation: blink 1.05s steps(1) infinite;
 }
 
-.logo-ghost-text {
-  color: var(--ghost);
-}
-
-.logo-block-wrap,
-.logo-underlined {
-  position: relative;
-  display: inline-flex;
-}
-
-.logo-pen {
-  position: absolute;
-  overflow: visible;
-  pointer-events: none;
-}
-
-.logo-block-wrap .logo-pen {
-  left: -0.45em;
-  top: -0.35em;
-  width: 1.5em;
-  height: 1.7em;
-}
-
-.logo-pen path {
-  fill: none;
-  stroke: var(--pen-blue);
-  stroke-width: 1.6;
-  stroke-linecap: round;
-  vector-effect: non-scaling-stroke;
-}
-
-.logo-pen-under {
-  left: 0;
-  right: 0;
-  bottom: -0.32em;
-  width: 100%;
-  height: 0.25em;
-}
-
-.logo-serif {
-  font-family: var(--serif);
-  font-weight: 600;
-  gap: 0.25em;
-  letter-spacing: -0.02em;
-}
-
-.logo-serif em {
-  font-style: italic;
-  font-weight: 500;
-  color: var(--chalk-dim);
-}
-
-.logo-serif .logo-block {
-  margin-left: 0.02em;
-}
-
-.logo-prompt {
-  font-family: var(--mono);
-  color: var(--ghost);
-  font-size: 0.8em;
+.logo-animated .tt-underline {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: draw 600ms var(--ease) 250ms forwards;
 }
 
 /* ---------- Mascot ---------- */
@@ -881,7 +811,8 @@
 /* ---------- Reduced motion: everything appears at once ---------- */
 
 @media (prefers-reduced-motion: reduce) {
-  .draw {
+  .draw,
+  .logo-animated .tt-underline {
     animation: none;
     stroke-dashoffset: 0;
   }
@@ -891,7 +822,7 @@
   }
   .tcaret,
   .heading-cursor,
-  .logo-block,
+  .logo-animated .tt-cursor,
   .tt-step.current,
   .mascot *,
   .mem-box,
@@ -1332,4 +1263,24 @@
   .hero-editor .tcode {
     font-size: 14px;
   }
+}
+
+.sp-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.sp-tab.light {
+  background: #f1f1f1;
+}
+
+.sp-tab.dark {
+  background: #35363a;
+}
+
+.sp-touch {
+  border-radius: 13px;
 }

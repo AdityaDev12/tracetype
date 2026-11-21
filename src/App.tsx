@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Logo } from './brand/Logo.tsx'
 import { HomePage } from './components/HomePage.tsx'
 import { LessonPage } from './components/LessonPage.tsx'
 import { StylePage } from './components/StylePage.tsx'
@@ -16,8 +17,8 @@ export default function App() {
   return (
     <div className="app grain">
       <nav className="topbar">
-        <a href="#/" className="brand">
-          Trace<span className="accent">Type</span>
+        <a href="#/" className="brand" aria-label="TraceType home">
+          <Logo height={22} />
         </a>
       </nav>
       {route.page === 'home' && <HomePage />}
