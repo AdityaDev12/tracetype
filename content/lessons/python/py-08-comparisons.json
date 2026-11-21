@@ -1,0 +1,1134 @@
+{
+  "id": "py-08-comparisons",
+  "track": "python",
+  "unit": "py-u2",
+  "order": 8,
+  "title": "True, False and comparisons",
+  "summary": "Ask yes/no questions about values and get back True or False.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "expr",
+    "memory"
+  ],
+  "intro": {
+    "text": "Programs make decisions by asking yes/no questions. A **comparison** asks one and gives back `True` or `False`. These are values of type **bool** (capital T and F, no quotes).\n\n- `==` equal to, `!=` not equal to\n- `<` less than, `>` greater than\n- `<=` at most, `>=` at least\n\nOne `=` stores a value. Two `==` compare. You can chain comparisons: `1 < x < 5` asks if x is between 1 and 5.\n\nText is compared letter by letter. Capitals come before lowercase letters, and `\"Bo\" == \"bo\"` is False.",
+    "analogy": "A comparison is like a bouncer at a door with one rule, such as \"at least 18\". He looks at your age and answers only yes or no. True and False are those two answers, written down so you can use them later."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "height = 120",
+        "print(height >= 120)"
+      ],
+      "kind": "choice",
+      "options": [
+        "True",
+        "False",
+        "120",
+        "Error"
+      ],
+      "expr": [
+        2
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "120",
+          "label": "height",
+          "kind": "number",
+          "min": 90,
+          "max": 150
+        }
+      ],
+      "why": ">= means at least. 120 is at least 120, so the answer is True.",
+      "gen": {
+        "hash": "6b2da52e3c74427286422a51b55d7e0bb4d2d510fa8884a79016c74a7cb801e7",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "height": {
+                "repr": "120",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "True\n",
+            "vars": {
+              "height": {
+                "repr": "120",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(height >= 120)"
+                  },
+                  {
+                    "text": "print(120 >= 120)"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "120 >= 120",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "True",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "a = 7",
+        "b = 7.0",
+        "print(a == b)",
+        "print(a != b)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        3,
+        4
+      ],
+      "why": "7 and 7.0 are the same number, so == is True and != is False.",
+      "gen": {
+        "hash": "657cd10e3d5e98938640dff7ca3822c7eb2bf2c82def31ae6be891811b290938",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "7",
+                "type": "int"
+              },
+              "b": {
+                "repr": "7.0",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "True\n",
+            "vars": {
+              "a": {
+                "repr": "7",
+                "type": "int"
+              },
+              "b": {
+                "repr": "7.0",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(a == b)"
+                  },
+                  {
+                    "text": "print(7 == 7.0)"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "7 == 7.0",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "False\n",
+            "vars": {
+              "a": {
+                "repr": "7",
+                "type": "int"
+              },
+              "b": {
+                "repr": "7.0",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(a != b)"
+                  },
+                  {
+                    "text": "print(7 != 7.0)"
+                  },
+                  {
+                    "text": "print(False)",
+                    "part": "7 != 7.0",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "True\nFalse"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "word = \"Cat\"",
+        "print(word == \"cat\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "True",
+        "False",
+        "Cat",
+        "Error"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "Capitals matter. \"Cat\" and \"cat\" are different text, so == is False.",
+      "gen": {
+        "hash": "1a7e5027d83e046aa124b7e00fe13bb2ee8dcb3132cd8bc536d486f0248c3641",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'Cat'",
+                "type": "str",
+                "text": "Cat"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "False\n",
+            "vars": {
+              "word": {
+                "repr": "'Cat'",
+                "type": "str",
+                "text": "Cat"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(word == 'cat')"
+                  },
+                  {
+                    "text": "print('Cat' == 'cat')"
+                  },
+                  {
+                    "text": "print(False)",
+                    "part": "'Cat' == 'cat'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "False",
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Asking questions about a number",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "16",
+          "label": "age",
+          "kind": "number",
+          "min": 0,
+          "max": 30
+        }
+      ],
+      "lines": [
+        {
+          "code": "age = 16",
+          "explain": "Stores 16.",
+          "task": "Store 16 in age."
+        },
+        {
+          "code": "can_vote = age >= 18",
+          "explain": "`>=` asks: is age at least 18? 16 is not, so **can_vote** gets `False`. It is a value like any other, of type bool.",
+          "task": "Make can_vote hold whether age is at least 18.",
+          "note": "a yes/no answer",
+          "circle": ">=",
+          "expr": true
+        },
+        {
+          "code": "is_teen = 13 <= age <= 19",
+          "explain": "A chained comparison: is age between 13 and 19? Both parts are true, so `True`.",
+          "task": "Make is_teen hold whether age is between 13 and 19, in one chained comparison.",
+          "note": "between",
+          "circle": "13 <= age <= 19",
+          "expr": true
+        },
+        {
+          "code": "print(can_vote, is_teen)",
+          "explain": "Prints False True. Try the age knob: at 18 both are True, at 20 they swap.",
+          "task": "Print can_vote and is_teen."
+        }
+      ],
+      "gen": {
+        "hash": "9615529806c6920b950811c9146546b452804d0c0b1dd56b2ed46b6d2bedc52c",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "16",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "16",
+                "type": "int"
+              },
+              "can_vote": {
+                "repr": "False",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "can_vote = age >= 18"
+                  },
+                  {
+                    "text": "can_vote = 16 >= 18"
+                  },
+                  {
+                    "text": "can_vote = False",
+                    "part": "16 >= 18",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "16",
+                "type": "int"
+              },
+              "can_vote": {
+                "repr": "False",
+                "type": "bool"
+              },
+              "is_teen": {
+                "repr": "True",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "is_teen = 13 <= age <= 19"
+                  },
+                  {
+                    "text": "is_teen = 13 <= 16 <= 19"
+                  },
+                  {
+                    "text": "is_teen = True",
+                    "part": "13 <= 16 <= 19",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "False True\n",
+            "vars": {
+              "age": {
+                "repr": "16",
+                "type": "int"
+              },
+              "can_vote": {
+                "repr": "False",
+                "type": "bool"
+              },
+              "is_teen": {
+                "repr": "True",
+                "type": "bool"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Equal and not equal",
+      "lines": [
+        {
+          "code": "guess = 42",
+          "explain": "The player guessed 42.",
+          "task": "Store 42 in guess."
+        },
+        {
+          "code": "secret = 37",
+          "explain": "The secret number is 37.",
+          "task": "Store 37 in secret."
+        },
+        {
+          "code": "print(guess == secret)",
+          "explain": "Two equals signs compare. 42 is not 37, so False.",
+          "task": "Print whether guess equals secret.",
+          "note": "== compares",
+          "circle": "==",
+          "expr": true
+        },
+        {
+          "code": "print(guess != secret)",
+          "explain": "`!=` means not equal. That is True.",
+          "task": "Print whether guess is not equal to secret.",
+          "expr": true
+        },
+        {
+          "code": "print(guess > secret)",
+          "explain": "42 is greater than 37: True.",
+          "task": "Print whether guess is greater than secret.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "b79ac29b83864208dbf2535a12ec262c540e2d084fafb1c3bf109adbdf11001a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "guess": {
+                "repr": "42",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "guess": {
+                "repr": "42",
+                "type": "int"
+              },
+              "secret": {
+                "repr": "37",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "False\n",
+            "vars": {
+              "guess": {
+                "repr": "42",
+                "type": "int"
+              },
+              "secret": {
+                "repr": "37",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(guess == secret)"
+                  },
+                  {
+                    "text": "print(42 == 37)"
+                  },
+                  {
+                    "text": "print(False)",
+                    "part": "42 == 37",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "True\n",
+            "vars": {
+              "guess": {
+                "repr": "42",
+                "type": "int"
+              },
+              "secret": {
+                "repr": "37",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(guess != secret)"
+                  },
+                  {
+                    "text": "print(42 != 37)"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "42 != 37",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "True\n",
+            "vars": {
+              "guess": {
+                "repr": "42",
+                "type": "int"
+              },
+              "secret": {
+                "repr": "37",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "print(guess > secret)"
+                  },
+                  {
+                    "text": "print(42 > 37)"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "42 > 37",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Comparing text",
+      "lines": [
+        {
+          "code": "first = \"apple\"",
+          "explain": "Text, all lowercase.",
+          "task": "Store the text apple in first."
+        },
+        {
+          "code": "second = \"banana\"",
+          "explain": "More text.",
+          "task": "Store the text banana in second."
+        },
+        {
+          "code": "print(first < second)",
+          "explain": "Text is compared letter by letter, like in a dictionary. a comes before b, so True.",
+          "task": "Print whether first comes before second.",
+          "note": "dictionary order",
+          "expr": true
+        },
+        {
+          "code": "print(\"Zoo\" < \"apple\")",
+          "explain": "Also True: every capital letter comes before every lowercase letter.",
+          "task": "Print whether Zoo comes before apple.",
+          "note": "capitals first",
+          "expr": true
+        },
+        {
+          "code": "print(first == \"Apple\")",
+          "explain": "False: the capital A makes them different.",
+          "task": "Print whether first equals Apple with a capital A.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "6980897dce734dc4df2364275c98cd3a4a3c5a6cdc7c3e814316d1be85965b32",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'apple'",
+                "type": "str",
+                "text": "apple"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'apple'",
+                "type": "str",
+                "text": "apple"
+              },
+              "second": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "True\n",
+            "vars": {
+              "first": {
+                "repr": "'apple'",
+                "type": "str",
+                "text": "apple"
+              },
+              "second": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(first < second)"
+                  },
+                  {
+                    "text": "print('apple' < 'banana')"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "'apple' < 'banana'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "True\n",
+            "vars": {
+              "first": {
+                "repr": "'apple'",
+                "type": "str",
+                "text": "apple"
+              },
+              "second": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print('Zoo' < 'apple')"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "'Zoo' < 'apple'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "False\n",
+            "vars": {
+              "first": {
+                "repr": "'apple'",
+                "type": "str",
+                "text": "apple"
+              },
+              "second": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "print(first == 'Apple')"
+                  },
+                  {
+                    "text": "print('apple' == 'Apple')"
+                  },
+                  {
+                    "text": "print(False)",
+                    "part": "'apple' == 'Apple'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in can_vote after line 2 runs?",
+      "options": [
+        "False",
+        "True",
+        "16",
+        "'False'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "can_vote"
+      },
+      "why": "16 is not at least 18, so the comparison gives False, a bool value (no quotes)."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in is_teen after line 3 runs?",
+      "options": [
+        "True",
+        "False",
+        "13",
+        "19"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "is_teen"
+      },
+      "why": "13 <= 16 and 16 <= 19 are both true, so the chain is True."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 3,
+      "q": "What is the difference between line 1 and line 3?",
+      "options": [
+        "Line 1 stores a value with =, line 3 compares with ==",
+        "They do the same thing",
+        "Line 3 changes guess",
+        "Line 1 compares, line 3 stores"
+      ],
+      "answer": 0,
+      "why": "One = puts a value in a name. Two == ask a question and give True or False."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the sign so the program prints True (the score is at least 50)",
+      "code": [
+        "score = 50",
+        "print(score ___ 50)"
+      ],
+      "answers": [
+        ">="
+      ],
+      "gen": {
+        "hash": "8d2ef758c411fa964b68b704775290307dc31bc97c0956ac5398f08cd24bc705",
+        "expected": {
+          "stdout": "True",
+          "vars": {
+            "score": {
+              "repr": "50",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints True, then False",
+      "code": [
+        "code = \"abc\"",
+        "print(code ___ \"abc\")",
+        "print(code ___ \"abc\")"
+      ],
+      "answers": [
+        "==",
+        "!="
+      ],
+      "gen": {
+        "hash": "1b7b123130c6df95fd80ce668e03e20a23181a9614d0cec5b491f80c2baa3934",
+        "expected": {
+          "stdout": "True\nFalse",
+          "vars": {
+            "code": {
+              "repr": "'abc'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\n15\nTrue",
+      "lines": [
+        "speed = 15",
+        "slow = speed < 20",
+        "print(speed)",
+        "print(slow)"
+      ],
+      "gen": {
+        "hash": "46b341dbe42ce60f8491a4f3ee670c9d81030295ee9c72f801ebc8560505e9ea",
+        "expected": {
+          "stdout": "15\nTrue",
+          "vars": {
+            "speed": {
+              "repr": "15",
+              "type": "int"
+            },
+            "slow": {
+              "repr": "True",
+              "type": "bool"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print True when the two codes are the same. It prints 0451 instead. Fix it.",
+      "code": [
+        "typed = \"0451\"",
+        "real = \"0451\"",
+        "match_found = typed = real",
+        "print(match_found)"
+      ],
+      "solution": [
+        "typed = \"0451\"",
+        "real = \"0451\"",
+        "match_found = typed == real",
+        "print(match_found)"
+      ],
+      "tests": [
+        {
+          "name": "prints True",
+          "stdout": "True"
+        },
+        {
+          "name": "match_found is a bool",
+          "post": "assert match_found is True, 'match_found should hold True'"
+        }
+      ],
+      "hint": "One = stores, so line 3 stores real in both names. To compare, use two.",
+      "gen": {
+        "hash": "2d7d2ef80ee315de82a3c31c78876aa55d4e6b99b0a880a64bb65c3f850aa0b9",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "The ride needs riders to be at least 140 cm. Change the comparison so it uses >= 140 instead of > 100. It should print:\nFalse",
+      "code": [
+        "height = 130",
+        "print(height > 100)"
+      ],
+      "solution": [
+        "height = 130",
+        "print(height >= 140)"
+      ],
+      "tests": [
+        {
+          "name": "prints False",
+          "stdout": "False"
+        }
+      ],
+      "hint": "Change both the sign and the number.",
+      "gen": {
+        "hash": "861436dc5e4903b1c4616a9d16de4ec804709391edbddb20e29c2294cb9a85b1"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add a line that stores in fits whether size is between 3 and 9 (both included), using one chained comparison. Then print fits. It should print:\n5\nTrue",
+      "code": [
+        "size = 5",
+        "print(size)"
+      ],
+      "solution": [
+        "size = 5",
+        "print(size)",
+        "fits = 3 <= size <= 9",
+        "print(fits)"
+      ],
+      "tests": [
+        {
+          "name": "prints 5 then True",
+          "stdout": "5\nTrue"
+        },
+        {
+          "name": "fits holds True",
+          "post": "assert fits is True, 'fits should hold True'"
+        }
+      ],
+      "hint": "3 <= size <= 9",
+      "gen": {
+        "hash": "7b1b88204535be71e0778bc8355342861d54cdb6cd798572ce5de42b1b63a1aa"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Store 3 in a variable called stock. Then store in a variable called empty whether stock equals 0, and in low whether stock is less than 5. Print both. It should print:\nFalse True",
+      "solution": [
+        "stock = 3",
+        "empty = stock == 0",
+        "low = stock < 5",
+        "print(empty, low)"
+      ],
+      "tests": [
+        {
+          "name": "prints False True",
+          "stdout": "False True"
+        },
+        {
+          "name": "low holds True",
+          "post": "assert low is True, 'low should hold True'"
+        }
+      ],
+      "hints": [
+        "empty = stock == 0",
+        "low = stock < 5",
+        "print(empty, low)"
+      ],
+      "gen": {
+        "hash": "d10ebfc8030b421b274b26785a34fdc0dfd09e3b765326edf2c2a4e5e5214ead"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `5 == 5.0`?",
+      "options": [
+        "True",
+        "False",
+        "Error",
+        "5"
+      ],
+      "answer": 0,
+      "why": "They are the same number, even though one is an int and one is a float."
+    },
+    {
+      "q": "What is `\"Hi\" == \"hi\"`?",
+      "options": [
+        "False",
+        "True",
+        "Error",
+        "'Hi'"
+      ],
+      "answer": 0,
+      "why": "Capital letters matter when comparing text."
+    },
+    {
+      "q": "Which sign means \"not equal to\"?",
+      "options": [
+        "!=",
+        "<>",
+        "=!",
+        "=/="
+      ],
+      "answer": 0,
+      "why": "!= is not equal to in Python."
+    },
+    {
+      "q": "What is `3 < 7 < 5`?",
+      "options": [
+        "False",
+        "True",
+        "Error",
+        "7"
+      ],
+      "answer": 0,
+      "why": "It means 3 < 7 and 7 < 5. The second part is false."
+    },
+    {
+      "q": "What is the type of `True`?",
+      "options": [
+        "bool",
+        "str",
+        "int",
+        "true"
+      ],
+      "answer": 0,
+      "why": "True and False are the two values of the type bool."
+    },
+    {
+      "q": "What does `x = 4 > 2` store in x?",
+      "options": [
+        "True",
+        "4",
+        "2",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "The comparison runs first and gives True, which is stored in x."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Writing true in lowercase",
+      "code": [
+        "ready = true"
+      ],
+      "explain": "Python only knows True with a capital T. true is just an unknown name.",
+      "fix": [
+        "ready = True"
+      ],
+      "gen": {
+        "hash": "c058ca1a3b8866951504b136fa5518bb8fa993e8a5c5fcaf5bb246f63132d584",
+        "error": "NameError: name 'true' is not defined. Did you mean: 'True'?",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Comparing text with a number",
+      "code": [
+        "typed = \"12\"",
+        "print(typed > 10)"
+      ],
+      "explain": "typed holds text, and Python cannot say if text is bigger than a number. Convert it first.",
+      "fix": [
+        "typed = \"12\"",
+        "print(int(typed) > 10)"
+      ],
+      "gen": {
+        "hash": "999f44b7f393f82adfa66cba0406cfabef3f88a0b1ae9d2dcdf617504453248a",
+        "error": "TypeError: '>' not supported between instances of 'str' and 'int'",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: comparisons",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#comparisons"
+    },
+    {
+      "title": "Reference: True and False (truth value testing)",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#truth-value-testing"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 12. if Tests and Syntax Rules"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 5. Numeric Types"
+    }
+  ]
+}

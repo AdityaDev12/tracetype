@@ -4,7 +4,7 @@ import { Terminal } from '../design/Terminal.tsx'
 import type { RunError } from '../engine/grade.ts'
 import type { StepView } from '../engine/trace.ts'
 import type { TraceStep, VisualKind } from '../engine/types.ts'
-import { CellsPanel, ExprPanel, HaltPanel, HistoryPanel, StdinPanel, TypesPanel } from './visuals/panels.tsx'
+import { BranchPanel, CellsPanel, ExprPanel, HaltPanel, HistoryPanel, StdinPanel, TypesPanel } from './visuals/panels.tsx'
 
 export interface VisualProps {
   view: StepView
@@ -21,10 +21,12 @@ export interface VisualProps {
   focus?: string[]
   /** Number of code lines (for "never ran"). */
   lineCount?: number
+  /** The code that ran (for panels that read its structure, like branch). */
+  code?: string[]
 }
 
 /** The right-hand panels, chosen by the item's (or lesson's) visuals list. */
-export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, focus, lineCount = 0 }: VisualProps) {
+export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, focus, lineCount = 0, code = [] }: VisualProps) {
   const list: VisualKind[] = kinds?.length ? kinds : ['memory']
   const t = trace ?? []
   const atEnd = t.length > 0 && view.index >= t.length - 1
@@ -44,6 +46,8 @@ export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, foc
         return <StdinPanel key={k} trace={t} index={view.index} stdin={stdin} />
       case 'cells':
         return <CellsPanel key={k} view={view} focus={focus} />
+      case 'branch':
+        return <BranchPanel key={k} trace={t} index={view.index} code={code} />
     }
   })
   return (

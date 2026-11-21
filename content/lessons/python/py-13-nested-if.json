@@ -1,0 +1,1151 @@
+{
+  "id": "py-13-nested-if",
+  "track": "python",
+  "unit": "py-u2",
+  "order": 13,
+  "title": "Nested decisions and the one-line if",
+  "summary": "Put an if inside another if, flatten it when you can, and pick a value with a one-line if.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "branch",
+    "expr",
+    "memory"
+  ],
+  "intro": {
+    "text": "An if can sit inside another if's block. The inner if is only reached when the outer test is True. Each level moves 4 more spaces to the right:\n\n```\nif logged_in:\n    if is_admin:\n        print(\"Admin panel\")\n```\n\nDeep nesting gets hard to read. Often you can flatten it with `and` or with elif.\n\nWhen you only need to **choose a value**, there is a one-line if:\n\n```\nlabel = \"even\" if n % 2 == 0 else \"odd\"\n```\n\nRead it as: label is \"even\" if the test is True, otherwise \"odd\". Only the chosen side is worked out. Use it for short choices; use a full if for anything longer.",
+    "analogy": "Nested ifs are like doors inside a building. You can only reach the inner door after you are through the front door. The one-line if is like a light switch: one quick choice between two values."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "has_ticket = True",
+        "age = 10",
+        "if has_ticket:",
+        "    if age < 12:",
+        "        print(\"Kids seat\")",
+        "    else:",
+        "        print(\"Normal seat\")",
+        "else:",
+        "    print(\"Buy a ticket\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "Kids seat",
+        "Normal seat",
+        "Buy a ticket",
+        "Kids seat\nBuy a ticket"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "10",
+          "label": "age",
+          "kind": "number",
+          "min": 1,
+          "max": 40
+        }
+      ],
+      "why": "The outer test is True, so Python goes in. Then age < 12 is True, so Kids seat. The outer else is skipped.",
+      "gen": {
+        "hash": "788b9eb08587f4adc311db0a52ca61f8acafbdd9c3202dc74d1d74f72c59f69b",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "age": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "age": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "age": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Kids seat\n",
+            "vars": {
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "age": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "Kids seat",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "stock = 0",
+        "print(\"in stock\" if stock > 0 else \"sold out\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "sold out",
+        "in stock",
+        "False",
+        "0"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "stock > 0 is False, so the one-line if gives the value after else.",
+      "gen": {
+        "hash": "60b10deb04c39808a143a431b9c1e74fbed749fdc9a9bd76fab9262b0d3e99d9",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "stock": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "sold out\n",
+            "vars": {
+              "stock": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print('in stock' if stock > 0 else 'sold out')"
+                  },
+                  {
+                    "text": "print('in stock' if 0 > 0 else 'sold out')"
+                  },
+                  {
+                    "text": "print('in stock' if False else 'sold out')",
+                    "part": "0 > 0",
+                    "value": "False"
+                  },
+                  {
+                    "text": "print('sold out')",
+                    "part": "'in stock' if False else 'sold out'",
+                    "value": "'sold out'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "sold out",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "An if inside an if",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"rain\"",
+          "label": "weather",
+          "kind": "text"
+        },
+        {
+          "line": 2,
+          "find": "8",
+          "label": "temp",
+          "kind": "number",
+          "min": -5,
+          "max": 35
+        }
+      ],
+      "lines": [
+        {
+          "code": "weather = \"rain\"",
+          "explain": "Try sun, rain and snow with the knob.",
+          "task": "Store rain in weather."
+        },
+        {
+          "code": "temp = 8",
+          "explain": "Degrees.",
+          "task": "Store 8 in temp."
+        },
+        {
+          "code": "if weather == \"rain\":",
+          "explain": "Outer test: True.",
+          "task": "Start an if that tests whether weather is rain."
+        },
+        {
+          "code": "    if temp < 10:",
+          "explain": "Inner test, only reached because the outer one was True. 8 < 10: True.",
+          "task": "Inside it, start an if that tests whether temp is under 10.",
+          "note": "only reached if outer is True",
+          "circle": "if temp < 10:"
+        },
+        {
+          "code": "        print(\"Coat and umbrella\")",
+          "explain": "8 spaces in: inside both ifs. Prints Coat and umbrella.",
+          "task": "Inside the inner if, print Coat and umbrella."
+        },
+        {
+          "code": "    else:",
+          "explain": "Belongs to the inner if (4 spaces in). Skipped.",
+          "task": "Add an else for the inner if."
+        },
+        {
+          "code": "        print(\"Just an umbrella\")",
+          "explain": "Skipped.",
+          "task": "Inside it, print Just an umbrella."
+        },
+        {
+          "code": "else:",
+          "explain": "Belongs to the outer if (no spaces). Skipped.",
+          "task": "Add an else for the outer if.",
+          "note": "lines up with the outer if"
+        },
+        {
+          "code": "    print(\"No umbrella needed\")",
+          "explain": "Skipped.",
+          "task": "Inside it, print No umbrella needed."
+        }
+      ],
+      "gen": {
+        "hash": "b305ad47ab8656eee09bdb4718644bba2cfa7cb94350f7fecb364fdaec56c2a5",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Coat and umbrella\n",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Flattening with and and elif",
+      "lines": [
+        {
+          "code": "weather = \"rain\"",
+          "explain": "Same story, flatter code.",
+          "task": "Store rain in weather."
+        },
+        {
+          "code": "temp = 8",
+          "explain": "Degrees.",
+          "task": "Store 8 in temp."
+        },
+        {
+          "code": "if weather == \"rain\" and temp < 10:",
+          "explain": "Both conditions in one test, joined with and.",
+          "task": "Start an if that tests rain and temp under 10 together.",
+          "note": "one level instead of two",
+          "circle": "and",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Coat and umbrella\")",
+          "explain": "Prints Coat and umbrella.",
+          "task": "Inside it, print Coat and umbrella."
+        },
+        {
+          "code": "elif weather == \"rain\":",
+          "explain": "Rain but not cold.",
+          "task": "Add an elif that tests only for rain."
+        },
+        {
+          "code": "    print(\"Just an umbrella\")",
+          "explain": "Skipped this time.",
+          "task": "Inside it, print Just an umbrella."
+        },
+        {
+          "code": "else:",
+          "explain": "Everything else.",
+          "task": "Add the else part."
+        },
+        {
+          "code": "    print(\"No umbrella needed\")",
+          "explain": "Skipped. Same results as example 1, with one level of indenting.",
+          "task": "Inside it, print No umbrella needed."
+        }
+      ],
+      "gen": {
+        "hash": "8f3839be98864b0bbb38f1558549f66407e380028fd3170588a07dcdbcb423a3",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "if weather == 'rain' and temp < 10:"
+                  },
+                  {
+                    "text": "if 'rain' == 'rain' and temp < 10:"
+                  },
+                  {
+                    "text": "if True and temp < 10:",
+                    "part": "'rain' == 'rain'",
+                    "value": "True"
+                  },
+                  {
+                    "text": "if True and 8 < 10:"
+                  },
+                  {
+                    "text": "if True and True:",
+                    "part": "8 < 10",
+                    "value": "True"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "True and True",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Coat and umbrella\n",
+            "vars": {
+              "weather": {
+                "repr": "'rain'",
+                "type": "str",
+                "text": "rain"
+              },
+              "temp": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "The one-line if",
+      "lines": [
+        {
+          "code": "n = 7",
+          "explain": "A number.",
+          "task": "Store 7 in n."
+        },
+        {
+          "code": "kind = \"even\" if n % 2 == 0 else \"odd\"",
+          "explain": "Python first works out the test in the middle: 7 % 2 == 0 is False. So kind gets the value after else: \"odd\". The \"even\" side is skipped.",
+          "task": "Make kind hold even if n has no remainder when divided by 2, otherwise odd, in one line.",
+          "note": "value if test else other",
+          "circle": "if n % 2 == 0 else",
+          "expr": true
+        },
+        {
+          "code": "print(n, \"is\", kind)",
+          "explain": "Prints 7 is odd.",
+          "task": "Print n, the text is, and kind."
+        },
+        {
+          "code": "lives = 1",
+          "explain": "One life left.",
+          "task": "Store 1 in lives."
+        },
+        {
+          "code": "word = \"life\" if lives == 1 else \"lives\"",
+          "explain": "Handy for words that change with the number: life, not lives.",
+          "task": "Make word hold life if lives is 1, otherwise lives.",
+          "expr": true
+        },
+        {
+          "code": "print(lives, word, \"left\")",
+          "explain": "Prints 1 life left.",
+          "task": "Print lives, word, and the text left."
+        }
+      ],
+      "gen": {
+        "hash": "427e921e38f0557b80870256830336ed31b16959670eb4ec62f9439d2105b80a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              },
+              "kind": {
+                "repr": "'odd'",
+                "type": "str",
+                "text": "odd"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "kind = 'even' if n % 2 == 0 else 'odd'"
+                  },
+                  {
+                    "text": "kind = 'even' if 7 % 2 == 0 else 'odd'"
+                  },
+                  {
+                    "text": "kind = 'even' if 1 == 0 else 'odd'",
+                    "part": "7 % 2",
+                    "value": "1"
+                  },
+                  {
+                    "text": "kind = 'even' if False else 'odd'",
+                    "part": "1 == 0",
+                    "value": "False"
+                  },
+                  {
+                    "text": "kind = 'odd'",
+                    "part": "'even' if False else 'odd'",
+                    "value": "'odd'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "7 is odd\n",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              },
+              "kind": {
+                "repr": "'odd'",
+                "type": "str",
+                "text": "odd"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              },
+              "kind": {
+                "repr": "'odd'",
+                "type": "str",
+                "text": "odd"
+              },
+              "lives": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              },
+              "kind": {
+                "repr": "'odd'",
+                "type": "str",
+                "text": "odd"
+              },
+              "lives": {
+                "repr": "1",
+                "type": "int"
+              },
+              "word": {
+                "repr": "'life'",
+                "type": "str",
+                "text": "life"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "word = 'life' if lives == 1 else 'lives'"
+                  },
+                  {
+                    "text": "word = 'life' if 1 == 1 else 'lives'"
+                  },
+                  {
+                    "text": "word = 'life' if True else 'lives'",
+                    "part": "1 == 1",
+                    "value": "True"
+                  },
+                  {
+                    "text": "word = 'life'",
+                    "part": "'life' if True else 'lives'",
+                    "value": "'life'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "1 life left\n",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              },
+              "kind": {
+                "repr": "'odd'",
+                "type": "str",
+                "text": "odd"
+              },
+              "lives": {
+                "repr": "1",
+                "type": "int"
+              },
+              "word": {
+                "repr": "'life'",
+                "type": "str",
+                "text": "life"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 6,
+      "q": "Which if does the else on line 6 belong to?",
+      "options": [
+        "The inner if on line 4",
+        "The outer if on line 3",
+        "Both",
+        "Neither"
+      ],
+      "answer": 0,
+      "why": "It is indented 4 spaces, the same as the inner if, so it belongs to it."
+    },
+    {
+      "id": "i2",
+      "example": 2,
+      "line": 2,
+      "q": "What is stored in kind after line 2 runs?",
+      "options": [
+        "'odd'",
+        "'even'",
+        "False",
+        "7"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "kind"
+      },
+      "why": "The test is False, so the one-line if gives the value after else."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 5,
+      "q": "What is stored in word after line 5 runs?",
+      "options": [
+        "'life'",
+        "'lives'",
+        "True",
+        "1"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "word"
+      },
+      "why": "lives == 1 is True, so word gets the value before if."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints: open",
+      "code": [
+        "hour = 10",
+        "state = \"open\" ___ 9 <= hour < 17 ___ \"closed\"",
+        "print(state)"
+      ],
+      "answers": [
+        "if",
+        "else"
+      ],
+      "gen": {
+        "hash": "ebd735f1ecf4c3011ca55b5656e8275cfa44bae038b823a3d58d32742e85ad01",
+        "expected": {
+          "stdout": "open",
+          "vars": {
+            "hour": {
+              "repr": "10",
+              "type": "int"
+            },
+            "state": {
+              "repr": "'open'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the inner if is inside the outer one. The program prints: Bonus level",
+      "code": [
+        "score = 120",
+        "if score > 50:",
+        "___if score > 100:",
+        "        print(\"Bonus level\")"
+      ],
+      "answers": [
+        "    "
+      ],
+      "gen": {
+        "hash": "f518f6250e3b2eaff42a224882c96273f2f67e9b9bf490a97405a2d6555eef45",
+        "expected": {
+          "stdout": "Bonus level",
+          "vars": {
+            "score": {
+              "repr": "120",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\nWelcome back, admin",
+      "indent": true,
+      "lines": [
+        "logged_in = True",
+        "admin = True",
+        "if logged_in:",
+        "    if admin:",
+        "        print(\"Welcome back, admin\")",
+        "    else:",
+        "        print(\"Welcome back\")",
+        "else:",
+        "    print(\"Please log in\")"
+      ],
+      "gen": {
+        "hash": "afad55ed2c628aa31463cdde0c0ad1939df4b1225b0effabcb4035f6b8623b32",
+        "expected": {
+          "stdout": "Welcome back, admin",
+          "vars": {
+            "logged_in": {
+              "repr": "True",
+              "type": "bool"
+            },
+            "admin": {
+              "repr": "True",
+              "type": "bool"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "Members with more than 100 points get Gold. Other members get Silver. Non-members get Join today. With a member with 40 points, this prints Join today. Fix the indentation.",
+      "code": [
+        "member = True",
+        "points = 40",
+        "if member:",
+        "    if points > 100:",
+        "        print(\"Gold\")",
+        "else:",
+        "    print(\"Silver\")"
+      ],
+      "solution": [
+        "member = True",
+        "points = 40",
+        "if member:",
+        "    if points > 100:",
+        "        print(\"Gold\")",
+        "    else:",
+        "        print(\"Silver\")",
+        "else:",
+        "    print(\"Join today\")"
+      ],
+      "tests": [
+        {
+          "name": "member with 40 points is Silver",
+          "stdout": "Silver"
+        }
+      ],
+      "hint": "The Silver else belongs to the inner if, so it needs 4 spaces. Then add an outer else for Join today.",
+      "gen": {
+        "hash": "ebedb16d0d252c71d2519da86ee5a3cbd1df30d73f603981df64931e69984974",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Replace the four-line if/else with a one-line if that stores \"adult\" or \"minor\" in a variable called status, then print status. It should still print:\nminor",
+      "code": [
+        "age = 15",
+        "if age >= 18:",
+        "    print(\"adult\")",
+        "else:",
+        "    print(\"minor\")"
+      ],
+      "solution": [
+        "age = 15",
+        "status = \"adult\" if age >= 18 else \"minor\"",
+        "print(status)"
+      ],
+      "tests": [
+        {
+          "name": "prints minor",
+          "stdout": "minor"
+        },
+        {
+          "name": "status holds minor",
+          "post": "assert status == 'minor', 'make a variable status that holds minor'"
+        }
+      ],
+      "hint": "status = \"adult\" if age >= 18 else \"minor\"",
+      "gen": {
+        "hash": "fb6cabb05c3af693d1c15ae8aa6028e719e95b244a75a9e3f1394c3a25c3d825"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Flatten the nested ifs into one if with and, and add an else that prints Wait. The crew is not ready, so it should print:\nWait",
+      "code": [
+        "fuel = 90",
+        "crew_ready = False",
+        "if fuel > 80:",
+        "    if crew_ready:",
+        "        print(\"Launch\")"
+      ],
+      "solution": [
+        "fuel = 90",
+        "crew_ready = False",
+        "if fuel > 80 and crew_ready:",
+        "    print(\"Launch\")",
+        "else:",
+        "    print(\"Wait\")"
+      ],
+      "tests": [
+        {
+          "name": "prints Wait",
+          "stdout": "Wait"
+        }
+      ],
+      "hint": "if fuel > 80 and crew_ready: then else: with print(\"Wait\")",
+      "gen": {
+        "hash": "55e32855ed994493130c497c3a186bb2640141a4b809313b23c34bcbc48556f0"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Items? and turn it into an int. Use a one-line if to store \"item\" in word when there is exactly 1, otherwise \"items\". Then print the number and the word. For example:\nItems? 1\n1 item",
+      "solution": [
+        "n = int(input(\"Items? \"))",
+        "word = \"item\" if n == 1 else \"items\"",
+        "print(n, word)"
+      ],
+      "tests": [
+        {
+          "name": "1 item",
+          "stdin": [
+            "1"
+          ],
+          "stdout": "Items? 1\n1 item"
+        },
+        {
+          "name": "3 items",
+          "stdin": [
+            "3"
+          ],
+          "stdout": "Items? 3\n3 items"
+        },
+        {
+          "name": "0 items",
+          "stdin": [
+            "0"
+          ],
+          "stdout": "Items? 0\n0 items"
+        }
+      ],
+      "hints": [
+        "n = int(input(\"Items? \"))",
+        "word = \"item\" if n == 1 else \"items\"",
+        "print(n, word)"
+      ],
+      "gen": {
+        "hash": "3dd914379cb5f0452cb45ce943e5c8bec0cb9501fd80634600496cb12564c44f"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "When does an inner if (inside another if) get checked?",
+      "options": [
+        "Only when the outer test is True",
+        "Always",
+        "Only when the outer test is False",
+        "Before the outer test"
+      ],
+      "answer": 0,
+      "why": "The inner if is part of the outer block, so it only runs when Python goes into that block."
+    },
+    {
+      "q": "What is `\"yes\" if 3 > 5 else \"no\"`?",
+      "options": [
+        "'no'",
+        "'yes'",
+        "False",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "3 > 5 is False, so the value after else is chosen."
+    },
+    {
+      "q": "Which one-line if is written correctly?",
+      "options": [
+        "x = \"a\" if ok else \"b\"",
+        "x = if ok \"a\" else \"b\"",
+        "x = \"a\" if ok",
+        "x = ok ? \"a\" : \"b\""
+      ],
+      "answer": 0,
+      "why": "The order is: value, if, test, else, other value. The else part is required."
+    },
+    {
+      "q": "How can you flatten `if a:` with an inner `if b:`?",
+      "options": [
+        "if a and b:",
+        "if a or b:",
+        "if a if b:",
+        "if a, b:"
+      ],
+      "answer": 0,
+      "why": "Both must be True to reach the inner block, which is exactly what and means."
+    },
+    {
+      "q": "Which else does an else belong to?",
+      "options": [
+        "The if it lines up with",
+        "The nearest if above it",
+        "The first if in the program",
+        "The last if"
+      ],
+      "answer": 0,
+      "why": "Python matches else and if by their indentation."
+    },
+    {
+      "q": "When is a full if better than a one-line if?",
+      "options": [
+        "When each branch does more than pick a value",
+        "Never",
+        "When there are only two choices",
+        "When the test uses =="
+      ],
+      "answer": 0,
+      "why": "The one-line if is for choosing a value. For actions or several lines, write a normal if."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "A one-line if without else",
+      "code": [
+        "n = 5",
+        "label = \"big\" if n > 3"
+      ],
+      "explain": "A one-line if must always give a value, so it needs an else part.",
+      "fix": [
+        "n = 5",
+        "label = \"big\" if n > 3 else \"small\""
+      ],
+      "gen": {
+        "hash": "10aea619e1897d63e1d4203b9ee81b7be60d42b5e9a5adb96af4538e0fe1222b",
+        "error": "SyntaxError: expected 'else' after 'if' expression",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Indentation that does not line up",
+      "code": [
+        "n = 5",
+        "if n > 0:",
+        "    if n > 3:",
+        "        print(\"big\")",
+        "  else:",
+        "        print(\"small\")"
+      ],
+      "explain": "The else is indented 2 spaces, which matches neither if. Line it up exactly with the if it belongs to.",
+      "fix": [
+        "n = 5",
+        "if n > 0:",
+        "    if n > 3:",
+        "        print(\"big\")",
+        "    else:",
+        "        print(\"small\")"
+      ],
+      "gen": {
+        "hash": "684f712cc1392d720bf70aa09d38f2a0e1c5dfd282a0ec58143e85ba0ffc2fb8",
+        "error": "IndentationError: unindent does not match any outer indentation level",
+        "line": 5
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: conditional expressions (the one-line if)",
+      "url": "https://docs.python.org/3/reference/expressions.html#conditional-expressions"
+    },
+    {
+      "title": "Python tutorial: if statements",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#if-statements"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 12. if Tests and Syntax Rules"
+    }
+  ]
+}

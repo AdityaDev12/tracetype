@@ -155,6 +155,7 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
           stdin={example.stdin}
           focus={example.focus}
           lineCount={example.lines.length}
+          code={run.lines}
         />
       }
     />

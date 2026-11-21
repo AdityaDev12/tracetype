@@ -3,6 +3,7 @@ import type { RunError } from '../../engine/grade.ts'
 import { historyAt, inputsUsed, linesRun, type StepView } from '../../engine/trace.ts'
 import type { ExprStep, TraceEvent, TraceStep, VarValue } from '../../engine/types.ts'
 import { useLanguagePack } from '../../languages/LanguageContext.tsx'
+import { ladderAt } from './branch.ts'
 import { useHoverProps } from './hover.ts'
 
 type ExprEvent = Extract<TraceEvent, { kind: 'expr' }>
@@ -249,6 +250,35 @@ export function CellsPanel({ view, focus }: { view: StepView; focus?: string[] }
         <p className="mem-empty">{'> no text stored yet'}</p>
       ) : (
         rows.map((r) => <Cells key={`${r.name}:${r.items.join('\u0000')}`} name={r.name} items={r.items} />)
+      )}
+    </Terminal>
+  )
+}
+
+const MARK = { taken: '✓', no: '✗', skipped: '·' } as const
+const SAYS = { taken: 'True: runs', no: 'False', skipped: 'not checked' } as const
+
+/** If/elif/else (or match/case) ladder: each test with its result and the path taken. */
+export function BranchPanel({ trace, index, code }: { trace: TraceStep[]; index: number; code: string[] }) {
+  const ladder = ladderAt(trace, index, code)
+  return (
+    <Terminal title="which way?" label={ladder ? `line ${ladder.head}` : undefined} className="viz-branch">
+      {!ladder ? (
+        <p className="mem-empty">{'> step to an if (or a match) to see which way Python goes'}</p>
+      ) : (
+        <ol className="branch-list" key={`${index}`}>
+          {ladder.clauses.map((c) => (
+            <li key={c.line} className={`branch-row ${c.state}`}>
+              <span className="branch-mark" aria-hidden>
+                {MARK[c.state]}
+              </span>
+              <code className="branch-code">{c.text}</code>
+              <span className="branch-says">
+                {c.kind === 'else' ? (c.state === 'taken' ? 'every test was False: runs' : 'skipped') : c.kind === 'case' ? (c.state === 'taken' ? 'matches: runs' : c.state === 'no' ? 'no match' : 'not checked') : SAYS[c.state]}
+              </span>
+            </li>
+          ))}
+        </ol>
       )}
     </Terminal>
   )

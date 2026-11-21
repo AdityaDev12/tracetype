@@ -1,0 +1,1024 @@
+{
+  "id": "py-10-elif",
+  "track": "python",
+  "unit": "py-u2",
+  "order": 10,
+  "title": "elif: one of many",
+  "summary": "Check several tests in order and run only the first one that is True.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "branch",
+    "memory"
+  ],
+  "intro": {
+    "text": "Often there are more than two choices. `elif` (short for \"else if\") adds another test:\n\n```\nif speed > 120:\n    print(\"Way too fast\")\nelif speed > 100:\n    print(\"Too fast\")\nelse:\n    print(\"OK\")\n```\n\nPython checks the tests **from the top** and runs the block of the **first** one that is True. After that it skips everything else in the chain, without even checking the other tests. `else` at the end catches anything no test caught.\n\nBecause the first True wins, **order matters**: put the strictest test first.",
+    "analogy": "Sorting letters into slots on a wall from top to bottom. You hold a letter against the first slot; if it fits, it goes in and you are done. If not, you try the next slot down. The bottom slot (else) takes anything left."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "score = 85",
+        "if score >= 90:",
+        "    print(\"A\")",
+        "elif score >= 80:",
+        "    print(\"B\")",
+        "elif score >= 70:",
+        "    print(\"C\")",
+        "else:",
+        "    print(\"D\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "B",
+        "B\nC",
+        "A",
+        "B\nC\nD"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "85",
+          "label": "score",
+          "kind": "number",
+          "min": 50,
+          "max": 100
+        }
+      ],
+      "why": "85 >= 90 is False. 85 >= 80 is True, so B prints, and Python skips the rest of the chain. 85 >= 70 is never checked.",
+      "gen": {
+        "hash": "32a049c5fd53c504c0f5ca85087418562b58e72eeaf6a582b2db4d9c2491f3f9",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "85",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "85",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "85",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "elif",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "B\n",
+            "vars": {
+              "score": {
+                "repr": "85",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "B",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "score = 95",
+        "if score >= 50:",
+        "    print(\"Pass\")",
+        "elif score >= 90:",
+        "    print(\"Top mark\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "Pass",
+        "Top mark",
+        "Pass\nTop mark",
+        "Nothing"
+      ],
+      "why": "The first test, score >= 50, is already True, so Pass prints and the elif is never checked. The order of the tests is wrong for this program.",
+      "gen": {
+        "hash": "f76ad01f46e612930d1dbbcab5d0ebe4c6cfaa42694c6e5f62fc7dc87a83cfb2",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "95",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "score": {
+                "repr": "95",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Pass\n",
+            "vars": {
+              "score": {
+                "repr": "95",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "Pass",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Three choices",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "14",
+          "label": "hour",
+          "kind": "number",
+          "min": 0,
+          "max": 23
+        }
+      ],
+      "lines": [
+        {
+          "code": "hour = 14",
+          "explain": "The time, from 0 to 23.",
+          "task": "Store 14 in hour."
+        },
+        {
+          "code": "if hour < 12:",
+          "explain": "First test: 14 < 12 is False, so Python moves on. Watch the which way? panel.",
+          "task": "Start an if that tests whether hour is less than 12.",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Good morning\")",
+          "explain": "Skipped.",
+          "task": "Inside the if, print Good morning."
+        },
+        {
+          "code": "elif hour < 18:",
+          "explain": "Second test: 14 < 18 is True. Python takes this one.",
+          "task": "Add an elif that tests whether hour is less than 18.",
+          "note": "first True wins",
+          "circle": "elif",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Good afternoon\")",
+          "explain": "Prints Good afternoon.",
+          "task": "Inside the elif, print Good afternoon."
+        },
+        {
+          "code": "else:",
+          "explain": "Not reached: a test was already True.",
+          "task": "Start the else part."
+        },
+        {
+          "code": "    print(\"Good evening\")",
+          "explain": "Skipped. Use the knob: try 9 and 20.",
+          "task": "Inside the else, print Good evening."
+        }
+      ],
+      "gen": {
+        "hash": "d3085fcf60b799d228c009f7bbd1d3141ddbcbe3796f9d798841026d70bcf7ec",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "hour": {
+                "repr": "14",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "hour": {
+                "repr": "14",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "if hour < 12:"
+                  },
+                  {
+                    "text": "if 14 < 12:"
+                  },
+                  {
+                    "text": "if False:",
+                    "part": "14 < 12",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "hour": {
+                "repr": "14",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "elif",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "elif hour < 18:"
+                  },
+                  {
+                    "text": "elif 14 < 18:"
+                  },
+                  {
+                    "text": "elif True:",
+                    "part": "14 < 18",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Good afternoon\n",
+            "vars": {
+              "hour": {
+                "repr": "14",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Order matters",
+      "lines": [
+        {
+          "code": "points = 950",
+          "explain": "A player's points.",
+          "task": "Store 950 in points."
+        },
+        {
+          "code": "if points >= 1000:",
+          "explain": "Strictest test first: 950 >= 1000 is False.",
+          "task": "Start an if that tests whether points is at least 1000.",
+          "note": "strictest first"
+        },
+        {
+          "code": "    badge = \"gold\"",
+          "explain": "Skipped.",
+          "task": "Inside the if, store gold in badge."
+        },
+        {
+          "code": "elif points >= 500:",
+          "explain": "950 >= 500 is True: silver.",
+          "task": "Add an elif that tests whether points is at least 500."
+        },
+        {
+          "code": "    badge = \"silver\"",
+          "explain": "badge gets silver.",
+          "task": "Inside the elif, store silver in badge."
+        },
+        {
+          "code": "elif points >= 100:",
+          "explain": "Never checked. If this test came first, 950 would get bronze, which is wrong.",
+          "task": "Add an elif that tests whether points is at least 100.",
+          "note": "never checked"
+        },
+        {
+          "code": "    badge = \"bronze\"",
+          "explain": "Skipped.",
+          "task": "Inside that elif, store bronze in badge."
+        },
+        {
+          "code": "else:",
+          "explain": "Not reached.",
+          "task": "Start the else part."
+        },
+        {
+          "code": "    badge = \"none\"",
+          "explain": "Skipped.",
+          "task": "Inside the else, store none in badge."
+        },
+        {
+          "code": "print(\"Badge:\", badge)",
+          "explain": "Prints Badge: silver.",
+          "task": "Print Badge: followed by badge."
+        }
+      ],
+      "gen": {
+        "hash": "f7ea1a2a8afb79b2c4c02a47caa1373890d186c5d8c8c8ed5c5c9daa032fe0e5",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "points": {
+                "repr": "950",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "points": {
+                "repr": "950",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "points": {
+                "repr": "950",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "elif",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "points": {
+                "repr": "950",
+                "type": "int"
+              },
+              "badge": {
+                "repr": "'silver'",
+                "type": "str",
+                "text": "silver"
+              }
+            }
+          },
+          {
+            "line": 10,
+            "stdout": "Badge: silver\n",
+            "vars": {
+              "points": {
+                "repr": "950",
+                "type": "int"
+              },
+              "badge": {
+                "repr": "'silver'",
+                "type": "str",
+                "text": "silver"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Separate ifs are different",
+      "lines": [
+        {
+          "code": "bag = 18",
+          "explain": "A bag's weight in kg.",
+          "task": "Store 18 in bag."
+        },
+        {
+          "code": "if bag > 10:",
+          "explain": "True.",
+          "task": "Start an if that tests whether bag is more than 10."
+        },
+        {
+          "code": "    print(\"Heavy\")",
+          "explain": "Prints Heavy.",
+          "task": "Inside it, print Heavy."
+        },
+        {
+          "code": "if bag > 15:",
+          "explain": "A **new** if, not an elif, so it is checked no matter what happened above. Also True.",
+          "task": "Start a second, separate if that tests whether bag is more than 15.",
+          "note": "a new if, not elif",
+          "circle": "if"
+        },
+        {
+          "code": "    print(\"Extra fee\")",
+          "explain": "Prints Extra fee. With separate ifs, several blocks can run.",
+          "task": "Inside it, print Extra fee."
+        }
+      ],
+      "gen": {
+        "hash": "da922b3da8cf1797694820ec5bcee467c82a55a583d0c020c2e9ae26e40d005d",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "bag": {
+                "repr": "18",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "bag": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Heavy\n",
+            "vars": {
+              "bag": {
+                "repr": "18",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "bag": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Extra fee\n",
+            "vars": {
+              "bag": {
+                "repr": "18",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 4,
+      "q": "Which test is True in this run?",
+      "options": [
+        "hour < 18 on line 4",
+        "hour < 12 on line 2",
+        "Both",
+        "Neither, else runs"
+      ],
+      "answer": 0,
+      "why": "14 < 12 is False, 14 < 18 is True, so the elif block runs."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 10,
+      "q": "What is stored in badge at the end?",
+      "options": [
+        "'silver'",
+        "'gold'",
+        "'bronze'",
+        "'none'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 10,
+        "name": "badge"
+      },
+      "why": "The first True test is points >= 500, so badge is silver. The bronze test is never checked."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 5,
+      "q": "Why do both prints run here?",
+      "options": [
+        "They are two separate ifs, so both tests are checked",
+        "elif always runs",
+        "The second if is inside the first",
+        "Python runs every print"
+      ],
+      "answer": 0,
+      "why": "In one if/elif chain only one block runs. Two separate ifs are two separate decisions."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints: Medium",
+      "code": [
+        "size = 32",
+        "if size > 40:",
+        "    print(\"Large\")",
+        "___ size > 30:",
+        "    print(\"Medium\")",
+        "else:",
+        "    print(\"Small\")"
+      ],
+      "answers": [
+        "elif"
+      ],
+      "gen": {
+        "hash": "77cc7756fd0ff8d7c6f650b6001f4012a0d4e2261a60b6de666d2eba5254c37e",
+        "expected": {
+          "stdout": "Medium",
+          "vars": {
+            "size": {
+              "repr": "32",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints: Freezing",
+      "code": [
+        "temp = -4",
+        "if temp > 20:",
+        "    print(\"Warm\")",
+        "elif temp > 0:",
+        "    print(\"Cold\")",
+        "___:",
+        "    print(\"___\")"
+      ],
+      "answers": [
+        "else",
+        "Freezing"
+      ],
+      "gen": {
+        "hash": "c3088c9df531ea2636d228bf37ad7ae7e8101a0a3e3bb2c4159a1b9579fec7e3",
+        "expected": {
+          "stdout": "Freezing",
+          "vars": {
+            "temp": {
+              "repr": "-4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\nBus",
+      "indent": true,
+      "lines": [
+        "distance = 6",
+        "if distance < 2:",
+        "    print(\"Walk\")",
+        "elif distance < 10:",
+        "    print(\"Bus\")",
+        "else:",
+        "    print(\"Train\")"
+      ],
+      "gen": {
+        "hash": "6d42274f7387cb23438b21021fcf1367e24ce2158e7aa4f6fb1a1b21f4f8f2c9",
+        "expected": {
+          "stdout": "Bus",
+          "vars": {
+            "distance": {
+              "repr": "6",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "Wind of 50 or more is a storm, 20 or more is windy, and anything less is calm. With 55 this program prints Windy. Fix the order of the tests.",
+      "code": [
+        "wind = 55",
+        "if wind >= 20:",
+        "    print(\"Windy\")",
+        "elif wind >= 50:",
+        "    print(\"Storm\")",
+        "else:",
+        "    print(\"Calm\")"
+      ],
+      "solution": [
+        "wind = 55",
+        "if wind >= 50:",
+        "    print(\"Storm\")",
+        "elif wind >= 20:",
+        "    print(\"Windy\")",
+        "else:",
+        "    print(\"Calm\")"
+      ],
+      "tests": [
+        {
+          "name": "55 is a storm",
+          "stdout": "Storm"
+        }
+      ],
+      "hint": "The first True test wins. Which test should be checked first?",
+      "gen": {
+        "hash": "916ab64242523f234438c8a96eac0e1d9a8a74d3b7443eeb1438a75e6b2f4ec8",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Add an elif so that a level of exactly 2 prints Medium. With level 2 the program should print:\nMedium",
+      "code": [
+        "level = 2",
+        "if level == 1:",
+        "    print(\"Easy\")",
+        "else:",
+        "    print(\"Hard\")"
+      ],
+      "solution": [
+        "level = 2",
+        "if level == 1:",
+        "    print(\"Easy\")",
+        "elif level == 2:",
+        "    print(\"Medium\")",
+        "else:",
+        "    print(\"Hard\")"
+      ],
+      "tests": [
+        {
+          "name": "level 2 is Medium",
+          "stdout": "Medium"
+        }
+      ],
+      "hint": "The elif goes between the if block and the else.",
+      "gen": {
+        "hash": "58c278df7f364e49d0376b41ac0bfba4945d45ff5adf1554275e4b4432d7df06"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Make the program ask Hour? and greet the user: before 12 Good morning, before 18 Good afternoon, otherwise Good evening.",
+      "code": [
+        "hour = 9",
+        "if hour < 12:",
+        "    print(\"Good morning\")"
+      ],
+      "solution": [
+        "hour = int(input(\"Hour? \"))",
+        "if hour < 12:",
+        "    print(\"Good morning\")",
+        "elif hour < 18:",
+        "    print(\"Good afternoon\")",
+        "else:",
+        "    print(\"Good evening\")"
+      ],
+      "tests": [
+        {
+          "name": "9 is morning",
+          "stdin": [
+            "9"
+          ],
+          "stdout": "Hour? 9\nGood morning"
+        },
+        {
+          "name": "15 is afternoon",
+          "stdin": [
+            "15"
+          ],
+          "stdout": "Hour? 15\nGood afternoon"
+        },
+        {
+          "name": "21 is evening",
+          "stdin": [
+            "21"
+          ],
+          "stdout": "Hour? 21\nGood evening"
+        }
+      ],
+      "hint": "Turn the answer into an int, then add an elif and an else.",
+      "gen": {
+        "hash": "f7d918341bf7dc6bda87d552a868b5ae63f941fc328608151bfdd1054cdef107"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Age? and print the ticket type: under 4 Free, under 16 Child, 65 or older Senior, anyone else Adult. For example:\nAge? 70\nSenior",
+      "solution": [
+        "age = int(input(\"Age? \"))",
+        "if age < 4:",
+        "    print(\"Free\")",
+        "elif age < 16:",
+        "    print(\"Child\")",
+        "elif age >= 65:",
+        "    print(\"Senior\")",
+        "else:",
+        "    print(\"Adult\")"
+      ],
+      "tests": [
+        {
+          "name": "2 is Free",
+          "stdin": [
+            "2"
+          ],
+          "stdout": "Age? 2\nFree"
+        },
+        {
+          "name": "10 is Child",
+          "stdin": [
+            "10"
+          ],
+          "stdout": "Age? 10\nChild"
+        },
+        {
+          "name": "30 is Adult",
+          "stdin": [
+            "30"
+          ],
+          "stdout": "Age? 30\nAdult"
+        },
+        {
+          "name": "70 is Senior",
+          "stdin": [
+            "70"
+          ],
+          "stdout": "Age? 70\nSenior"
+        }
+      ],
+      "hints": [
+        "Start with the youngest: if age < 4:",
+        "Then elif age < 16:",
+        "elif age >= 65: then else: for Adult"
+      ],
+      "gen": {
+        "hash": "8760230eea65a467cdec67f8595e54dcbf96a591b54a8ee33f61887e6c88951a"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "In an if/elif/else chain, how many blocks can run?",
+      "options": [
+        "Exactly one",
+        "All whose test is True",
+        "Two",
+        "None"
+      ],
+      "answer": 0,
+      "why": "Python runs the first True block, or else, and skips the rest."
+    },
+    {
+      "q": "Once a test in the chain is True, what happens to the tests below it?",
+      "options": [
+        "They are not checked",
+        "They are checked but ignored",
+        "They run anyway",
+        "Python stops the program"
+      ],
+      "answer": 0,
+      "why": "Python jumps past the rest of the chain."
+    },
+    {
+      "q": "Where must else go?",
+      "options": [
+        "Last in the chain",
+        "First",
+        "Before the elifs",
+        "Anywhere"
+      ],
+      "answer": 0,
+      "why": "else catches what is left, so it comes after every elif."
+    },
+    {
+      "q": "`x = 7`. `if x > 5:` prints A, `elif x > 3:` prints B. What prints?",
+      "options": [
+        "A",
+        "B",
+        "A and B",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "x > 5 is True, so A prints and the elif is skipped."
+    },
+    {
+      "q": "`x = 7`. `if x > 5:` prints A, then a separate `if x > 3:` prints B. What prints?",
+      "options": [
+        "A then B",
+        "A",
+        "B",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "Two separate ifs are both checked, and both are True."
+    },
+    {
+      "q": "How do you write \"else if\" in Python?",
+      "options": [
+        "elif",
+        "else if",
+        "elseif",
+        "ef"
+      ],
+      "answer": 0,
+      "why": "Python uses the short word elif."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "elif after else",
+      "code": [
+        "n = 5",
+        "if n > 10:",
+        "    print(\"big\")",
+        "else:",
+        "    print(\"small\")",
+        "elif n > 3:",
+        "    print(\"medium\")"
+      ],
+      "explain": "else must be the last part of the chain. Move every elif above it.",
+      "fix": [
+        "n = 5",
+        "if n > 10:",
+        "    print(\"big\")",
+        "elif n > 3:",
+        "    print(\"medium\")",
+        "else:",
+        "    print(\"small\")"
+      ],
+      "gen": {
+        "hash": "e2213f98f22405f8775ac51a4f9d71910154f78cb3129881bae5121212c7bd6b",
+        "error": "SyntaxError: 'elif' block follows an 'else' block",
+        "line": 6
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Writing else if",
+      "code": [
+        "n = 5",
+        "if n > 10:",
+        "    print(\"big\")",
+        "else if n > 3:",
+        "    print(\"medium\")"
+      ],
+      "explain": "Some languages say else if. Python uses one word: elif.",
+      "fix": [
+        "n = 5",
+        "if n > 10:",
+        "    print(\"big\")",
+        "elif n > 3:",
+        "    print(\"medium\")"
+      ],
+      "gen": {
+        "hash": "4d4e62404a236bcdb1e52679c9e1bb40a6e3886fe82f757ec33219e7c6a1c776",
+        "error": "SyntaxError: expected ':'",
+        "line": 4
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: if, elif and else",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#if-statements"
+    },
+    {
+      "title": "Reference: the if statement",
+      "url": "https://docs.python.org/3/reference/compound_stmts.html#the-if-statement"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 12. if Tests and Syntax Rules"
+    }
+  ]
+}

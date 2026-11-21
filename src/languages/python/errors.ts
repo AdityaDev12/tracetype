@@ -21,6 +21,15 @@ const RULES: Rule[] = [
   },
   { test: /^SyntaxError: '(.)' was never closed/, explain: (m) => `A ${m[1]} was opened but never closed.` },
   { test: /^SyntaxError: unmatched '(.)'/, explain: (m) => `There is a ${m[1]} with no matching opening bracket.` },
+  {
+    test: /^SyntaxError: invalid syntax\. Maybe you meant '==' or ':=' instead of '='\?/,
+    explain: () => 'In a test, use == to compare. A single = stores a value and cannot be used in an if.',
+  },
+  { test: /^SyntaxError: 'elif' block follows an 'else' block/, explain: () => 'else must be the last part. Move the elif above the else.' },
+  {
+    test: /^SyntaxError: name capture '(.+?)' makes remaining patterns unreachable/,
+    explain: (m) => `A plain name like ${m[1]} in a case matches anything, so the cases below it can never run. Compare with a value in quotes or a number, or use case _: last.`,
+  },
   { test: /^SyntaxError: expected ':'/, explain: () => 'This line needs a colon : at the end.' },
   { test: /^SyntaxError: invalid decimal literal/, explain: () => 'A name cannot start with a digit, and numbers cannot have letters in them.' },
   {
@@ -45,6 +54,10 @@ const RULES: Rule[] = [
     explain: (m) => `Text can only be repeated with * by a whole number, not by a ${m[1]}. Convert it with int() first.`,
   },
   { test: /^TypeError: object of type '(.+?)' has no len\(\)/, explain: (m) => `len() counts the items in text or a list. A ${m[1]} has no length.` },
+  {
+    test: /^TypeError: '(.+?)' not supported between instances of '(.+?)' and '(.+?)'/,
+    explain: (m) => `${m[1]} cannot compare a ${m[2]} with a ${m[3]}. Convert one of them first, for example with int().`,
+  },
   { test: /^TypeError: '(.+?)' object is not callable/, explain: (m) => `You put ( ) after something that is a ${m[1]}, not a function.` },
   { test: /^TypeError/, explain: () => 'A value of the wrong type was used here.' },
   { test: /^ZeroDivisionError/, explain: () => 'You divided by zero, which has no answer.' },

@@ -1,0 +1,954 @@
+{
+  "id": "py-09-if-else",
+  "track": "python",
+  "unit": "py-u2",
+  "order": 9,
+  "title": "if and else",
+  "summary": "Run a block of code only when a test is True, and another block when it is not.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "branch",
+    "memory"
+  ],
+  "intro": {
+    "text": "`if` lets the program choose. You write a test, a colon, and then the lines to run when the test is True, **indented by 4 spaces**:\n\n```\nif temp > 25:\n    print(\"Shorts today\")\n```\n\nThe indented lines are the **block**. When the test is False, Python jumps over the whole block.\n\n`else:` adds a block for when the test is False. Exactly one of the two blocks runs, never both.\n\nThe first line that is back at the left edge is no longer part of the if: it always runs. The **which way?** panel shows the test, its answer and the path Python took.",
+    "analogy": "An if is a fork in a path with a signpost asking one question. Yes sends you down the left path, no down the right. Both paths meet again further on, and from there everyone walks the same road."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "money = 3",
+        "if money >= 5:",
+        "    print(\"Buy a snack\")",
+        "print(\"Walk home\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "Walk home",
+        "Buy a snack\nWalk home",
+        "Buy a snack",
+        "Nothing"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "3",
+          "label": "money",
+          "kind": "number",
+          "min": 0,
+          "max": 10
+        }
+      ],
+      "why": "3 is not at least 5, so the indented line is skipped. Line 4 is back at the left edge, so it always runs.",
+      "gen": {
+        "hash": "33d27c3d9a6f882c3e9f351bf5830a8ff9fa89093b6af133f7d190ecd28b9fc2",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "money": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "money": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Walk home\n",
+            "vars": {
+              "money": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "Walk home",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "light = \"red\"",
+        "if light == \"green\":",
+        "    print(\"Go\")",
+        "else:",
+        "    print(\"Stop\")",
+        "print(\"Done\")"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "why": "The test is False, so the else block runs: Stop. Then Done, which is outside the if/else.",
+      "gen": {
+        "hash": "9f79339f38ee17ddb79492ce23c13bb124e85f3255d3c5245471231599d18f61",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "light": {
+                "repr": "'red'",
+                "type": "str",
+                "text": "red"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "light": {
+                "repr": "'red'",
+                "type": "str",
+                "text": "red"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Stop\n",
+            "vars": {
+              "light": {
+                "repr": "'red'",
+                "type": "str",
+                "text": "red"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "Done\n",
+            "vars": {
+              "light": {
+                "repr": "'red'",
+                "type": "str",
+                "text": "red"
+              }
+            }
+          }
+        ],
+        "output": "Stop\nDone"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "One test, one block",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "38",
+          "label": "temp",
+          "kind": "number",
+          "min": 30,
+          "max": 42,
+          "step": 0.5
+        }
+      ],
+      "lines": [
+        {
+          "code": "temp = 38",
+          "explain": "A body temperature in degrees.",
+          "task": "Store 38 in temp."
+        },
+        {
+          "code": "if temp > 37.5:",
+          "explain": "The test. 38 is more than 37.5, so it is True and Python goes into the block. Look at the which way? panel.",
+          "task": "Start an if that tests whether temp is more than 37.5.",
+          "note": "the colon starts a block",
+          "circle": ":"
+        },
+        {
+          "code": "    print(\"Fever\")",
+          "explain": "Indented by 4 spaces, so it belongs to the if. It runs only because the test was True.",
+          "task": "Inside the if, print Fever.",
+          "note": "only when True"
+        },
+        {
+          "code": "print(\"Checked\")",
+          "explain": "Back at the left edge: not part of the if. It runs either way. Use the knob to try 37 and watch Fever disappear.",
+          "task": "After the if, print Checked."
+        }
+      ],
+      "gen": {
+        "hash": "33c20c78df0dd3e92eb0988408d8d47bb585f248772958fadb58415457c986f2",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "temp": {
+                "repr": "38",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "temp": {
+                "repr": "38",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Fever\n",
+            "vars": {
+              "temp": {
+                "repr": "38",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Checked\n",
+            "vars": {
+              "temp": {
+                "repr": "38",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Two ways: if and else",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "7",
+          "label": "number",
+          "kind": "number",
+          "min": 0,
+          "max": 20
+        }
+      ],
+      "lines": [
+        {
+          "code": "number = 7",
+          "explain": "Stores 7.",
+          "task": "Store 7 in number."
+        },
+        {
+          "code": "if number % 2 == 0:",
+          "explain": "`% 2` gives the remainder after dividing by 2. Even numbers leave 0. 7 leaves 1, so the test is False.",
+          "task": "Start an if that tests whether number has no remainder when divided by 2.",
+          "circle": "% 2 == 0",
+          "expr": true
+        },
+        {
+          "code": "    print(number, \"is even\")",
+          "explain": "Skipped, because the test was False.",
+          "task": "Inside the if, print number and is even."
+        },
+        {
+          "code": "else:",
+          "explain": "`else` has no test of its own. Its block runs when the if test is False.",
+          "task": "Start the else part.",
+          "note": "no test here"
+        },
+        {
+          "code": "    print(number, \"is odd\")",
+          "explain": "This runs: 7 is odd.",
+          "task": "Inside the else, print number and is odd."
+        },
+        {
+          "code": "print(\"Bye\")",
+          "explain": "Outside both blocks, so it always runs.",
+          "task": "After the if/else, print Bye."
+        }
+      ],
+      "gen": {
+        "hash": "2ac0d16b7b2bf08ef53747e35898d5fa2c58987e438592664eefc2306eadeece",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "number": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "number": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "if number % 2 == 0:"
+                  },
+                  {
+                    "text": "if 7 % 2 == 0:"
+                  },
+                  {
+                    "text": "if 1 == 0:",
+                    "part": "7 % 2",
+                    "value": "1"
+                  },
+                  {
+                    "text": "if False:",
+                    "part": "1 == 0",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "7 is odd\n",
+            "vars": {
+              "number": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "Bye\n",
+            "vars": {
+              "number": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "A block with several lines",
+      "stdin": [
+        "21"
+      ],
+      "visuals": [
+        "branch",
+        "stdin",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "age = int(input(\"Age? \"))",
+          "explain": "The user types 21 (see the keyboard panel).",
+          "task": "Ask Age? and store the answer as a whole number in age."
+        },
+        {
+          "code": "if age >= 18:",
+          "explain": "21 is at least 18: True.",
+          "task": "Start an if that tests whether age is at least 18."
+        },
+        {
+          "code": "    price = 12",
+          "explain": "The block can have many lines. They all line up 4 spaces in.",
+          "task": "Inside the if, store 12 in price."
+        },
+        {
+          "code": "    ticket = \"adult\"",
+          "explain": "Still inside the if.",
+          "task": "Inside the if, store the text adult in ticket."
+        },
+        {
+          "code": "else:",
+          "explain": "Not used this time.",
+          "task": "Start the else part."
+        },
+        {
+          "code": "    price = 6",
+          "explain": "Skipped.",
+          "task": "Inside the else, store 6 in price."
+        },
+        {
+          "code": "    ticket = \"child\"",
+          "explain": "Skipped.",
+          "task": "Inside the else, store the text child in ticket."
+        },
+        {
+          "code": "print(ticket, \"ticket:\", price)",
+          "explain": "Prints adult ticket: 12. Either way both names were made, so this line works.",
+          "task": "Print ticket, the text ticket:, and price."
+        }
+      ],
+      "gen": {
+        "hash": "6cd47fec0f202d26d6db49b9c5e12dd8081ca6342f98d925e285e411cfd06caa",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "Age? 21\n",
+            "vars": {
+              "age": {
+                "repr": "21",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Age? ",
+                "value": "21",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "21",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "21",
+                "type": "int"
+              },
+              "price": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "21",
+                "type": "int"
+              },
+              "price": {
+                "repr": "12",
+                "type": "int"
+              },
+              "ticket": {
+                "repr": "'adult'",
+                "type": "str",
+                "text": "adult"
+              }
+            }
+          },
+          {
+            "line": 8,
+            "stdout": "adult ticket: 12\n",
+            "vars": {
+              "age": {
+                "repr": "21",
+                "type": "int"
+              },
+              "price": {
+                "repr": "12",
+                "type": "int"
+              },
+              "ticket": {
+                "repr": "'adult'",
+                "type": "str",
+                "text": "adult"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "Why does line 3 only run when the test is True?",
+      "options": [
+        "It is indented under the if",
+        "It comes after line 2",
+        "It uses print",
+        "It is the last line"
+      ],
+      "answer": 0,
+      "why": "The 4 spaces at the start put it inside the if's block."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 5,
+      "q": "Which line does Python skip in this run?",
+      "options": [
+        "Line 3",
+        "Line 5",
+        "Line 6",
+        "Line 1"
+      ],
+      "answer": 0,
+      "why": "The test on line 2 is False, so the if block (line 3) is skipped and the else block (line 5) runs."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 7,
+      "q": "What is stored in price at the end?",
+      "options": [
+        "12",
+        "6",
+        "18",
+        "Nothing"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 8,
+        "name": "price"
+      },
+      "why": "Age 21 makes the test True, so only the if block ran and set price to 12."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints: Too cold",
+      "code": [
+        "water = 8",
+        "___ water < 15___",
+        "    print(\"Too cold\")"
+      ],
+      "answers": [
+        "if",
+        ":"
+      ],
+      "gen": {
+        "hash": "8964801b450f75184d4e2555550028c05539e5ab59920eac3f758d2816c385d6",
+        "expected": {
+          "stdout": "Too cold",
+          "vars": {
+            "water": {
+              "repr": "8",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the program prints: Try again",
+      "code": [
+        "answer = 4",
+        "if answer == 5:",
+        "    print(\"Correct\")",
+        "___:",
+        "    print(\"Try again\")"
+      ],
+      "answers": [
+        "else"
+      ],
+      "gen": {
+        "hash": "692ba950bd6face78268a78897c964d58e6dbdad608248233dd9f48c087d6023",
+        "expected": {
+          "stdout": "Try again",
+          "vars": {
+            "answer": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\nPack an umbrella\nHave a nice day",
+      "indent": true,
+      "lines": [
+        "rain = 80",
+        "if rain > 50:",
+        "    print(\"Pack an umbrella\")",
+        "else:",
+        "    print(\"Leave it at home\")",
+        "print(\"Have a nice day\")"
+      ],
+      "gen": {
+        "hash": "de2d62a1b8667c40487b0481faa138c86a3c241064a907283b8c9073ef98ea34",
+        "expected": {
+          "stdout": "Pack an umbrella\nHave a nice day",
+          "vars": {
+            "rain": {
+              "repr": "80",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print Low battery only when the battery is under 20, and always print Phone on. With 50 it prints both lines. Fix it.",
+      "code": [
+        "battery = 50",
+        "if battery < 20:",
+        "    print(\"Low battery\")",
+        "    print(\"Phone on\")"
+      ],
+      "solution": [
+        "battery = 50",
+        "if battery < 20:",
+        "    print(\"Low battery\")",
+        "print(\"Phone on\")"
+      ],
+      "tests": [
+        {
+          "name": "with 50 only Phone on",
+          "stdout": "Phone on"
+        }
+      ],
+      "hint": "Which line should run every time? Move it out of the block.",
+      "gen": {
+        "hash": "fc78184f0a5acacffa155db6df359cd24912219c1da55ffff6693871269bddca",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Add an else so the program prints Keep saving when savings is under 100. With 60 it should print:\nKeep saving",
+      "code": [
+        "savings = 60",
+        "if savings >= 100:",
+        "    print(\"Buy the bike\")"
+      ],
+      "solution": [
+        "savings = 60",
+        "if savings >= 100:",
+        "    print(\"Buy the bike\")",
+        "else:",
+        "    print(\"Keep saving\")"
+      ],
+      "tests": [
+        {
+          "name": "prints Keep saving",
+          "stdout": "Keep saving"
+        }
+      ],
+      "hint": "else: at the left edge, then an indented print.",
+      "gen": {
+        "hash": "8f5afda031fee35f8e6c9e356936c06236add13d0f9ad31d273a1916786731e7"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "The program always says Welcome. Change it so it asks Password? and prints Welcome only if the answer is open sesame, and Wrong password otherwise.",
+      "code": [
+        "print(\"Welcome\")"
+      ],
+      "solution": [
+        "password = input(\"Password? \")",
+        "if password == \"open sesame\":",
+        "    print(\"Welcome\")",
+        "else:",
+        "    print(\"Wrong password\")"
+      ],
+      "tests": [
+        {
+          "name": "right password",
+          "stdin": [
+            "open sesame"
+          ],
+          "stdout": "Password? open sesame\nWelcome"
+        },
+        {
+          "name": "wrong password",
+          "stdin": [
+            "1234"
+          ],
+          "stdout": "Password? 1234\nWrong password"
+        }
+      ],
+      "hint": "Store the answer from input(), then compare it with == inside an if.",
+      "gen": {
+        "hash": "14ba5be6c05a0b7388044ed04edba41cffabd854a34108a7505f4dc7e9b0dd33"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask the user Score? and turn the answer into a whole number. If the score is at least 50, print Pass, otherwise print Fail. For example, with 72:\nScore? 72\nPass",
+      "solution": [
+        "score = int(input(\"Score? \"))",
+        "if score >= 50:",
+        "    print(\"Pass\")",
+        "else:",
+        "    print(\"Fail\")"
+      ],
+      "tests": [
+        {
+          "name": "72 passes",
+          "stdin": [
+            "72"
+          ],
+          "stdout": "Score? 72\nPass"
+        },
+        {
+          "name": "50 passes",
+          "stdin": [
+            "50"
+          ],
+          "stdout": "Score? 50\nPass"
+        },
+        {
+          "name": "49 fails",
+          "stdin": [
+            "49"
+          ],
+          "stdout": "Score? 49\nFail"
+        }
+      ],
+      "hints": [
+        "score = int(input(\"Score? \"))",
+        "if score >= 50:",
+        "Indent each print by 4 spaces, and put else: at the left edge"
+      ],
+      "gen": {
+        "hash": "9b2a4af8fa5b7bddc0ea8d55b29b169de8c79703313586b52c155f95a9b4cd74"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What ends the header line of an if?",
+      "options": [
+        "A colon :",
+        "A semicolon ;",
+        "Nothing",
+        "A full stop ."
+      ],
+      "answer": 0,
+      "why": "Every if, else (and later loops and functions) header ends with a colon."
+    },
+    {
+      "q": "How does Python know which lines belong to the if?",
+      "options": [
+        "They are indented under it",
+        "They are in brackets",
+        "They come right after it, until a blank line",
+        "They end with a colon"
+      ],
+      "answer": 0,
+      "why": "Indentation (4 spaces) marks the block. Python has no brackets for blocks."
+    },
+    {
+      "q": "In an if/else, how many of the two blocks run?",
+      "options": [
+        "Exactly one",
+        "Both",
+        "None or one",
+        "Both, if the test is True"
+      ],
+      "answer": 0,
+      "why": "True runs the if block, False runs the else block. Never both."
+    },
+    {
+      "q": "`x = 10`. Then `if x > 20:` with an indented `print(\"big\")`, then `print(\"end\")` at the left edge. What prints?",
+      "options": [
+        "end",
+        "big\nend",
+        "big",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "The test is False, so the block is skipped. print(\"end\") is outside it."
+    },
+    {
+      "q": "Which line is written correctly?",
+      "options": [
+        "else:",
+        "else x < 5:",
+        "else if:",
+        "else;"
+      ],
+      "answer": 0,
+      "why": "else takes no test, just a colon."
+    },
+    {
+      "q": "What does `if score = 10:` give?",
+      "options": [
+        "SyntaxError",
+        "True",
+        "False",
+        "It stores 10"
+      ],
+      "answer": 0,
+      "why": "In a test you compare with ==. A single = is not allowed there."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Forgetting the colon",
+      "code": [
+        "level = 3",
+        "if level > 2",
+        "    print(\"Hard\")"
+      ],
+      "explain": "The header line of an if must end with a colon. Python even says it expected one.",
+      "fix": [
+        "level = 3",
+        "if level > 2:",
+        "    print(\"Hard\")"
+      ],
+      "gen": {
+        "hash": "0cbe81a9eb59dd6dfedb6376d219bb4b4c8be662b4743c1a584ac8a1bf5d052d",
+        "error": "SyntaxError: expected ':'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Forgetting to indent the block",
+      "code": [
+        "level = 3",
+        "if level > 2:",
+        "print(\"Hard\")"
+      ],
+      "explain": "After the colon Python needs at least one indented line. Indent the block by 4 spaces.",
+      "fix": [
+        "level = 3",
+        "if level > 2:",
+        "    print(\"Hard\")"
+      ],
+      "gen": {
+        "hash": "a711cb0a9332fb78c554eda028a0611cf412d8fdf3f783522ec599c3e28bb26d",
+        "error": "IndentationError: expected an indented block after 'if' statement on line 2",
+        "line": 3
+      }
+    },
+    {
+      "id": "c3",
+      "title": "One = in the test",
+      "code": [
+        "level = 3",
+        "if level = 3:",
+        "    print(\"Three\")"
+      ],
+      "explain": "A single = stores a value. To compare, use ==.",
+      "fix": [
+        "level = 3",
+        "if level == 3:",
+        "    print(\"Three\")"
+      ],
+      "gen": {
+        "hash": "28188402f07a4403c631ad207697ed42e38a17ae1497788feb79b9e9e66d3a06",
+        "error": "SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: if statements",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#if-statements"
+    },
+    {
+      "title": "Reference: the if statement",
+      "url": "https://docs.python.org/3/reference/compound_stmts.html#the-if-statement"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 12. if Tests and Syntax Rules"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 10. Introducing Python Statements"
+    }
+  ]
+}

@@ -296,7 +296,7 @@ export interface Mistake extends WithRunOptions {
 }
 
 /** Visual panels (docs: content/syllabus.md "Visuals"). Output is always shown. */
-export const VISUAL_KINDS = ['memory', 'history', 'expr', 'halt', 'types', 'stdin', 'cells'] as const
+export const VISUAL_KINDS = ['memory', 'history', 'expr', 'halt', 'types', 'stdin', 'cells', 'branch'] as const
 export type VisualKind = (typeof VISUAL_KINDS)[number]
 
 export interface Lesson {

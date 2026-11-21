@@ -15,6 +15,20 @@
         "py-07-input"
       ],
       "project": "py-u1-project"
+    },
+    {
+      "id": "py-u2",
+      "title": "Making decisions",
+      "summary": "Let the program choose: comparisons, if, elif, match, and, or and not.",
+      "lessons": [
+        "py-08-comparisons",
+        "py-09-if-else",
+        "py-10-elif",
+        "py-11-match",
+        "py-12-and-or-not",
+        "py-13-nested-if"
+      ],
+      "project": "py-u2-project"
     }
   ]
 }

@@ -142,6 +142,7 @@ Goal: the whole Python track, every lesson in the full v2 format.
 - [x] Trace format v2 in both tracers (heap, call stack, branch/loop events, expression steps, exceptions, stdin, virtual files, size caps), with tests (added at syllabus approval)
 - [ ] Build **unit by unit**. For each unit: read the matching *Learning Python* chapters, write `content/notes/<unit>.md` in your own words, then write all lessons, the mini project and the unit review
   - [x] Unit 1: First steps (py-01 to py-07, trip cost project). Visuals: timeline, knobs, hover-link, history, expr, halt, types, stdin, cells
+  - [x] Unit 2: Making decisions (py-08 to py-13, cinema ticket project). Visual: branch ladder
 - [ ] Run tracer + validate + check-links for every lesson
 - [ ] After **each unit**: commit, push, and tell Adi the unit is live and what to try. Continue to the next unit unless he says stop (he will be learning from finished units while later ones are built)
 - [ ] Final pass: check that every lesson only uses concepts from earlier lessons; fix the order if not

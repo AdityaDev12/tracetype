@@ -173,6 +173,7 @@ export function PredictStep({
             stdin={p.stdin}
             focus={p.focus}
             lineCount={p.code.length}
+            code={knobs.lines}
           />
         ) : (
           <div className="visual-placeholder">{'> make a guess, then watch it run'}</div>

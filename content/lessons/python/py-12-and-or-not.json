@@ -1,0 +1,1228 @@
+{
+  "id": "py-12-and-or-not",
+  "track": "python",
+  "unit": "py-u2",
+  "order": 12,
+  "title": "and, or, not, and truthy values",
+  "summary": "Combine tests with and, or and not, and learn which values count as True.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "expr",
+    "branch",
+    "memory"
+  ],
+  "intro": {
+    "text": "You can join tests together:\n\n- `a and b` is True only when **both** are True\n- `a or b` is True when **at least one** is True\n- `not a` flips True and False\n\nPython is lazy in a useful way: `and` stops at the first False part and `or` stops at the first True part. The rest is **never worked out** (the working it out panel shows it as skipped). That lets you write safe tests like `count > 0 and total / count > 5`.\n\nAny value can be a test, not just True or False. These count as False: `False`, `0`, `0.0`, the empty string `\"\"` and `None` (Python's value for \"nothing\"). Everything else counts as True, even `\"0\"` and `\" \"`.",
+    "analogy": "and is a door with two locks: it only opens if both keys turn. or is a room with two doors: one open door is enough to get in. not is a sign saying \"the opposite\"."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "sunny = True",
+        "warm = False",
+        "print(sunny and warm)",
+        "print(sunny or warm)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        3,
+        4
+      ],
+      "why": "and needs both, and warm is False, so False. or needs only one, and sunny is True, so True.",
+      "gen": {
+        "hash": "75a2c89a46a2fbde26f2573af9b4dc68dfd0dce30c4a7a4c6b3b4da53653e89a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "sunny": {
+                "repr": "True",
+                "type": "bool"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "sunny": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "warm": {
+                "repr": "False",
+                "type": "bool"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "False\n",
+            "vars": {
+              "sunny": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "warm": {
+                "repr": "False",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(sunny and warm)"
+                  },
+                  {
+                    "text": "print(True and False)"
+                  },
+                  {
+                    "text": "print(False)",
+                    "part": "True and False",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "True\n",
+            "vars": {
+              "sunny": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "warm": {
+                "repr": "False",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(sunny or warm)"
+                  },
+                  {
+                    "text": "print(True or warm)"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "True or warm",
+                    "value": "True",
+                    "skipped": [
+                      "warm"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "False\nTrue"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "name = \"\"",
+        "if name:",
+        "    print(\"Hello\", name)",
+        "else:",
+        "    print(\"No name given\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "No name given",
+        "Hello",
+        "Hello \nNo name given",
+        "Error"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"\"",
+          "label": "name",
+          "kind": "text"
+        }
+      ],
+      "why": "An empty string counts as False, so the else block runs. Try typing a name with the knob.",
+      "gen": {
+        "hash": "df4ff9531d0463c4cbf3c1cab4e5cc52dafc91363de75f5a0f44cd9b4a208fa8",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "No name given\n",
+            "vars": {
+              "name": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            }
+          }
+        ],
+        "output": "No name given",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "x = 4",
+        "print(x == 1 or 2)"
+      ],
+      "kind": "choice",
+      "options": [
+        "2",
+        "False",
+        "True",
+        "Error"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "This is a classic trap. It means (x == 1) or 2. x == 1 is False, so or gives the other side, 2. To test both values write x == 1 or x == 2.",
+      "gen": {
+        "hash": "24c4867eabb21c26b447feacb2c85991d59b25a9d69c423c7435e902a76066c5",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "2\n",
+            "vars": {
+              "x": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(x == 1 or 2)"
+                  },
+                  {
+                    "text": "print(4 == 1 or 2)"
+                  },
+                  {
+                    "text": "print(False or 2)",
+                    "part": "4 == 1",
+                    "value": "False"
+                  },
+                  {
+                    "text": "print(2)",
+                    "part": "False or 2",
+                    "value": "2"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "2",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Both or either",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "25",
+          "label": "age",
+          "kind": "number",
+          "min": 10,
+          "max": 80
+        }
+      ],
+      "lines": [
+        {
+          "code": "age = 25",
+          "explain": "Stores 25.",
+          "task": "Store 25 in age."
+        },
+        {
+          "code": "has_ticket = True",
+          "explain": "A bool stored directly.",
+          "task": "Store True in has_ticket."
+        },
+        {
+          "code": "can_enter = age >= 18 and has_ticket",
+          "explain": "and: both must be True. 25 >= 18 is True and has_ticket is True, so True.",
+          "task": "Make can_enter True only if age is at least 18 and has_ticket is True.",
+          "note": "both needed",
+          "circle": "and",
+          "expr": true
+        },
+        {
+          "code": "cheap = age < 12 or age >= 65",
+          "explain": "or: one is enough. 25 is neither under 12 nor 65 or more, so False.",
+          "task": "Make cheap True if age is under 12 or at least 65.",
+          "note": "one is enough",
+          "circle": "or",
+          "expr": true
+        },
+        {
+          "code": "print(can_enter, cheap)",
+          "explain": "Prints True False.",
+          "task": "Print can_enter and cheap."
+        },
+        {
+          "code": "print(not cheap)",
+          "explain": "not flips it: True.",
+          "task": "Print the opposite of cheap.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "1a2b895eb1b5e98f3f86576e4a7c25fd30b75961de60ab7ac50a4dd280269d3c",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "25",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "25",
+                "type": "int"
+              },
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "25",
+                "type": "int"
+              },
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "can_enter": {
+                "repr": "True",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "can_enter = age >= 18 and has_ticket"
+                  },
+                  {
+                    "text": "can_enter = 25 >= 18 and has_ticket"
+                  },
+                  {
+                    "text": "can_enter = True and has_ticket",
+                    "part": "25 >= 18",
+                    "value": "True"
+                  },
+                  {
+                    "text": "can_enter = True and True"
+                  },
+                  {
+                    "text": "can_enter = True",
+                    "part": "True and True",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "age": {
+                "repr": "25",
+                "type": "int"
+              },
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "can_enter": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "cheap": {
+                "repr": "False",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "cheap = age < 12 or age >= 65"
+                  },
+                  {
+                    "text": "cheap = 25 < 12 or age >= 65"
+                  },
+                  {
+                    "text": "cheap = False or age >= 65",
+                    "part": "25 < 12",
+                    "value": "False"
+                  },
+                  {
+                    "text": "cheap = False or 25 >= 65"
+                  },
+                  {
+                    "text": "cheap = False or False",
+                    "part": "25 >= 65",
+                    "value": "False"
+                  },
+                  {
+                    "text": "cheap = False",
+                    "part": "False or False",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "True False\n",
+            "vars": {
+              "age": {
+                "repr": "25",
+                "type": "int"
+              },
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "can_enter": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "cheap": {
+                "repr": "False",
+                "type": "bool"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "True\n",
+            "vars": {
+              "age": {
+                "repr": "25",
+                "type": "int"
+              },
+              "has_ticket": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "can_enter": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "cheap": {
+                "repr": "False",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 6,
+                "steps": [
+                  {
+                    "text": "print(not cheap)"
+                  },
+                  {
+                    "text": "print(not False)"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "not False",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Lazy and safe",
+      "lines": [
+        {
+          "code": "count = 0",
+          "explain": "No items yet.",
+          "task": "Store 0 in count."
+        },
+        {
+          "code": "total = 0",
+          "explain": "And a total of 0.",
+          "task": "Store 0 in total."
+        },
+        {
+          "code": "ok = count > 0 and total / count > 5",
+          "explain": "count > 0 is False, so `and` stops right there. The division by zero on the right is **never worked out**, so there is no error. See the skipped part.",
+          "task": "Make ok True only if count is more than 0 and total divided by count is more than 5.",
+          "note": "right side skipped!",
+          "circle": "total / count > 5",
+          "expr": true
+        },
+        {
+          "code": "print(ok)",
+          "explain": "Prints False.",
+          "task": "Show the value of ok."
+        }
+      ],
+      "gen": {
+        "hash": "a41a66bfb0a6bd47b5858ccecc528b76891e87ede610951a79ece70dc41dd073",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ok": {
+                "repr": "False",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "ok = count > 0 and total / count > 5"
+                  },
+                  {
+                    "text": "ok = 0 > 0 and total / count > 5"
+                  },
+                  {
+                    "text": "ok = False and total / count > 5",
+                    "part": "0 > 0",
+                    "value": "False"
+                  },
+                  {
+                    "text": "ok = False",
+                    "part": "False and total / count > 5",
+                    "value": "False",
+                    "skipped": [
+                      "total / count > 5"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "False\n",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ok": {
+                "repr": "False",
+                "type": "bool"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Truthy and falsy values",
+      "stdin": [
+        ""
+      ],
+      "visuals": [
+        "branch",
+        "stdin",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "city = input(\"City? \")",
+          "explain": "The user just presses Enter, so city is the empty string \"\".",
+          "task": "Ask City? and store the answer in city."
+        },
+        {
+          "code": "if city:",
+          "explain": "An empty string counts as False, so this test fails.",
+          "task": "Start an if that tests city itself.",
+          "note": "empty = False",
+          "circle": "city"
+        },
+        {
+          "code": "    print(\"Weather for\", city)",
+          "explain": "Skipped.",
+          "task": "Inside the if, print Weather for and city."
+        },
+        {
+          "code": "else:",
+          "explain": "The else runs.",
+          "task": "Start the else part."
+        },
+        {
+          "code": "    print(\"Please type a city\")",
+          "explain": "Prints Please type a city.",
+          "task": "Inside the else, print Please type a city."
+        },
+        {
+          "code": "found = None",
+          "explain": "None means \"no value\". It counts as False too.",
+          "task": "Store None in found."
+        },
+        {
+          "code": "print(found, not found)",
+          "explain": "Prints None True.",
+          "task": "Print found and the opposite of found.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "b5f4cc1e6d9a69c7cd49a52703cefd8a93c50c89f3aee8c4ced01c13711b45bf",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "City? \n",
+            "vars": {
+              "city": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "City? ",
+                "value": "",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "city": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Please type a city\n",
+            "vars": {
+              "city": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "city": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              },
+              "found": {
+                "repr": "None",
+                "type": "NoneType"
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "None True\n",
+            "vars": {
+              "city": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              },
+              "found": {
+                "repr": "None",
+                "type": "NoneType"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 7,
+                "steps": [
+                  {
+                    "text": "print(found, not found)"
+                  },
+                  {
+                    "text": "print(None, not None)"
+                  },
+                  {
+                    "text": "print(None, True)",
+                    "part": "not None",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in can_enter after line 3 runs?",
+      "options": [
+        "True",
+        "False",
+        "25",
+        "None"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "can_enter"
+      },
+      "why": "Both parts are True, so and gives True."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 3,
+      "q": "Why does line 3 not crash with a division by zero?",
+      "options": [
+        "and stops at count > 0, which is False, so the division is never done",
+        "Python allows dividing by zero in an and",
+        "total is 0 too",
+        "The division is done last"
+      ],
+      "answer": 0,
+      "why": "and only looks at its right side when the left side is True."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 2,
+      "q": "Why is the if test on line 2 False?",
+      "options": [
+        "city is an empty string, which counts as False",
+        "city holds the word False",
+        "if needs ==",
+        "input always gives False"
+      ],
+      "answer": 0,
+      "why": "Empty text, 0 and None all count as False in a test."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints True only when both are True. It prints: False",
+      "code": [
+        "has_key = True",
+        "door_locked = True",
+        "print(has_key ___ not door_locked)"
+      ],
+      "answers": [
+        "and"
+      ],
+      "gen": {
+        "hash": "6edb5d0c490a4aa7656bf8e92532a7290b3435ff23fffa43671259aedbdf533b",
+        "expected": {
+          "stdout": "False",
+          "vars": {
+            "has_key": {
+              "repr": "True",
+              "type": "bool"
+            },
+            "door_locked": {
+              "repr": "True",
+              "type": "bool"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints Weekend for both sat and sun. It prints: Weekend",
+      "code": [
+        "day = \"sun\"",
+        "if day == \"sat\" ___ day == \"sun\":",
+        "    print(\"Weekend\")",
+        "___:",
+        "    print(\"Weekday\")"
+      ],
+      "answers": [
+        "or",
+        "else"
+      ],
+      "gen": {
+        "hash": "3c3482fe6b00c9ffe57456c17f0a455d2c2fe3206391ba0741df85432ef74d5d",
+        "expected": {
+          "stdout": "Weekend",
+          "vars": {
+            "day": {
+              "repr": "'sun'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\nPerfect day",
+      "indent": true,
+      "lines": [
+        "temp = 22",
+        "windy = False",
+        "if temp > 18 and not windy:",
+        "    print(\"Perfect day\")",
+        "else:",
+        "    print(\"Stay in\")"
+      ],
+      "gen": {
+        "hash": "5818e1a19690a31f156b2bfceecb0f5e2c685cc0217366317a38984f9e97d144",
+        "expected": {
+          "stdout": "Perfect day",
+          "vars": {
+            "temp": {
+              "repr": "22",
+              "type": "int"
+            },
+            "windy": {
+              "repr": "False",
+              "type": "bool"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print Small only for sizes S and M. With L it prints Small. Fix the test.",
+      "code": [
+        "size = \"L\"",
+        "if size == \"S\" or \"M\":",
+        "    print(\"Small\")",
+        "else:",
+        "    print(\"Big\")"
+      ],
+      "solution": [
+        "size = \"L\"",
+        "if size == \"S\" or size == \"M\":",
+        "    print(\"Small\")",
+        "else:",
+        "    print(\"Big\")"
+      ],
+      "tests": [
+        {
+          "name": "L is Big",
+          "stdout": "Big"
+        }
+      ],
+      "hint": "\"M\" on its own is a non-empty string, which always counts as True. Compare size with \"M\" too.",
+      "gen": {
+        "hash": "287e44e84409ef3c3a461d4875b8d0e9b0df12c6a78250d2e11e401de6d94c4b",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Members also get a discount. Change the test so the program prints Discount when the age is 65 or more OR member is True. With these values it should print:\nDiscount",
+      "code": [
+        "age = 40",
+        "member = True",
+        "if age >= 65:",
+        "    print(\"Discount\")",
+        "else:",
+        "    print(\"Full price\")"
+      ],
+      "solution": [
+        "age = 40",
+        "member = True",
+        "if age >= 65 or member:",
+        "    print(\"Discount\")",
+        "else:",
+        "    print(\"Full price\")"
+      ],
+      "tests": [
+        {
+          "name": "member gets Discount",
+          "stdout": "Discount"
+        }
+      ],
+      "hint": "Add or member to the test.",
+      "gen": {
+        "hash": "c30f977c616709d5d8fc95bb26b42b6149851125a773d554fca03e996a6c33db"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Make the program ask Name? and print Hello followed by the name, or Hello stranger when the user just presses Enter.",
+      "code": [
+        "name = \"Lea\"",
+        "print(\"Hello\", name)"
+      ],
+      "solution": [
+        "name = input(\"Name? \")",
+        "if name:",
+        "    print(\"Hello\", name)",
+        "else:",
+        "    print(\"Hello stranger\")"
+      ],
+      "tests": [
+        {
+          "name": "with a name",
+          "stdin": [
+            "Lea"
+          ],
+          "stdout": "Name? Lea\nHello Lea"
+        },
+        {
+          "name": "with nothing",
+          "stdin": [
+            ""
+          ],
+          "stdout": "Name?\nHello stranger"
+        }
+      ],
+      "hint": "Empty text counts as False, so if name: is enough.",
+      "gen": {
+        "hash": "3092ccfec9fa5861c2b3ac27f03f5727370b34ebf1ce3432d26889073778b436"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Number? and turn it into an int. Print In range if the number is between 1 and 100 (both included) and not 13, otherwise print Rejected. For example:\nNumber? 42\nIn range",
+      "solution": [
+        "n = int(input(\"Number? \"))",
+        "if 1 <= n <= 100 and not n == 13:",
+        "    print(\"In range\")",
+        "else:",
+        "    print(\"Rejected\")"
+      ],
+      "tests": [
+        {
+          "name": "42",
+          "stdin": [
+            "42"
+          ],
+          "stdout": "Number? 42\nIn range"
+        },
+        {
+          "name": "13",
+          "stdin": [
+            "13"
+          ],
+          "stdout": "Number? 13\nRejected"
+        },
+        {
+          "name": "0",
+          "stdin": [
+            "0"
+          ],
+          "stdout": "Number? 0\nRejected"
+        },
+        {
+          "name": "100",
+          "stdin": [
+            "100"
+          ],
+          "stdout": "Number? 100\nIn range"
+        }
+      ],
+      "hints": [
+        "1 <= n <= 100 checks the range",
+        "and not n == 13 (or n != 13) excludes 13",
+        "Use if and else to print the two answers"
+      ],
+      "gen": {
+        "hash": "3479e16d2aa4d7bc333227ce660abf71847bb080b488fc545e108341308de0a6"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `True and False`?",
+      "options": [
+        "False",
+        "True",
+        "None",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "and needs both sides to be True."
+    },
+    {
+      "q": "What is `False or True`?",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "or needs at least one side to be True."
+    },
+    {
+      "q": "Which value counts as False in an if?",
+      "options": [
+        "0",
+        "\"0\"",
+        "\" \"",
+        "-1"
+      ],
+      "answer": 0,
+      "why": "The number 0 is False-like. \"0\" and \" \" are non-empty text, and -1 is not zero, so they count as True."
+    },
+    {
+      "q": "`x = 0`. What happens with `x != 0 and 10 / x > 1`?",
+      "options": [
+        "It gives False, no error",
+        "ZeroDivisionError",
+        "It gives True",
+        "It gives 10"
+      ],
+      "answer": 0,
+      "why": "The left side is False, so and never works out the division."
+    },
+    {
+      "q": "How do you test if x is 3 or 4?",
+      "options": [
+        "x == 3 or x == 4",
+        "x == 3 or 4",
+        "x == (3 or 4)",
+        "x == 3 and 4"
+      ],
+      "answer": 0,
+      "why": "Each side of or must be a full comparison. x == 3 or 4 is always true-like."
+    },
+    {
+      "q": "What is `not None`?",
+      "options": [
+        "True",
+        "False",
+        "None",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "None counts as False, so not None is True."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Writing && instead of and",
+      "code": [
+        "a = True",
+        "b = True",
+        "print(a && b)"
+      ],
+      "explain": "Some languages use && and ||. Python uses the words and and or.",
+      "fix": [
+        "a = True",
+        "b = True",
+        "print(a and b)"
+      ],
+      "gen": {
+        "hash": "b6df3f48dfa64213a41a7285432c1cf3533946549925d82f70dc3e4456a67e63",
+        "error": "SyntaxError: invalid syntax",
+        "line": 3
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Doing the risky part first",
+      "code": [
+        "count = 0",
+        "total = 10",
+        "ok = total / count > 2 and count > 0"
+      ],
+      "explain": "and works from left to right. Here the division runs before the safety check. Put the check first, so the division is skipped when count is 0.",
+      "fix": [
+        "count = 0",
+        "total = 10",
+        "ok = count > 0 and total / count > 2"
+      ],
+      "gen": {
+        "hash": "9ed79bc31877fc97b49d11a422f474459cdd808b38517ac12a5252982cdd778c",
+        "error": "ZeroDivisionError: division by zero",
+        "line": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: and, or and not",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#boolean-operations-and-or-not"
+    },
+    {
+      "title": "Reference: which values count as True or False",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#truth-value-testing"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 12. if Tests and Syntax Rules"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 9. Tuples, Files, and Everything Else"
+    }
+  ]
+}

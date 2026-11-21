@@ -1,0 +1,129 @@
+{
+  "id": "py-u2-project",
+  "unit": "py-u2",
+  "title": "Cinema ticket prices",
+  "summary": "Work out a cinema ticket price from age, day and membership, using if, elif, match and and.",
+  "language": "python",
+  "prompt": "Write a program that works out the price of a cinema ticket. It asks Age? , Day? (three letters, like mon or sat) and Member? (y or n), in that order. The rules:\n- Under 4: ticket Free, price 0.0. Under 16: Child, 7.0. 65 or older: Senior, 8.0. Anyone else: Adult, 12.0.\n- On tue every price is halved. On sat and sun 2 is added, except for free tickets.\n- Members (y) get 1 off, but only if the price is at least 1.\nThen print the ticket type and the price. The example is for 30, tue and y.",
+  "output": "Age? 30\nDay? tue\nMember? y\nTicket: Adult\nPrice: 5.0",
+  "steps": [
+    {
+      "text": "Ask the three questions. Only the age needs int().",
+      "hint": "age = int(input(\"Age? \")), then day = input(\"Day? \") and member = input(\"Member? \")"
+    },
+    {
+      "text": "Use if, elif and else on the age to set kind and price. Use floats like 7.0 for the prices.",
+      "hint": "Check the youngest first: if age < 4:, then elif age < 16:, then elif age >= 65:, then else:"
+    },
+    {
+      "text": "Use match on day: halve the price on tue, add 2 on sat or sun unless the price is 0.",
+      "hint": "case \"sat\" | \"sun\": and inside it if price > 0:"
+    },
+    {
+      "text": "Take 1 off for members, but only when the price is at least 1. Then print both lines.",
+      "hint": "if member == \"y\" and price >= 1:"
+    },
+    {
+      "text": "Test it with your own answers: a child on a Saturday, a baby on a Sunday, a member on a Monday.",
+      "hint": "10, sat, n should cost 9.0. 2, sun, y should cost 0.0."
+    }
+  ],
+  "starter": [
+    "# Cinema ticket price",
+    "age = int(input(\"Age? \"))"
+  ],
+  "solution": [
+    "# Cinema ticket price",
+    "age = int(input(\"Age? \"))",
+    "day = input(\"Day? \")",
+    "member = input(\"Member? \")",
+    "",
+    "# 1. Ticket type and base price",
+    "if age < 4:",
+    "    kind = \"Free\"",
+    "    price = 0.0",
+    "elif age < 16:",
+    "    kind = \"Child\"",
+    "    price = 7.0",
+    "elif age >= 65:",
+    "    kind = \"Senior\"",
+    "    price = 8.0",
+    "else:",
+    "    kind = \"Adult\"",
+    "    price = 12.0",
+    "",
+    "# 2. The day changes the price",
+    "match day:",
+    "    case \"tue\":",
+    "        price = price / 2",
+    "    case \"sat\" | \"sun\":",
+    "        if price > 0:",
+    "            price = price + 2",
+    "",
+    "# 3. Members save 1, but never below 0",
+    "if member == \"y\" and price >= 1:",
+    "    price = price - 1",
+    "",
+    "print(\"Ticket:\", kind)",
+    "print(\"Price:\", price)"
+  ],
+  "tests": [
+    {
+      "name": "adult member on Tuesday",
+      "stdin": [
+        "30",
+        "tue",
+        "y"
+      ],
+      "stdout": "Age? 30\nDay? tue\nMember? y\nTicket: Adult\nPrice: 5.0"
+    },
+    {
+      "name": "child on Saturday",
+      "stdin": [
+        "10",
+        "sat",
+        "n"
+      ],
+      "stdout": "Age? 10\nDay? sat\nMember? n\nTicket: Child\nPrice: 9.0"
+    },
+    {
+      "name": "baby on Sunday stays free",
+      "stdin": [
+        "2",
+        "sun",
+        "y"
+      ],
+      "stdout": "Age? 2\nDay? sun\nMember? y\nTicket: Free\nPrice: 0.0"
+    },
+    {
+      "name": "senior member on Monday",
+      "stdin": [
+        "70",
+        "mon",
+        "y"
+      ],
+      "stdout": "Age? 70\nDay? mon\nMember? y\nTicket: Senior\nPrice: 7.0"
+    },
+    {
+      "name": "adult on Friday",
+      "stdin": [
+        "40",
+        "fri",
+        "n"
+      ],
+      "stdout": "Age? 40\nDay? fri\nMember? n\nTicket: Adult\nPrice: 12.0"
+    },
+    {
+      "name": "15 is still a child",
+      "stdin": [
+        "15",
+        "wed",
+        "n"
+      ],
+      "stdout": "Age? 15\nDay? wed\nMember? n\nTicket: Child\nPrice: 7.0"
+    }
+  ],
+  "gen": {
+    "hash": "f0e3bdf3c88bc883e910e7ccc48fe3b53063be4313aa6c7b456bf6425e7d814c"
+  }
+}

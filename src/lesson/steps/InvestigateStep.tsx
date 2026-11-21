@@ -100,6 +100,7 @@ export function InvestigateStep({ item, setItem, onDone }: { item: number; setIt
             stdin={ex.stdin}
             focus={ex.focus}
             lineCount={ex.lines.length}
+            code={ex.lines.map((l) => l.code)}
           />
         ) : (
           <div className="visual-placeholder">{'> answer first, then memory is shown'}</div>

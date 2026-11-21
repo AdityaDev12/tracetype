@@ -179,6 +179,7 @@ export function CodeTaskView({
             error={run.error}
             stdin={usesInput ? stdinLines(typedIn) : undefined}
             lineCount={code.split('\n').length}
+            code={code.split('\n')}
           />
         ) : (
           <div className="visual-placeholder">{'> press run to see memory and output'}</div>

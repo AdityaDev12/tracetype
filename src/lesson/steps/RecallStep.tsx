@@ -149,6 +149,7 @@ export function RecallView({ exampleIndex, itemId, onNext, last }: { exampleInde
             stdin={ex.stdin}
             focus={ex.focus}
             lineCount={code.split('\n').length}
+            code={code.split('\n')}
           />
         ) : (
           <Terminal title="tasks">

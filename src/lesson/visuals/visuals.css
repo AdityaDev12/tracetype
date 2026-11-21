@@ -583,3 +583,74 @@
     flex-basis: 100%;
   }
 }
+
+/* ---------- Branch ladder ---------- */
+
+.branch-list {
+  list-style: none;
+  margin: 0;
+  padding: 6px 16px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.branch-row {
+  display: grid;
+  grid-template-columns: 18px auto 1fr;
+  gap: 10px;
+  align-items: baseline;
+  padding: 4px 8px;
+  border-left: 2px solid var(--line);
+  animation: line-in var(--mid) var(--ease) both;
+}
+
+.branch-row.taken {
+  border-left-color: var(--ok);
+  background: var(--ok-soft);
+}
+
+.branch-row.no .branch-code {
+  color: var(--chalk-dim);
+}
+
+.branch-row.skipped {
+  opacity: 0.45;
+}
+
+.branch-mark {
+  font-family: var(--mono);
+  text-align: center;
+}
+
+.branch-row.taken .branch-mark {
+  color: var(--ok);
+}
+
+.branch-row.no .branch-mark {
+  color: var(--pen-red);
+}
+
+.branch-code {
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--chalk);
+  white-space: pre;
+}
+
+.branch-says {
+  font-family: var(--hand);
+  font-size: 1.15rem;
+  color: var(--pen-blue);
+  justify-self: end;
+}
+
+.branch-row.taken .branch-says {
+  color: var(--ok);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .branch-row {
+    animation: none;
+  }
+}

@@ -1,0 +1,1113 @@
+{
+  "id": "py-11-match",
+  "track": "python",
+  "unit": "py-u2",
+  "order": 11,
+  "title": "match and case",
+  "summary": "Compare one value against several fixed values, and run the case that matches.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "branch",
+    "memory"
+  ],
+  "intro": {
+    "text": "When you compare **one value** against several fixed values, `match` reads more clearly than a long elif chain:\n\n```\nmatch command:\n    case \"start\":\n        print(\"Starting\")\n    case \"stop\":\n        print(\"Stopping\")\n    case _:\n        print(\"Unknown command\")\n```\n\nPython tries the cases from the top and runs the **first one that matches**. Only one case runs.\n\n- `case \"a\" | \"b\":` matches either value\n- `case _:` matches anything, so it goes last, like else\n\nmatch is good for fixed values like words and numbers. For ranges (\"more than 10\") keep using if and elif. `match` was added in Python 3.10, after the book was written.",
+    "analogy": "A vending machine with labelled buttons. You press one button (the value), and the machine looks along its list of labels until one is the same, then drops that snack. The last slot, labelled \"anything else\", gives your coin back."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "day = \"sat\"",
+        "match day:",
+        "    case \"sat\" | \"sun\":",
+        "        print(\"Weekend\")",
+        "    case _:",
+        "        print(\"Workday\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "Weekend",
+        "Workday",
+        "Weekend\nWorkday",
+        "Nothing"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"sat\"",
+          "label": "day",
+          "kind": "text"
+        }
+      ],
+      "why": "\"sat\" matches the first case (\"sat\" or \"sun\"), so Weekend prints and the other cases are skipped.",
+      "gen": {
+        "hash": "b71a84c84b2e94c06f2d68f9a968e55c915c2fc0d6f925bf1bff5019dfa32161",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "day": {
+                "repr": "'sat'",
+                "type": "str",
+                "text": "sat"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "day": {
+                "repr": "'sat'",
+                "type": "str",
+                "text": "sat"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "day": {
+                "repr": "'sat'",
+                "type": "str",
+                "text": "sat"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "case",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Weekend\n",
+            "vars": {
+              "day": {
+                "repr": "'sat'",
+                "type": "str",
+                "text": "sat"
+              }
+            }
+          }
+        ],
+        "output": "Weekend",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "size = \"XL\"",
+        "match size:",
+        "    case \"S\":",
+        "        print(\"small\")",
+        "    case \"M\":",
+        "        print(\"medium\")",
+        "print(\"end\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "end",
+        "medium\nend",
+        "small\nend",
+        "Error"
+      ],
+      "why": "No case matches \"XL\" and there is no case _, so nothing in the match runs. Then end prints.",
+      "gen": {
+        "hash": "e8e694031c0ca802d52970bc045eb3868918c84619ecad302be5dfdb00764e9e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "size": {
+                "repr": "'XL'",
+                "type": "str",
+                "text": "XL"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "size": {
+                "repr": "'XL'",
+                "type": "str",
+                "text": "XL"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "size": {
+                "repr": "'XL'",
+                "type": "str",
+                "text": "XL"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "case",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "size": {
+                "repr": "'XL'",
+                "type": "str",
+                "text": "XL"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 5,
+                "stmt": "case",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "end\n",
+            "vars": {
+              "size": {
+                "repr": "'XL'",
+                "type": "str",
+                "text": "XL"
+              }
+            }
+          }
+        ],
+        "output": "end",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "A small menu",
+      "stdin": [
+        "2"
+      ],
+      "visuals": [
+        "branch",
+        "stdin",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "choice = input(\"1 tea, 2 coffee, 3 juice: \")",
+          "explain": "The user types 2. Note that choice is the **text** \"2\".",
+          "task": "Ask 1 tea, 2 coffee, 3 juice: and store the answer in choice."
+        },
+        {
+          "code": "match choice:",
+          "explain": "Start comparing the value of choice with the cases below.",
+          "task": "Start a match on choice.",
+          "note": "one value, many cases",
+          "circle": "match"
+        },
+        {
+          "code": "    case \"1\":",
+          "explain": "Does \"2\" equal \"1\"? No. The which way? panel shows: no match.",
+          "task": "Add a case for the text 1.",
+          "circle": "\"1\""
+        },
+        {
+          "code": "        drink = \"tea\"",
+          "explain": "Skipped.",
+          "task": "In that case, store tea in drink."
+        },
+        {
+          "code": "    case \"2\":",
+          "explain": "\"2\" equals \"2\": a match. Python runs this case and skips the others.",
+          "task": "Add a case for the text 2."
+        },
+        {
+          "code": "        drink = \"coffee\"",
+          "explain": "drink gets coffee.",
+          "task": "In that case, store coffee in drink."
+        },
+        {
+          "code": "    case \"3\":",
+          "explain": "Not checked: a case already matched.",
+          "task": "Add a case for the text 3."
+        },
+        {
+          "code": "        drink = \"juice\"",
+          "explain": "Skipped.",
+          "task": "In that case, store juice in drink."
+        },
+        {
+          "code": "    case _:",
+          "explain": "`_` matches anything, but only if nothing above matched.",
+          "task": "Add the catch-all case.",
+          "note": "like else",
+          "circle": "_"
+        },
+        {
+          "code": "        drink = \"water\"",
+          "explain": "Skipped.",
+          "task": "In that case, store water in drink."
+        },
+        {
+          "code": "print(\"Here is your\", drink)",
+          "explain": "Prints Here is your coffee.",
+          "task": "Print Here is your, followed by drink."
+        }
+      ],
+      "gen": {
+        "hash": "a0e83a3207d501a0e737381f0f641ff9dc8f483587070b472378e1e02de286d9",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "1 tea, 2 coffee, 3 juice: 2\n",
+            "vars": {
+              "choice": {
+                "repr": "'2'",
+                "type": "str",
+                "text": "2"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "1 tea, 2 coffee, 3 juice: ",
+                "value": "2",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "choice": {
+                "repr": "'2'",
+                "type": "str",
+                "text": "2"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "choice": {
+                "repr": "'2'",
+                "type": "str",
+                "text": "2"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "case",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "choice": {
+                "repr": "'2'",
+                "type": "str",
+                "text": "2"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 5,
+                "stmt": "case",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "choice": {
+                "repr": "'2'",
+                "type": "str",
+                "text": "2"
+              },
+              "drink": {
+                "repr": "'coffee'",
+                "type": "str",
+                "text": "coffee"
+              }
+            }
+          },
+          {
+            "line": 11,
+            "stdout": "Here is your coffee\n",
+            "vars": {
+              "choice": {
+                "repr": "'2'",
+                "type": "str",
+                "text": "2"
+              },
+              "drink": {
+                "repr": "'coffee'",
+                "type": "str",
+                "text": "coffee"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Several values in one case",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"blue\"",
+          "label": "color",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "color = \"blue\"",
+          "explain": "Try other colors with the knob.",
+          "task": "Store blue in color."
+        },
+        {
+          "code": "match color:",
+          "explain": "Compare color with each case.",
+          "task": "Start a match on color."
+        },
+        {
+          "code": "    case \"red\" | \"orange\" | \"yellow\":",
+          "explain": "`|` means or: this case matches any of the three. blue is none of them.",
+          "task": "Add one case for red, orange or yellow.",
+          "note": "| means or",
+          "circle": "|"
+        },
+        {
+          "code": "        mood = \"warm\"",
+          "explain": "Skipped.",
+          "task": "In that case, store warm in mood."
+        },
+        {
+          "code": "    case \"blue\" | \"green\":",
+          "explain": "blue matches.",
+          "task": "Add one case for blue or green."
+        },
+        {
+          "code": "        mood = \"cool\"",
+          "explain": "mood gets cool.",
+          "task": "In that case, store cool in mood."
+        },
+        {
+          "code": "    case _:",
+          "explain": "Not checked.",
+          "task": "Add the catch-all case."
+        },
+        {
+          "code": "        mood = \"unknown\"",
+          "explain": "Skipped.",
+          "task": "In that case, store unknown in mood."
+        },
+        {
+          "code": "print(color, \"feels\", mood)",
+          "explain": "Prints blue feels cool.",
+          "task": "Print color, the text feels, and mood."
+        }
+      ],
+      "gen": {
+        "hash": "d38c8c01d855789b133ed6cea3d16201032579c96eb8aa29355b5ebdd867f633",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "color": {
+                "repr": "'blue'",
+                "type": "str",
+                "text": "blue"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "color": {
+                "repr": "'blue'",
+                "type": "str",
+                "text": "blue"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "color": {
+                "repr": "'blue'",
+                "type": "str",
+                "text": "blue"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "case",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "color": {
+                "repr": "'blue'",
+                "type": "str",
+                "text": "blue"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 5,
+                "stmt": "case",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "color": {
+                "repr": "'blue'",
+                "type": "str",
+                "text": "blue"
+              },
+              "mood": {
+                "repr": "'cool'",
+                "type": "str",
+                "text": "cool"
+              }
+            }
+          },
+          {
+            "line": 9,
+            "stdout": "blue feels cool\n",
+            "vars": {
+              "color": {
+                "repr": "'blue'",
+                "type": "str",
+                "text": "blue"
+              },
+              "mood": {
+                "repr": "'cool'",
+                "type": "str",
+                "text": "cool"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Numbers work too",
+      "lines": [
+        {
+          "code": "dice = 6",
+          "explain": "A dice roll.",
+          "task": "Store 6 in dice."
+        },
+        {
+          "code": "match dice:",
+          "explain": "Compare dice with each case.",
+          "task": "Start a match on dice."
+        },
+        {
+          "code": "    case 1:",
+          "explain": "6 is not 1.",
+          "task": "Add a case for 1."
+        },
+        {
+          "code": "        print(\"Unlucky\")",
+          "explain": "Skipped.",
+          "task": "In that case, print Unlucky."
+        },
+        {
+          "code": "    case 6:",
+          "explain": "6 matches.",
+          "task": "Add a case for 6."
+        },
+        {
+          "code": "        print(\"Roll again!\")",
+          "explain": "Prints Roll again!",
+          "task": "In that case, print Roll again!"
+        },
+        {
+          "code": "    case _:",
+          "explain": "Not checked.",
+          "task": "Add the catch-all case."
+        },
+        {
+          "code": "        print(\"Move\", dice, \"steps\")",
+          "explain": "Skipped this time. For 2 to 5 this would run.",
+          "task": "In that case, print Move, dice, and steps."
+        }
+      ],
+      "gen": {
+        "hash": "b7ac6d9ea95f7d92e8f162164511b34b4557fe43f52ab558cc3a51ceb518107a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "dice": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "dice": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "dice": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "case",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "dice": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 5,
+                "stmt": "case",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "Roll again!\n",
+            "vars": {
+              "dice": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 11,
+      "q": "What is stored in drink at the end?",
+      "options": [
+        "'coffee'",
+        "'tea'",
+        "'water'",
+        "'2'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 11,
+        "name": "drink"
+      },
+      "why": "The typed answer is \"2\", which matches case \"2\"."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 9,
+      "q": "When does the case _ on line 9 run?",
+      "options": [
+        "Only when no case above matched",
+        "Always",
+        "Never",
+        "Before the other cases"
+      ],
+      "answer": 0,
+      "why": "_ matches anything, but cases are tried from the top and only the first match runs."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 3,
+      "q": "What does the | on line 3 mean?",
+      "options": [
+        "or: any of these values matches",
+        "and: all of them must match",
+        "divide",
+        "a new case"
+      ],
+      "answer": 0,
+      "why": "In a case, | lists several values that all lead to the same block."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints: Opening",
+      "code": [
+        "action = \"open\"",
+        "___ action:",
+        "    ___ \"open\":",
+        "        print(\"Opening\")",
+        "    case \"close\":",
+        "        print(\"Closing\")"
+      ],
+      "answers": [
+        "match",
+        "case"
+      ],
+      "gen": {
+        "hash": "e143837022d1337ffb76df3aa75f26230d3e9f905bdac026385a1891eaa954fc",
+        "expected": {
+          "stdout": "Opening",
+          "vars": {
+            "action": {
+              "repr": "'open'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the catch-all case prints: No idea",
+      "code": [
+        "word = \"zebra\"",
+        "match word:",
+        "    case \"cat\":",
+        "        print(\"Meow\")",
+        "    case ___:",
+        "        print(\"No idea\")"
+      ],
+      "answers": [
+        "_"
+      ],
+      "gen": {
+        "hash": "fbbf39ea8dd3354b91ff3c73685402b0eb71936ae82d37c6a1e2f4a89fb0fa8a",
+        "expected": {
+          "stdout": "No idea",
+          "vars": {
+            "word": {
+              "repr": "'zebra'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\nSpring",
+      "indent": true,
+      "lines": [
+        "month = 4",
+        "match month:",
+        "    case 3 | 4 | 5:",
+        "        print(\"Spring\")",
+        "    case _:",
+        "        print(\"Another season\")"
+      ],
+      "gen": {
+        "hash": "6d86f8e50111411e50e03bc4a079dc663e246b439d078cad8410df8a33f32e92",
+        "expected": {
+          "stdout": "Spring",
+          "vars": {
+            "month": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print Unknown for any answer that is not y or n. With maybe it prints nothing. Fix it.",
+      "code": [
+        "reply = \"maybe\"",
+        "match reply:",
+        "    case \"y\":",
+        "        print(\"Yes\")",
+        "    case \"n\":",
+        "        print(\"No\")"
+      ],
+      "solution": [
+        "reply = \"maybe\"",
+        "match reply:",
+        "    case \"y\":",
+        "        print(\"Yes\")",
+        "    case \"n\":",
+        "        print(\"No\")",
+        "    case _:",
+        "        print(\"Unknown\")"
+      ],
+      "tests": [
+        {
+          "name": "maybe prints Unknown",
+          "stdout": "Unknown"
+        }
+      ],
+      "hint": "Add a catch-all case at the end.",
+      "gen": {
+        "hash": "0a79863e153cf063344c30d1e38bbc2f8d39320803b2bdd6b0edbc65532c0189",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so both \"q\" and \"quit\" print Bye, using one case. With q it should print:\nBye",
+      "code": [
+        "key = \"q\"",
+        "match key:",
+        "    case \"quit\":",
+        "        print(\"Bye\")",
+        "    case _:",
+        "        print(\"Still here\")"
+      ],
+      "solution": [
+        "key = \"q\"",
+        "match key:",
+        "    case \"q\" | \"quit\":",
+        "        print(\"Bye\")",
+        "    case _:",
+        "        print(\"Still here\")"
+      ],
+      "tests": [
+        {
+          "name": "q says Bye",
+          "stdout": "Bye"
+        }
+      ],
+      "hint": "Join the two values with |.",
+      "gen": {
+        "hash": "32bef3f34358e3585b4f506e97655d4114cf89abea567066fd51897e091efeeb"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Turn the program into a calculator: ask for an operator (+, - or *) with the prompt Op? and print the result of 8 and 2. With * it should print:\nOp? *\n16\nAny other operator prints: Unknown operator",
+      "code": [
+        "a = 8",
+        "b = 2",
+        "print(a + b)"
+      ],
+      "solution": [
+        "a = 8",
+        "b = 2",
+        "op = input(\"Op? \")",
+        "match op:",
+        "    case \"+\":",
+        "        print(a + b)",
+        "    case \"-\":",
+        "        print(a - b)",
+        "    case \"*\":",
+        "        print(a * b)",
+        "    case _:",
+        "        print(\"Unknown operator\")"
+      ],
+      "tests": [
+        {
+          "name": "times",
+          "stdin": [
+            "*"
+          ],
+          "stdout": "Op? *\n16"
+        },
+        {
+          "name": "plus",
+          "stdin": [
+            "+"
+          ],
+          "stdout": "Op? +\n10"
+        },
+        {
+          "name": "minus",
+          "stdin": [
+            "-"
+          ],
+          "stdout": "Op? -\n6"
+        },
+        {
+          "name": "unknown",
+          "stdin": [
+            "/"
+          ],
+          "stdout": "Op? /\nUnknown operator"
+        }
+      ],
+      "hint": "Store the answer, then one case per operator and case _ last.",
+      "gen": {
+        "hash": "ccedf952f5ca32ec5adc27b106c9054503533894a0e152cfbe47b5acda7edca5"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Planet? and print how many moons it has: earth 1, mars 2, venus 0. For any other answer print: Not in my list. For example:\nPlanet? mars\n2",
+      "solution": [
+        "planet = input(\"Planet? \")",
+        "match planet:",
+        "    case \"earth\":",
+        "        print(1)",
+        "    case \"mars\":",
+        "        print(2)",
+        "    case \"venus\":",
+        "        print(0)",
+        "    case _:",
+        "        print(\"Not in my list\")"
+      ],
+      "tests": [
+        {
+          "name": "mars",
+          "stdin": [
+            "mars"
+          ],
+          "stdout": "Planet? mars\n2"
+        },
+        {
+          "name": "venus",
+          "stdin": [
+            "venus"
+          ],
+          "stdout": "Planet? venus\n0"
+        },
+        {
+          "name": "earth",
+          "stdin": [
+            "earth"
+          ],
+          "stdout": "Planet? earth\n1"
+        },
+        {
+          "name": "pluto",
+          "stdin": [
+            "pluto"
+          ],
+          "stdout": "Planet? pluto\nNot in my list"
+        }
+      ],
+      "hints": [
+        "planet = input(\"Planet? \")",
+        "match planet: then case \"earth\": and so on",
+        "Finish with case _:"
+      ],
+      "gen": {
+        "hash": "8870ade710b0d76ba5714fd504ca4601ea9051e9659945497703cfbbee521273"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "How many cases can run in one match?",
+      "options": [
+        "At most one",
+        "All that match",
+        "Exactly two",
+        "All of them"
+      ],
+      "answer": 0,
+      "why": "Python runs the first case that matches and skips the rest. If none match, none run."
+    },
+    {
+      "q": "What does `case _:` match?",
+      "options": [
+        "Anything",
+        "Only the text _",
+        "Nothing",
+        "Only numbers"
+      ],
+      "answer": 0,
+      "why": "_ is the catch-all, like else in an if chain."
+    },
+    {
+      "q": "What does `case \"a\" | \"b\":` match?",
+      "options": [
+        "Either \"a\" or \"b\"",
+        "Only \"a\" and \"b\" together",
+        "\"a|b\"",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "| lists several values for one case."
+    },
+    {
+      "q": "Which is better written with if/elif than with match?",
+      "options": [
+        "Checking if a temperature is above 30",
+        "Checking if a command is start or stop",
+        "Checking a dice roll of 1 to 6",
+        "Checking a menu choice"
+      ],
+      "answer": 0,
+      "why": "match compares with fixed values. Ranges like above 30 need comparisons, so use if/elif."
+    },
+    {
+      "q": "No case matches and there is no `case _`. What happens?",
+      "options": [
+        "Nothing in the match runs",
+        "An error",
+        "The first case runs",
+        "The last case runs"
+      ],
+      "answer": 0,
+      "why": "Python just carries on after the match."
+    },
+    {
+      "q": "Since which Python version is match available?",
+      "options": [
+        "3.10",
+        "2.7",
+        "3.0",
+        "It is not in Python"
+      ],
+      "answer": 0,
+      "why": "match arrived in Python 3.10, in 2021."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "A name instead of a value in a case",
+      "code": [
+        "limit = 3",
+        "lives = 3",
+        "match lives:",
+        "    case limit:",
+        "        print(\"Full\")",
+        "    case 0:",
+        "        print(\"Game over\")"
+      ],
+      "explain": "A plain name in a case does not compare with that variable. It matches anything and stores the value in that name, so the cases after it could never run. Python refuses with a SyntaxError. Write the value itself.",
+      "fix": [
+        "lives = 3",
+        "match lives:",
+        "    case 3:",
+        "        print(\"Full\")",
+        "    case 0:",
+        "        print(\"Game over\")"
+      ],
+      "gen": {
+        "hash": "20d306a70c90cc34b61f2255966fcd7e889a1b439c015c127d17d107ae4ece00",
+        "error": "SyntaxError: name capture 'limit' makes remaining patterns unreachable",
+        "line": 4
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Forgetting the colon after case",
+      "code": [
+        "n = 1",
+        "match n:",
+        "    case 1",
+        "        print(\"one\")"
+      ],
+      "explain": "Like if, every match and case line ends with a colon.",
+      "fix": [
+        "n = 1",
+        "match n:",
+        "    case 1:",
+        "        print(\"one\")"
+      ],
+      "gen": {
+        "hash": "ca46997bff859bfaaa28253c860f1710f2edadea616fbbbbe079ac85a9ac1c5e",
+        "error": "SyntaxError: expected ':'",
+        "line": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: match statements",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#match-statements"
+    },
+    {
+      "title": "Reference: the match statement",
+      "url": "https://docs.python.org/3/reference/compound_stmts.html#the-match-statement"
+    }
+  ],
+  "bookRefs": []
+}
