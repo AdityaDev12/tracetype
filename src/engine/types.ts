@@ -239,7 +239,7 @@ export interface Track {
   book?: BookId
 }
 
-/** The steps of a lesson page, in order (PLAN.md section 3). */
+/** The steps of a lesson page, in order (docs/PLAN.md section 3). */
 export const STEP_KINDS = [
   'intro',
   'predict',

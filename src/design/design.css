@@ -1,4 +1,4 @@
-/* DESIGN.md v2 building blocks: terminal panels, the tutor's pen, logo, mascot. */
+/* docs/DESIGN.md v2 building blocks: terminal panels, the tutor's pen, logo, mascot. */
 
 /* ---------- Draw-on strokes ---------- */
 
@@ -966,12 +966,6 @@
   font-size: 1.5rem;
 }
 
-.sp-pick {
-  margin-top: 14px;
-  transform: rotate(-1.5deg);
-  display: inline-block;
-}
-
 .sp-section {
   margin-top: 56px;
 }
@@ -1035,10 +1029,6 @@
   padding: 10px 12px;
   background: var(--bg);
   border: 1px dashed var(--line);
-}
-
-.sp-logo-nav {
-  font-size: 1.05rem;
 }
 
 .sp-nav-links {

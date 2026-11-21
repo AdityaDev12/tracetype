@@ -5,7 +5,7 @@ import type { Lesson, StepKind } from '../engine/types.ts'
 
 export const XP = { step: 10, lesson: 50, project: 100, card: 5, unitReview: 30 }
 
-/** Review intervals in days (PLAN.md section 5). */
+/** Review intervals in days (docs/PLAN.md section 5). */
 export const INTERVALS = [1, 3, 7, 14, 30, 60]
 
 export type CardKind = 'predict' | 'faded' | 'fix' | 'recall' | 'make'
@@ -144,8 +144,6 @@ export function completeLesson(p: Progress, lesson: Lesson, now: Date): Progress
   const next = withLesson({ ...p, cards }, lesson.id, (x) => ({ ...x, completedAt: now.getTime() }))
   return markDay({ ...next, xp: next.xp + XP.lesson }, now)
 }
-
-export const isLessonDone = (p: Progress, id: string) => Boolean(p.lessons[id]?.completedAt)
 
 // ---------- Review ----------
 

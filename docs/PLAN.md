@@ -151,7 +151,7 @@ Goal: the whole Python track, every lesson in the full v2 format.
 - **M5: Track 3, Data Science from Scratch.** Visuals: vectors, scatter + fitted line, loss curve, gradient descent, neuron and network diagrams
 - **M6: Track 4, Hands-On ML.** scikit-learn and Keras versions of what was built by hand (Keras/TensorFlow in the browser needs research first)
 - Each new track uses the same lesson format v2, syllabus approval step, and unit-by-unit build
-- Universal platform: see UNIVERSAL.md
+- Universal platform: see [UNIVERSAL.md](UNIVERSAL.md)
 
 ---
 

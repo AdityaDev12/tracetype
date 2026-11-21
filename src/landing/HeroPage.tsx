@@ -3,7 +3,7 @@ import { lessonHref } from '../router.ts'
 import { HeroDemo } from './HeroDemo.tsx'
 import { Footer, HowItWorks, ThePath, WhyItWorks } from './Sections.tsx'
 
-// Rough landing hero (DESIGN.md section 8), built to judge the feel in motion.
+// Rough landing hero (docs/DESIGN.md section 8), built to judge the feel in motion.
 // Boot line first (once per visit, any key skips), then headline + live demo.
 
 const BOOT = [

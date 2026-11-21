@@ -1,6 +1,6 @@
 # CLAUDE.md: rules for working on TraceType
 
-Read `PLAN.md` first. It has the full design, the lesson format and the milestone checklists.
+Read `docs/PLAN.md` first. It has the full design, the lesson format and the milestone checklists.
 
 ## Owner
 Aditya Dev (Adi). Python beginner, so lesson content must be beginner level. macOS (M2 Pro), zsh.
@@ -21,7 +21,7 @@ Aditya Dev (Adi). Python beginner, so lesson content must be beginner level. mac
 ## Don't make things up
 - Every value in a lesson's `trace` must come from `scripts/trace_lesson.py` (or the Pyodide tracer), never typed by hand.
 - If you are unsure about a Python behavior, run it with `python3` and check before writing an explanation.
-- If something in PLAN.md is unclear or seems wrong, ask Adi instead of guessing.
+- If something in docs/PLAN.md is unclear or seems wrong, ask Adi instead of guessing.
 
 ## Git
 - Branch: `main`. Remote: `origin` (github.com/AdityaDev12/tracetype).
@@ -38,7 +38,7 @@ Aditya Dev (Adi). Python beginner, so lesson content must be beginner level. mac
 - If you can, start the dev server and check the page loads without console errors
 
 ## Working style
-- Work milestone by milestone, in order, ticking checkboxes in PLAN.md as you go.
+- Work milestone by milestone, in order, ticking checkboxes in docs/PLAN.md as you go.
 - At the **end of each milestone**: commit, push, then STOP and tell Adi in a short message what was built, the live URL, and 3 to 5 things to test. Wait for him to say "continue" before starting the next milestone.
 - Keep the UI clean, dark theme, readable on a laptop and on a phone.
 - No em dashes anywhere (UI text, lessons, README, commit messages).

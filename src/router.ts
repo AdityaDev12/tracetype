@@ -46,7 +46,3 @@ export function useRoute(): Route {
   const hash = useSyncExternalStore(subscribe, () => window.location.hash)
   return parseHash(hash)
 }
-
-export function navigate(href: string) {
-  window.location.hash = href.replace(/^#/, '')
-}

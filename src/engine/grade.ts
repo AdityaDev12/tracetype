@@ -1,7 +1,7 @@
 import type { CodeTest, Expected, TraceStep, VarValue } from './types.ts'
 import { normalizeLoose } from './typing.ts'
 
-// Grading rules (PLAN.md section 4). Language neutral: code is run through a
+// Grading rules (docs/PLAN.md section 4). Language neutral: code is run through a
 // CodeRunner (Pyodide for Python). When no runner is available, simpler
 // fallbacks are used so the site still works.
 

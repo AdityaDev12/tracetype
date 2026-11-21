@@ -100,7 +100,7 @@ export function validateLesson(data: unknown): string[] {
   c.need(data.visual === 'memory', '"visual" must be "memory"')
   c.need(isObj(data.intro) && nonEmpty(data.intro.text) && nonEmpty(data.intro.analogy), '"intro" needs text and an analogy')
 
-  // Minimum counts per step (PLAN.md section 3).
+  // Minimum counts per step (docs/PLAN.md section 3).
   for (const [key, min] of Object.entries(STEP_MINIMUMS)) {
     const items = data[key]
     const n = Array.isArray(items) ? items.length : 0

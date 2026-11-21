@@ -33,7 +33,7 @@ Pushing to `main` builds and deploys to GitHub Pages through `.github/workflows/
 
 ## Add a lesson
 
-Lessons use format v2 (see PLAN.md section 3 and `src/engine/types.ts`). Copy `content/lessons/python/py-01-variables.json` as a starting point.
+Lessons use format v2 (see docs/PLAN.md section 3 and `src/engine/types.ts`). Copy `content/lessons/python/py-01-variables.json` as a starting point.
 
 1. Write the authored fields: intro, predict, examples, investigate, faded, parsons, fix, modify, recall, make, quiz, mistakes, links and bookRefs. Leave out every `gen` field.
 2. Add the lesson id to its unit in `content/units/<track>.json`.

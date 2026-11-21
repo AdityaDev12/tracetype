@@ -3,7 +3,7 @@ import type { Token } from '../engine/tokens.ts'
 import { explainPythonError } from './python/errors.ts'
 import { tokenize as pythonTokenize } from './python/highlight.ts'
 
-// Language packs (UNIVERSAL.md). Everything language specific lives behind this
+// Language packs (docs/UNIVERSAL.md). Everything language specific lives behind this
 // interface. The runner is loaded lazily, only when code first has to run.
 
 export type RunnerStatus = 'idle' | 'loading' | 'ready' | 'failed'
