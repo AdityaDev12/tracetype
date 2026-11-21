@@ -125,7 +125,7 @@ Goal: the full app shell working end to end with **one** lesson (variables and p
 - [x] Unit tests for the typing engine (correct/wrong chars, backspace, submit, accuracy, WPM)
 - [x] GitHub Actions workflow that builds and deploys to Pages
 - [x] README: what it is, how to run locally, how to add a lesson
-- [ ] Commit + push, confirm the live site loads
+- [x] Commit + push, confirm the live site loads
 
 **Done when:** lesson 1 works in all 4 modes on the live GitHub Pages URL, tests pass.
 
