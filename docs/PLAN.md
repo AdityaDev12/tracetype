@@ -138,7 +138,7 @@ Goal: the full lesson system working end to end, proven on lesson 1 rebuilt in t
 ### Milestone 3: Complete Python track
 Goal: the whole Python track, every lesson in the full v2 format.
 
-- [ ] Write `content/syllabus.md` (section 6). **Stop and wait for Adi to approve it.**
+- [x] Write `content/syllabus.md` (section 6). **Stop and wait for Adi to approve it.** (approved)
 - [ ] Build **unit by unit**. For each unit: read the matching *Learning Python* chapters, write `content/notes/<unit>.md` in your own words, then write all lessons, the mini project and the unit review
 - [ ] Run tracer + validate + check-links for every lesson
 - [ ] After **each unit**: commit, push, and tell Adi the unit is live and what to try. Continue to the next unit unless he says stop (he will be learning from finished units while later ones are built)
