@@ -12,9 +12,9 @@ import {
   wpm,
   type TypingState,
 } from '../engine/typing.ts'
-import { VisualPanel } from '../visuals/VisualPanel.tsx'
+import { StepLayout } from '../lesson/common.tsx'
+import { Visual } from '../lesson/Visual.tsx'
 import { CodeLine } from './CodeLine.tsx'
-import { LessonLayout } from './LessonLayout.tsx'
 import { LineEditor } from './LineEditor.tsx'
 import { InlineText, RichText } from './RichText.tsx'
 import { StatsBar } from './StatsBar.tsx'
@@ -238,5 +238,5 @@ export function TypingView({ example, variant, onComplete, onNextMode, nextLabel
     </>
   )
 
-  return <LessonLayout left={left} right={<VisualPanel kind="memory" view={view} />} />
+  return <StepLayout left={left} right={<Visual view={view} />} />
 }

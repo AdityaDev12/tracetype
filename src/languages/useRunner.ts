@@ -1,4 +1,4 @@
-import { useEffect, useState, useSyncExternalStore } from 'react'
+import { useCallback, useEffect, useState, useSyncExternalStore } from 'react'
 import { languagePack, type LiveRunner, type RunnerStatus } from './index.ts'
 
 const noop = () => () => {}
@@ -26,5 +26,6 @@ export function useRunner(language: string, eager = false): { runner: LiveRunner
   }, [want, runner, language])
 
   const status = useSyncExternalStore(runner?.subscribe ?? noop, () => runner?.status ?? (want ? 'loading' : 'idle'))
-  return { runner, status, failure: runner?.failure ?? '', load: () => setWant(true) }
+  const load = useCallback(() => setWant(true), [])
+  return { runner, status, failure: runner?.failure ?? '', load }
 }

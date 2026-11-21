@@ -1,9 +1,13 @@
-import { useEffect } from 'react'
+import { lazy, Suspense, useEffect } from 'react'
 import { Logo } from './brand/Logo.tsx'
-import { LessonPage } from './components/LessonPage.tsx'
-import { StylePage } from './components/StylePage.tsx'
 import { HeroPage } from './landing/HeroPage.tsx'
 import { useRoute } from './router.ts'
+
+// Heavier pages (the lesson page brings the code editor) load only when opened,
+// so the landing page stays light.
+const LessonPage = lazy(() => import('./lesson/LessonPage.tsx').then((m) => ({ default: m.LessonPage })))
+const StylePage = lazy(() => import('./components/StylePage.tsx').then((m) => ({ default: m.StylePage })))
+const loading = <p className="page box-label">{'> loading...'}</p>
 
 export default function App() {
   const route = useRoute()
@@ -21,8 +25,10 @@ export default function App() {
         </a>
       </nav>
       {route.page === 'home' && <HeroPage />}
-      {route.page === 'lesson' && <LessonPage id={route.id} />}
-      {route.page === 'style' && <StylePage />}
+      <Suspense fallback={loading}>
+        {route.page === 'lesson' && <LessonPage id={route.id} step={route.step} />}
+        {route.page === 'style' && <StylePage />}
+      </Suspense>
       {route.page === 'hero' && <HeroPage />}
       {route.page === 'notfound' && (
         <main className="page">

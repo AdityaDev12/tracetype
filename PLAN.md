@@ -121,15 +121,15 @@ Goal: the full lesson system working end to end, proven on lesson 1 rebuilt in t
 - [ ] Home page: 4 tracks in order, Tracks 2 to 4 "Coming soon", units and lessons inside a track, progress per lesson and unit
 - [x] `tracks.json` + `language` field on every lesson (from UNIVERSAL.md "Rules to follow NOW")
 - [x] Lesson format v2 schema + validator enforcing the minimums in section 3
-- [ ] Lesson page with a step progress bar, previous/next step, resume where you left off
-- [ ] Pyodide in a Web Worker: lazy load, loading indicator, time limit, plain-word errors, graceful fallback if it fails to load
-- [ ] Pyodide tracer that returns the same trace shape as `trace_lesson.py`
+- [x] Lesson page with a step progress bar, previous/next step, resume where you left off
+- [x] Pyodide in a Web Worker: lazy load, loading indicator, time limit, plain-word errors, graceful fallback if it fails to load
+- [x] Pyodide tracer that returns the same trace shape as `trace_lesson.py`
 - [ ] All exercise types from section 3 with the grading rules from section 4
 - [ ] Unit mini project + unit review pages
 - [ ] Review system from section 5, with a Review button on the home page
 - [ ] Export / Import progress
 - [ ] Migrate saved v1 progress if possible, otherwise reset it cleanly
-- [ ] Lesson 1 (variables and print) rebuilt in the full v2 format as the reference lesson
+- [x] Lesson 1 (variables and print) rebuilt in the full v2 format as the reference lesson
 - [ ] Tests: grading (AST compare, test cases, retries, show answer), review scheduling, every exercise type in the browser
 - [ ] Build, tests, validate, check-links pass. Commit, push, confirm the live site
 

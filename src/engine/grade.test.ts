@@ -99,6 +99,7 @@ describe('fallbacks when Python cannot load', () => {
 
   it('recall compares lines loosely and says which line is off', () => {
     expect(fallbackRecall("coins=3\nprint('Coins:',coins)", 'coins = 3\nprint("Coins:", coins)').ok).toBe(true)
+    expect(fallbackRecall('# 1. make coins\ncoins = 3\n\n# 2. print it\nprint(coins)', 'coins = 3\nprint(coins)').ok).toBe(true)
     const r = fallbackRecall('coins = 3\nprint(coins)', 'coins = 3\nprint("Coins:", coins)')
     expect(r).toMatchObject({ ok: false, message: 'Line 2 does not match yet.' })
   })

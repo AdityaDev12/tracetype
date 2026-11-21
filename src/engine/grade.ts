@@ -140,11 +140,12 @@ export function fallbackParsons(order: string[], lines: string[]): Verdict {
 
 /** Recall without a runner: compare line by line, ignoring spaces and quote style. */
 export function fallbackRecall(code: string, solution: string): Verdict {
+  // Comments (like the task hints in Recall) and blank lines are ignored.
   const clean = (s: string) =>
     s
       .split('\n')
-      .filter((l) => l.trim() !== '')
       .map(normalizeLoose)
+      .filter((l) => l.trim() !== '')
   const a = clean(code)
   const b = clean(solution)
   const bad = b.findIndex((l, i) => a[i] !== l)
