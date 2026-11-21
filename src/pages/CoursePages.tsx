@@ -9,7 +9,7 @@ import { NotFound } from './NotFound.tsx'
 /** The 4 tracks in order as a terminal tree. Python is open, the rest are coming. */
 export function CoursePage() {
   const p = useProgress()
-  const annos: Anno[] = [{ id: 'start-here', target: 'track-python', mark: 'circle', color: 'blue', note: 'start here', side: 'right', dx: 30, dy: -26, width: 130, delay: 300 }]
+  const annos: Anno[] = [{ id: 'start-here', target: 'track-python', mark: 'circle', color: 'blue', note: 'start here', side: 'right', dx: 120, dy: -44, width: 130, delay: 300 }]
   return (
     <main className="page course-page">
       <span className="box-label">{'> tree ~/course'}</span>

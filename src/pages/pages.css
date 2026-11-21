@@ -1,0 +1,696 @@
+/* Shell, course, track, dashboard, practice, settings and landing sections. */
+
+/* ---------- Top bar ---------- */
+
+.topbar {
+  gap: 22px;
+  background: rgba(12, 11, 9, 0.88);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px dashed var(--line);
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.nav-link {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--chalk-dim);
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+}
+
+.nav-link:hover {
+  color: var(--chalk);
+  text-decoration: none;
+}
+
+.nav-link.active {
+  color: var(--phosphor);
+}
+
+.nav-link.active::before {
+  content: '>';
+  margin-right: 4px;
+  color: var(--ghost);
+}
+
+.due-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--on-phosphor);
+  background: var(--pen-yellow);
+}
+
+.nav-stats {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.lv-bar {
+  display: inline-block;
+  width: 40px;
+  height: 4px;
+  background: var(--line);
+}
+
+.lv-bar span {
+  display: block;
+  height: 100%;
+  background: var(--phosphor);
+  transition: width 600ms var(--ease);
+}
+
+.tt-streak.small {
+  font-size: 1.2rem;
+  padding: 0 4px;
+}
+
+.tt-streak.small .hl path {
+  stroke-width: 10;
+  opacity: 0.4;
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+  top: 8px;
+  z-index: 200;
+  background: var(--phosphor);
+  color: var(--on-phosphor);
+  padding: 6px 12px;
+  font-family: var(--mono);
+}
+
+.skip-link:focus {
+  left: 8px;
+}
+
+.xp-toast {
+  border-left-color: var(--phosphor);
+  padding: 6px 14px;
+}
+
+.xp-toast .tag {
+  color: var(--phosphor);
+}
+
+@media (max-width: 640px) {
+  .topbar {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+  .nav-link {
+    padding: 6px 6px;
+    font-size: 0.8rem;
+  }
+  .nav-stats .lv-bar,
+  .nav-stats .tt-streak small {
+    display: none;
+  }
+}
+
+/* ---------- Shared page bits ---------- */
+
+.page-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  letter-spacing: -0.025em;
+  margin: 8px 0 12px;
+}
+
+.lede {
+  font-size: 1.1rem;
+  color: var(--chalk-dim);
+  max-width: 62ch;
+  margin-bottom: 28px;
+}
+
+/* ---------- Course tree ---------- */
+
+.course-tree {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--mono);
+}
+
+.course-track {
+  display: flex;
+  gap: 4px;
+  padding: 14px 0;
+}
+
+.tree-branch {
+  color: var(--ghost);
+  white-space: pre;
+  flex: none;
+}
+
+.course-track-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.course-track-head {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.track-no {
+  color: var(--ghost);
+}
+
+.track-name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--chalk);
+}
+
+a.track-name:hover {
+  color: var(--phosphor);
+  text-decoration: none;
+}
+
+.track-status {
+  font-size: 0.8rem;
+  color: var(--chalk-dim);
+}
+
+.course-track.soon .track-name,
+.course-track.soon .track-desc {
+  color: var(--ghost);
+}
+
+.course-track.soon .track-status {
+  color: var(--ghost);
+  border: 1px dashed var(--line);
+  padding: 0 6px;
+}
+
+.track-desc {
+  font-family: var(--sans);
+  color: var(--chalk-dim);
+  margin: 4px 0 10px;
+  max-width: 60ch;
+}
+
+/* ---------- Track tree ---------- */
+
+.view-toggle {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.track-tree,
+.track-tree ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.track-tree {
+  font-family: var(--mono);
+  font-size: 0.95rem;
+}
+
+.tree-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 38px;
+  flex-wrap: wrap;
+}
+
+.unit-row {
+  margin-top: 6px;
+}
+
+.unit-no {
+  color: var(--ghost);
+}
+
+.unit-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.unit-meter {
+  color: var(--chalk-dim);
+  font-size: 0.8rem;
+  white-space: pre;
+}
+
+.lesson-link {
+  display: inline-flex;
+  gap: 10px;
+  color: var(--chalk);
+}
+
+.lesson-link:hover {
+  color: var(--phosphor);
+  text-decoration: none;
+}
+
+.tree-no {
+  color: var(--ghost);
+}
+
+.lesson-row.done .lesson-name {
+  color: var(--chalk-dim);
+}
+
+.extra-row .lesson-name {
+  color: var(--chalk-dim);
+}
+
+.tree-tick {
+  width: 20px;
+  height: 20px;
+  overflow: visible;
+}
+
+.tree-tick path {
+  fill: none;
+  stroke: var(--ok);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.review-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--pen-yellow);
+  box-shadow: 0 0 8px rgba(247, 215, 116, 0.6);
+}
+
+.lesson-meta {
+  margin-left: auto;
+  font-size: 0.78rem;
+  color: var(--ghost);
+}
+
+.tree-go {
+  margin-left: 6px;
+}
+
+.more-row {
+  margin-top: 8px;
+}
+
+.track-list {
+  padding-left: 20px;
+}
+
+.track-list h3 {
+  font-size: 1.2rem;
+  margin-top: 8px;
+}
+
+.track-list ol {
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+@media (max-width: 640px) {
+  .lesson-meta,
+  .tree-go {
+    display: none;
+  }
+}
+
+/* ---------- Dashboard ---------- */
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 900px) {
+  .dash-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dash-grid .term-pad {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.dash-title {
+  font-size: 1.5rem;
+}
+
+.dash-big {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--pen-yellow);
+}
+
+.dash-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dash-map-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.dash-map-head h2 {
+  font-size: 1.6rem;
+}
+
+.dash-foot {
+  display: flex;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--line);
+}
+
+/* ---------- Practice (review, unit review, project) ---------- */
+
+.practice-page {
+  max-width: 1240px;
+}
+
+.practice-head {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px dashed var(--line);
+}
+
+.practice-mascot {
+  display: flex;
+  justify-content: flex-end;
+  margin: -54px 0 22px;
+  pointer-events: none;
+}
+
+.project-extra {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.project-steps {
+  margin: 0;
+  padding-left: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.project-steps li::marker {
+  font-family: var(--mono);
+  color: var(--ghost);
+}
+
+.hint-inline {
+  display: block;
+  color: var(--chalk-dim);
+}
+
+.project-extra .toutput {
+  margin: 0;
+  padding: 12px 16px;
+}
+
+/* ---------- Settings ---------- */
+
+.settings-page {
+  max-width: 760px;
+}
+
+.settings-page .term {
+  margin-bottom: 18px;
+}
+
+.settings-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.settings-group p {
+  margin: 0;
+}
+
+.setting {
+  align-items: flex-start;
+}
+
+.setting-hint {
+  display: block;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  color: var(--chalk-dim);
+}
+
+.tt-btn.danger {
+  color: var(--pen-red);
+}
+
+/* ---------- Landing sections ---------- */
+
+.lp-section {
+  padding: 72px 0 24px;
+  border-top: 1px dashed var(--line);
+}
+
+.lp-h2 {
+  font-size: clamp(2rem, 4.5vw, 3rem);
+  letter-spacing: -0.025em;
+  margin: 10px 0 12px;
+}
+
+.lp-lede {
+  font-size: 1.1rem;
+  color: var(--chalk-dim);
+  max-width: 56ch;
+  margin-bottom: 30px;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.how-card h3 {
+  font-size: 1.3rem;
+  margin: 14px 0 4px;
+}
+
+.how-note {
+  margin: 0;
+  color: var(--chalk-dim);
+}
+
+.how-demo {
+  font-family: var(--mono);
+  font-size: 14px;
+  line-height: 1.9;
+  padding: 0 16px;
+  min-height: 96px;
+  font-variant-ligatures: none;
+}
+
+.hd-ghost {
+  color: var(--ghost);
+}
+
+.hd-ghostline {
+  position: relative;
+}
+
+.hd-typed {
+  position: absolute;
+  left: 0;
+  top: 0;
+  overflow: hidden;
+  white-space: pre;
+  color: var(--chalk);
+  border-right: 2px solid var(--phosphor);
+  animation: hd-type 4s steps(10) infinite;
+}
+
+.hd-typed.hd-slow {
+  position: static;
+  display: inline-block;
+  animation-duration: 5s;
+}
+
+@keyframes hd-type {
+  0% {
+    width: 0;
+  }
+  60%,
+  100% {
+    width: 9ch;
+  }
+}
+
+.hd-out {
+  margin-top: 6px;
+  padding-top: 4px;
+  border-top: 1px dashed var(--line);
+  position: relative;
+  height: 1.9em;
+}
+
+.hd-q,
+.hd-a {
+  position: absolute;
+  left: 0;
+}
+
+.hd-q {
+  color: var(--pen-blue);
+  font-family: var(--hand);
+  font-size: 1.4rem;
+  line-height: 1.3;
+  animation: hd-swap 4s infinite;
+}
+
+.hd-a {
+  color: var(--chalk);
+  animation: hd-swap 4s infinite reverse;
+}
+
+@keyframes hd-swap {
+  0%,
+  45% {
+    opacity: 1;
+  }
+  55%,
+  100% {
+    opacity: 0;
+  }
+}
+
+.hd-test {
+  opacity: 0;
+  animation: hd-test 3.6s infinite;
+  color: var(--chalk-dim);
+}
+
+.hd-test .ok {
+  color: var(--ok);
+  margin-right: 6px;
+}
+
+@keyframes hd-test {
+  0% {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+  12%,
+  85% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.why-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 780px;
+}
+
+.why-list li {
+  display: flex;
+  gap: 22px;
+}
+
+.why-no {
+  font-family: var(--mono);
+  color: var(--phosphor);
+  font-size: 0.9rem;
+  padding-top: 8px;
+}
+
+.why-list h3 {
+  font-size: 1.5rem;
+}
+
+.why-list p {
+  margin: 6px 0;
+  color: var(--chalk-dim);
+}
+
+.why-links {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 0.9rem;
+}
+
+.why-links a {
+  color: var(--pen-blue);
+}
+
+.lp-footer {
+  margin-top: 72px;
+  padding: 24px 0 8px;
+  border-top: 1px dashed var(--line);
+}
+
+.lp-footer a {
+  color: var(--pen-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hd-typed,
+  .hd-q,
+  .hd-a,
+  .hd-test {
+    animation: none;
+  }
+  .hd-typed {
+    width: 9ch;
+  }
+  .hd-q {
+    opacity: 0;
+  }
+  .hd-test {
+    opacity: 1;
+  }
+}

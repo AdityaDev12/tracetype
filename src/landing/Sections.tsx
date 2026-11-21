@@ -74,7 +74,7 @@ export function ThePath() {
       <TypedHeading text="The path" className="lp-h2" />
       <p className="lp-lede">Four tracks, in order. Start with the language, end with real machine learning.</p>
       <AnnotationLayer
-        annotations={[{ id: 'lp-start', target: 'lp-python', mark: 'circle', color: 'blue', note: 'start here', side: 'right', dx: 30, dy: -26, width: 120, delay: 200 }]}
+        annotations={[{ id: 'lp-start', target: 'lp-python', mark: 'circle', color: 'blue', note: 'start here', side: 'right', dx: 70, dy: -44, width: 120, delay: 200 }]}
       >
         <ul className="course-tree lp-tree">
           {tracks.map((t, i) => (

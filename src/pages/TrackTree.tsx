@@ -62,7 +62,7 @@ export function TrackTree({ trackId, progress, compact = false }: { trackId: str
                         {lastRow ? '└─ ' : '├─ '}
                       </span>
                       <a href={lessonHref(id)} className="lesson-link">
-                        <span className="lesson-no">{String(l.order).padStart(2, '0')}</span>
+                        <span className="tree-no">{String(l.order).padStart(2, '0')}</span>
                         <span data-anno={isHere ? 'here' : undefined} className="lesson-name">
                           {l.title}
                         </span>
@@ -89,7 +89,7 @@ export function TrackTree({ trackId, progress, compact = false }: { trackId: str
                       {'├─ '}
                     </span>
                     <a href={`#/project/${u.project}`} className="lesson-link">
-                      <span className="lesson-no">▸</span>
+                      <span className="tree-no">▸</span>
                       <span className="lesson-name" data-anno={here?.kind === 'project' && here.id === u.project ? 'here' : undefined}>
                         mini project: {findProject(u.project)?.title ?? u.project}
                       </span>
@@ -103,7 +103,7 @@ export function TrackTree({ trackId, progress, compact = false }: { trackId: str
                     {'└─ '}
                   </span>
                   <a href={`#/unit-review/${u.id}`} className="lesson-link">
-                    <span className="lesson-no">▸</span>
+                    <span className="tree-no">▸</span>
                     <span className="lesson-name">unit review: mixed practice</span>
                   </a>
                   {progress.unitReviews[u.id] ? <Tick id={`${u.id}-review`} /> : null}

@@ -118,20 +118,20 @@ React + TS app, Learn/Trace/Recall/Quiz for lesson 1, CodeMirror editor, offline
 ### Milestone 2: Course framework v2
 Goal: the full lesson system working end to end, proven on lesson 1 rebuilt in the v2 format.
 
-- [ ] Home page: 4 tracks in order, Tracks 2 to 4 "Coming soon", units and lessons inside a track, progress per lesson and unit
+- [x] Home page: 4 tracks in order, Tracks 2 to 4 "Coming soon", units and lessons inside a track, progress per lesson and unit
 - [x] `tracks.json` + `language` field on every lesson (from UNIVERSAL.md "Rules to follow NOW")
 - [x] Lesson format v2 schema + validator enforcing the minimums in section 3
 - [x] Lesson page with a step progress bar, previous/next step, resume where you left off
 - [x] Pyodide in a Web Worker: lazy load, loading indicator, time limit, plain-word errors, graceful fallback if it fails to load
 - [x] Pyodide tracer that returns the same trace shape as `trace_lesson.py`
-- [ ] All exercise types from section 3 with the grading rules from section 4
-- [ ] Unit mini project + unit review pages
-- [ ] Review system from section 5, with a Review button on the home page
-- [ ] Export / Import progress
-- [ ] Migrate saved v1 progress if possible, otherwise reset it cleanly
+- [x] All exercise types from section 3 with the grading rules from section 4
+- [x] Unit mini project + unit review pages
+- [x] Review system from section 5, with a Review button on the home page
+- [x] Export / Import progress
+- [x] Migrate saved v1 progress if possible, otherwise reset it cleanly
 - [x] Lesson 1 (variables and print) rebuilt in the full v2 format as the reference lesson
-- [ ] Tests: grading (AST compare, test cases, retries, show answer), review scheduling, every exercise type in the browser
-- [ ] Build, tests, validate, check-links pass. Commit, push, confirm the live site
+- [x] Tests: grading (AST compare, test cases, retries, show answer), review scheduling, every exercise type in the browser
+- [x] Build, tests, validate, check-links pass. Commit, push, confirm the live site
 
 **Done when:** lesson 1 has every v2 step working on the live site, and a review card from it shows up as due.
 

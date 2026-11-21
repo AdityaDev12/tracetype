@@ -76,7 +76,7 @@ export function XpToaster() {
   )
   if (!toast) return null
   return (
-    <div className="tt-toast floating ok xp-toast" role="status" key={toast.n}>
+    <div className="tt-toast floating xp-toast" role="status" key={toast.n}>
       <span className="tag">+{toast.gain} xp</span>
     </div>
   )
