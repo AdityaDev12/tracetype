@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { charKinds, tokenize } from './highlight.ts'
+import { charKinds } from '../../engine/tokens.ts'
+import { tokenize } from './highlight.ts'
 
 const kinds = (line: string) => tokenize(line).filter((t) => t.kind !== 'space').map((t) => [t.kind, t.text])
 
@@ -38,7 +39,7 @@ describe('tokenize', () => {
 
   it('gives a kind to every character', () => {
     const line = 'x = "a b"  # c'
-    expect(charKinds(line).length).toBe(line.length)
-    expect(charKinds(line).every(Boolean)).toBe(true)
+    expect(charKinds(tokenize(line), line.length).length).toBe(line.length)
+    expect(charKinds(tokenize(line), line.length).every(Boolean)).toBe(true)
   })
 })

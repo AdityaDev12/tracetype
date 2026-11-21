@@ -1,0 +1,74 @@
+{
+  "id": "py-u1-project",
+  "unit": "py-u1",
+  "title": "Character card",
+  "summary": "Use variables and print to build a card for a made-up game character.",
+  "language": "python",
+  "prompt": "Make a character card for Pip, a made-up game character. Store every fact in its own variable, then print the card exactly as shown below. Pip trains during the game, so the level changes from 3 to 4 before the last part of the card.",
+  "output": "=== CHARACTER CARD ===\nName: Pip\nRole: Explorer\nHome: Cloud Harbor\nLevel: 3\nFavorite food: dumplings\nPet: Nib\nMotto: Keep walking\n----------------------\nPip finished training!\nLevel: 4\nNib is proud of Pip\n======================",
+  "steps": [
+    {
+      "text": "Make the variables: name, role, home, level, food, pet and motto. Text gets quotes, the level is a number.",
+      "hint": "For example: name = \"Pip\" and level = 3"
+    },
+    {
+      "text": "Print the top border and one line per fact, using a label and the variable, like Name: Pip.",
+      "hint": "print(\"Name:\", name) prints Name: Pip"
+    },
+    {
+      "text": "Print the dashed line, then change level to 4.",
+      "hint": "level = 4 replaces the old value"
+    },
+    {
+      "text": "Print the training lines and the bottom border.",
+      "hint": "print(name, \"finished training!\") gives Pip finished training! because print adds the space"
+    }
+  ],
+  "starter": [
+    "name = \"Pip\""
+  ],
+  "solution": [
+    "name = \"Pip\"",
+    "role = \"Explorer\"",
+    "home = \"Cloud Harbor\"",
+    "level = 3",
+    "food = \"dumplings\"",
+    "pet = \"Nib\"",
+    "motto = \"Keep walking\"",
+    "print(\"=== CHARACTER CARD ===\")",
+    "print(\"Name:\", name)",
+    "print(\"Role:\", role)",
+    "print(\"Home:\", home)",
+    "print(\"Level:\", level)",
+    "print(\"Favorite food:\", food)",
+    "print(\"Pet:\", pet)",
+    "print(\"Motto:\", motto)",
+    "print(\"----------------------\")",
+    "level = 4",
+    "print(name, \"finished training!\")",
+    "print(\"Level:\", level)",
+    "print(pet, \"is proud of\", name)",
+    "print(\"======================\")"
+  ],
+  "tests": [
+    {
+      "name": "prints the whole card",
+      "stdout": "=== CHARACTER CARD ===\nName: Pip\nRole: Explorer\nHome: Cloud Harbor\nLevel: 3\nFavorite food: dumplings\nPet: Nib\nMotto: Keep walking\n----------------------\nPip finished training!\nLevel: 4\nNib is proud of Pip\n======================"
+    },
+    {
+      "name": "level ends at 4",
+      "post": "assert level == 4, 'level should hold the number 4 at the end'"
+    },
+    {
+      "name": "name holds Pip",
+      "post": "assert name == 'Pip', 'name should hold the text Pip'"
+    },
+    {
+      "name": "pet holds Nib",
+      "post": "assert pet == 'Nib', 'pet should hold the text Nib'"
+    }
+  ],
+  "gen": {
+    "hash": "584fea05dfd2b2193f602a2100eea04e2904d46fa85def03e76dc25fd572ac67"
+  }
+}

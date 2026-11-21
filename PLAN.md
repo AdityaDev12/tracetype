@@ -119,8 +119,8 @@ React + TS app, Learn/Trace/Recall/Quiz for lesson 1, CodeMirror editor, offline
 Goal: the full lesson system working end to end, proven on lesson 1 rebuilt in the v2 format.
 
 - [ ] Home page: 4 tracks in order, Tracks 2 to 4 "Coming soon", units and lessons inside a track, progress per lesson and unit
-- [ ] `tracks.json` + `language` field on every lesson (from UNIVERSAL.md "Rules to follow NOW")
-- [ ] Lesson format v2 schema + validator enforcing the minimums in section 3
+- [x] `tracks.json` + `language` field on every lesson (from UNIVERSAL.md "Rules to follow NOW")
+- [x] Lesson format v2 schema + validator enforcing the minimums in section 3
 - [ ] Lesson page with a step progress bar, previous/next step, resume where you left off
 - [ ] Pyodide in a Web Worker: lazy load, loading indicator, time limit, plain-word errors, graceful fallback if it fails to load
 - [ ] Pyodide tracer that returns the same trace shape as `trace_lesson.py`

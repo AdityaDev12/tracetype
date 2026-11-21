@@ -1,8 +1,38 @@
 [
   {
-    "id": "python-basics",
-    "title": "Python basics",
-    "description": "Your first steps: variables, numbers, text, lists, decisions, loops and functions.",
-    "order": 1
+    "id": "python",
+    "title": "Python",
+    "description": "The language itself, from your first variable to functions, classes and files.",
+    "language": "python",
+    "order": 1,
+    "status": "open",
+    "book": "learning-python"
+  },
+  {
+    "id": "data-analysis",
+    "title": "Python for Data Analysis",
+    "description": "NumPy, pandas and plots: load real tables of data, clean them and find answers.",
+    "language": "python",
+    "order": 2,
+    "status": "soon",
+    "book": "python-for-data-analysis"
+  },
+  {
+    "id": "ds-from-scratch",
+    "title": "Data Science from Scratch",
+    "description": "The math and the models built by hand: statistics, regression and a tiny neural network.",
+    "language": "python",
+    "order": 3,
+    "status": "soon",
+    "book": "data-science-from-scratch"
+  },
+  {
+    "id": "hands-on-ml",
+    "title": "Hands-On Machine Learning",
+    "description": "The real tools: scikit-learn and Keras versions of what you built by hand.",
+    "language": "python",
+    "order": 4,
+    "status": "soon",
+    "book": "hands-on-ml"
   }
 ]

@@ -1,9 +1,8 @@
 import { useSyncExternalStore } from 'react'
-import { MODES, type Mode } from './engine/types.ts'
 
 export type Route =
   | { page: 'home' }
-  | { page: 'lesson'; id: string; mode: Mode }
+  | { page: 'lesson'; id: string; step?: string }
   | { page: 'style' }
   | { page: 'hero' }
   | { page: 'notfound' }
@@ -14,14 +13,13 @@ export function parseHash(hash: string): Route {
   if (parts[0] === 'style') return { page: 'style' }
   if (parts[0] === 'hero') return { page: 'hero' }
   if (parts[0] === 'lesson' && parts[1]) {
-    const mode = MODES.includes(parts[2] as Mode) ? (parts[2] as Mode) : 'learn'
-    return { page: 'lesson', id: decodeURIComponent(parts[1]), mode }
+    return { page: 'lesson', id: decodeURIComponent(parts[1]), step: parts[2] }
   }
   return { page: 'notfound' }
 }
 
-export function lessonHref(id: string, mode: Mode = 'learn'): string {
-  return `#/lesson/${encodeURIComponent(id)}/${mode}`
+export function lessonHref(id: string, step?: string): string {
+  return `#/lesson/${encodeURIComponent(id)}${step ? `/${step}` : ''}`
 }
 
 function subscribe(cb: () => void) {

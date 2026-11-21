@@ -1,6 +1,5 @@
 import { useEffect } from 'react'
 import { Logo } from './brand/Logo.tsx'
-import { HomePage } from './components/HomePage.tsx'
 import { LessonPage } from './components/LessonPage.tsx'
 import { StylePage } from './components/StylePage.tsx'
 import { HeroPage } from './landing/HeroPage.tsx'
@@ -21,8 +20,8 @@ export default function App() {
           <Logo height={22} />
         </a>
       </nav>
-      {route.page === 'home' && <HomePage />}
-      {route.page === 'lesson' && <LessonPage id={route.id} mode={route.mode} />}
+      {route.page === 'home' && <HeroPage />}
+      {route.page === 'lesson' && <LessonPage id={route.id} />}
       {route.page === 'style' && <StylePage />}
       {route.page === 'hero' && <HeroPage />}
       {route.page === 'notfound' && (

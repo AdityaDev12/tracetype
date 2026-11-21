@@ -13,7 +13,9 @@ import {
   type ViewUpdate,
 } from '@codemirror/view'
 import { useEffect, useRef, type RefObject } from 'react'
-import { charKinds } from '../engine/highlight.ts'
+import { charKinds } from '../engine/tokens.ts'
+import type { LanguagePack } from '../languages/index.ts'
+import { useLanguagePack } from '../languages/LanguageContext.tsx'
 import { compareLine, INDENT, tabSpaces } from '../engine/typing.ts'
 
 // A one-line CodeMirror editor for the line being typed in Trace and Recall.
@@ -54,9 +56,9 @@ class GhostWidget extends WidgetType {
   }
 }
 
-function decorate(state: EditorState, target: string, variant: EditorVariant): DecorationSet {
+function decorate(state: EditorState, target: string, variant: EditorVariant, pack: LanguagePack): DecorationSet {
   const text = state.doc.toString()
-  const kinds = charKinds(text)
+  const kinds = charKinds(pack.tokenize(text), text.length)
   const ranges = []
   if (variant === 'recall') {
     // No hints in Recall: just syntax colors for what was typed.
@@ -76,15 +78,15 @@ function decorate(state: EditorState, target: string, variant: EditorVariant): D
   return Decoration.set(ranges, true)
 }
 
-function lineDecorations(target: string, variant: EditorVariant): Extension {
+function lineDecorations(target: string, variant: EditorVariant, pack: LanguagePack): Extension {
   return ViewPlugin.fromClass(
     class {
       decorations: DecorationSet
       constructor(view: EditorView) {
-        this.decorations = decorate(view.state, target, variant)
+        this.decorations = decorate(view.state, target, variant, pack)
       }
       update(u: ViewUpdate) {
-        if (u.docChanged || u.selectionSet) this.decorations = decorate(u.state, target, variant)
+        if (u.docChanged || u.selectionSet) this.decorations = decorate(u.state, target, variant, pack)
       }
     },
     { decorations: (v) => v.decorations },
@@ -105,6 +107,7 @@ const theme = EditorView.theme({
 
 export function LineEditor({ initial, target, variant, onEnter, onChange, onFocusChange, viewRef, ariaLabel }: Props) {
   const hostRef = useRef<HTMLDivElement>(null)
+  const pack = useLanguagePack()
   // Callbacks live in a ref so the editor is created once per line.
   const cb = useRef({ onEnter, onChange, onFocusChange })
   useEffect(() => {
@@ -177,7 +180,7 @@ export function LineEditor({ initial, target, variant, onEnter, onChange, onFocu
           spellcheck: 'false',
           'aria-label': ariaLabel,
         }),
-        lineDecorations(target, variant),
+        lineDecorations(target, variant, pack),
         theme,
       ],
     })
@@ -190,7 +193,7 @@ export function LineEditor({ initial, target, variant, onEnter, onChange, onFocu
       view.destroy()
     }
     // The editor is rebuilt only when the line itself changes.
-  }, [initial, target, variant, viewRef, ariaLabel])
+  }, [initial, target, variant, viewRef, ariaLabel, pack])
 
   return <div ref={hostRef} className="line-editor" />
 }

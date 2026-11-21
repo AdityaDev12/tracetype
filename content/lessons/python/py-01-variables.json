@@ -1,0 +1,793 @@
+{
+  "id": "py-01-variables",
+  "track": "python",
+  "unit": "py-u1",
+  "order": 1,
+  "title": "Variables and print",
+  "summary": "Store values under names and show them on screen.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "intro": {
+    "text": "A program needs to remember things: a name, a score, a price. A **variable** is how it remembers. You pick a name, write `=`, then the value: `score = 10`. Read `=` as \"gets\": score gets 10.\n\nText goes inside quotes, like `\"Lima\"`. Whole numbers have no quotes, like `18`. To show something on screen, use `print(...)`.\n\nNames can use letters, digits and `_`, but cannot start with a digit. Case matters: `score` and `Score` are two different names.",
+    "analogy": "Think of a variable as a sticky label on a jar. The label is the name, the jar holds the value. You can move the label to a new jar any time, but one label is only ever on one jar."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "fruit = \"mango\"",
+        "print(fruit)"
+      ],
+      "kind": "choice",
+      "options": [
+        "mango",
+        "fruit",
+        "\"mango\"",
+        "Error"
+      ],
+      "why": "print looks inside fruit and shows the value. The quotes only mark where the text starts and ends, so they are not printed.",
+      "gen": {
+        "hash": "ec756873526045ef6dbd28c96b3fc698c86a704c02ae1241577a9b50d9270105",
+        "trace": [
+          {
+            "line": 1,
+            "vars": {
+              "fruit": {
+                "repr": "'mango'",
+                "type": "str"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 2,
+            "vars": {
+              "fruit": {
+                "repr": "'mango'",
+                "type": "str"
+              }
+            },
+            "stdout": "mango\n"
+          }
+        ],
+        "output": "mango",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "level = 1",
+        "level = 5",
+        "print(level)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "why": "The second line replaces 1 with 5. A variable only holds its latest value.",
+      "gen": {
+        "hash": "2d975d429a00f8ce892e77970f63a9b806d1ba2a9dd9890ab093398d6a6117dd",
+        "trace": [
+          {
+            "line": 1,
+            "vars": {
+              "level": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 2,
+            "vars": {
+              "level": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 3,
+            "vars": {
+              "level": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "stdout": "5\n"
+          }
+        ],
+        "output": "5"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Make two variables and print them",
+      "lines": [
+        {
+          "code": "city = \"Lima\"",
+          "explain": "Makes a variable called **city** and puts the text `\"Lima\"` in it. The quotes tell Python this is text. Python calls text a **str** (string).",
+          "task": "Store the text Lima in a variable called city.",
+          "note": "quotes = text",
+          "circle": "\"Lima\""
+        },
+        {
+          "code": "temp = 18",
+          "explain": "Makes a second variable, **temp**, holding the whole number 18. No quotes, so it is a number. Python calls whole numbers **int**.",
+          "task": "Store the number 18 in a variable called temp.",
+          "note": "no quotes = number"
+        },
+        {
+          "code": "print(city)",
+          "explain": "`print` shows a value in the output. Python looks inside **city**, finds `\"Lima\"`, and prints it without the quotes.",
+          "task": "Show the value of city."
+        },
+        {
+          "code": "print(temp)",
+          "explain": "Same idea with the number. Printing does not change the variable.",
+          "task": "Show the value of temp."
+        },
+        {
+          "code": "print(city, temp)",
+          "explain": "`print` can take several values separated by commas. It shows them in order with one space between them.",
+          "task": "Show city and temp in one print.",
+          "note": "commas give one space each",
+          "circle": "city, temp"
+        }
+      ],
+      "gen": {
+        "hash": "49504973812d89becf542559109f29ddfc0d9bd58f22ecae43d89c27dff78594",
+        "trace": [
+          {
+            "line": 1,
+            "vars": {
+              "city": {
+                "repr": "'Lima'",
+                "type": "str"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 2,
+            "vars": {
+              "city": {
+                "repr": "'Lima'",
+                "type": "str"
+              },
+              "temp": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 3,
+            "vars": {
+              "city": {
+                "repr": "'Lima'",
+                "type": "str"
+              },
+              "temp": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "stdout": "Lima\n"
+          },
+          {
+            "line": 4,
+            "vars": {
+              "city": {
+                "repr": "'Lima'",
+                "type": "str"
+              },
+              "temp": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "stdout": "18\n"
+          },
+          {
+            "line": 5,
+            "vars": {
+              "city": {
+                "repr": "'Lima'",
+                "type": "str"
+              },
+              "temp": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "stdout": "Lima 18\n"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Change a value",
+      "lines": [
+        {
+          "code": "coins = 3",
+          "explain": "Makes **coins** and stores the number 3.",
+          "task": "Store the number 3 in a variable called coins."
+        },
+        {
+          "code": "print(\"Coins:\", coins)",
+          "explain": "Prints some fixed text, then the value inside **coins**. Text in quotes is printed exactly as written.",
+          "task": "Print the text Coins: followed by the value of coins."
+        },
+        {
+          "code": "coins = 7",
+          "explain": "**coins** already exists, so this **replaces** its value. The 3 is gone and the box now holds 7. Look for the crossed out old value in memory.",
+          "task": "Change coins to 7.",
+          "note": "the old 3 is gone",
+          "circle": "7"
+        },
+        {
+          "code": "print(\"Coins:\", coins)",
+          "explain": "The same print as line 2, but now it shows 7. A variable always gives its value at the moment the line runs.",
+          "task": "Print the text Coins: followed by the value of coins again."
+        }
+      ],
+      "gen": {
+        "hash": "e9f367eeff9f73484ab9515272bb1cdb0ae4b1cc837ec800d959bdcc2e881c56",
+        "trace": [
+          {
+            "line": 1,
+            "vars": {
+              "coins": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 2,
+            "vars": {
+              "coins": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "stdout": "Coins: 3\n"
+          },
+          {
+            "line": 3,
+            "vars": {
+              "coins": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 4,
+            "vars": {
+              "coins": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "stdout": "Coins: 7\n"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Copy a value to a new name",
+      "lines": [
+        {
+          "code": "first = \"Ana\"",
+          "explain": "Makes **first** and stores the text `\"Ana\"`.",
+          "task": "Store the text Ana in a variable called first."
+        },
+        {
+          "code": "leader = first",
+          "explain": "No quotes around `first`, so Python uses the variable. **leader** gets the value first has right now: `\"Ana\"`.",
+          "task": "Make leader get the value of first.",
+          "note": "copies the value, not the name",
+          "circle": "first"
+        },
+        {
+          "code": "first = \"Bo\"",
+          "explain": "**first** now holds `\"Bo\"`. This does not touch **leader**. The two names are not tied together.",
+          "task": "Change first to the text Bo.",
+          "note": "leader keeps Ana"
+        },
+        {
+          "code": "print(leader)",
+          "explain": "**leader** still holds `\"Ana\"`, so this prints Ana.",
+          "task": "Show the value of leader."
+        },
+        {
+          "code": "print(first)",
+          "explain": "**first** holds `\"Bo\"`, so this prints Bo.",
+          "task": "Show the value of first."
+        }
+      ],
+      "gen": {
+        "hash": "54cd95f501b8aab6213f2e8dfa9ff781128ed24a019fa863cdc22794d012778f",
+        "trace": [
+          {
+            "line": 1,
+            "vars": {
+              "first": {
+                "repr": "'Ana'",
+                "type": "str"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 2,
+            "vars": {
+              "first": {
+                "repr": "'Ana'",
+                "type": "str"
+              },
+              "leader": {
+                "repr": "'Ana'",
+                "type": "str"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 3,
+            "vars": {
+              "first": {
+                "repr": "'Bo'",
+                "type": "str"
+              },
+              "leader": {
+                "repr": "'Ana'",
+                "type": "str"
+              }
+            },
+            "stdout": ""
+          },
+          {
+            "line": 4,
+            "vars": {
+              "first": {
+                "repr": "'Bo'",
+                "type": "str"
+              },
+              "leader": {
+                "repr": "'Ana'",
+                "type": "str"
+              }
+            },
+            "stdout": "Ana\n"
+          },
+          {
+            "line": 5,
+            "vars": {
+              "first": {
+                "repr": "'Bo'",
+                "type": "str"
+              },
+              "leader": {
+                "repr": "'Ana'",
+                "type": "str"
+              }
+            },
+            "stdout": "Bo\n"
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "q": "Which line prints two values?",
+      "options": [
+        "Line 5",
+        "Line 3",
+        "Line 4",
+        "Line 1"
+      ],
+      "answer": 0,
+      "why": "Line 5 gives print two values, city and temp, separated by a comma.",
+      "line": 5
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "q": "What is stored in coins right after line 3 runs?",
+      "options": [
+        "3",
+        "7",
+        "10",
+        "Both 3 and 7"
+      ],
+      "answer": 1,
+      "why": "Line 3 replaces the old value. Only 7 is left.",
+      "line": 3,
+      "verify": {
+        "line": 3,
+        "name": "coins"
+      }
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "q": "What is stored in leader right after line 3 runs?",
+      "options": [
+        "'Bo'",
+        "'first'",
+        "'Ana'",
+        "Nothing, it was deleted"
+      ],
+      "answer": 2,
+      "why": "leader got a copy of the value \"Ana\" on line 2. Changing first on line 3 does not change leader.",
+      "line": 3,
+      "verify": {
+        "line": 3,
+        "name": "leader"
+      }
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints: Tea is ready",
+      "code": [
+        "drink = \"Tea\"",
+        "print(___, \"is ready\")"
+      ],
+      "answers": [
+        "drink"
+      ],
+      "gen": {
+        "hash": "c5f72b1c1e202d659d907cc464d1a6433450f3241ce36bcd4a19cc5c1185a64d",
+        "expected": {
+          "stdout": "Tea is ready",
+          "vars": {
+            "drink": {
+              "repr": "'Tea'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints 12, then 15. Use numbers, not text.",
+      "code": [
+        "apples = ___",
+        "print(apples)",
+        "apples = ___",
+        "print(apples)"
+      ],
+      "answers": [
+        "12",
+        "15"
+      ],
+      "gen": {
+        "hash": "4336b1693759fdc90a10914209e6b106fa748109b66089009a0b6cdcdc1fbc68",
+        "expected": {
+          "stdout": "12\n15",
+          "vars": {
+            "apples": {
+              "repr": "15",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\nSam\nSam scored 40",
+      "lines": [
+        "player = \"Sam\"",
+        "points = 40",
+        "print(player)",
+        "print(player, \"scored\", points)"
+      ],
+      "gen": {
+        "hash": "1c7217495d48e5392e135f8f1f2316dafd09c4fc91649118ff185a09fbb43a0e",
+        "expected": {
+          "stdout": "Sam\nSam scored 40",
+          "vars": {
+            "player": {
+              "repr": "'Sam'",
+              "type": "str"
+            },
+            "points": {
+              "repr": "40",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print: Milo is 4\nIt crashes instead. Find the mistake and fix it.",
+      "code": [
+        "pet = \"Milo\"",
+        "age = 4",
+        "print(pet, \"is\", aeg)"
+      ],
+      "solution": [
+        "pet = \"Milo\"",
+        "age = 4",
+        "print(pet, \"is\", age)"
+      ],
+      "tests": [
+        {
+          "name": "prints Milo is 4",
+          "stdout": "Milo is 4"
+        }
+      ],
+      "hint": "Read the error message. Which name does Python not know?",
+      "gen": {
+        "hash": "bf48cb459aa59e42c937b95e771e5b8adcd92c8d59bb3c019d9725212fda9add",
+        "error": "NameError: name 'aeg' is not defined"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so the song was played 25 times instead of 10.",
+      "code": [
+        "song = \"Blue Sky\"",
+        "plays = 10",
+        "print(song, \"played\", plays, \"times\")"
+      ],
+      "solution": [
+        "song = \"Blue Sky\"",
+        "plays = 25",
+        "print(song, \"played\", plays, \"times\")"
+      ],
+      "tests": [
+        {
+          "name": "prints the new count",
+          "stdout": "Blue Sky played 25 times"
+        },
+        {
+          "name": "plays holds 25",
+          "post": "assert plays == 25, 'plays should hold the number 25'"
+        }
+      ],
+      "hint": "Only one value needs to change.",
+      "gen": {
+        "hash": "9b90bd3dff09ea19c2d76ede58237104ef77e637e24018e0626e8904a512d054"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add a variable called town that holds the text Oslo. Then add a line that prints: Kai lives in Oslo\nKeep the first print as it is.",
+      "code": [
+        "name = \"Kai\"",
+        "print(\"Hello\", name)"
+      ],
+      "solution": [
+        "name = \"Kai\"",
+        "print(\"Hello\", name)",
+        "town = \"Oslo\"",
+        "print(name, \"lives in\", town)"
+      ],
+      "tests": [
+        {
+          "name": "prints both lines",
+          "stdout": "Hello Kai\nKai lives in Oslo"
+        },
+        {
+          "name": "town holds Oslo",
+          "post": "assert town == 'Oslo', 'town should hold the text Oslo'"
+        }
+      ],
+      "hint": "Make town first, then print name, the text lives in, and town.",
+      "gen": {
+        "hash": "c4da019084b63e42a9a4537652c3c097a842338a1d4f1705e782242b601d8389"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Write a program that stores the book title Night Train in a variable called book, and the number 212 in a variable called pages. Then print: Night Train has 212 pages",
+      "solution": [
+        "book = \"Night Train\"",
+        "pages = 212",
+        "print(book, \"has\", pages, \"pages\")"
+      ],
+      "tests": [
+        {
+          "name": "prints the sentence",
+          "stdout": "Night Train has 212 pages"
+        },
+        {
+          "name": "book holds the title",
+          "post": "assert book == 'Night Train', 'book should hold the text Night Train'"
+        },
+        {
+          "name": "pages holds a number",
+          "post": "assert pages == 212, 'pages should hold the number 212, without quotes'"
+        }
+      ],
+      "hints": [
+        "Start with: book = \"Night Train\"",
+        "Numbers do not need quotes: pages = 212",
+        "print can take several values: print(book, \"has\", pages, \"pages\")"
+      ],
+      "gen": {
+        "hash": "abb588a13a54b10b60d9c33bada2b9f6dc72ad18df52453861924960e9282dac"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "After `score = 10` and then `score = 25`, what is stored in score?",
+      "options": [
+        "10",
+        "25",
+        "35",
+        "Both 10 and 25"
+      ],
+      "answer": 1,
+      "why": "A new assignment replaces the old value. A variable holds one value at a time."
+    },
+    {
+      "q": "player holds \"Maya\". What does `print(\"player\")` show?",
+      "options": [
+        "Maya",
+        "\"Maya\"",
+        "player",
+        "An error"
+      ],
+      "answer": 2,
+      "why": "The quotes make it plain text, so Python prints the word player instead of looking up the variable."
+    },
+    {
+      "q": "What does `print(\"a\", 5, \"b\")` show?",
+      "options": [
+        "a5b",
+        "a 5 b",
+        "a, 5, b",
+        "\"a\" 5 \"b\""
+      ],
+      "answer": 1,
+      "why": "print puts one space between the values and leaves out the quotes."
+    },
+    {
+      "q": "These lines run in order: `x = 4`, then `y = x`, then `x = 3`. What is in y?",
+      "options": [
+        "3",
+        "7",
+        "Error",
+        "4"
+      ],
+      "answer": 3,
+      "why": "`y = x` gives y the value x had at that moment, 4. Changing x later does not touch y."
+    },
+    {
+      "q": "Which line gives an error if it is the very first line of a program?",
+      "options": [
+        "total = 0",
+        "print(total)",
+        "print(\"total\")",
+        "total = \"zero\""
+      ],
+      "answer": 1,
+      "why": "total does not exist yet. A name must get a value before you can use it."
+    },
+    {
+      "q": "Which of these is a valid variable name?",
+      "options": [
+        "2nd_place",
+        "my-score",
+        "high_score",
+        "class"
+      ],
+      "answer": 2,
+      "why": "Names use letters, digits and _, cannot start with a digit, and cannot be a word Python already uses, like class. The dash in my-score means minus to Python."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Using a name before it exists",
+      "code": [
+        "print(budget)",
+        "budget = 50"
+      ],
+      "explain": "Python runs your code from the top down. On line 1, budget has not been made yet, so Python stops with a NameError. Make the variable first, then use it.",
+      "fix": [
+        "budget = 50",
+        "print(budget)"
+      ],
+      "gen": {
+        "hash": "d71a6b4c564fe35205a158c4b374424adb84679b189e19a906ed7c7ca058eefe",
+        "error": "NameError: name 'budget' is not defined",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A typo in the name",
+      "code": [
+        "score = 10",
+        "print(scroe)"
+      ],
+      "explain": "Python does not guess what you meant. scroe and score are two different names, and only score exists. Newer versions of Python even suggest the name you probably wanted.",
+      "fix": [
+        "score = 10",
+        "print(score)"
+      ],
+      "gen": {
+        "hash": "4c1e6cbf03436361426b1e42d8157707596992beeda0d26cb6207074e2d822d4",
+        "error": "NameError: name 'scroe' is not defined. Did you mean: 'score'?",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Forgetting the quotes around text",
+      "code": [
+        "color = blue"
+      ],
+      "explain": "Without quotes, Python thinks blue is the name of a variable, and there is no such variable. Text needs quotes.",
+      "fix": [
+        "color = \"blue\""
+      ],
+      "gen": {
+        "hash": "9f8d4c71650835e16a4c6b25fe937f0c14d00979d867f9a2e78ac98b6ebbdfaf",
+        "error": "NameError: name 'blue' is not defined",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: numbers and variables (the = sign)",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#numbers"
+    },
+    {
+      "title": "Python tutorial: text, and how print() shows it",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#text"
+    },
+    {
+      "title": "Reference: the print() function",
+      "url": "https://docs.python.org/3/library/functions.html#print"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 6. The Dynamic Typing Interlude"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 11. Assignments, Expressions, and Prints"
+    }
+  ]
+}

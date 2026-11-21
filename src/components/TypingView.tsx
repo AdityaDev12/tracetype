@@ -1,7 +1,7 @@
 import type { EditorView } from '@codemirror/view'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { stepForSourceLine, viewAt } from '../engine/trace.ts'
-import type { Lesson } from '../engine/types.ts'
+import type { Example } from '../engine/types.ts'
 import {
   accuracy,
   autoIndentFor,
@@ -26,7 +26,7 @@ export interface TypingResult {
 }
 
 interface Props {
-  lesson: Lesson
+  example: Example
   variant: 'trace' | 'recall'
   onComplete: (r: TypingResult) => void
   onNextMode: () => void
@@ -35,8 +35,9 @@ interface Props {
 
 const PEEK_MS = 1500
 
-export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel }: Props) {
-  const targets = useMemo(() => lesson.lines.map((l) => l.code), [lesson])
+export function TypingView({ example, variant, onComplete, onNextMode, nextLabel }: Props) {
+  const targets = useMemo(() => example.lines.map((l) => l.code), [example])
+  const trace = example.gen.trace
   const isRecall = variant === 'recall'
   const match = isRecall ? 'loose' : 'exact'
   const [state, setState] = useState<TypingState>(() => createTyping(targets, match))
@@ -109,8 +110,8 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
   }
 
   const completedLines = state.done ? targets.length : state.lineIndex
-  const view = viewAt(lesson.trace, stepForSourceLine(lesson.trace, completedLines))
-  const current = lesson.lines[state.lineIndex]
+  const view = viewAt(trace, stepForSourceLine(trace, completedLines))
+  const current = example.lines[state.lineIndex]
   const target = targets[state.lineIndex]
   const liveChars = isRecall || state.done ? 0 : liveCorrectChars(live.text, live.cursor, target)
 
@@ -128,7 +129,7 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
         role="region"
         aria-label={isRecall ? 'Write the code from memory' : 'Type over the code'}
       >
-        {lesson.lines.map((l, i) => {
+        {example.lines.map((l, i) => {
           const n = i + 1
           const isDone = i < state.lineIndex || state.done
           const isCurrent = i === state.lineIndex && !state.done
@@ -237,5 +238,5 @@ export function TypingView({ lesson, variant, onComplete, onNextMode, nextLabel 
     </>
   )
 
-  return <LessonLayout left={left} right={<VisualPanel kind={lesson.visual} view={view} />} />
+  return <LessonLayout left={left} right={<VisualPanel kind="memory" view={view} />} />
 }

@@ -1,21 +1,6 @@
 // A small Python tokenizer, good enough for coloring one line at a time.
 
-export type TokenKind =
-  | 'keyword'
-  | 'builtin'
-  | 'string'
-  | 'number'
-  | 'comment'
-  | 'operator'
-  | 'punct'
-  | 'name'
-  | 'space'
-
-export interface Token {
-  kind: TokenKind
-  text: string
-  start: number
-}
+import type { Token, TokenKind } from '../../engine/tokens.ts'
 
 export const KEYWORDS = new Set([
   'False', 'None', 'True', 'and', 'as', 'assert', 'async', 'await', 'break', 'class',
@@ -79,11 +64,3 @@ export function tokenize(line: string): Token[] {
   return tokens
 }
 
-/** Token kind for every character position of the line. */
-export function charKinds(line: string): TokenKind[] {
-  const kinds: TokenKind[] = new Array(line.length)
-  for (const t of tokenize(line)) {
-    for (let k = 0; k < t.text.length; k++) kinds[t.start + k] = t.kind
-  }
-  return kinds
-}

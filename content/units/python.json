@@ -1,0 +1,12 @@
+{
+  "track": "python",
+  "units": [
+    {
+      "id": "py-u1",
+      "title": "First steps",
+      "summary": "Store values under names and show them on screen.",
+      "lessons": ["py-01-variables"],
+      "project": "py-u1-project"
+    }
+  ]
+}

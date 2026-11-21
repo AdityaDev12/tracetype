@@ -5,7 +5,8 @@ import { CodeLine } from '../components/CodeLine.tsx'
 import { AnnotationLayer, type Anno } from '../design/Annotations.tsx'
 import { MemoryBoxes } from '../design/MemoryBoxes.tsx'
 import { Terminal } from '../design/Terminal.tsx'
-import { charKinds } from '../engine/highlight.ts'
+import { charKinds } from '../engine/tokens.ts'
+import { useLanguagePack } from '../languages/LanguageContext.tsx'
 import { stepForSourceLine, viewAt } from '../engine/trace.ts'
 import type { TraceStep } from '../engine/types.ts'
 import { compareLine, lineMatches } from '../engine/typing.ts'
@@ -26,7 +27,8 @@ const reducedMotion = () => window.matchMedia?.('(prefers-reduced-motion: reduce
 type Mode = 'auto' | 'live'
 
 function TypedLine({ target, typed, caret }: { target: string; typed: string; caret: boolean }) {
-  const kinds = useMemo(() => charKinds(target), [target])
+  const pack = useLanguagePack()
+  const kinds = useMemo(() => charKinds(pack.tokenize(target), target.length), [pack, target])
   const cmp = compareLine(typed, typed.length, target)
   return (
     <>

@@ -1,9 +1,10 @@
 import { useMemo } from 'react'
-import { tokenize } from '../engine/highlight.ts'
+import { useLanguagePack } from '../languages/LanguageContext.tsx'
 
-/** A read-only line of Python with syntax colors. */
+/** A read-only line of code with syntax colors from the current language pack. */
 export function CodeLine({ code }: { code: string }) {
-  const tokens = useMemo(() => tokenize(code), [code])
+  const pack = useLanguagePack()
+  const tokens = useMemo(() => pack.tokenize(code), [pack, code])
   if (code === '') return <span>{' '}</span>
   return (
     <>
