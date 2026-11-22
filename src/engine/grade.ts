@@ -116,13 +116,14 @@ export async function gradeRecall(
   return gradeByResult(runner, code, expected, options)
 }
 
-/** Only the run options from an item (stdin, files, expr), or undefined. */
-export function runOptions(item?: RunOptions): RunOptions | undefined {
+/** Only the run options from an item (stdin, files, expr, ids for the refs panel), or undefined. */
+export function runOptions(item?: RunOptions & { visuals?: string[] }): RunOptions | undefined {
   if (!item) return undefined
   const out: RunOptions = {}
   if (item.stdin) out.stdin = item.stdin
   if (item.files) out.files = item.files
   if (item.expr) out.expr = item.expr
+  if (item.ids || item.visuals?.includes('refs')) out.ids = true
   return Object.keys(out).length ? out : undefined
 }
 

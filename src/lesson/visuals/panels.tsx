@@ -6,6 +6,7 @@ import { useLanguagePack } from '../../languages/LanguageContext.tsx'
 import { ladderAt } from './branch.ts'
 import { useHoverProps } from './hover.ts'
 import { gridAt, loopRunAt, loopVar } from './loops.ts'
+import { indexUseAt, usesNegatives, type IndexEvent } from './strings.ts'
 
 type ExprEvent = Extract<TraceEvent, { kind: 'expr' }>
 
@@ -207,8 +208,33 @@ export function StdinPanel({ trace, index, stdin }: { trace: TraceStep[]; index:
   )
 }
 
-function Cells({ name, items, pointer }: { name: string; items: string[]; pointer?: number }) {
+const showChar = (c: string) => (c === ' ' ? '␣' : c === '\n' ? '\\n' : c === '\t' ? '\\t' : c)
+
+/** What a line just read from the cells, in words: word[1:4] → 'yth'. */
+function CellsUse({ name, use }: { name: string; use: IndexEvent }) {
+  const plain = use.at !== undefined && use.key !== String(use.at)
+  return (
+    <p className={`cells-use${use.error ? ' bad' : ''}`}>
+      <code>{`${name}[${use.key}]`}</code>
+      {plain && <span className="cells-note">{` is ${name}[${use.at}]`}</span>}
+      {use.error ? (
+        <span className="cells-note">{` → no position ${use.at} (positions go 0 to ${use.len - 1})`}</span>
+      ) : (
+        <>
+          {' → '}
+          <code>{use.value}</code>
+          {use.slice && <span className="cells-note">{use.picked?.length ? ` positions ${use.picked.join(', ')}` : ' nothing inside, so empty'}</span>}
+        </>
+      )}
+    </p>
+  )
+}
+
+function Cells({ name, items, pointer, use, negatives }: { name: string; items: string[]; pointer?: number; use?: IndexEvent; negatives?: boolean }) {
   const hover = useHoverProps(name)
+  const picked = use?.picked ?? []
+  // Number the cells when a slice skips or goes backwards, so the order shows.
+  const ordered = !!use?.slice && picked.some((p, k) => k > 0 && p !== picked[k - 1] + 1)
   return (
     <div className="cells-row" {...hover}>
       <span className="cells-name">
@@ -218,21 +244,35 @@ function Cells({ name, items, pointer }: { name: string; items: string[]; pointe
         <span className="cells-empty">empty</span>
       ) : (
         <div className="cells" role="list">
-          {items.map((c, i) => (
-            <span key={i} className={`cell${pointer === i ? ' at' : ''}`} role="listitem">
-              <span className="cell-val">{c === ' ' ? '␣' : c === '\n' ? '\\n' : c === '\t' ? '\\t' : c}</span>
-              <span className="cell-idx">{i}</span>
+          {items.map((c, i) => {
+            const k = picked.indexOf(i)
+            return (
+              <span key={i} className={`cell${pointer === i ? ' at' : ''}${k >= 0 ? ' pick' : ''}`} role="listitem">
+                {ordered && k >= 0 && <span className="cell-order">{k + 1}</span>}
+                <span className="cell-val">{showChar(c)}</span>
+                <span className="cell-idx">{i}</span>
+                {negatives && <span className="cell-idx neg">{i - items.length}</span>}
+              </span>
+            )
+          })}
+          {use?.error && (
+            <span className="cell ghost" role="listitem">
+              <span className="cell-val">?</span>
+              <span className="cell-idx">{use.at}</span>
+              {negatives && <span className="cell-idx neg"> </span>}
             </span>
-          ))}
+          )}
         </div>
       )}
+      {use && <CellsUse name={name} use={use} />}
     </div>
   )
 }
 
 /** Sequence cells: each character of a string (or item of a list) in its own
  * numbered cell. */
-export function CellsPanel({ view, focus, pointer }: { view: StepView; focus?: string[]; pointer?: number }) {
+export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepView; focus?: string[]; pointer?: number; trace?: TraceStep[] }) {
+  const negatives = usesNegatives(trace)
   const rows: { name: string; items: string[] }[] = []
   for (const v of view.vars) {
     if (focus?.length && !focus.includes(v.name)) continue
@@ -251,7 +291,14 @@ export function CellsPanel({ view, focus, pointer }: { view: StepView; focus?: s
         <p className="mem-empty">{'> no text stored yet'}</p>
       ) : (
         rows.map((r, k) => (
-          <Cells key={`${r.name}:${r.items.join('\u0000')}`} name={r.name} items={r.items} pointer={k === 0 && focus?.length ? pointer : undefined} />
+          <Cells
+            key={`${r.name}:${r.items.join('\u0000')}`}
+            name={r.name}
+            items={r.items}
+            pointer={k === 0 && focus?.length ? pointer : undefined}
+            use={indexUseAt(trace, view.index, r.name)}
+            negatives={negatives}
+          />
         ))
       )}
     </Terminal>

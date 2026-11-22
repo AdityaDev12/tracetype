@@ -50,7 +50,8 @@ def authored(item):
 
 
 def options(item, code_lines=None):
-    """Run options from an item: typed answers, seeded files, expression lines.
+    """Run options from an item: typed answers, seeded files, expression lines
+    (and object ids when the item shows the refs panel).
     Expression lines come from "expr": [line numbers] on the item, or from
     "expr": true on an example line."""
     opts = {}
@@ -63,6 +64,8 @@ def options(item, code_lines=None):
             expr.append(n)
     if expr:
         opts["expr"] = expr
+    if "refs" in item.get("visuals", []):
+        opts["ids"] = True  # the refs panel follows objects by id
     return opts
 
 

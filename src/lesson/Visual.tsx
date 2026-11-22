@@ -5,6 +5,7 @@ import type { RunError } from '../engine/grade.ts'
 import type { StepView } from '../engine/trace.ts'
 import type { TraceStep, VisualKind } from '../engine/types.ts'
 import { loopRunAt } from './visuals/loops.ts'
+import { FormatPanel, RefsPanel } from './visuals/StringPanels.tsx'
 import { BranchPanel, CellsPanel, ExprPanel, GridPanel, HaltPanel, HistoryPanel, LoopPanel, StdinPanel, TraceTablePanel, TypesPanel } from './visuals/panels.tsx'
 
 export interface VisualProps {
@@ -49,7 +50,7 @@ export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, foc
       case 'stdin':
         return <StdinPanel key={k} trace={t} index={view.index} stdin={stdin} />
       case 'cells':
-        return <CellsPanel key={k} view={view} focus={focus} pointer={pointer} />
+        return <CellsPanel key={k} view={view} focus={focus} pointer={pointer} trace={t} />
       case 'branch':
         return <BranchPanel key={k} trace={t} index={view.index} code={code} />
       case 'loop':
@@ -58,6 +59,10 @@ export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, foc
         return <TraceTablePanel key={k} trace={t} index={view.index} code={code} focus={focus} />
       case 'grid':
         return <GridPanel key={k} trace={t} index={view.index} code={code} />
+      case 'format':
+        return <FormatPanel key={k} trace={t} index={view.index} />
+      case 'refs':
+        return <RefsPanel key={k} trace={t} index={view.index} focus={focus} />
     }
   })
   return (

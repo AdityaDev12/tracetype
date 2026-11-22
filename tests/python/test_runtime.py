@@ -324,6 +324,53 @@ class Files(unittest.TestCase):
         self.assertEqual(r["steps"][-1]["vars"]["t"]["text"], "ok")
 
 
+class Strings(unittest.TestCase):
+    """Index and slice events, f-string holes and plain-value ids (Unit 4)."""
+
+    def test_index_and_negative_index(self):
+        r = trace('w = "lemon"\na = w[1]\nb = w[-2]', expr=[2, 3])
+        ev = events(r, "index")
+        self.assertEqual([e["picked"] for e in ev], [[1], [3]])
+        self.assertEqual(ev[1]["at"], -2)
+        self.assertEqual(ev[1]["value"], "'o'")
+        self.assertEqual(ev[0]["target"], "w")
+
+    def test_slices_use_python_rules(self):
+        r = trace('w = "lemonade"\na = w[2:5]\nb = w[::-2]\nc = w[3:99]\nd = w[6:2]', expr=[2, 3, 4, 5])
+        picked = [e["picked"] for e in events(r, "index")]
+        self.assertEqual(picked, [[2, 3, 4], [7, 5, 3, 1], [3, 4, 5, 6, 7], []])
+        self.assertTrue(all(e["slice"] for e in events(r, "index")))
+
+    def test_index_past_the_end_shows_on_the_step_before(self):
+        r = trace('w = "kiwi"\nx = w[4]', expr=[2])
+        self.assertEqual(r["error"]["type"], "IndexError")
+        ev = r["steps"][-1]["events"][0]
+        self.assertEqual((ev["kind"], ev["at"], ev["picked"], ev["error"]), ("index", 4, [], True))
+
+    def test_index_only_on_marked_lines(self):
+        r = trace('w = "kiwi"\nx = w[1]')
+        self.assertEqual(events(r, "index"), [])
+
+    def test_format_holes(self):
+        r = trace('cost = 4.5\nname = "fig"\nprint(f"{name:>5}: {cost:.2f} {cost=}")', expr=[3])
+        ev = events(r, "format")[0]
+        self.assertEqual(ev["text"], "  fig: 4.50 cost=4.5")
+        self.assertEqual([(h["code"], h["spec"], h["result"]) for h in ev["holes"]], [("name", ">5", "  fig"), ("cost", ".2f", "4.50"), ("cost", "", "4.5")])
+
+    def test_format_error_hole(self):
+        r = trace('t = "x"\ns = f"{t:.1f}"', expr=[2])
+        self.assertEqual(r["error"]["type"], "ValueError")
+        hole = events(r, "format")[0]["holes"][0]
+        self.assertIn("Unknown format code", hole["error"])
+
+    def test_plain_ids_follow_the_object(self):
+        r = trace('a = "pear"\nb = a\na = a.upper()', ids=True)
+        v = r["steps"][-1]["vars"]
+        self.assertNotEqual(v["a"]["id"], v["b"]["id"])
+        self.assertEqual(r["steps"][1]["vars"]["a"]["id"], v["b"]["id"])
+        self.assertNotIn("id", trace('a = "pear"')["steps"][0]["vars"]["a"])
+
+
 class Grading(unittest.TestCase):
     def test_tests_with_stdin_and_files(self):
         src = 'n = int(input())\nopen("o.txt", "w").write(str(n * 2))\n'

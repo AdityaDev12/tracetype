@@ -816,3 +816,226 @@
     animation: none;
   }
 }
+
+/* ---------- Cells: positions used by an index or slice ---------- */
+
+.cell {
+  position: relative;
+}
+
+.cell.pick {
+  border-color: var(--pen-blue);
+  background: rgba(120, 170, 255, 0.14);
+  z-index: 1;
+}
+
+.cell.pick .cell-val {
+  color: var(--pen-blue);
+}
+
+.cell-order {
+  position: absolute;
+  top: -9px;
+  right: -5px;
+  min-width: 15px;
+  padding: 0 3px;
+  border-radius: 8px;
+  background: var(--pen-blue);
+  color: var(--bg);
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+}
+
+.cell-idx.neg {
+  color: var(--chalk-dim);
+  opacity: 0.75;
+}
+
+.cell.ghost {
+  border-style: dashed;
+  border-color: var(--pen-red);
+}
+
+.cell.ghost .cell-val,
+.cell.ghost .cell-idx {
+  color: var(--pen-red);
+}
+
+.cells-use {
+  margin: 6px 0 0;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--chalk);
+}
+
+.cells-use.bad {
+  color: var(--pen-red);
+}
+
+.cells-note {
+  color: var(--chalk-dim);
+}
+
+.cells-use.bad .cells-note {
+  color: var(--pen-red);
+}
+
+/* ---------- f-string filler ---------- */
+
+.fmt {
+  padding: 8px 16px 12px;
+  font-family: var(--mono);
+  font-size: 13px;
+}
+
+.fmt-template {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--syn-string);
+  overflow-wrap: anywhere;
+}
+
+.fmt-holes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.fmt-hole {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  padding: 3px 0;
+  animation: mem-pop 360ms var(--ease) both;
+}
+
+.fmt.old .fmt-hole,
+.fmt.old .fmt-text {
+  opacity: 0.6;
+}
+
+.fmt-code {
+  color: var(--phosphor);
+}
+
+.fmt-arrow {
+  color: var(--ghost);
+}
+
+.fmt-value {
+  color: var(--chalk);
+}
+
+.fmt-spec {
+  padding: 0 4px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--pen-blue);
+}
+
+.fmt-result {
+  padding: 0 4px;
+  background: var(--phosphor-soft);
+  color: var(--chalk);
+  white-space: pre;
+}
+
+.fmt-error {
+  color: var(--pen-red);
+}
+
+.fmt-text {
+  margin: 8px 0 0;
+  color: var(--chalk);
+}
+
+.fmt-text code {
+  white-space: pre-wrap;
+}
+
+.fmt-note {
+  margin: 4px 0 0;
+  color: var(--ghost);
+  font-size: 12px;
+}
+
+/* ---------- Reference diagram ---------- */
+
+.refs {
+  list-style: none;
+  margin: 0;
+  padding: 8px 16px 12px;
+}
+
+.ref-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.ref-names {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  min-width: 110px;
+}
+
+.ref-name code {
+  color: var(--chalk);
+}
+
+.ref-arrow {
+  margin-left: 6px;
+  color: var(--pen-blue);
+}
+
+.ref-name.moved .ref-arrow {
+  color: var(--phosphor);
+  animation: mem-pop 420ms var(--ease) both;
+}
+
+.ref-obj {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  color: var(--chalk);
+  overflow-wrap: anywhere;
+}
+
+.ref-type {
+  font-size: 11px;
+  color: var(--ghost);
+}
+
+.ref-row.gone .ref-obj {
+  border-style: dashed;
+  opacity: 0.5;
+}
+
+.ref-none {
+  font-size: 12px;
+  color: var(--ghost);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fmt-hole,
+  .ref-name.moved .ref-arrow {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .ref-names {
+    min-width: 80px;
+  }
+}

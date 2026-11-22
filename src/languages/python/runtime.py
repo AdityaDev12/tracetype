@@ -55,6 +55,8 @@ MAX_FILE = 4000
 MAX_FILES = 20
 MAX_EXPR_STEPS = 40
 HELPER = "__tt_v"
+SUB_HELPER = "__tt_s"
+FMT_HELPER = "__tt_f"
 _ADDRESS = re.compile(r" at 0x[0-9a-fA-F]+")
 CO_OPTIMIZED = 0x1
 
@@ -147,9 +149,10 @@ class Heap:
     """Gives every container/object a small stable id ("o1", "o2"...) for the
     whole run, and keeps the objects alive so Python cannot reuse their id()."""
 
-    def __init__(self):
+    def __init__(self, plain_ids=False):
         self.ids = {}
         self.keep = []
+        self.plain_ids = plain_ids  # also give str/int/float... values an "id"
 
     def ref(self, obj):
         key = id(obj)
@@ -168,6 +171,8 @@ class Heap:
             out["ref"] = self.ref(v)
             if todo is not None:
                 todo.append(v)
+        if self.plain_ids and "ref" not in out:
+            out["id"] = self.ref(v)
         return out
 
     def names(self, mapping, todo):
@@ -469,9 +474,24 @@ class _Wrap(ast.NodeTransformer):
 
     def visit(self, node):
         node = self.generic_visit(node)
+        hole = getattr(node, "_ttf", None)
+        if hole is not None and isinstance(node, ast.FormattedValue):
+            args = [ast.Constant(hole[0]), ast.Constant(hole[1]), node.value]
+            node.value = ast.copy_location(ast.Call(func=ast.Name(id=FMT_HELPER, ctx=ast.Load()), args=args, keywords=[]), node.value)
+            return node
         nid = getattr(node, "_tt", None)
         if nid is None or not isinstance(node, ast.expr):
             return node
+        if isinstance(node, ast.Subscript) and isinstance(node.ctx, ast.Load):
+            # __tt_s(id, seq, is_slice, a, b, c): records which positions were used.
+            sl = node.slice
+            if isinstance(sl, ast.Slice):
+                parts = [sl.lower, sl.upper, sl.step]
+                args = [ast.Constant(nid), node.value, ast.Constant(True)] + [x if x is not None else ast.Constant(None) for x in parts]
+            else:
+                args = [ast.Constant(nid), node.value, ast.Constant(False), sl, ast.Constant(None), ast.Constant(None)]
+            call = ast.Call(func=ast.Name(id=SUB_HELPER, ctx=ast.Load()), args=args, keywords=[])
+            return ast.copy_location(call, node)
         call = ast.Call(func=ast.Name(id=HELPER, ctx=ast.Load()), args=[ast.Constant(nid), node], keywords=[])
         return ast.copy_location(call, node)
 
@@ -502,8 +522,12 @@ class ExprPlan:
     def __init__(self, tree, lines, wanted):
         self.lines = {}  # line -> (root copy, prefix, suffix, record_root)
         self.nodes = {}  # id -> node in the root copy
+        self.subs = {}  # subscript id -> (sequence code, key code)
+        self.formats = {}  # f-string id -> {"template", "holes"}
+        self.joined = {}  # expression id of an f-string -> f-string id
         if not wanted:
             return
+        source = "\n".join(lines)
         counter = [0]
         for stmt in ast.walk(tree):
             if not isinstance(stmt, ast.stmt) or stmt.lineno not in wanted or stmt.lineno in self.lines:
@@ -514,6 +538,11 @@ class ExprPlan:
             _Number(counter).visit(root)
             if not record_root and hasattr(root, "_tt"):
                 del root._tt
+            for n in ast.walk(root):
+                if isinstance(n, ast.Subscript) and hasattr(n, "_tt"):
+                    self.subs[n._tt] = (ast.unparse(n.value), ast.unparse(n.slice))
+                elif isinstance(n, ast.JoinedStr) and hasattr(n, "_tt"):
+                    self._plan_fstring(n, source)
             src = lines[root.lineno - 1] if root.lineno <= len(lines) else ""
             prefix = src[: root.col_offset].strip() + " " if root.col_offset else ""
             prefix = prefix.lstrip()
@@ -539,6 +568,25 @@ class ExprPlan:
             for n in ast.walk(display):
                 if hasattr(n, "_tt"):
                     self.nodes[n._tt] = n
+
+    def _plan_fstring(self, node, source):
+        jid = len(self.formats)
+        holes = []
+        for v in node.values:
+            if not isinstance(v, ast.FormattedValue):
+                continue
+            spec = None
+            fs = v.format_spec
+            if fs is None:
+                spec = ""
+            elif all(isinstance(x, ast.Constant) for x in fs.values):
+                spec = "".join(x.value for x in fs.values)
+            conv = chr(v.conversion) if v.conversion != -1 else None
+            v._ttf = (jid, len(holes))
+            holes.append({"code": ast.unparse(v.value), "spec": spec, "conv": conv})
+        template = ast.get_source_segment(source, node) or ast.unparse(node)
+        self.formats[jid] = {"template": template, "holes": holes}
+        self.joined[node._tt] = jid
 
     def steps(self, line, records):
         """records: [(id, repr text)] in the order Python computed them."""
@@ -605,7 +653,7 @@ def run_trace(source, options=None):
     """Run code and record one step per finished line (format v2, see top)."""
     options = options or {}
     box = Sandbox(options)
-    heap = Heap()
+    heap = Heap(bool(options.get("ids")))
     steps = []
     events = []  # waiting for the next step
     state = {"printed": 0, "files": None}
@@ -630,12 +678,69 @@ def run_trace(source, options=None):
     code = compile(tree, FILENAME, "exec")
     namespace = box.namespace()
 
-    def tt_v(nid, value):
-        frame = sys._getframe(1)
+    holes_done = {}  # (frame id, f-string id) -> [hole info]
+
+    def tt_v(nid, value, frame=None):
+        frame = frame or sys._getframe(1)
         records.setdefault(id(frame), []).append((nid, safe_repr(value)))
+        jid = plan.joined.get(nid)
+        if jid is not None:
+            info = plan.formats[jid]
+            done = holes_done.pop((id(frame), jid), [])
+            emit({"kind": "format", "line": frame.f_lineno, "template": info["template"], "holes": done, "text": value[:MAX_TEXT]})
+        return value
+
+    def tt_s(nid, seq, is_slice, a, b, c):
+        frame = sys._getframe(1)
+        key = slice(a, b, c) if is_slice else a
+        target, code_key = plan.subs[nid]
+        ev = None
+        if isinstance(seq, (str, list, tuple, range)):
+            n = len(seq)
+            ev = {"kind": "index", "line": frame.f_lineno, "target": target, "key": code_key, "len": n}
+            if is_slice:
+                try:
+                    ev["picked"] = list(range(*key.indices(n)))[:MAX_ITEMS]
+                    ev["slice"] = True
+                except Exception:  # noqa: BLE001 - a bad slice raises below
+                    pass
+            elif isinstance(key, int):
+                i = key + n if key < 0 else key
+                ev["at"] = key
+                ev["picked"] = [i] if 0 <= i < n else []
+        try:
+            res = seq[key]
+        except BaseException:
+            if ev is not None:
+                ev["error"] = True
+                emit_last(ev)  # this line never finishes, so show it on the step before
+            raise
+        if ev is not None:
+            ev["value"] = safe_repr(res)
+            emit(ev)
+        return tt_v(nid, res, frame)
+
+    def tt_f(jid, k, value):
+        frame = sys._getframe(1)
+        hole = dict(plan.formats[jid]["holes"][k])
+        conv = hole["conv"]
+        shown = repr(value) if conv == "r" else str(value) if conv == "s" else ascii(value) if conv == "a" else value
+        hole["value"] = safe_repr(value)
+        if hole["spec"] is not None:
+            try:
+                hole["result"] = format(shown, hole["spec"])[:MAX_TEXT]
+            except Exception as exc:  # noqa: BLE001 - the real f-string raises the same error next
+                hole["error"] = f"{type(exc).__name__}: {exc}"
+                info = plan.formats[jid]
+                done = holes_done.pop((id(frame), jid), [])
+                emit_last({"kind": "format", "line": frame.f_lineno, "template": info["template"], "holes": done + [hole], "text": None})
+                return value
+        holes_done.setdefault((id(frame), jid), []).append(hole)
         return value
 
     namespace[HELPER] = tt_v
+    namespace[SUB_HELPER] = tt_s
+    namespace[FMT_HELPER] = tt_f
 
     def emit(ev):
         events.append(ev)
@@ -818,7 +923,8 @@ def run_trace(source, options=None):
         error = error_info(error_holder[0])
         if isinstance(error_holder[0], StepLimit):
             error = {"type": "Timeout", "message": str(error_holder[0]), "line": None}
-    namespace.pop(HELPER, None)
+    for name in (HELPER, SUB_HELPER, FMT_HELPER):
+        namespace.pop(name, None)
     out = {
         "version": TRACE_VERSION,
         "steps": steps,

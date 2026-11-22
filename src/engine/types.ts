@@ -29,6 +29,8 @@ export interface VarValue {
   text?: string
   /** How many characters or items were cut off. */
   more?: number
+  /** Object id of a plain value (str, int...), only when the run asked for ids (refs panel). */
+  id?: string
 }
 
 /** Objects in the heap of a trace step (trace v2), keyed by stable ids like "o1". */
@@ -67,6 +69,18 @@ export interface ExprStep {
   skipped?: string[]
 }
 
+/** One {hole} of an f-string: its code, value and how the spec shows it. */
+export interface FormatHole {
+  code: string
+  /** The format spec after the colon ("" when none, null when it is computed). */
+  spec: string | null
+  /** !r, !s or !a */
+  conv: string | null
+  value: string
+  result?: string
+  error?: string
+}
+
 /** What happened during a step (trace v2). */
 export type TraceEvent =
   | { kind: 'call'; func: string; args: Record<string, VarValue> }
@@ -81,6 +95,23 @@ export type TraceEvent =
   | { kind: 'finally'; line: number }
   | { kind: 'input'; prompt: string; value: string; index: number }
   | { kind: 'expr'; line: number; steps: ExprStep[] }
+  | {
+      kind: 'index'
+      line: number
+      /** The code of the sequence and of the key, e.g. "word" and "1:4". */
+      target: string
+      key: string
+      len: number
+      /** Positions used, in the order Python took them. */
+      picked?: number[]
+      slice?: boolean
+      /** The plain index as given (may be negative). */
+      at?: number
+      value?: string
+      /** The index was outside the sequence. */
+      error?: boolean
+    }
+  | { kind: 'format'; line: number; template: string; holes: FormatHole[]; text: string | null }
 
 export interface TraceStep {
   /** 1-based source line that just finished running. */
@@ -106,8 +137,10 @@ export interface RunOptions {
   stdin?: string[]
   /** Seed files for the virtual folder (also turns on file recording). */
   files?: Record<string, string>
-  /** Lines (1-based) that get expression steps. */
+  /** Lines (1-based) that get expression steps (and index and format events). */
   expr?: number[]
+  /** Give plain values an object id too (the refs panel). */
+  ids?: boolean
 }
 
 /** Lines of code. */
@@ -296,7 +329,7 @@ export interface Mistake extends WithRunOptions {
 }
 
 /** Visual panels (docs: content/syllabus.md "Visuals"). Output is always shown. */
-export const VISUAL_KINDS = ['memory', 'history', 'expr', 'halt', 'types', 'stdin', 'cells', 'branch', 'loop', 'tracetable', 'grid'] as const
+export const VISUAL_KINDS = ['memory', 'history', 'expr', 'halt', 'types', 'stdin', 'cells', 'branch', 'loop', 'tracetable', 'grid', 'format', 'refs'] as const
 export type VisualKind = (typeof VISUAL_KINDS)[number]
 
 export interface Lesson {
