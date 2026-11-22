@@ -6,10 +6,10 @@ import type { TraceEvent, TraceStep, VarValue } from '../../engine/types.ts'
 export type IndexEvent = Extract<TraceEvent, { kind: 'index' }>
 export type FormatEvent = Extract<TraceEvent, { kind: 'format' }>
 
-/** The positions the current step used, for one sequence (matched by its name). */
-export function indexUseAt(trace: TraceStep[], index: number, name: string): IndexEvent | undefined {
-  const evs = (trace[index]?.events ?? []).filter((e): e is IndexEvent => e.kind === 'index' && e.target === name)
-  return evs[evs.length - 1]
+/** The index and slice uses of the current step, for one sequence (matched by
+ * its name). A use that failed (past the end) comes last. */
+export function indexUsesAt(trace: TraceStep[], index: number, name: string): IndexEvent[] {
+  return (trace[index]?.events ?? []).filter((e): e is IndexEvent => e.kind === 'index' && e.target === name)
 }
 
 /** Show the negative index row once the code uses a negative position. */

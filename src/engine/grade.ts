@@ -117,12 +117,14 @@ export async function gradeRecall(
 }
 
 /** Only the run options from an item (stdin, files, expr, ids for the refs panel), or undefined. */
-export function runOptions(item?: RunOptions & { visuals?: string[] }): RunOptions | undefined {
+export function runOptions(item?: RunOptions & { visuals?: string[]; lines?: unknown[] }): RunOptions | undefined {
   if (!item) return undefined
   const out: RunOptions = {}
   if (item.stdin) out.stdin = item.stdin
   if (item.files) out.files = item.files
-  if (item.expr) out.expr = item.expr
+  // Expression lines: the item's list plus example lines marked "expr": true (as the offline tracer does).
+  const expr = [...(item.expr ?? []), ...(item.lines ?? []).flatMap((l, i) => (typeof l === 'object' && l !== null && (l as { expr?: boolean }).expr ? [i + 1] : []))]
+  if (expr.length) out.expr = expr
   if (item.ids || item.visuals?.includes('refs')) out.ids = true
   return Object.keys(out).length ? out : undefined
 }

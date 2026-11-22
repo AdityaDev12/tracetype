@@ -6,7 +6,7 @@ import { useLanguagePack } from '../../languages/LanguageContext.tsx'
 import { ladderAt } from './branch.ts'
 import { useHoverProps } from './hover.ts'
 import { gridAt, loopRunAt, loopVar } from './loops.ts'
-import { indexUseAt, usesNegatives, type IndexEvent } from './strings.ts'
+import { indexUsesAt, usesNegatives, type IndexEvent } from './strings.ts'
 
 type ExprEvent = Extract<TraceEvent, { kind: 'expr' }>
 
@@ -211,10 +211,11 @@ export function StdinPanel({ trace, index, stdin }: { trace: TraceStep[]; index:
 const showChar = (c: string) => (c === ' ' ? '␣' : c === '\n' ? '\\n' : c === '\t' ? '\\t' : c)
 
 /** What a line just read from the cells, in words: word[1:4] → 'yth'. */
-function CellsUse({ name, use }: { name: string; use: IndexEvent }) {
+function CellsUse({ name, use, line }: { name: string; use: IndexEvent; line?: number }) {
   const plain = use.at !== undefined && use.key !== String(use.at)
   return (
     <p className={`cells-use${use.error ? ' bad' : ''}`}>
+      {line !== undefined && use.line !== line && <span className="cells-note">{`line ${use.line}: `}</span>}
       <code>{`${name}[${use.key}]`}</code>
       {plain && <span className="cells-note">{` is ${name}[${use.at}]`}</span>}
       {use.error ? (
@@ -230,8 +231,11 @@ function CellsUse({ name, use }: { name: string; use: IndexEvent }) {
   )
 }
 
-function Cells({ name, items, pointer, use, negatives }: { name: string; items: string[]; pointer?: number; use?: IndexEvent; negatives?: boolean }) {
+function Cells({ name, items, pointer, uses = [], line, negatives }: { name: string; items: string[]; pointer?: number; uses?: IndexEvent[]; line?: number; negatives?: boolean }) {
   const hover = useHoverProps(name)
+  const ok = uses.filter((u) => !u.error)
+  const use = ok[ok.length - 1]
+  const failed = uses.find((u) => u.error)
   const picked = use?.picked ?? []
   // Number the cells when a slice skips or goes backwards, so the order shows.
   const ordered = !!use?.slice && picked.some((p, k) => k > 0 && p !== picked[k - 1] + 1)
@@ -255,16 +259,18 @@ function Cells({ name, items, pointer, use, negatives }: { name: string; items: 
               </span>
             )
           })}
-          {use?.error && (
+          {failed && (
             <span className="cell ghost" role="listitem">
               <span className="cell-val">?</span>
-              <span className="cell-idx">{use.at}</span>
+              <span className="cell-idx">{failed.at}</span>
               {negatives && <span className="cell-idx neg"> </span>}
             </span>
           )}
         </div>
       )}
-      {use && <CellsUse name={name} use={use} />}
+      {uses.map((u, k) => (
+        <CellsUse key={k} name={name} use={u} line={line} />
+      ))}
     </div>
   )
 }
@@ -296,7 +302,8 @@ export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepVie
             name={r.name}
             items={r.items}
             pointer={k === 0 && focus?.length ? pointer : undefined}
-            use={indexUseAt(trace, view.index, r.name)}
+            uses={indexUsesAt(trace, view.index, r.name)}
+            line={view.line ?? undefined}
             negatives={negatives}
           />
         ))

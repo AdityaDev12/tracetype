@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { TraceEvent, TraceStep, VarValue } from '../../engine/types.ts'
-import { formatAt, indexUseAt, refsAt, usesNegatives } from './strings.ts'
+import { formatAt, indexUsesAt, refsAt, usesNegatives } from './strings.ts'
 
 const str = (text: string, id?: string): VarValue => ({ repr: `'${text}'`, type: 'str', text, ...(id ? { id } : {}) })
 const s = (line: number, vars: Record<string, VarValue>, events?: TraceEvent[]): TraceStep => ({ line, vars, stdout: '', ...(events ? { events } : {}) })
@@ -18,9 +18,9 @@ describe('index use in cells', () => {
   const trace = [s(1, { w: str('melon') }), s(2, { w: str('melon') }, [idx('w', '1:3', [1, 2], { slice: true, value: "'el'" })])]
 
   it('matches the sequence by name on the current step only', () => {
-    expect(indexUseAt(trace, 1, 'w')?.picked).toEqual([1, 2])
-    expect(indexUseAt(trace, 1, 'x')).toBeUndefined()
-    expect(indexUseAt(trace, 0, 'w')).toBeUndefined()
+    expect(indexUsesAt(trace, 1, 'w').map((e) => e.picked)).toEqual([[1, 2]])
+    expect(indexUsesAt(trace, 1, 'x')).toEqual([])
+    expect(indexUsesAt(trace, 0, 'w')).toEqual([])
   })
 
   it('shows negative positions only once the code uses one', () => {

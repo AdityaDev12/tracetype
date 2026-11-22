@@ -1,0 +1,1301 @@
+{
+  "id": "py-21-indexing",
+  "track": "python",
+  "unit": "py-u4",
+  "order": 21,
+  "title": "Indexing",
+  "summary": "Pick one character out of a string by its position, counting from 0 or from the end.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "memory"
+  ],
+  "intro": {
+    "text": "Every character in a string has a **position**, also called an **index**. Positions start at **0**, not 1.\n\n```\nfruit = \"mango\"\nprint(fruit[0])\nprint(fruit[2])\n```\n\nprints m and then n. Square brackets after a string pick **one character**, and you get it back as a short string.\n\n- The first character is at `[0]`.\n- The last one is at `len(fruit) - 1`, because counting starts at 0. For mango that is 4.\n- **Negative** positions count from the right end: `fruit[-1]` is the last character and `fruit[-2]` is the one before it.\n- A position that does not exist, like `fruit[5]`, stops the program with an **IndexError**.\n\nThe **cells** panel numbers every box and lights up the box a line reads.",
+    "analogy": "Seats in a row where the first seat is number 0. A negative number means you count seats from the other end of the row instead."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "word = \"planet\"",
+        "print(word[0])",
+        "print(word[3])"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        2,
+        3
+      ],
+      "why": "Position 0 is p. Counting 0, 1, 2, 3 gives p, l, a, n, so position 3 is n.",
+      "gen": {
+        "hash": "9d2da0e389c8a34328b8bb40c3c84be32a2a754dd5b80214ed409cf388e1d0a0",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'planet'",
+                "type": "str",
+                "text": "planet"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "p\n",
+            "vars": {
+              "word": {
+                "repr": "'planet'",
+                "type": "str",
+                "text": "planet"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "word",
+                "key": "0",
+                "len": 6,
+                "at": 0,
+                "picked": [
+                  0
+                ],
+                "value": "'p'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(word[0])"
+                  },
+                  {
+                    "text": "print('planet'[0])"
+                  },
+                  {
+                    "text": "print('p')",
+                    "part": "'planet'[0]",
+                    "value": "'p'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "n\n",
+            "vars": {
+              "word": {
+                "repr": "'planet'",
+                "type": "str",
+                "text": "planet"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "word",
+                "key": "3",
+                "len": 6,
+                "at": 3,
+                "picked": [
+                  3
+                ],
+                "value": "'n'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(word[3])"
+                  },
+                  {
+                    "text": "print('planet'[3])"
+                  },
+                  {
+                    "text": "print('n')",
+                    "part": "'planet'[3]",
+                    "value": "'n'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "p\nn"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "city = \"Lagos\"",
+        "print(city[-1])",
+        "print(city[-2])"
+      ],
+      "kind": "choice",
+      "options": [
+        "s\no",
+        "L\na",
+        "o\ns",
+        "s\ns"
+      ],
+      "expr": [
+        2,
+        3
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"Lagos\"",
+          "label": "city",
+          "kind": "text"
+        }
+      ],
+      "why": "-1 is always the last character, s. -2 is the one just before it, o.",
+      "gen": {
+        "hash": "17857b941ccc53b07083e26cb86b47746c5eacdd71918caafa772cd32c395ac7",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "city": {
+                "repr": "'Lagos'",
+                "type": "str",
+                "text": "Lagos"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "s\n",
+            "vars": {
+              "city": {
+                "repr": "'Lagos'",
+                "type": "str",
+                "text": "Lagos"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "city",
+                "key": "-1",
+                "len": 5,
+                "at": -1,
+                "picked": [
+                  4
+                ],
+                "value": "'s'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(city[-1])"
+                  },
+                  {
+                    "text": "print('Lagos'[-1])"
+                  },
+                  {
+                    "text": "print('Lagos'[(-1)])",
+                    "part": "-1",
+                    "value": "-1"
+                  },
+                  {
+                    "text": "print('s')",
+                    "part": "'Lagos'[(-1)]",
+                    "value": "'s'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "o\n",
+            "vars": {
+              "city": {
+                "repr": "'Lagos'",
+                "type": "str",
+                "text": "Lagos"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "city",
+                "key": "-2",
+                "len": 5,
+                "at": -2,
+                "picked": [
+                  3
+                ],
+                "value": "'o'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(city[-2])"
+                  },
+                  {
+                    "text": "print('Lagos'[-2])"
+                  },
+                  {
+                    "text": "print('Lagos'[(-2)])",
+                    "part": "-2",
+                    "value": "-2"
+                  },
+                  {
+                    "text": "print('o')",
+                    "part": "'Lagos'[(-2)]",
+                    "value": "'o'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "s\no",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "code = \"mint\"",
+        "print(len(code))",
+        "print(code[4])"
+      ],
+      "kind": "choice",
+      "raises": true,
+      "q": "What does this show? If Python stops with an error, the last line is the error's name.",
+      "options": [
+        "4\nt",
+        "4\nIndexError",
+        "IndexError",
+        "4\nm"
+      ],
+      "visuals": [
+        "cells",
+        "halt"
+      ],
+      "expr": [
+        3
+      ],
+      "why": "mint has 4 characters at positions 0 to 3. Line 2 prints 4, then line 3 asks for position 4, which does not exist, so Python stops with an IndexError.",
+      "gen": {
+        "hash": "04439bae490e3040f3b58f872e847f7d6ae1bd33ebf03d79c63898d5728e0a16",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "code": {
+                "repr": "'mint'",
+                "type": "str",
+                "text": "mint"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "4\n",
+            "vars": {
+              "code": {
+                "repr": "'mint'",
+                "type": "str",
+                "text": "mint"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "code",
+                "key": "4",
+                "len": 4,
+                "at": 4,
+                "picked": [],
+                "error": true
+              }
+            ]
+          }
+        ],
+        "output": "4\nIndexError",
+        "error": {
+          "type": "IndexError",
+          "message": "IndexError: string index out of range",
+          "line": 3
+        },
+        "events": [
+          {
+            "kind": "raise",
+            "type": "IndexError",
+            "message": "IndexError: string index out of range",
+            "line": 3,
+            "func": "<module>"
+          }
+        ],
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Counting from 0",
+      "focus": [
+        "pet"
+      ],
+      "knobs": [
+        {
+          "line": 3,
+          "find": "2",
+          "label": "position",
+          "kind": "number",
+          "min": 0,
+          "max": 8
+        }
+      ],
+      "lines": [
+        {
+          "code": "pet = \"hamster\"",
+          "explain": "7 characters, at positions 0 to 6. The cells panel numbers each box.",
+          "task": "Store the text hamster in pet."
+        },
+        {
+          "code": "first = pet[0]",
+          "explain": "Square brackets pick one character. Position 0 is the first one: h.",
+          "task": "Store the first character of pet in first.",
+          "note": "position 0 is the first",
+          "circle": "pet[0]",
+          "expr": true
+        },
+        {
+          "code": "third = pet[2]",
+          "explain": "Count 0, 1, 2: the third character is m. Try the position knob, and push it past 6.",
+          "task": "Store the character at position 2 of pet in third.",
+          "expr": true
+        },
+        {
+          "code": "print(first, third)",
+          "explain": "Prints h m.",
+          "task": "Print first and third."
+        }
+      ],
+      "gen": {
+        "hash": "95c6728e21e0fa31b1b5848a155b069046bd1d4e66310511472d266fe23c63de",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "pet": {
+                "repr": "'hamster'",
+                "type": "str",
+                "text": "hamster"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "pet": {
+                "repr": "'hamster'",
+                "type": "str",
+                "text": "hamster"
+              },
+              "first": {
+                "repr": "'h'",
+                "type": "str",
+                "text": "h"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "pet",
+                "key": "0",
+                "len": 7,
+                "at": 0,
+                "picked": [
+                  0
+                ],
+                "value": "'h'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "first = pet[0]"
+                  },
+                  {
+                    "text": "first = 'hamster'[0]"
+                  },
+                  {
+                    "text": "first = 'h'",
+                    "part": "'hamster'[0]",
+                    "value": "'h'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "pet": {
+                "repr": "'hamster'",
+                "type": "str",
+                "text": "hamster"
+              },
+              "first": {
+                "repr": "'h'",
+                "type": "str",
+                "text": "h"
+              },
+              "third": {
+                "repr": "'m'",
+                "type": "str",
+                "text": "m"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "pet",
+                "key": "2",
+                "len": 7,
+                "at": 2,
+                "picked": [
+                  2
+                ],
+                "value": "'m'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "third = pet[2]"
+                  },
+                  {
+                    "text": "third = 'hamster'[2]"
+                  },
+                  {
+                    "text": "third = 'm'",
+                    "part": "'hamster'[2]",
+                    "value": "'m'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "h m\n",
+            "vars": {
+              "pet": {
+                "repr": "'hamster'",
+                "type": "str",
+                "text": "hamster"
+              },
+              "first": {
+                "repr": "'h'",
+                "type": "str",
+                "text": "h"
+              },
+              "third": {
+                "repr": "'m'",
+                "type": "str",
+                "text": "m"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "The last character",
+      "focus": [
+        "title"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"Moonlight\"",
+          "label": "title",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "title = \"Moonlight\"",
+          "explain": "9 characters.",
+          "task": "Store the text Moonlight in title."
+        },
+        {
+          "code": "size = len(title)",
+          "explain": "len counts them: 9.",
+          "task": "Store the length of title in size."
+        },
+        {
+          "code": "last = title[size - 1]",
+          "explain": "Positions go from 0 to 8, so the last one is size - 1, which is 8. That is t.",
+          "task": "Store the last character of title in last, using size - 1.",
+          "note": "one less than the length",
+          "circle": "size - 1",
+          "expr": true
+        },
+        {
+          "code": "also_last = title[-1]",
+          "explain": "A negative position counts from the right. -1 is always the last character, whatever the length. The second row of numbers in the cells panel shows them.",
+          "task": "Store the last character of title in also_last, using a negative position.",
+          "note": "-1 counts from the end",
+          "expr": true
+        },
+        {
+          "code": "print(last, also_last)",
+          "explain": "Both are t. Change the title knob: both still give the last character.",
+          "task": "Print last and also_last."
+        }
+      ],
+      "gen": {
+        "hash": "be5d52e19bf5e78d8c0da3d0333e8999f75784f838b8423ed5b37c2039eb8031",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'Moonlight'",
+                "type": "str",
+                "text": "Moonlight"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'Moonlight'",
+                "type": "str",
+                "text": "Moonlight"
+              },
+              "size": {
+                "repr": "9",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'Moonlight'",
+                "type": "str",
+                "text": "Moonlight"
+              },
+              "size": {
+                "repr": "9",
+                "type": "int"
+              },
+              "last": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "title",
+                "key": "size - 1",
+                "len": 9,
+                "at": 8,
+                "picked": [
+                  8
+                ],
+                "value": "'t'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "last = title[size - 1]"
+                  },
+                  {
+                    "text": "last = 'Moonlight'[9 - 1]"
+                  },
+                  {
+                    "text": "last = 'Moonlight'[8]",
+                    "part": "9 - 1",
+                    "value": "8"
+                  },
+                  {
+                    "text": "last = 't'",
+                    "part": "'Moonlight'[8]",
+                    "value": "'t'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'Moonlight'",
+                "type": "str",
+                "text": "Moonlight"
+              },
+              "size": {
+                "repr": "9",
+                "type": "int"
+              },
+              "last": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              },
+              "also_last": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 4,
+                "target": "title",
+                "key": "-1",
+                "len": 9,
+                "at": -1,
+                "picked": [
+                  8
+                ],
+                "value": "'t'"
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "also_last = title[-1]"
+                  },
+                  {
+                    "text": "also_last = 'Moonlight'[-1]"
+                  },
+                  {
+                    "text": "also_last = 'Moonlight'[(-1)]",
+                    "part": "-1",
+                    "value": "-1"
+                  },
+                  {
+                    "text": "also_last = 't'",
+                    "part": "'Moonlight'[(-1)]",
+                    "value": "'t'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "t t\n",
+            "vars": {
+              "title": {
+                "repr": "'Moonlight'",
+                "type": "str",
+                "text": "Moonlight"
+              },
+              "size": {
+                "repr": "9",
+                "type": "int"
+              },
+              "last": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              },
+              "also_last": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "One step too far",
+      "raises": true,
+      "visuals": [
+        "cells",
+        "halt"
+      ],
+      "focus": [
+        "day"
+      ],
+      "lines": [
+        {
+          "code": "day = \"Friday\"",
+          "explain": "6 characters, at positions 0 to 5.",
+          "task": "Store the text Friday in day."
+        },
+        {
+          "code": "print(day[5])",
+          "explain": "Position 5 is the last one: y.",
+          "task": "Print the character at position 5 of day.",
+          "expr": true
+        },
+        {
+          "code": "print(day[-6])",
+          "explain": "-6 counts all the way back to the first character: F.",
+          "task": "Print the character at position -6 of day.",
+          "expr": true
+        },
+        {
+          "code": "print(day[6])",
+          "explain": "There is no position 6. Python stops here with IndexError: string index out of range. The dashed red box is the one it went looking for.",
+          "task": "Print the character at position 6 of day.",
+          "note": "one too far",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "7724a80f71e0ff6dddc4de1ac4d99408aaf90fcdd83ede40809d98c604d56c84",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "day": {
+                "repr": "'Friday'",
+                "type": "str",
+                "text": "Friday"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "y\n",
+            "vars": {
+              "day": {
+                "repr": "'Friday'",
+                "type": "str",
+                "text": "Friday"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "day",
+                "key": "5",
+                "len": 6,
+                "at": 5,
+                "picked": [
+                  5
+                ],
+                "value": "'y'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(day[5])"
+                  },
+                  {
+                    "text": "print('Friday'[5])"
+                  },
+                  {
+                    "text": "print('y')",
+                    "part": "'Friday'[5]",
+                    "value": "'y'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "F\n",
+            "vars": {
+              "day": {
+                "repr": "'Friday'",
+                "type": "str",
+                "text": "Friday"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "day",
+                "key": "-6",
+                "len": 6,
+                "at": -6,
+                "picked": [
+                  0
+                ],
+                "value": "'F'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(day[-6])"
+                  },
+                  {
+                    "text": "print('Friday'[-6])"
+                  },
+                  {
+                    "text": "print('Friday'[(-6)])",
+                    "part": "-6",
+                    "value": "-6"
+                  },
+                  {
+                    "text": "print('F')",
+                    "part": "'Friday'[(-6)]",
+                    "value": "'F'"
+                  }
+                ]
+              },
+              {
+                "kind": "index",
+                "line": 4,
+                "target": "day",
+                "key": "6",
+                "len": 6,
+                "at": 6,
+                "picked": [],
+                "error": true
+              }
+            ]
+          }
+        ],
+        "error": {
+          "type": "IndexError",
+          "message": "IndexError: string index out of range",
+          "line": 4
+        }
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in third after line 3?",
+      "options": [
+        "'m'",
+        "'a'",
+        "'s'",
+        "'ham'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "third"
+      },
+      "why": "Positions 0, 1, 2 are h, a, m. One character comes back."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 2,
+      "q": "What is stored in size after line 2?",
+      "options": [
+        "9",
+        "8",
+        "10",
+        "'t'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "size"
+      },
+      "why": "len counts all 9 characters. The last position is one less: 8."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 4,
+      "q": "What is stored in also_last after line 4?",
+      "options": [
+        "'t'",
+        "'M'",
+        "'h'",
+        "-1"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "also_last"
+      },
+      "why": "-1 is the last character, the same one as size - 1."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints the first letter of river: r",
+      "code": [
+        "name = \"river\"",
+        "print(name[___])"
+      ],
+      "answers": [
+        "0"
+      ],
+      "gen": {
+        "hash": "8eb9c9fb435b2c20a32011867b2f3123effa8c5ce50601e16f578abc3a62aca7",
+        "expected": {
+          "stdout": "r",
+          "vars": {
+            "name": {
+              "repr": "'river'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints the last letter of kettle (e), once with len and once with a negative position",
+      "code": [
+        "item = \"kettle\"",
+        "print(item[len(item) ___ 1])",
+        "print(item[___])"
+      ],
+      "answers": [
+        "-",
+        "-1"
+      ],
+      "gen": {
+        "hash": "94db879d875ddbec3820956c654545ffc901ae4af717ab2cc23f75ee073c6b38",
+        "expected": {
+          "stdout": "e\ne",
+          "vars": {
+            "item": {
+              "repr": "'kettle'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints the first and last letters of orange:\no e",
+      "lines": [
+        "word = \"orange\"",
+        "start = word[0]",
+        "end = word[-1]",
+        "print(start, end)"
+      ],
+      "gen": {
+        "hash": "5b4987665375005d4a2362e02c5d8453d47ff237fbf27d8945c4485e47edb8c4",
+        "expected": {
+          "stdout": "o e",
+          "vars": {
+            "word": {
+              "repr": "'orange'",
+              "type": "str"
+            },
+            "start": {
+              "repr": "'o'",
+              "type": "str"
+            },
+            "end": {
+              "repr": "'e'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print the last letter of the word, k. It stops with an IndexError instead. Fix it.",
+      "code": [
+        "word = \"brick\"",
+        "print(word[len(word)])"
+      ],
+      "solution": [
+        "word = \"brick\"",
+        "print(word[len(word) - 1])"
+      ],
+      "tests": [
+        {
+          "name": "prints k",
+          "stdout": "k"
+        }
+      ],
+      "hint": "brick has 5 characters, at positions 0 to 4. len(word) is 5, one too far.",
+      "gen": {
+        "hash": "3eb64a71c05e9330700871190563446412eb6efaa9cc6db21a02fba8844b89d5",
+        "error": "IndexError: string index out of range"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it prints the second letter instead of the first. With the word piano it should print:\ni",
+      "code": [
+        "word = \"piano\"",
+        "print(word[0])"
+      ],
+      "solution": [
+        "word = \"piano\"",
+        "print(word[1])"
+      ],
+      "tests": [
+        {
+          "name": "prints i",
+          "stdout": "i"
+        }
+      ],
+      "hint": "Counting starts at 0, so the second letter is at position 1.",
+      "gen": {
+        "hash": "09a4568e59b2e7b9175b6465f24301cf09cd5633dd77fc57e968c40a53a9de81"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so it prints the second to last letter of the code. With the code AB-492 it should print:\n9",
+      "code": [
+        "code = \"AB-492\"",
+        "print(code[-1])"
+      ],
+      "solution": [
+        "code = \"AB-492\"",
+        "print(code[-2])"
+      ],
+      "tests": [
+        {
+          "name": "prints 9",
+          "stdout": "9"
+        }
+      ],
+      "hint": "-1 is the last character. One step further left is -2.",
+      "gen": {
+        "hash": "ec220e76565fd7cc58a7acd1263f4d1613d3c4d8af663110baba9d8f753ce5f7"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Word? and print its first letter, its last letter and its length. With tiger:\nWord? tiger\nFirst: t\nLast: r\nLength: 5",
+      "solution": [
+        "word = input(\"Word? \")",
+        "print(\"First:\", word[0])",
+        "print(\"Last:\", word[-1])",
+        "print(\"Length:\", len(word))"
+      ],
+      "tests": [
+        {
+          "name": "tiger",
+          "stdin": [
+            "tiger"
+          ],
+          "stdout": "Word? tiger\nFirst: t\nLast: r\nLength: 5"
+        },
+        {
+          "name": "ox",
+          "stdin": [
+            "ox"
+          ],
+          "stdout": "Word? ox\nFirst: o\nLast: x\nLength: 2"
+        },
+        {
+          "name": "a",
+          "stdin": [
+            "a"
+          ],
+          "stdout": "Word? a\nFirst: a\nLast: a\nLength: 1"
+        }
+      ],
+      "hints": [
+        "The first letter is word[0]",
+        "The last letter is word[-1]",
+        "len(word) gives the length"
+      ],
+      "gen": {
+        "hash": "3443aed6be2d744f191e5db972ce86317da11171a760de1fc24139e57742dd8e"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `\"lemon\"[1]`?",
+      "options": [
+        "'e'",
+        "'l'",
+        "'m'",
+        "'le'"
+      ],
+      "answer": 0,
+      "why": "Positions start at 0, so 1 is the second character."
+    },
+    {
+      "q": "A string has 8 characters. What is the position of the last one?",
+      "options": [
+        "7",
+        "8",
+        "-8",
+        "9"
+      ],
+      "answer": 0,
+      "why": "Positions go from 0 to one less than the length."
+    },
+    {
+      "q": "What is `\"robot\"[-1]`?",
+      "options": [
+        "'t'",
+        "'r'",
+        "'o'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "-1 counts from the right end, so it is the last character."
+    },
+    {
+      "q": "What happens with `\"cat\"[3]`?",
+      "options": [
+        "IndexError",
+        "'t'",
+        "''",
+        "'c'"
+      ],
+      "answer": 0,
+      "why": "cat has positions 0, 1 and 2. 3 is past the end."
+    },
+    {
+      "q": "What type is `\"hello\"[0]`?",
+      "options": [
+        "str",
+        "int",
+        "char",
+        "bool"
+      ],
+      "answer": 0,
+      "why": "Python has no separate character type; one character is a string of length 1."
+    },
+    {
+      "q": "Which one is the same as `s[-2]` for any string s with at least 2 characters?",
+      "options": [
+        "s[len(s) - 2]",
+        "s[2]",
+        "s[len(s) + 2]",
+        "s[-1] - 1"
+      ],
+      "answer": 0,
+      "why": "Python turns a negative position into a normal one by adding the length."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Using the length as the last position",
+      "code": [
+        "name = \"Ana\"",
+        "print(name[len(name)])"
+      ],
+      "explain": "Positions start at 0, so the last one is one less than the length. Use len(name) - 1, or simply -1.",
+      "fix": [
+        "name = \"Ana\"",
+        "print(name[-1])"
+      ],
+      "gen": {
+        "hash": "0e1c6de4f581828b4d941bd6dd372e411adab382ae8bd3b34658b0c4f735b8ab",
+        "error": "IndexError: string index out of range",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A position from a division",
+      "code": [
+        "word = \"spoon\"",
+        "middle = word[len(word) / 2]"
+      ],
+      "explain": "/ always gives a float, like 2.5, and a position must be a whole number. Use // to divide and drop the remainder.",
+      "fix": [
+        "word = \"spoon\"",
+        "middle = word[len(word) // 2]"
+      ],
+      "gen": {
+        "hash": "b510c19627ac4fd2c07b2831c0d982b38a511d65df91d132982607bd833df918",
+        "error": "TypeError: string indices must be integers, not 'float'",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: text (indexing strings)",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#text"
+    },
+    {
+      "title": "Reference: common sequence operations",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#common-sequence-operations"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}

@@ -13,6 +13,7 @@ import {
   newAttempts,
   normalizeOutput,
   recordTry,
+  runOptions,
   type CodeRunner,
   type RunResult,
   type TestResult,
@@ -130,5 +131,13 @@ describe('retries and show answer', () => {
   it('giving up solves the item but marks it weak', () => {
     const a = giveUp(recordTry(recordTry(newAttempts(), false), false))
     expect(a).toMatchObject({ solved: true, gaveUp: true })
+  })
+})
+
+describe('run options', () => {
+  it('collects expression lines from example lines and asks for ids for refs', () => {
+    const ex = { lines: [{ code: 'a = 1' }, { code: 'b = a[0]', expr: true }], visuals: ['cells', 'refs'] }
+    expect(runOptions(ex)).toEqual({ expr: [2], ids: true })
+    expect(runOptions({ lines: ['x = 1'] })).toBeUndefined()
   })
 })
