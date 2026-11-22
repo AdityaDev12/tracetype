@@ -63,7 +63,8 @@
       "title": "Lists",
       "summary": "Keep many values in one place: make, change, loop over and sort lists, share or copy them, and split text into words.",
       "lessons": [
-        "py-26-making-lists"
+        "py-26-making-lists",
+        "py-27-changing-lists"
       ]
     }
   ]

@@ -1,0 +1,1778 @@
+{
+  "id": "py-27-changing-lists",
+  "track": "python",
+  "unit": "py-u5",
+  "order": 27,
+  "title": "Changing lists",
+  "summary": "Unlike text, a list can be changed: replace an item, add with append and insert, take out with pop, remove and del.",
+  "language": "python",
+  "minutes": 25,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "memory"
+  ],
+  "intro": {
+    "text": "A string can never be changed, but a list **can**. The same list object grows, shrinks and swaps items:\n\n- `xs[1] = 6` puts 6 at position 1, replacing what was there\n- `xs.append(8)` adds 8 at the **end**\n- `xs.insert(0, 2)` puts 2 at position 0; every item after it **slides right** and its position goes up by one\n- `xs.pop()` takes the **last** item out and gives it back; `xs.pop(0)` takes the first\n- `xs.remove(\"milk\")` takes out the first item **equal** to milk\n- `del xs[0]` deletes the item at a position\n\nWatch the **cells** panel: new boxes light up green, a replaced box shows what it **was**, and removed items are listed under the row as the others slide left.\n\nOne trap: these methods change the list and give back **None** (only `pop` gives back the item). So never write `xs = xs.append(8)`. That stores None in xs.",
+    "analogy": "A queue of people. Someone can join at the end (append), cut in at a spot (insert), or step out (pop or remove), and everyone behind them shuffles along. It is still the same queue."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "nums = [5, 10, 15]",
+        "nums[1] = 99",
+        "print(nums)"
+      ],
+      "kind": "choice",
+      "options": [
+        "[5, 99, 15]",
+        "[99, 10, 15]",
+        "[5, 10, 15]",
+        "TypeError"
+      ],
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "Lists can be changed. Position 1 is the second item, so 10 is replaced by 99.",
+      "gen": {
+        "hash": "eed7665fd33ecd0917ca9cea2630eeeaddf813159efdeaadf6e77173111f6466",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[5, 10, 15]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "10",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "15",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[5, 99, 15]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "99",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "15",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "[5, 99, 15]\n",
+            "vars": {
+              "nums": {
+                "repr": "[5, 99, 15]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "99",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "15",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "[5, 99, 15]",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "queue = [\"Ivy\", \"Max\"]",
+        "queue.append(\"Noor\")",
+        "queue.insert(0, \"Ola\")",
+        "print(len(queue), queue[0])"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "append adds Noor at the end and insert puts Ola at position 0. That makes 4 names, with Ola first.",
+      "gen": {
+        "hash": "db50b0ff3a9c102d4a0835d72df107131459c8d379cd82d2426ac0b9d89d85aa",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "queue": {
+                "repr": "['Ivy', 'Max']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ivy'",
+                    "type": "str",
+                    "text": "Ivy"
+                  },
+                  {
+                    "repr": "'Max'",
+                    "type": "str",
+                    "text": "Max"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "queue": {
+                "repr": "['Ivy', 'Max', 'Noor']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ivy'",
+                    "type": "str",
+                    "text": "Ivy"
+                  },
+                  {
+                    "repr": "'Max'",
+                    "type": "str",
+                    "text": "Max"
+                  },
+                  {
+                    "repr": "'Noor'",
+                    "type": "str",
+                    "text": "Noor"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "queue": {
+                "repr": "['Ola', 'Ivy', 'Max', 'Noor']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ola'",
+                    "type": "str",
+                    "text": "Ola"
+                  },
+                  {
+                    "repr": "'Ivy'",
+                    "type": "str",
+                    "text": "Ivy"
+                  },
+                  {
+                    "repr": "'Max'",
+                    "type": "str",
+                    "text": "Max"
+                  },
+                  {
+                    "repr": "'Noor'",
+                    "type": "str",
+                    "text": "Noor"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "4 Ola\n",
+            "vars": {
+              "queue": {
+                "repr": "['Ola', 'Ivy', 'Max', 'Noor']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ola'",
+                    "type": "str",
+                    "text": "Ola"
+                  },
+                  {
+                    "repr": "'Ivy'",
+                    "type": "str",
+                    "text": "Ivy"
+                  },
+                  {
+                    "repr": "'Max'",
+                    "type": "str",
+                    "text": "Max"
+                  },
+                  {
+                    "repr": "'Noor'",
+                    "type": "str",
+                    "text": "Noor"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "4 Ola"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "stack = [3, 6, 9]",
+        "top = stack.pop()",
+        "print(top, stack)"
+      ],
+      "kind": "choice",
+      "options": [
+        "9 [3, 6]",
+        "3 [6, 9]",
+        "9 [3, 6, 9]",
+        "[3, 6] 9"
+      ],
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "pop() with nothing inside takes out the last item and gives it back. The list is left with 3 and 6.",
+      "gen": {
+        "hash": "084f8dbd90c434e602dd81a7487da4287f7dc47aa62ef3784c2b92cf457c2161",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "stack": {
+                "repr": "[3, 6, 9]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "9",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "stack": {
+                "repr": "[3, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "top": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "9 [3, 6]\n",
+            "vars": {
+              "stack": {
+                "repr": "[3, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "top": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "9 [3, 6]",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p4",
+      "code": [
+        "bag = [\"pen\"]",
+        "bag = bag.append(\"ink\")",
+        "print(bag)"
+      ],
+      "kind": "choice",
+      "options": [
+        "None",
+        "['pen', 'ink']",
+        "['pen']",
+        "Error"
+      ],
+      "visuals": [
+        "memory"
+      ],
+      "why": "append changes the list and gives back None. Line 2 then stores that None in bag, and the list is lost.",
+      "gen": {
+        "hash": "13fb250e93d1fc2834de056e2b659972920d25d4c2fa7ed29dec2573a75f2dbb",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "bag": {
+                "repr": "['pen']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'pen'",
+                    "type": "str",
+                    "text": "pen"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "bag": {
+                "repr": "None",
+                "type": "NoneType"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "None\n",
+            "vars": {
+              "bag": {
+                "repr": "None",
+                "type": "NoneType"
+              }
+            }
+          }
+        ],
+        "output": "None",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Replace one, add two",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "marks"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "1",
+          "label": "position",
+          "kind": "number",
+          "min": 0,
+          "max": 4
+        }
+      ],
+      "lines": [
+        {
+          "code": "marks = [7, 4, 9]",
+          "explain": "A list of three marks.",
+          "task": "Store the numbers 7, 4 and 9 in a list called marks."
+        },
+        {
+          "code": "marks[1] = 6",
+          "explain": "Replaces the item at position 1. The cell shows it was 4. A string would stop with a TypeError here, a list is fine. Try the position knob, and push it to 3.",
+          "task": "Put 6 at position 1 of marks.",
+          "note": "replace in place",
+          "circle": "marks[1] = 6"
+        },
+        {
+          "code": "marks.append(8)",
+          "explain": "append adds one item at the end. A new cell appears at position 3.",
+          "task": "Add 8 to the end of marks.",
+          "note": "adds at the end",
+          "circle": ".append(8)"
+        },
+        {
+          "code": "marks.append(5)",
+          "explain": "Another one at the end, at position 4.",
+          "task": "Add 5 to the end of marks."
+        },
+        {
+          "code": "print(marks, len(marks))",
+          "explain": "Prints [7, 6, 9, 8, 5] 5. Same list the whole time, just changed.",
+          "task": "Print marks and its length."
+        }
+      ],
+      "gen": {
+        "hash": "fddd26dcf2061b4211e4549d06565148942b8f9a5f2c2033dcc52a35e246cf9f",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "marks": {
+                "repr": "[7, 4, 9]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "9",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "marks": {
+                "repr": "[7, 6, 9]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "9",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "marks": {
+                "repr": "[7, 6, 9, 8]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "9",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "8",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "marks": {
+                "repr": "[7, 6, 9, 8, 5]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "9",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "8",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "[7, 6, 9, 8, 5] 5\n",
+            "vars": {
+              "marks": {
+                "repr": "[7, 6, 9, 8, 5]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "9",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "8",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Insert slides items right",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "line_up"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "1",
+          "label": "position",
+          "kind": "number",
+          "min": 0,
+          "max": 5
+        }
+      ],
+      "lines": [
+        {
+          "code": "line_up = [\"Rae\", \"Sol\", \"Tim\"]",
+          "explain": "Three names at positions 0, 1 and 2.",
+          "task": "Store the names Rae, Sol and Tim in a list called line_up."
+        },
+        {
+          "code": "line_up.insert(1, \"Kim\")",
+          "explain": "Kim goes in at position 1. Sol and Tim slide one place right: Sol is now at 2, Tim at 3.",
+          "task": "Insert Kim at position 1 of line_up.",
+          "note": "position, then value",
+          "circle": "insert(1, \"Kim\")"
+        },
+        {
+          "code": "line_up.insert(0, \"Ash\")",
+          "explain": "Position 0 is the front. Every other name moves along by one.",
+          "task": "Insert Ash at the front of line_up."
+        },
+        {
+          "code": "print(line_up)",
+          "explain": "Prints ['Ash', 'Rae', 'Kim', 'Sol', 'Tim'].",
+          "task": "Print line_up."
+        },
+        {
+          "code": "print(line_up[2])",
+          "explain": "Kim was put in at 1, but Ash came in front of it later, so Kim is at 2 now.",
+          "task": "Print the item at position 2 of line_up.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "00ccc452ceee78b997346e18931ef00bb0462eeeae370518cbf200097c5778a2",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "line_up": {
+                "repr": "['Rae', 'Sol', 'Tim']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rae'",
+                    "type": "str",
+                    "text": "Rae"
+                  },
+                  {
+                    "repr": "'Sol'",
+                    "type": "str",
+                    "text": "Sol"
+                  },
+                  {
+                    "repr": "'Tim'",
+                    "type": "str",
+                    "text": "Tim"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "line_up": {
+                "repr": "['Rae', 'Kim', 'Sol', 'Tim']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rae'",
+                    "type": "str",
+                    "text": "Rae"
+                  },
+                  {
+                    "repr": "'Kim'",
+                    "type": "str",
+                    "text": "Kim"
+                  },
+                  {
+                    "repr": "'Sol'",
+                    "type": "str",
+                    "text": "Sol"
+                  },
+                  {
+                    "repr": "'Tim'",
+                    "type": "str",
+                    "text": "Tim"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "line_up": {
+                "repr": "['Ash', 'Rae', 'Kim', 'Sol', 'Tim']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ash'",
+                    "type": "str",
+                    "text": "Ash"
+                  },
+                  {
+                    "repr": "'Rae'",
+                    "type": "str",
+                    "text": "Rae"
+                  },
+                  {
+                    "repr": "'Kim'",
+                    "type": "str",
+                    "text": "Kim"
+                  },
+                  {
+                    "repr": "'Sol'",
+                    "type": "str",
+                    "text": "Sol"
+                  },
+                  {
+                    "repr": "'Tim'",
+                    "type": "str",
+                    "text": "Tim"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "['Ash', 'Rae', 'Kim', 'Sol', 'Tim']\n",
+            "vars": {
+              "line_up": {
+                "repr": "['Ash', 'Rae', 'Kim', 'Sol', 'Tim']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ash'",
+                    "type": "str",
+                    "text": "Ash"
+                  },
+                  {
+                    "repr": "'Rae'",
+                    "type": "str",
+                    "text": "Rae"
+                  },
+                  {
+                    "repr": "'Kim'",
+                    "type": "str",
+                    "text": "Kim"
+                  },
+                  {
+                    "repr": "'Sol'",
+                    "type": "str",
+                    "text": "Sol"
+                  },
+                  {
+                    "repr": "'Tim'",
+                    "type": "str",
+                    "text": "Tim"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "Kim\n",
+            "vars": {
+              "line_up": {
+                "repr": "['Ash', 'Rae', 'Kim', 'Sol', 'Tim']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ash'",
+                    "type": "str",
+                    "text": "Ash"
+                  },
+                  {
+                    "repr": "'Rae'",
+                    "type": "str",
+                    "text": "Rae"
+                  },
+                  {
+                    "repr": "'Kim'",
+                    "type": "str",
+                    "text": "Kim"
+                  },
+                  {
+                    "repr": "'Sol'",
+                    "type": "str",
+                    "text": "Sol"
+                  },
+                  {
+                    "repr": "'Tim'",
+                    "type": "str",
+                    "text": "Tim"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 5,
+                "target": "line_up",
+                "key": "2",
+                "len": 5,
+                "at": 2,
+                "picked": [
+                  2
+                ],
+                "value": "'Kim'"
+              },
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "print(line_up[2])"
+                  },
+                  {
+                    "text": "print(['Ash', 'Rae', 'Kim', 'Sol', 'Tim'][2])"
+                  },
+                  {
+                    "text": "print('Kim')",
+                    "part": "['Ash', 'Rae', 'Kim', 'Sol', 'Tim'][2]",
+                    "value": "'Kim'"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Taking items out",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "cart"
+      ],
+      "lines": [
+        {
+          "code": "cart = [\"soap\", \"rice\", \"milk\", \"eggs\", \"jam\"]",
+          "explain": "Five things in the cart.",
+          "task": "Store soap, rice, milk, eggs and jam in a list called cart."
+        },
+        {
+          "code": "last = cart.pop()",
+          "explain": "pop() takes out the last item and gives it back, so last holds jam.",
+          "task": "Take the last item out of cart and store it in last.",
+          "note": "gives the item back",
+          "circle": "cart.pop()"
+        },
+        {
+          "code": "first = cart.pop(0)",
+          "explain": "pop(0) takes out the item at position 0, soap. The rest slide left.",
+          "task": "Take the item at position 0 out of cart and store it in first."
+        },
+        {
+          "code": "print(first, last)",
+          "explain": "Prints soap jam.",
+          "task": "Print first and last."
+        },
+        {
+          "code": "cart.remove(\"milk\")",
+          "explain": "remove looks for a value, not a position. It takes out the first item equal to milk.",
+          "task": "Remove the item milk from cart.",
+          "note": "by value",
+          "circle": "remove(\"milk\")"
+        },
+        {
+          "code": "del cart[0]",
+          "explain": "del deletes by position and gives nothing back. rice goes.",
+          "task": "Delete the item at position 0 of cart."
+        },
+        {
+          "code": "print(cart)",
+          "explain": "Only eggs is left: ['eggs'].",
+          "task": "Print cart."
+        }
+      ],
+      "gen": {
+        "hash": "b180a6d0080faa14c21b811b45115212f32f7e12a4a87a74ba27f9b4f8cec884",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "cart": {
+                "repr": "['soap', 'rice', 'milk', 'eggs', 'jam']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'soap'",
+                    "type": "str",
+                    "text": "soap"
+                  },
+                  {
+                    "repr": "'rice'",
+                    "type": "str",
+                    "text": "rice"
+                  },
+                  {
+                    "repr": "'milk'",
+                    "type": "str",
+                    "text": "milk"
+                  },
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  },
+                  {
+                    "repr": "'jam'",
+                    "type": "str",
+                    "text": "jam"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "cart": {
+                "repr": "['soap', 'rice', 'milk', 'eggs']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "last": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'soap'",
+                    "type": "str",
+                    "text": "soap"
+                  },
+                  {
+                    "repr": "'rice'",
+                    "type": "str",
+                    "text": "rice"
+                  },
+                  {
+                    "repr": "'milk'",
+                    "type": "str",
+                    "text": "milk"
+                  },
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "cart": {
+                "repr": "['rice', 'milk', 'eggs']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "last": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "first": {
+                "repr": "'soap'",
+                "type": "str",
+                "text": "soap"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'rice'",
+                    "type": "str",
+                    "text": "rice"
+                  },
+                  {
+                    "repr": "'milk'",
+                    "type": "str",
+                    "text": "milk"
+                  },
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "soap jam\n",
+            "vars": {
+              "cart": {
+                "repr": "['rice', 'milk', 'eggs']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "last": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "first": {
+                "repr": "'soap'",
+                "type": "str",
+                "text": "soap"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'rice'",
+                    "type": "str",
+                    "text": "rice"
+                  },
+                  {
+                    "repr": "'milk'",
+                    "type": "str",
+                    "text": "milk"
+                  },
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "cart": {
+                "repr": "['rice', 'eggs']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "last": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "first": {
+                "repr": "'soap'",
+                "type": "str",
+                "text": "soap"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'rice'",
+                    "type": "str",
+                    "text": "rice"
+                  },
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "cart": {
+                "repr": "['eggs']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "last": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "first": {
+                "repr": "'soap'",
+                "type": "str",
+                "text": "soap"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "['eggs']\n",
+            "vars": {
+              "cart": {
+                "repr": "['eggs']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "last": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "first": {
+                "repr": "'soap'",
+                "type": "str",
+                "text": "soap"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'eggs'",
+                    "type": "str",
+                    "text": "eggs"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in marks after line 2?",
+      "options": [
+        "[7, 6, 9]",
+        "[6, 4, 9]",
+        "[7, 4, 9]",
+        "[7, 6, 4, 9]"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "marks"
+      },
+      "why": "Assigning to a position replaces that one item. Nothing slides."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 2,
+      "q": "What is stored in line_up after line 2?",
+      "options": [
+        "['Rae', 'Kim', 'Sol', 'Tim']",
+        "['Kim', 'Rae', 'Sol', 'Tim']",
+        "['Rae', 'Kim', 'Tim']",
+        "['Rae', 'Sol', 'Kim', 'Tim']"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "line_up"
+      },
+      "why": "insert(1, ...) puts the new item at position 1 and slides the rest right. Nothing is replaced."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 2,
+      "q": "What is stored in last after line 2?",
+      "options": [
+        "'jam'",
+        "'soap'",
+        "None",
+        "['jam']"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "last"
+      },
+      "why": "pop() gives back the item it took out, which is the last one."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints ['red', 'blue']",
+      "code": [
+        "paints = [\"red\"]",
+        "paints.___(\"blue\")",
+        "print(paints)"
+      ],
+      "answers": [
+        "append"
+      ],
+      "gen": {
+        "hash": "31e068c955a637633feafb397d179daed6a189b1e12fc41c4ab227896d5c5399",
+        "expected": {
+          "stdout": "['red', 'blue']",
+          "vars": {
+            "paints": {
+              "repr": "['red', 'blue']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program fixes the typo and prints ['a', 'b', 'c']",
+      "code": [
+        "letters = [\"a\", \"x\", \"c\"]",
+        "letters[___] = ___",
+        "print(letters)"
+      ],
+      "answers": [
+        "1",
+        "\"b\""
+      ],
+      "gen": {
+        "hash": "e9eadffcaf2052839bab9d854b37a269fb5b4fb00743767559a5a806b735486b",
+        "expected": {
+          "stdout": "['a', 'b', 'c']",
+          "vars": {
+            "letters": {
+              "repr": "['a', 'b', 'c']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program takes cola off the front, puts milk there instead, and prints:\n['milk', 'tea']",
+      "lines": [
+        "drinks = [\"cola\", \"tea\"]",
+        "drinks.pop(0)",
+        "drinks.insert(0, \"milk\")",
+        "print(drinks)"
+      ],
+      "gen": {
+        "hash": "aca1407e3e1e364531a83823822e7a00f507ce75ce9ad3790e044b94621f00b7",
+        "expected": {
+          "stdout": "['milk', 'tea']",
+          "vars": {
+            "drinks": {
+              "repr": "['milk', 'tea']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print 3, the number of songs. It stops with an error instead. Fix it.",
+      "code": [
+        "songs = [\"Intro\", \"Hey\"]",
+        "songs = songs.append(\"Outro\")",
+        "print(len(songs))"
+      ],
+      "solution": [
+        "songs = [\"Intro\", \"Hey\"]",
+        "songs.append(\"Outro\")",
+        "print(len(songs))"
+      ],
+      "tests": [
+        {
+          "name": "prints 3",
+          "stdout": "3"
+        }
+      ],
+      "hint": "append changes the list itself and gives back None. Do not store its result.",
+      "gen": {
+        "hash": "32e23f13e1139d9e7eb9de2cae1b688bfb4bebeddec6a6575012bd12efb7f87c",
+        "error": "TypeError: object of type 'NoneType' has no len()"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so Lee is taken out instead of the last name. It should print:\n['Pam', 'Joe']",
+      "code": [
+        "team = [\"Pam\", \"Lee\", \"Joe\"]",
+        "team.pop()",
+        "print(team)"
+      ],
+      "solution": [
+        "team = [\"Pam\", \"Lee\", \"Joe\"]",
+        "team.remove(\"Lee\")",
+        "print(team)"
+      ],
+      "tests": [
+        {
+          "name": "prints ['Pam', 'Joe']",
+          "stdout": "['Pam', 'Joe']"
+        }
+      ],
+      "hint": "remove takes out an item by its value. pop(1) works too.",
+      "gen": {
+        "hash": "e868dad87eb076008962b3d5b19486221894288dfb3169aebae062bbae7e58a3"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so the new step goes at the front, not the end. It should print:\n['wash', 'cut', 'cook']",
+      "code": [
+        "steps = [\"cut\", \"cook\"]",
+        "steps.append(\"wash\")",
+        "print(steps)"
+      ],
+      "solution": [
+        "steps = [\"cut\", \"cook\"]",
+        "steps.insert(0, \"wash\")",
+        "print(steps)"
+      ],
+      "tests": [
+        {
+          "name": "prints wash first",
+          "stdout": "['wash', 'cut', 'cook']"
+        }
+      ],
+      "hint": "insert(0, ...) puts an item at the front.",
+      "gen": {
+        "hash": "7b9d927fed44536f371ce34ab774329ffcd5b98e9e33f67c907a24cbbb73227e"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Start with an empty list. Ask Word? again and again. When the answer is stop, end the loop. Otherwise add the word to the end of the list. Then print how many words there are and the list. With sun, sea and stop:\nWord? sun\nWord? sea\nWord? stop\n2 words: ['sun', 'sea']",
+      "solution": [
+        "words = []",
+        "while True:",
+        "    word = input(\"Word? \")",
+        "    if word == \"stop\":",
+        "        break",
+        "    words.append(word)",
+        "print(f\"{len(words)} words: {words}\")"
+      ],
+      "tests": [
+        {
+          "name": "two words",
+          "stdin": [
+            "sun",
+            "sea",
+            "stop"
+          ],
+          "stdout": "Word? sun\nWord? sea\nWord? stop\n2 words: ['sun', 'sea']"
+        },
+        {
+          "name": "no words",
+          "stdin": [
+            "stop"
+          ],
+          "stdout": "Word? stop\n0 words: []"
+        },
+        {
+          "name": "three words",
+          "stdin": [
+            "red",
+            "red",
+            "blue",
+            "stop"
+          ],
+          "stdout": "Word? red\nWord? red\nWord? blue\nWord? stop\n3 words: ['red', 'red', 'blue']"
+        }
+      ],
+      "hints": [
+        "words = [] makes the empty list before the loop",
+        "Use while True with break when the word is stop",
+        "words.append(word) adds it at the end. A list prints with brackets inside an f-string too"
+      ],
+      "gen": {
+        "hash": "548ea261059001d472dfc8919fb793e12b158a8b1701f9816f9ece6168f0b763"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "After `xs = [1, 2, 3]` and `xs.append(4)`, what is xs?",
+      "options": [
+        "[1, 2, 3, 4]",
+        "[4, 1, 2, 3]",
+        "[1, 2, 3]",
+        "None"
+      ],
+      "answer": 0,
+      "why": "append adds one item at the end of the same list."
+    },
+    {
+      "q": "After `xs = [\"a\", \"b\", \"c\"]` and `xs.insert(1, \"z\")`, what is xs?",
+      "options": [
+        "['a', 'z', 'b', 'c']",
+        "['z', 'a', 'b', 'c']",
+        "['a', 'z', 'c']",
+        "['a', 'b', 'z', 'c']"
+      ],
+      "answer": 0,
+      "why": "z goes in at position 1, and b and c slide right."
+    },
+    {
+      "q": "What is the difference between `xs.remove(3)` and `xs.pop(3)`?",
+      "options": [
+        "remove looks for the value 3, pop takes the item at position 3",
+        "They do the same thing",
+        "remove takes position 3, pop looks for the value 3",
+        "pop only works on numbers"
+      ],
+      "answer": 0,
+      "why": "remove finds an item by its value. pop takes one out by its position."
+    },
+    {
+      "q": "After `xs = [1, 2, 1]` and `xs.remove(1)`, what is xs?",
+      "options": [
+        "[2, 1]",
+        "[2]",
+        "[1, 2]",
+        "[1, 1]"
+      ],
+      "answer": 0,
+      "why": "remove takes out only the first item that matches."
+    },
+    {
+      "q": "What happens with `xs = [4, 5]` and then `xs[2] = 6`?",
+      "options": [
+        "IndexError",
+        "xs becomes [4, 5, 6]",
+        "xs becomes [4, 6]",
+        "xs becomes [6, 4, 5]"
+      ],
+      "answer": 0,
+      "why": "You can only replace a position that exists. To add at the end, use append."
+    },
+    {
+      "q": "What does `xs.append(7)` give back?",
+      "options": [
+        "None",
+        "The new list",
+        "7",
+        "The length of the list"
+      ],
+      "answer": 0,
+      "why": "append changes the list and gives back None, so never store its result."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Adding a new item with a position",
+      "code": [
+        "days = [\"Mon\", \"Tue\"]",
+        "days[2] = \"Wed\"",
+        "print(days)"
+      ],
+      "explain": "Position 2 does not exist yet, and assigning to a position never adds one. Use append to add at the end.",
+      "fix": [
+        "days = [\"Mon\", \"Tue\"]",
+        "days.append(\"Wed\")",
+        "print(days)"
+      ],
+      "gen": {
+        "hash": "5767853f1da18ce8630e9dc727c3121f70f8fc3a61645fc22b9029389f67edcd",
+        "error": "IndexError: list assignment index out of range",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Removing a value that is not there",
+      "code": [
+        "pets = [\"cat\", \"dog\"]",
+        "pets.remove(\"fish\")",
+        "print(pets)"
+      ],
+      "explain": "remove stops the program when it cannot find the value. Check with in first.",
+      "fix": [
+        "pets = [\"cat\", \"dog\"]",
+        "if \"fish\" in pets:",
+        "    pets.remove(\"fish\")",
+        "print(pets)"
+      ],
+      "gen": {
+        "hash": "3896fb08310dd75b5c00bdc8b8390d7e21fd62a9158ef59719d64e7a3643744b",
+        "error": "ValueError: list.remove(x): x not in list",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Storing the result of append",
+      "code": [
+        "names = [\"Ali\"]",
+        "names = names.append(\"Bo\")",
+        "names.append(\"Cy\")"
+      ],
+      "explain": "Line 2 stores None in names, because append gives back None. The next append then has no list to work on.",
+      "fix": [
+        "names = [\"Ali\"]",
+        "names.append(\"Bo\")",
+        "names.append(\"Cy\")"
+      ],
+      "gen": {
+        "hash": "c7f3f858b71ca0773d5281c4011742ad8d7e1aeeb8471e53b96ba065de2eadc5",
+        "error": "AttributeError: 'NoneType' object has no attribute 'append'",
+        "line": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: more on lists",
+      "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
+    },
+    {
+      "title": "Reference: mutable sequence types",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#mutable-sequence-types"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 8. Lists and Dictionaries"
+    }
+  ]
+}

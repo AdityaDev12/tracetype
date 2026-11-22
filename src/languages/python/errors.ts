@@ -54,6 +54,7 @@ const RULES: Rule[] = [
     test: /^TypeError: can't multiply sequence by non-int of type '(.+?)'/,
     explain: (m) => `Text can only be repeated with * by a whole number, not by a ${m[1]}. Convert it with int() first.`,
   },
+  { test: /^TypeError: object of type 'NoneType' has no len\(\)/, explain: () => 'This name holds None, not a list. Did you store the result of append() or sort()? They change the list and give back None.' },
   { test: /^TypeError: object of type '(.+?)' has no len\(\)/, explain: (m) => `len() counts the items in text or a list. A ${m[1]} has no length.` },
   {
     test: /^TypeError: '(.+?)' not supported between instances of '(.+?)' and '(.+?)'/,

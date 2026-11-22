@@ -11,3 +11,13 @@ test('list cells show one box per item and light the index used', async ({ page 
   await expect(page.locator('.viz-cells .cell')).toHaveCount(4)
   await expect(page.locator('.viz-cells .cell.pick .cell-val')).toHaveText('18')
 })
+
+test('changing a list: a replaced cell shows its old value, append adds a new cell', async ({ page }) => {
+  await page.goto('#/lesson/py-27-changing-lists/examples')
+  await stepForward(page, 2)
+  await expect(page.locator('.viz-cells .cell.changed .cell-val')).toHaveText('6')
+  await expect(page.locator('.viz-cells .cell-was')).toHaveText('was 4')
+  await page.keyboard.press('ArrowRight')
+  await expect(page.locator('.viz-cells .cell.new .cell-val')).toHaveText('8')
+  await expect(page.locator('.viz-cells .cell')).toHaveCount(4)
+})
