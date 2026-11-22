@@ -61,7 +61,13 @@ const RULES: Rule[] = [
   },
   { test: /^TypeError: '(.+?)' object is not iterable/, explain: (m) => `A for loop needs something with items to step through, like text or range(). A ${m[1]} has no items. Did you mean range(...)?` },
   { test: /^TypeError: 'float' object cannot be interpreted as an integer/, explain: () => 'range() only takes whole numbers. Use int() or // to get a whole number.' },
-  { test: /^TypeError: (string|list|tuple) indices must be integers/, explain: (m) => `A position in a ${m[1]} must be a whole number. If it came from /, use // instead.` },
+  {
+    test: /^TypeError: (string|list|tuple) indices must be integers(?: or slices)?, not '?([^']+)'?/,
+    explain: (m) =>
+      m[2] === 'tuple'
+        ? 'Inside [ ] a comma makes a pair of numbers. For a slice, use a colon: [0:3].'
+        : `A position in a ${m[1]} must be a whole number, not a ${m[2]}. If it came from /, use // instead.`,
+  },
   { test: /^TypeError: '(.+?)' object does not support item assignment/, explain: (m) => `A ${m[1]} can never be changed. Make a new one instead, for example with a method or with slices and +.` },
   { test: /^TypeError: '(.+?)' object is not callable/, explain: (m) => `You put ( ) after something that is a ${m[1]}, not a function.` },
   { test: /^TypeError/, explain: () => 'A value of the wrong type was used here.' },

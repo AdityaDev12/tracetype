@@ -27,6 +27,13 @@ describe('explainPythonError', () => {
     expect(explainPythonError('OSError: [Errno 29] I/O error')).toMatch(/input\(\)/)
   })
 
+  it('explains string mistakes from Unit 4', () => {
+    expect(explainPythonError("TypeError: string indices must be integers, not 'tuple'")).toMatch(/colon/)
+    expect(explainPythonError('TypeError: list indices must be integers or slices, not float')).toMatch(/not a float/)
+    expect(explainPythonError("TypeError: 'str' object does not support item assignment")).toMatch(/never be changed/)
+    expect(explainPythonError("ValueError: Unknown format code 'f' for object of type 'str'")).toMatch(/:f does not work on a str/)
+  })
+
   it('returns null for something unknown', () => {
     expect(explainPythonError('SomethingNew: hm')).toBeNull()
   })

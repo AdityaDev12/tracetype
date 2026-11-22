@@ -50,7 +50,8 @@
       "title": "Strings in depth",
       "summary": "Work with text like a pro: positions, slices, string methods, searching and neat formatted output.",
       "lessons": [
-        "py-21-indexing"
+        "py-21-indexing",
+        "py-22-slicing"
       ]
     }
   ]

@@ -1,0 +1,1538 @@
+{
+  "id": "py-22-slicing",
+  "track": "python",
+  "unit": "py-u4",
+  "order": 22,
+  "title": "Slicing",
+  "summary": "Cut a piece out of a string with start:stop, skip characters with a step, and reverse text.",
+  "language": "python",
+  "minutes": 25,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "memory"
+  ],
+  "intro": {
+    "text": "A **slice** cuts a piece out of a string. Put two positions inside the brackets with a colon between them:\n\n```\nsong = \"sunflower\"\nprint(song[0:3])\nprint(song[3:9])\n```\n\nprints sun and then flower. `song[start:stop]` starts **at** start and stops **just before** stop. The stop position is never included, so the piece has `stop - start` characters.\n\n- Leave out start and it begins at 0: `song[:3]` is sun.\n- Leave out stop and it goes to the end: `song[3:]` is flower.\n- Negative positions work too: `song[-5:]` is the last five characters.\n- A third number is the **step**: `song[::2]` takes every second character.\n- A step of -1 walks backwards, so `song[::-1]` is the whole string reversed.\n\nA slice never stops the program with an IndexError. Positions past the end are cut to fit, and if nothing is inside you get an empty string `\"\"`. The **cells** panel lights up every box the slice takes.",
+    "analogy": "A window you slide over the row of boxes: the left edge sits on start and the right edge sits just before stop. Everything you can see through the window is the slice."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "word = \"pancake\"",
+        "print(word[0:3])",
+        "print(word[3:])"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        2,
+        3
+      ],
+      "why": "0:3 takes positions 0, 1 and 2: pan. 3: starts at position 3 and runs to the end: cake.",
+      "gen": {
+        "hash": "a002bd17aacbd41c35f248c1503cc5651c8bf926bf2aa1955e3cbbe4b25daff7",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'pancake'",
+                "type": "str",
+                "text": "pancake"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "pan\n",
+            "vars": {
+              "word": {
+                "repr": "'pancake'",
+                "type": "str",
+                "text": "pancake"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "word",
+                "key": "0:3",
+                "len": 7,
+                "picked": [
+                  0,
+                  1,
+                  2
+                ],
+                "slice": true,
+                "value": "'pan'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(word[0:3])"
+                  },
+                  {
+                    "text": "print('pancake'[0:3])"
+                  },
+                  {
+                    "text": "print('pan')",
+                    "part": "'pancake'[0:3]",
+                    "value": "'pan'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "cake\n",
+            "vars": {
+              "word": {
+                "repr": "'pancake'",
+                "type": "str",
+                "text": "pancake"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "word",
+                "key": "3:",
+                "len": 7,
+                "picked": [
+                  3,
+                  4,
+                  5,
+                  6
+                ],
+                "slice": true,
+                "value": "'cake'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(word[3:])"
+                  },
+                  {
+                    "text": "print('pancake'[3:])"
+                  },
+                  {
+                    "text": "print('cake')",
+                    "part": "'pancake'[3:]",
+                    "value": "'cake'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "pan\ncake"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "text = \"python\"",
+        "print(text[1:4])"
+      ],
+      "kind": "choice",
+      "options": [
+        "yth",
+        "ytho",
+        "pyth",
+        "yt"
+      ],
+      "expr": [
+        2
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "1",
+          "label": "start",
+          "kind": "number",
+          "min": 0,
+          "max": 6
+        },
+        {
+          "line": 2,
+          "find": "4",
+          "label": "stop",
+          "kind": "number",
+          "min": 0,
+          "max": 8
+        }
+      ],
+      "why": "Start at position 1 (y) and stop just before 4. That is positions 1, 2 and 3: yth.",
+      "gen": {
+        "hash": "b7c7033d2dc520608c3162a238777941a66338b23cb235db7a97db5942968407",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'python'",
+                "type": "str",
+                "text": "python"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "yth\n",
+            "vars": {
+              "text": {
+                "repr": "'python'",
+                "type": "str",
+                "text": "python"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "text",
+                "key": "1:4",
+                "len": 6,
+                "picked": [
+                  1,
+                  2,
+                  3
+                ],
+                "slice": true,
+                "value": "'yth'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(text[1:4])"
+                  },
+                  {
+                    "text": "print('python'[1:4])"
+                  },
+                  {
+                    "text": "print('yth')",
+                    "part": "'python'[1:4]",
+                    "value": "'yth'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "yth",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "name = \"bird\"",
+        "print(name[::-1])",
+        "print(name[2:99])"
+      ],
+      "kind": "choice",
+      "options": [
+        "drib\nrd",
+        "bird\nrd",
+        "drib\nIndexError",
+        "drib\nr"
+      ],
+      "expr": [
+        2,
+        3
+      ],
+      "why": "A step of -1 walks backwards, so the text comes out reversed. 2:99 goes past the end, which is fine in a slice: it just stops at the end, giving rd.",
+      "gen": {
+        "hash": "9bf45ab0ca852e27c32e08a370fe83af8fa1d57f97a899448b98ee1e802f20f8",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'bird'",
+                "type": "str",
+                "text": "bird"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "drib\n",
+            "vars": {
+              "name": {
+                "repr": "'bird'",
+                "type": "str",
+                "text": "bird"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "name",
+                "key": "::-1",
+                "len": 4,
+                "picked": [
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                "slice": true,
+                "value": "'drib'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(name[::-1])"
+                  },
+                  {
+                    "text": "print('bird'[::-1])"
+                  },
+                  {
+                    "text": "print('bird'[::(-1)])",
+                    "part": "-1",
+                    "value": "-1"
+                  },
+                  {
+                    "text": "print('drib')",
+                    "part": "'bird'[::(-1)]",
+                    "value": "'drib'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "rd\n",
+            "vars": {
+              "name": {
+                "repr": "'bird'",
+                "type": "str",
+                "text": "bird"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "name",
+                "key": "2:99",
+                "len": 4,
+                "picked": [
+                  2,
+                  3
+                ],
+                "slice": true,
+                "value": "'rd'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(name[2:99])"
+                  },
+                  {
+                    "text": "print('bird'[2:99])"
+                  },
+                  {
+                    "text": "print('rd')",
+                    "part": "'bird'[2:99]",
+                    "value": "'rd'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "drib\nrd",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "A window from start to stop",
+      "focus": [
+        "date"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "0",
+          "label": "start",
+          "kind": "number",
+          "min": 0,
+          "max": 10
+        },
+        {
+          "line": 2,
+          "find": "4",
+          "label": "stop",
+          "kind": "number",
+          "min": 0,
+          "max": 12
+        }
+      ],
+      "lines": [
+        {
+          "code": "date = \"2031-07-15\"",
+          "explain": "10 characters: a year, a month and a day with dashes between them.",
+          "task": "Store the text 2031-07-15 in date."
+        },
+        {
+          "code": "year = date[0:4]",
+          "explain": "Positions 0, 1, 2 and 3. Stop is 4, and stop is never included, so you get 4 characters: 2031.",
+          "task": "Store the first four characters of date in year, using a slice from 0 to 4.",
+          "note": "stop is not included",
+          "circle": "0:4",
+          "expr": true
+        },
+        {
+          "code": "month = date[5:7]",
+          "explain": "Skip the dash at 4. Positions 5 and 6 are 07.",
+          "task": "Store the characters at positions 5 and 6 of date in month.",
+          "expr": true
+        },
+        {
+          "code": "day = date[8:10]",
+          "explain": "Positions 8 and 9: 15. A slice always gives back a string, even when it looks like a number.",
+          "task": "Store the characters at positions 8 and 9 of date in day.",
+          "expr": true
+        },
+        {
+          "code": "print(day, month, year)",
+          "explain": "Prints 15 07 2031. Move the start and stop knobs and watch the window change.",
+          "task": "Print day, month and year."
+        }
+      ],
+      "gen": {
+        "hash": "7dadac23d9e4d425c4aa06f316360bb45e53bc1939371f544ab6d7770eda0bcd",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "date": {
+                "repr": "'2031-07-15'",
+                "type": "str",
+                "text": "2031-07-15"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "date": {
+                "repr": "'2031-07-15'",
+                "type": "str",
+                "text": "2031-07-15"
+              },
+              "year": {
+                "repr": "'2031'",
+                "type": "str",
+                "text": "2031"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "date",
+                "key": "0:4",
+                "len": 10,
+                "picked": [
+                  0,
+                  1,
+                  2,
+                  3
+                ],
+                "slice": true,
+                "value": "'2031'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "year = date[0:4]"
+                  },
+                  {
+                    "text": "year = '2031-07-15'[0:4]"
+                  },
+                  {
+                    "text": "year = '2031'",
+                    "part": "'2031-07-15'[0:4]",
+                    "value": "'2031'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "date": {
+                "repr": "'2031-07-15'",
+                "type": "str",
+                "text": "2031-07-15"
+              },
+              "year": {
+                "repr": "'2031'",
+                "type": "str",
+                "text": "2031"
+              },
+              "month": {
+                "repr": "'07'",
+                "type": "str",
+                "text": "07"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "date",
+                "key": "5:7",
+                "len": 10,
+                "picked": [
+                  5,
+                  6
+                ],
+                "slice": true,
+                "value": "'07'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "month = date[5:7]"
+                  },
+                  {
+                    "text": "month = '2031-07-15'[5:7]"
+                  },
+                  {
+                    "text": "month = '07'",
+                    "part": "'2031-07-15'[5:7]",
+                    "value": "'07'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "date": {
+                "repr": "'2031-07-15'",
+                "type": "str",
+                "text": "2031-07-15"
+              },
+              "year": {
+                "repr": "'2031'",
+                "type": "str",
+                "text": "2031"
+              },
+              "month": {
+                "repr": "'07'",
+                "type": "str",
+                "text": "07"
+              },
+              "day": {
+                "repr": "'15'",
+                "type": "str",
+                "text": "15"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 4,
+                "target": "date",
+                "key": "8:10",
+                "len": 10,
+                "picked": [
+                  8,
+                  9
+                ],
+                "slice": true,
+                "value": "'15'"
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "day = date[8:10]"
+                  },
+                  {
+                    "text": "day = '2031-07-15'[8:10]"
+                  },
+                  {
+                    "text": "day = '15'",
+                    "part": "'2031-07-15'[8:10]",
+                    "value": "'15'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "15 07 2031\n",
+            "vars": {
+              "date": {
+                "repr": "'2031-07-15'",
+                "type": "str",
+                "text": "2031-07-15"
+              },
+              "year": {
+                "repr": "'2031'",
+                "type": "str",
+                "text": "2031"
+              },
+              "month": {
+                "repr": "'07'",
+                "type": "str",
+                "text": "07"
+              },
+              "day": {
+                "repr": "'15'",
+                "type": "str",
+                "text": "15"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Leaving out an end",
+      "focus": [
+        "file"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"holiday.jpg\"",
+          "label": "file",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "file = \"holiday.jpg\"",
+          "explain": "11 characters.",
+          "task": "Store the text holiday.jpg in file."
+        },
+        {
+          "code": "start = file[:3]",
+          "explain": "No start means from 0. The first three characters: hol.",
+          "task": "Store the first three characters of file in start, leaving out the start position.",
+          "note": "from the beginning",
+          "expr": true
+        },
+        {
+          "code": "rest = file[3:]",
+          "explain": "No stop means to the end. Together, [:3] and [3:] give back the whole string.",
+          "task": "Store everything from position 3 to the end of file in rest.",
+          "note": "to the end",
+          "expr": true
+        },
+        {
+          "code": "ending = file[-3:]",
+          "explain": "Start 3 from the right end and go to the end: jpg. This works for any length of name.",
+          "task": "Store the last three characters of file in ending.",
+          "circle": "-3:",
+          "expr": true
+        },
+        {
+          "code": "print(start, rest, ending)",
+          "explain": "Prints hol iday.jpg jpg.",
+          "task": "Print start, rest and ending."
+        }
+      ],
+      "gen": {
+        "hash": "efc0ab71be7e2cac3309e162296677c02bf7bc1f37090dde1394559896a64415",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'holiday.jpg'",
+                "type": "str",
+                "text": "holiday.jpg"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'holiday.jpg'",
+                "type": "str",
+                "text": "holiday.jpg"
+              },
+              "start": {
+                "repr": "'hol'",
+                "type": "str",
+                "text": "hol"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "file",
+                "key": ":3",
+                "len": 11,
+                "picked": [
+                  0,
+                  1,
+                  2
+                ],
+                "slice": true,
+                "value": "'hol'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "start = file[:3]"
+                  },
+                  {
+                    "text": "start = 'holiday.jpg'[:3]"
+                  },
+                  {
+                    "text": "start = 'hol'",
+                    "part": "'holiday.jpg'[:3]",
+                    "value": "'hol'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'holiday.jpg'",
+                "type": "str",
+                "text": "holiday.jpg"
+              },
+              "start": {
+                "repr": "'hol'",
+                "type": "str",
+                "text": "hol"
+              },
+              "rest": {
+                "repr": "'iday.jpg'",
+                "type": "str",
+                "text": "iday.jpg"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "file",
+                "key": "3:",
+                "len": 11,
+                "picked": [
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ],
+                "slice": true,
+                "value": "'iday.jpg'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "rest = file[3:]"
+                  },
+                  {
+                    "text": "rest = 'holiday.jpg'[3:]"
+                  },
+                  {
+                    "text": "rest = 'iday.jpg'",
+                    "part": "'holiday.jpg'[3:]",
+                    "value": "'iday.jpg'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'holiday.jpg'",
+                "type": "str",
+                "text": "holiday.jpg"
+              },
+              "start": {
+                "repr": "'hol'",
+                "type": "str",
+                "text": "hol"
+              },
+              "rest": {
+                "repr": "'iday.jpg'",
+                "type": "str",
+                "text": "iday.jpg"
+              },
+              "ending": {
+                "repr": "'jpg'",
+                "type": "str",
+                "text": "jpg"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 4,
+                "target": "file",
+                "key": "-3:",
+                "len": 11,
+                "picked": [
+                  8,
+                  9,
+                  10
+                ],
+                "slice": true,
+                "value": "'jpg'"
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "ending = file[-3:]"
+                  },
+                  {
+                    "text": "ending = 'holiday.jpg'[-3:]"
+                  },
+                  {
+                    "text": "ending = 'holiday.jpg'[(-3):]",
+                    "part": "-3",
+                    "value": "-3"
+                  },
+                  {
+                    "text": "ending = 'jpg'",
+                    "part": "'holiday.jpg'[(-3):]",
+                    "value": "'jpg'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "hol iday.jpg jpg\n",
+            "vars": {
+              "file": {
+                "repr": "'holiday.jpg'",
+                "type": "str",
+                "text": "holiday.jpg"
+              },
+              "start": {
+                "repr": "'hol'",
+                "type": "str",
+                "text": "hol"
+              },
+              "rest": {
+                "repr": "'iday.jpg'",
+                "type": "str",
+                "text": "iday.jpg"
+              },
+              "ending": {
+                "repr": "'jpg'",
+                "type": "str",
+                "text": "jpg"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Steps and going backwards",
+      "focus": [
+        "letters"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "2",
+          "label": "step",
+          "kind": "number",
+          "min": 1,
+          "max": 5
+        }
+      ],
+      "lines": [
+        {
+          "code": "letters = \"abcdefgh\"",
+          "explain": "8 letters.",
+          "task": "Store the text abcdefgh in letters."
+        },
+        {
+          "code": "every_other = letters[::2]",
+          "explain": "From the start to the end, taking every second character: a, c, e and g.",
+          "task": "Store every second character of letters in every_other.",
+          "note": "the step",
+          "circle": "::2",
+          "expr": true
+        },
+        {
+          "code": "backwards = letters[::-1]",
+          "explain": "A step of -1 starts at the right end and walks left. The small numbers on the cells show the order the slice takes them.",
+          "task": "Store letters reversed in backwards.",
+          "note": "walk backwards",
+          "expr": true
+        },
+        {
+          "code": "nothing = letters[5:2]",
+          "explain": "Start 5 is to the right of stop 2, and the step is +1, so there is nothing inside the window. You get \"\", not an error.",
+          "task": "Store the slice of letters from 5 to 2 in nothing.",
+          "expr": true
+        },
+        {
+          "code": "print(every_other, backwards, len(nothing))",
+          "explain": "Prints aceg hgfedcba 0.",
+          "task": "Print every_other, backwards and the length of nothing."
+        }
+      ],
+      "gen": {
+        "hash": "e563159392908a321acd58165aea6e39e3cd2ff873e6d7499ec2619b6d85436d",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "letters": {
+                "repr": "'abcdefgh'",
+                "type": "str",
+                "text": "abcdefgh"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "letters": {
+                "repr": "'abcdefgh'",
+                "type": "str",
+                "text": "abcdefgh"
+              },
+              "every_other": {
+                "repr": "'aceg'",
+                "type": "str",
+                "text": "aceg"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "letters",
+                "key": "::2",
+                "len": 8,
+                "picked": [
+                  0,
+                  2,
+                  4,
+                  6
+                ],
+                "slice": true,
+                "value": "'aceg'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "every_other = letters[::2]"
+                  },
+                  {
+                    "text": "every_other = 'abcdefgh'[::2]"
+                  },
+                  {
+                    "text": "every_other = 'aceg'",
+                    "part": "'abcdefgh'[::2]",
+                    "value": "'aceg'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "letters": {
+                "repr": "'abcdefgh'",
+                "type": "str",
+                "text": "abcdefgh"
+              },
+              "every_other": {
+                "repr": "'aceg'",
+                "type": "str",
+                "text": "aceg"
+              },
+              "backwards": {
+                "repr": "'hgfedcba'",
+                "type": "str",
+                "text": "hgfedcba"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "letters",
+                "key": "::-1",
+                "len": 8,
+                "picked": [
+                  7,
+                  6,
+                  5,
+                  4,
+                  3,
+                  2,
+                  1,
+                  0
+                ],
+                "slice": true,
+                "value": "'hgfedcba'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "backwards = letters[::-1]"
+                  },
+                  {
+                    "text": "backwards = 'abcdefgh'[::-1]"
+                  },
+                  {
+                    "text": "backwards = 'abcdefgh'[::(-1)]",
+                    "part": "-1",
+                    "value": "-1"
+                  },
+                  {
+                    "text": "backwards = 'hgfedcba'",
+                    "part": "'abcdefgh'[::(-1)]",
+                    "value": "'hgfedcba'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "letters": {
+                "repr": "'abcdefgh'",
+                "type": "str",
+                "text": "abcdefgh"
+              },
+              "every_other": {
+                "repr": "'aceg'",
+                "type": "str",
+                "text": "aceg"
+              },
+              "backwards": {
+                "repr": "'hgfedcba'",
+                "type": "str",
+                "text": "hgfedcba"
+              },
+              "nothing": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 4,
+                "target": "letters",
+                "key": "5:2",
+                "len": 8,
+                "picked": [],
+                "slice": true,
+                "value": "''"
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "nothing = letters[5:2]"
+                  },
+                  {
+                    "text": "nothing = 'abcdefgh'[5:2]"
+                  },
+                  {
+                    "text": "nothing = ''",
+                    "part": "'abcdefgh'[5:2]",
+                    "value": "''"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "aceg hgfedcba 0\n",
+            "vars": {
+              "letters": {
+                "repr": "'abcdefgh'",
+                "type": "str",
+                "text": "abcdefgh"
+              },
+              "every_other": {
+                "repr": "'aceg'",
+                "type": "str",
+                "text": "aceg"
+              },
+              "backwards": {
+                "repr": "'hgfedcba'",
+                "type": "str",
+                "text": "hgfedcba"
+              },
+              "nothing": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in month after line 3?",
+      "options": [
+        "'07'",
+        "'7'",
+        "7",
+        "'-07'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "month"
+      },
+      "why": "A slice of a string is a string, so the 0 stays and there are quotes."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 4,
+      "q": "What is stored in ending after line 4?",
+      "options": [
+        "'jpg'",
+        "'.jpg'",
+        "'hol'",
+        "'g'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "ending"
+      },
+      "why": "-3: starts at the third character from the right and runs to the end."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 4,
+      "q": "What is stored in nothing after line 4?",
+      "options": [
+        "''",
+        "'fed'",
+        "'cde'",
+        "IndexError"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "nothing"
+      },
+      "why": "With a positive step the window goes left to right. From 5 to 2 there is nothing, so the slice is empty."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints rain, the first four letters of rainbow",
+      "code": [
+        "word = \"rainbow\"",
+        "print(word[___:___])"
+      ],
+      "answers": [
+        "0",
+        "4"
+      ],
+      "gen": {
+        "hash": "96b356141e8c436c11f99aa53c794e7d639277defce69cc8b73d15a53d2cf643",
+        "expected": {
+          "stdout": "rain",
+          "vars": {
+            "word": {
+              "repr": "'rainbow'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints the last two characters of the code (99) and then the whole code reversed (99-XT)",
+      "code": [
+        "code = \"TX-99\"",
+        "print(code[___:])",
+        "print(code[::___])"
+      ],
+      "answers": [
+        "-2",
+        "-1"
+      ],
+      "gen": {
+        "hash": "61e5d02737e169c25374c41b23e06086c79528fa50e4c37f79041794bd0db873",
+        "expected": {
+          "stdout": "99\n99-XT",
+          "vars": {
+            "code": {
+              "repr": "'TX-99'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program splits the time into hours and minutes and prints:\n09 hours 45 minutes",
+      "lines": [
+        "time = \"09:45\"",
+        "hours = time[:2]",
+        "minutes = time[3:]",
+        "print(hours, \"hours\", minutes, \"minutes\")"
+      ],
+      "gen": {
+        "hash": "205c61aa7d0f34399078748a671f917afaa45b1fa9632c7a5cb4b2a8daf7a802",
+        "expected": {
+          "stdout": "09 hours 45 minutes",
+          "vars": {
+            "time": {
+              "repr": "'09:45'",
+              "type": "str"
+            },
+            "hours": {
+              "repr": "'09'",
+              "type": "str"
+            },
+            "minutes": {
+              "repr": "'45'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print the first five letters, apple. It prints appl. Fix it.",
+      "code": [
+        "fruit = \"applesauce\"",
+        "print(fruit[0:4])"
+      ],
+      "solution": [
+        "fruit = \"applesauce\"",
+        "print(fruit[0:5])"
+      ],
+      "tests": [
+        {
+          "name": "prints apple",
+          "stdout": "apple"
+        }
+      ],
+      "hint": "The stop position is not included. To get positions 0 to 4, stop at 5.",
+      "gen": {
+        "hash": "a85c8e9376900059702698f84fc3b9a42d6933d8df6e47a75a58529798b3a89a",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it prints everything after the first letter. With the word stone it should print:\ntone",
+      "code": [
+        "word = \"stone\"",
+        "print(word[0:1])"
+      ],
+      "solution": [
+        "word = \"stone\"",
+        "print(word[1:])"
+      ],
+      "tests": [
+        {
+          "name": "prints tone",
+          "stdout": "tone"
+        }
+      ],
+      "hint": "Start at 1 and leave out the stop to go to the end.",
+      "gen": {
+        "hash": "7104d590b6e326014be4aa510749ebde739cace2ce9f66b63016403890a0cfb8"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change line 2 so back holds the word reversed. With lemon it should print:\nnomel\nFalse",
+      "code": [
+        "word = \"lemon\"",
+        "back = word",
+        "print(back)",
+        "print(back == word)"
+      ],
+      "solution": [
+        "word = \"lemon\"",
+        "back = word[::-1]",
+        "print(back)",
+        "print(back == word)"
+      ],
+      "tests": [
+        {
+          "name": "prints nomel and False",
+          "stdout": "nomel\nFalse"
+        }
+      ],
+      "hint": "word[::-1] is the word reversed.",
+      "gen": {
+        "hash": "2c636e6d99d0e4d265641182f962089ea99b9d2c1ef7e1757fdba20961c8115e"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Email? and print the part before the @ and the part after it. The @ is always at position 5 in these addresses. With sunny@mail.org:\nEmail? sunny@mail.org\nName: sunny\nSite: mail.org",
+      "solution": [
+        "email = input(\"Email? \")",
+        "print(\"Name:\", email[:5])",
+        "print(\"Site:\", email[6:])"
+      ],
+      "tests": [
+        {
+          "name": "sunny@mail.org",
+          "stdin": [
+            "sunny@mail.org"
+          ],
+          "stdout": "Email? sunny@mail.org\nName: sunny\nSite: mail.org"
+        },
+        {
+          "name": "kofi1@town.net",
+          "stdin": [
+            "kofi1@town.net"
+          ],
+          "stdout": "Email? kofi1@town.net\nName: kofi1\nSite: town.net"
+        }
+      ],
+      "hints": [
+        "The name is positions 0 to 4: email[:5]",
+        "The @ is at 5, so the site starts at 6",
+        "email[6:] goes to the end"
+      ],
+      "gen": {
+        "hash": "95b8f7c03ace9f96d63ae8c2541050b58c0a8a04d98a98ae35d8ef65a76b5783"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `\"keyboard\"[0:3]`?",
+      "options": [
+        "'key'",
+        "'keyb'",
+        "'ke'",
+        "'eyb'"
+      ],
+      "answer": 0,
+      "why": "Positions 0, 1 and 2. The stop, 3, is not included."
+    },
+    {
+      "q": "How many characters does `s[2:7]` have, if s is long enough?",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "4"
+      ],
+      "answer": 0,
+      "why": "stop - start: 7 - 2 = 5."
+    },
+    {
+      "q": "What is `\"tablet\"[-3:]`?",
+      "options": [
+        "'let'",
+        "'tab'",
+        "'ble'",
+        "'t'"
+      ],
+      "answer": 0,
+      "why": "Start three from the right end and go to the end."
+    },
+    {
+      "q": "What is `\"stop\"[::-1]`?",
+      "options": [
+        "'pots'",
+        "'stop'",
+        "'p'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "A step of -1 walks from the right end to the left: the text reversed."
+    },
+    {
+      "q": "What happens with `\"hi\"[0:10]`?",
+      "options": [
+        "'hi'",
+        "IndexError",
+        "''",
+        "'h'"
+      ],
+      "answer": 0,
+      "why": "Slices never raise IndexError. A stop past the end is cut to fit."
+    },
+    {
+      "q": "For any string s, what is `s[:4] + s[4:]`?",
+      "options": [
+        "The same as s",
+        "The first 4 characters",
+        "s twice",
+        "An error"
+      ],
+      "answer": 0,
+      "why": "The first slice ends where the second one starts, so together they cover every character once."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Writing a slice with a comma",
+      "code": [
+        "word = \"window\"",
+        "print(word[0, 3])"
+      ],
+      "explain": "A slice uses a colon between the positions. A comma makes a pair of numbers, and a string cannot be indexed with a pair.",
+      "fix": [
+        "word = \"window\"",
+        "print(word[0:3])"
+      ],
+      "gen": {
+        "hash": "6d31ca0bfccfd191ee4ff685cb9aaccd18a53826c7efa64049ff2c1934835ec5",
+        "error": "TypeError: string indices must be integers, not 'tuple'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Expecting to change part of a string with a slice",
+      "code": [
+        "word = \"cat\"",
+        "word[0:1] = \"b\""
+      ],
+      "explain": "Strings can never be changed, not even a slice of one. Build a new string from pieces instead: \"b\" + word[1:].",
+      "fix": [
+        "word = \"cat\"",
+        "word = \"b\" + word[1:]"
+      ],
+      "gen": {
+        "hash": "3659f2390e4f5d5bf7ba2ce38ee4432097f2c86f90719f0d077e3ff9485309b6",
+        "error": "TypeError: 'str' object does not support item assignment",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: text (slicing strings)",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#text"
+    },
+    {
+      "title": "Reference: common sequence operations (slices)",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#common-sequence-operations"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}
