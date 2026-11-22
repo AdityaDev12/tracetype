@@ -28,3 +28,18 @@ test('refs: a method makes a new object and the name moves to it', async ({ page
   await expect(page.locator('.viz-refs .ref-row.gone')).toContainText("'oslo'")
   await expect(page.locator('.viz-refs .ref-name.moved')).toContainText('city')
 })
+
+test('the f-string panel fills each hole and applies its spec', async ({ page }) => {
+  await page.goto('#/lesson/py-25-formatting-output/examples')
+  await stepForward(page, 4)
+  await expect(page.locator('.viz-format .fmt-hole')).toHaveCount(2)
+  await expect(page.locator('.viz-format .fmt-text')).toContainText('Priya·bought·3·apples')
+  for (let i = 0; i < 3; i++) await page.keyboard.press('ArrowRight')
+  await expect(page.locator('.viz-format .fmt-spec')).toHaveText(':.2f')
+  await expect(page.locator('.viz-format .fmt-result')).toHaveText('1.20')
+})
+
+test('the receipt project opens', async ({ page }) => {
+  await page.goto('#/project/py-u4-project')
+  await expect(page.getByText('Receipt printer').first()).toBeVisible()
+})

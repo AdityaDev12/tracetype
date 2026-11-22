@@ -144,6 +144,7 @@ Goal: the whole Python track, every lesson in the full v2 format.
   - [x] Unit 1: First steps (py-01 to py-07, trip cost project). Visuals: timeline, knobs, hover-link, history, expr, halt, types, stdin, cells
   - [x] Unit 2: Making decisions (py-08 to py-13, cinema ticket project). Visual: branch ladder
   - [x] Unit 3: Loops (py-14 to py-20, number guessing project). Visuals: loop panel, trace table, grid, cells pointer
+  - [x] Unit 4: Strings in depth (py-21 to py-25, receipt printer project). Visuals: index and slice cells, refs, f-string filler
 - [ ] Run tracer + validate + check-links for every lesson
 - [ ] After **each unit**: commit, push, and tell Adi the unit is live and what to try. Continue to the next unit unless he says stop (he will be learning from finished units while later ones are built)
 - [ ] Final pass: check that every lesson only uses concepts from earlier lessons; fix the order if not

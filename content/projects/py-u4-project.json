@@ -1,0 +1,97 @@
+{
+  "id": "py-u4-project",
+  "unit": "py-u4",
+  "title": "Receipt printer",
+  "summary": "Collect items and prices, tidy the names, and print a neat receipt with tax in lined-up columns.",
+  "language": "python",
+  "prompt": "Write a receipt printer. Ask Item? again and again until the answer is done (in any mix of big and small letters). For every other item, ask Price? too. Tidy each item name: no spaces at the ends, and a capital at the start of each word.\n\nAt the end print the receipt: the title RECEIPT, a line of 20 dashes, one line per item, another line of dashes, then the subtotal, an 8% tax and the total. Every line has the name on the left in 14 characters and the amount on the right in 6 characters with 2 decimals.\n\nIf the very first answer is done, print No items. instead. The example is for milk at 2.4 and brown BREAD at 3.15.",
+  "output": "Item? milk\nPrice? 2.4\nItem?  brown BREAD\nPrice? 3.15\nItem? done\nRECEIPT\n--------------------\nMilk            2.40\nBrown Bread     3.15\n--------------------\nSubtotal        5.55\nTax 8%          0.44\nTotal           5.99",
+  "steps": [
+    {
+      "text": "Make the starting values: the tax rate 0.08, a subtotal of 0, and an empty string called receipt that will collect the item lines.",
+      "hint": "receipt = \"\" starts empty, just like a counter starts at 0."
+    },
+    {
+      "text": "Write a while True loop. Ask Item? and strip the answer. If it is done in small letters, break out of the loop.",
+      "hint": "if item.lower() == \"done\": break"
+    },
+    {
+      "text": "Still inside the loop: ask Price? and turn it into a float, add it to subtotal, and add one formatted line to receipt.",
+      "hint": "receipt += f\"{item.title():<14}{price:>6.2f}\\n\""
+    },
+    {
+      "text": "After the loop, if receipt is still empty print No items. Otherwise work out the tax.",
+      "hint": "tax = subtotal * tax_rate"
+    },
+    {
+      "text": "Print RECEIPT, the dashes, the receipt string, the dashes again, and the three summary lines with the same widths.",
+      "hint": "print(receipt, end=\"\") so no extra blank line appears. For the labels use {'Subtotal':<14}."
+    }
+  ],
+  "starter": [
+    "# Receipt printer",
+    "tax_rate = 0.08"
+  ],
+  "solution": [
+    "# Receipt printer",
+    "tax_rate = 0.08",
+    "subtotal = 0",
+    "receipt = \"\"",
+    "",
+    "while True:",
+    "    item = input(\"Item? \").strip()",
+    "    if item.lower() == \"done\":",
+    "        break",
+    "    price = float(input(\"Price? \"))",
+    "    subtotal += price",
+    "    receipt += f\"{item.title():<14}{price:>6.2f}\\n\"",
+    "",
+    "if receipt == \"\":",
+    "    print(\"No items.\")",
+    "else:",
+    "    tax = subtotal * tax_rate",
+    "    print(\"RECEIPT\")",
+    "    print(\"-\" * 20)",
+    "    print(receipt, end=\"\")",
+    "    print(\"-\" * 20)",
+    "    print(f\"{'Subtotal':<14}{subtotal:>6.2f}\")",
+    "    print(f\"{'Tax 8%':<14}{tax:>6.2f}\")",
+    "    print(f\"{'Total':<14}{subtotal + tax:>6.2f}\")"
+  ],
+  "tests": [
+    {
+      "name": "two items",
+      "stdin": [
+        "milk",
+        "2.4",
+        " brown BREAD",
+        "3.15",
+        "done"
+      ],
+      "stdout": "Item? milk\nPrice? 2.4\nItem?  brown BREAD\nPrice? 3.15\nItem? done\nRECEIPT\n--------------------\nMilk            2.40\nBrown Bread     3.15\n--------------------\nSubtotal        5.55\nTax 8%          0.44\nTotal           5.99"
+    },
+    {
+      "name": "no items",
+      "stdin": [
+        "DONE"
+      ],
+      "stdout": "Item? DONE\nNo items."
+    },
+    {
+      "name": "three items",
+      "stdin": [
+        "  pasta",
+        "1.99",
+        "olive OIL",
+        "7.5",
+        "eggs",
+        "3",
+        "Done"
+      ],
+      "stdout": "Item?   pasta\nPrice? 1.99\nItem? olive OIL\nPrice? 7.5\nItem? eggs\nPrice? 3\nItem? Done\nRECEIPT\n--------------------\nPasta           1.99\nOlive Oil       7.50\nEggs            3.00\n--------------------\nSubtotal       12.49\nTax 8%          1.00\nTotal          13.49"
+    }
+  ],
+  "gen": {
+    "hash": "60da627862e0af219298e189b01752297019755afeeb92952b5a7528ad69e7cf"
+  }
+}

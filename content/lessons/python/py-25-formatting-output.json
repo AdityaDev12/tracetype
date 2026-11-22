@@ -1,0 +1,1627 @@
+{
+  "id": "py-25-formatting-output",
+  "track": "python",
+  "unit": "py-u4",
+  "order": 25,
+  "title": "Formatting output",
+  "summary": "Put values into text with f-strings, control decimals, widths and alignment, and use print's sep and end.",
+  "language": "python",
+  "minutes": 30,
+  "visual": "memory",
+  "visuals": [
+    "format",
+    "memory"
+  ],
+  "intro": {
+    "text": "An **f-string** is a string with an `f` just before the opening quote. Each pair of curly brackets `{ }` is a **hole**: Python runs the code inside it and puts the result's text there.\n\n```\nname = \"Sam\"\nage = 12\nprint(f\"{name} is {age}\")\n```\n\nprints Sam is 12. A hole can hold any expression, like `{age + 1}`.\n\nAfter a colon inside the hole comes a **format spec**, which says how to show the value:\n\n- `{price:.2f}`: exactly 2 digits after the point, rounded\n- `{name:10}`: at least 10 characters wide. Text sits on the left, numbers on the right\n- `<`, `>` and `^` choose left, right or centre: `{name:>10}`\n- width and decimals together: `{price:>8.2f}`\n- `{big:,}` adds commas: 1,500,000\n- `{total=}` shows the code and its value, like total=42, handy for checking your work\n\n`print` has two helpers too: `sep=` sets what goes **between** the values (a space by default) and `end=` sets what goes **at the end** (a new line by default).\n\nThe **f-string** panel shows each hole get its value and then its shape. Formatting only makes text; the numbers themselves never change.",
+    "analogy": "A form with empty boxes. Each {hole} is a box, the value is written into it, and the spec after the colon says how wide the box is and how many decimals to write."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "item = \"tea\"",
+        "cost = 2.5",
+        "print(f\"{item} costs {cost:.2f}\")"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        3
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "2.5",
+          "label": "cost",
+          "kind": "number",
+          "min": 0,
+          "max": 20,
+          "step": 0.25
+        }
+      ],
+      "why": "The holes are filled with tea and 2.5, and .2f shows 2.5 with exactly two decimals: 2.50.",
+      "gen": {
+        "hash": "7760c1389ea92391f1ba73b76f34ad76a307e3e22f15f85de607029a88b1177f",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "item": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "item": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea"
+              },
+              "cost": {
+                "repr": "2.5",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "tea costs 2.50\n",
+            "vars": {
+              "item": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea"
+              },
+              "cost": {
+                "repr": "2.5",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 3,
+                "template": "f\"{item} costs {cost:.2f}\"",
+                "holes": [
+                  {
+                    "code": "item",
+                    "spec": "",
+                    "conv": null,
+                    "value": "'tea'",
+                    "result": "tea"
+                  },
+                  {
+                    "code": "cost",
+                    "spec": ".2f",
+                    "conv": null,
+                    "value": "2.5",
+                    "result": "2.50"
+                  }
+                ],
+                "text": "tea costs 2.50"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(f'{item} costs {cost:.2f}')"
+                  },
+                  {
+                    "text": "print(f\"{'tea'} costs {2.5:.2f}\")"
+                  },
+                  {
+                    "text": "print('tea costs 2.50')",
+                    "part": "f\"{'tea'} costs {2.5:.2f}\"",
+                    "value": "'tea costs 2.50'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "tea costs 2.50"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "print(\"a\", \"b\", \"c\", sep=\"-\")",
+        "print(\"x\", end=\"\")",
+        "print(\"y\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "a-b-c\nxy",
+        "a b c\nx\ny",
+        "a-b-c\nx\ny",
+        "a-b-c-\nxy"
+      ],
+      "why": "sep goes between the values only. end=\"\" means no new line after x, so y is printed on the same line.",
+      "gen": {
+        "hash": "975cb15bde97321481a7d1d4c6b05bd5b197e4eb650354e5f7158d6a8a241249",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "a-b-c\n",
+            "vars": {}
+          },
+          {
+            "line": 2,
+            "stdout": "x",
+            "vars": {}
+          },
+          {
+            "line": 3,
+            "stdout": "y\n",
+            "vars": {}
+          }
+        ],
+        "output": "a-b-c\nxy",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "n = 7",
+        "print(f\"[{n:3}]\")",
+        "print(f\"[{n:<3}]\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "[  7]\n[7  ]",
+        "[7  ]\n[  7]",
+        "[7]\n[7]",
+        "[  7]\n[  7]"
+      ],
+      "expr": [
+        2,
+        3
+      ],
+      "why": "Width 3 makes the hole 3 characters wide. A number sits on the right by default, and < moves it to the left.",
+      "gen": {
+        "hash": "6ddefdf227532262ae2fb48dcca6ef7fa432857c56f7c5b82427753f25222a0b",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "[  7]\n",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 2,
+                "template": "f\"[{n:3}]\"",
+                "holes": [
+                  {
+                    "code": "n",
+                    "spec": "3",
+                    "conv": null,
+                    "value": "7",
+                    "result": "  7"
+                  }
+                ],
+                "text": "[  7]"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(f'[{n:3}]')"
+                  },
+                  {
+                    "text": "print(f'[{7:3}]')"
+                  },
+                  {
+                    "text": "print('[  7]')",
+                    "part": "f'[{7:3}]'",
+                    "value": "'[  7]'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "[7  ]\n",
+            "vars": {
+              "n": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 3,
+                "template": "f\"[{n:<3}]\"",
+                "holes": [
+                  {
+                    "code": "n",
+                    "spec": "<3",
+                    "conv": null,
+                    "value": "7",
+                    "result": "7  "
+                  }
+                ],
+                "text": "[7  ]"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(f'[{n:<3}]')"
+                  },
+                  {
+                    "text": "print(f'[{7:<3}]')"
+                  },
+                  {
+                    "text": "print('[7  ]')",
+                    "part": "f'[{7:<3}]'",
+                    "value": "'[7  ]'"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "[  7]\n[7  ]",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Holes and decimals",
+      "knobs": [
+        {
+          "line": 3,
+          "find": "0.4",
+          "label": "price",
+          "kind": "number",
+          "min": 0,
+          "max": 5,
+          "step": 0.05
+        }
+      ],
+      "lines": [
+        {
+          "code": "name = \"Priya\"",
+          "explain": "Some values to show.",
+          "task": "Store the text Priya in name."
+        },
+        {
+          "code": "apples = 3",
+          "explain": "A whole number.",
+          "task": "Store 3 in apples."
+        },
+        {
+          "code": "price = 0.4",
+          "explain": "A float.",
+          "task": "Store 0.4 in price."
+        },
+        {
+          "code": "print(f\"{name} bought {apples} apples\")",
+          "explain": "Two holes. Each one gets the text of its value. The f-string panel shows them fill in.",
+          "task": "Print name bought apples apples, using an f-string with two holes.",
+          "note": "f before the quote",
+          "circle": "f\"",
+          "expr": true
+        },
+        {
+          "code": "total = apples * price",
+          "explain": "Floats are stored in binary, so 3 times 0.4 comes out as 1.2000000000000002, a tiny bit off.",
+          "task": "Store apples times price in total."
+        },
+        {
+          "code": "print(f\"Total: {total}\")",
+          "explain": "Without a spec, all those digits are shown.",
+          "task": "Print Total: and total, using an f-string.",
+          "expr": true
+        },
+        {
+          "code": "shown = f\"{total:.2f}\"",
+          "explain": ".2f rounds to exactly 2 decimals: 1.20. The result is text; total itself is unchanged.",
+          "task": "Store total with exactly two decimals in shown, using an f-string.",
+          "note": "2 decimals",
+          "circle": ":.2f",
+          "expr": true
+        },
+        {
+          "code": "print(\"Total:\", shown)",
+          "explain": "Prints Total: 1.20. Try the price knob.",
+          "task": "Print Total: and shown."
+        }
+      ],
+      "gen": {
+        "hash": "1a5e89ab4cb853ce89d0f6a6ba6d3ece8643cd04a5e9fc66d9904ab67e82d541",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              },
+              "price": {
+                "repr": "0.4",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Priya bought 3 apples\n",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              },
+              "price": {
+                "repr": "0.4",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 4,
+                "template": "f\"{name} bought {apples} apples\"",
+                "holes": [
+                  {
+                    "code": "name",
+                    "spec": "",
+                    "conv": null,
+                    "value": "'Priya'",
+                    "result": "Priya"
+                  },
+                  {
+                    "code": "apples",
+                    "spec": "",
+                    "conv": null,
+                    "value": "3",
+                    "result": "3"
+                  }
+                ],
+                "text": "Priya bought 3 apples"
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(f'{name} bought {apples} apples')"
+                  },
+                  {
+                    "text": "print(f\"{'Priya'} bought {3} apples\")"
+                  },
+                  {
+                    "text": "print('Priya bought 3 apples')",
+                    "part": "f\"{'Priya'} bought {3} apples\"",
+                    "value": "'Priya bought 3 apples'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              },
+              "price": {
+                "repr": "0.4",
+                "type": "float"
+              },
+              "total": {
+                "repr": "1.2000000000000002",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "Total: 1.2000000000000002\n",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              },
+              "price": {
+                "repr": "0.4",
+                "type": "float"
+              },
+              "total": {
+                "repr": "1.2000000000000002",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 6,
+                "template": "f\"Total: {total}\"",
+                "holes": [
+                  {
+                    "code": "total",
+                    "spec": "",
+                    "conv": null,
+                    "value": "1.2000000000000002",
+                    "result": "1.2000000000000002"
+                  }
+                ],
+                "text": "Total: 1.2000000000000002"
+              },
+              {
+                "kind": "expr",
+                "line": 6,
+                "steps": [
+                  {
+                    "text": "print(f'Total: {total}')"
+                  },
+                  {
+                    "text": "print(f'Total: {1.2000000000000002}')"
+                  },
+                  {
+                    "text": "print('Total: 1.2000000000000002')",
+                    "part": "f'Total: {1.2000000000000002}'",
+                    "value": "'Total: 1.2000000000000002'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              },
+              "price": {
+                "repr": "0.4",
+                "type": "float"
+              },
+              "total": {
+                "repr": "1.2000000000000002",
+                "type": "float"
+              },
+              "shown": {
+                "repr": "'1.20'",
+                "type": "str",
+                "text": "1.20"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 7,
+                "template": "f\"{total:.2f}\"",
+                "holes": [
+                  {
+                    "code": "total",
+                    "spec": ".2f",
+                    "conv": null,
+                    "value": "1.2000000000000002",
+                    "result": "1.20"
+                  }
+                ],
+                "text": "1.20"
+              },
+              {
+                "kind": "expr",
+                "line": 7,
+                "steps": [
+                  {
+                    "text": "shown = f'{total:.2f}'"
+                  },
+                  {
+                    "text": "shown = f'{1.2000000000000002:.2f}'"
+                  },
+                  {
+                    "text": "shown = '1.20'",
+                    "part": "f'{1.2000000000000002:.2f}'",
+                    "value": "'1.20'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 8,
+            "stdout": "Total: 1.20\n",
+            "vars": {
+              "name": {
+                "repr": "'Priya'",
+                "type": "str",
+                "text": "Priya"
+              },
+              "apples": {
+                "repr": "3",
+                "type": "int"
+              },
+              "price": {
+                "repr": "0.4",
+                "type": "float"
+              },
+              "total": {
+                "repr": "1.2000000000000002",
+                "type": "float"
+              },
+              "shown": {
+                "repr": "'1.20'",
+                "type": "str",
+                "text": "1.20"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Lining up columns",
+      "lines": [
+        {
+          "code": "a = \"bread\"",
+          "explain": "Two items and their prices.",
+          "task": "Store the text bread in a."
+        },
+        {
+          "code": "b = \"jam\"",
+          "explain": "A shorter name.",
+          "task": "Store the text jam in b."
+        },
+        {
+          "code": "pa = 1.5",
+          "explain": "Price of bread.",
+          "task": "Store 1.5 in pa."
+        },
+        {
+          "code": "pb = 12.25",
+          "explain": "Price of jam.",
+          "task": "Store 12.25 in pb."
+        },
+        {
+          "code": "print(f\"{a:<8}{pa:>6.2f}\")",
+          "explain": "The name fills 8 characters on the left, the price 6 characters on the right with 2 decimals. The dots in the panel mark spaces.",
+          "task": "Print a left in 8 characters, then pa right in 6 characters with 2 decimals.",
+          "note": "left 8, right 6",
+          "expr": true
+        },
+        {
+          "code": "print(f\"{b:<8}{pb:>6.2f}\")",
+          "explain": "Same widths, so the columns line up even though jam is shorter and 12.25 is longer.",
+          "task": "Print b and pb the same way.",
+          "expr": true
+        },
+        {
+          "code": "total = pa + pb",
+          "explain": "13.75.",
+          "task": "Store pa plus pb in total."
+        },
+        {
+          "code": "print(f\"{'total':<8}{total:>6.2f}\")",
+          "explain": "A hole can hold plain text too. It uses single quotes because the f-string itself uses double quotes.",
+          "task": "Print the text total left in 8 characters, then total right in 6 characters with 2 decimals.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "176f273a73ce582a52f6dbf9b106f930834dd244156c32fb2332ae725fe452a1",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "pa": {
+                "repr": "1.5",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "pa": {
+                "repr": "1.5",
+                "type": "float"
+              },
+              "pb": {
+                "repr": "12.25",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "bread     1.50\n",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "pa": {
+                "repr": "1.5",
+                "type": "float"
+              },
+              "pb": {
+                "repr": "12.25",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 5,
+                "template": "f\"{a:<8}{pa:>6.2f}\"",
+                "holes": [
+                  {
+                    "code": "a",
+                    "spec": "<8",
+                    "conv": null,
+                    "value": "'bread'",
+                    "result": "bread   "
+                  },
+                  {
+                    "code": "pa",
+                    "spec": ">6.2f",
+                    "conv": null,
+                    "value": "1.5",
+                    "result": "  1.50"
+                  }
+                ],
+                "text": "bread     1.50"
+              },
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "print(f'{a:<8}{pa:>6.2f}')"
+                  },
+                  {
+                    "text": "print(f\"{'bread':<8}{1.5:>6.2f}\")"
+                  },
+                  {
+                    "text": "print('bread     1.50')",
+                    "part": "f\"{'bread':<8}{1.5:>6.2f}\"",
+                    "value": "'bread     1.50'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "jam      12.25\n",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "pa": {
+                "repr": "1.5",
+                "type": "float"
+              },
+              "pb": {
+                "repr": "12.25",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 6,
+                "template": "f\"{b:<8}{pb:>6.2f}\"",
+                "holes": [
+                  {
+                    "code": "b",
+                    "spec": "<8",
+                    "conv": null,
+                    "value": "'jam'",
+                    "result": "jam     "
+                  },
+                  {
+                    "code": "pb",
+                    "spec": ">6.2f",
+                    "conv": null,
+                    "value": "12.25",
+                    "result": " 12.25"
+                  }
+                ],
+                "text": "jam      12.25"
+              },
+              {
+                "kind": "expr",
+                "line": 6,
+                "steps": [
+                  {
+                    "text": "print(f'{b:<8}{pb:>6.2f}')"
+                  },
+                  {
+                    "text": "print(f\"{'jam':<8}{12.25:>6.2f}\")"
+                  },
+                  {
+                    "text": "print('jam      12.25')",
+                    "part": "f\"{'jam':<8}{12.25:>6.2f}\"",
+                    "value": "'jam      12.25'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "pa": {
+                "repr": "1.5",
+                "type": "float"
+              },
+              "pb": {
+                "repr": "12.25",
+                "type": "float"
+              },
+              "total": {
+                "repr": "13.75",
+                "type": "float"
+              }
+            }
+          },
+          {
+            "line": 8,
+            "stdout": "total    13.75\n",
+            "vars": {
+              "a": {
+                "repr": "'bread'",
+                "type": "str",
+                "text": "bread"
+              },
+              "b": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam"
+              },
+              "pa": {
+                "repr": "1.5",
+                "type": "float"
+              },
+              "pb": {
+                "repr": "12.25",
+                "type": "float"
+              },
+              "total": {
+                "repr": "13.75",
+                "type": "float"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 8,
+                "template": "f\"{'total':<8}{total:>6.2f}\"",
+                "holes": [
+                  {
+                    "code": "'total'",
+                    "spec": "<8",
+                    "conv": null,
+                    "value": "'total'",
+                    "result": "total   "
+                  },
+                  {
+                    "code": "total",
+                    "spec": ">6.2f",
+                    "conv": null,
+                    "value": "13.75",
+                    "result": " 13.75"
+                  }
+                ],
+                "text": "total    13.75"
+              },
+              {
+                "kind": "expr",
+                "line": 8,
+                "steps": [
+                  {
+                    "text": "print(f\"{'total':<8}{total:>6.2f}\")"
+                  },
+                  {
+                    "text": "print(f\"{'total':<8}{13.75:>6.2f}\")"
+                  },
+                  {
+                    "text": "print('total    13.75')",
+                    "part": "f\"{'total':<8}{13.75:>6.2f}\"",
+                    "value": "'total    13.75'"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "sep, end and the = trick",
+      "lines": [
+        {
+          "code": "h = 9",
+          "explain": "An hour.",
+          "task": "Store 9 in h."
+        },
+        {
+          "code": "m = 5",
+          "explain": "Minutes.",
+          "task": "Store 5 in m."
+        },
+        {
+          "code": "print(h, m, sep=\":\")",
+          "explain": "sep goes between the values instead of a space: 9:5.",
+          "task": "Print h and m with a colon between them, using sep.",
+          "note": "between the values"
+        },
+        {
+          "code": "print(f\"{h:02}:{m:02}\")",
+          "explain": "02 means 2 wide, filled with zeros: 09:05.",
+          "task": "Print h and m each 2 wide with zeros in front, with a colon between them.",
+          "circle": ":02",
+          "expr": true
+        },
+        {
+          "code": "print(\"Loading\", end=\"\")",
+          "explain": "end=\"\" means no new line at the end, so the next print carries on here.",
+          "task": "Print Loading with no new line after it.",
+          "note": "no new line"
+        },
+        {
+          "code": "print(\"...\", end=\"\")",
+          "explain": "Still on the same line.",
+          "task": "Print three dots with no new line after them."
+        },
+        {
+          "code": "print(\" done\")",
+          "explain": "Prints the end of the line: Loading... done.",
+          "task": "Print a space and done."
+        },
+        {
+          "code": "print(f\"{h=}, {m=}\")",
+          "explain": "An = at the end of a hole shows the code too: h=9, m=5. Useful when checking what is stored.",
+          "task": "Print h and m with their names, using = inside the holes.",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "13af637b7141060f96d55518bb63324272cc97b36d777f664ee5f743387383bd",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "9:5\n",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "09:05\n",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 4,
+                "template": "f\"{h:02}:{m:02}\"",
+                "holes": [
+                  {
+                    "code": "h",
+                    "spec": "02",
+                    "conv": null,
+                    "value": "9",
+                    "result": "09"
+                  },
+                  {
+                    "code": "m",
+                    "spec": "02",
+                    "conv": null,
+                    "value": "5",
+                    "result": "05"
+                  }
+                ],
+                "text": "09:05"
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(f'{h:02}:{m:02}')"
+                  },
+                  {
+                    "text": "print(f'{9:02}:{5:02}')"
+                  },
+                  {
+                    "text": "print('09:05')",
+                    "part": "f'{9:02}:{5:02}'",
+                    "value": "'09:05'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Loading",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "...",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": " done\n",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 8,
+            "stdout": "h=9, m=5\n",
+            "vars": {
+              "h": {
+                "repr": "9",
+                "type": "int"
+              },
+              "m": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "format",
+                "line": 8,
+                "template": "f\"{h=}, {m=}\"",
+                "holes": [
+                  {
+                    "code": "h",
+                    "spec": "",
+                    "conv": "r",
+                    "value": "9",
+                    "result": "9"
+                  },
+                  {
+                    "code": "m",
+                    "spec": "",
+                    "conv": "r",
+                    "value": "5",
+                    "result": "5"
+                  }
+                ],
+                "text": "h=9, m=5"
+              },
+              {
+                "kind": "expr",
+                "line": 8,
+                "steps": [
+                  {
+                    "text": "print(f'h={h!r}, m={m!r}')"
+                  },
+                  {
+                    "text": "print(f'h={9!r}, m={5!r}')"
+                  },
+                  {
+                    "text": "print('h=9, m=5')",
+                    "part": "f'h={9!r}, m={5!r}'",
+                    "value": "'h=9, m=5'"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 5,
+      "q": "What is stored in total after line 5?",
+      "options": [
+        "1.2000000000000002",
+        "1.2",
+        "1.20",
+        "'1.20'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "total"
+      },
+      "why": "Floats are stored in binary, so the result is a tiny bit off. Formatting with .2f hides that when printing."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 7,
+      "q": "What is stored in shown after line 7?",
+      "options": [
+        "'1.20'",
+        "1.2",
+        "1.20",
+        "'1.2'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 7,
+        "name": "shown"
+      },
+      "why": "An f-string always makes text, so shown is the string 1.20, with quotes."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 7,
+      "q": "What is stored in total after line 7?",
+      "options": [
+        "13.75",
+        "'13.75'",
+        "13.7",
+        "13"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 7,
+        "name": "total"
+      },
+      "why": "total is a normal float. Only the printed text is shaped by the spec."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints Rome for 4 days",
+      "code": [
+        "city = \"Rome\"",
+        "days = 4",
+        "print(___\"{city} for {days} days\")"
+      ],
+      "answers": [
+        "f"
+      ],
+      "gen": {
+        "hash": "1c4e6727be4d1ace97b5634a0832fc78b9f7de2da9811b39d2a26fe29e5b7ea4",
+        "expected": {
+          "stdout": "Rome for 4 days",
+          "vars": {
+            "city": {
+              "repr": "'Rome'",
+              "type": "str"
+            },
+            "days": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the program prints 3.14",
+      "code": [
+        "value = 3.14159",
+        "print(f\"{value:___}\")"
+      ],
+      "answers": [
+        ".2f"
+      ],
+      "gen": {
+        "hash": "da23dbd7f99134a235b1f4e80db20d8a0a112511310633e367a218a62580c846",
+        "expected": {
+          "stdout": "3.14",
+          "vars": {
+            "value": {
+              "repr": "3.14159",
+              "type": "float"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints:\nLeo: 7.5 points",
+      "lines": [
+        "name = \"Leo\"",
+        "score = 7.456",
+        "print(f\"{name}: {score:.1f} points\")"
+      ],
+      "gen": {
+        "hash": "2fcaa6ab8b8eee7e1ccb571a0fe295cba2da533d0b1e9dbe953818ef83d8c4ca",
+        "expected": {
+          "stdout": "Leo: 7.5 points",
+          "vars": {
+            "name": {
+              "repr": "'Leo'",
+              "type": "str"
+            },
+            "score": {
+              "repr": "7.456",
+              "type": "float"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print Score: 0.86. It prints Score: 0.856700. Fix it.",
+      "code": [
+        "pct = 0.8567",
+        "print(f\"Score: {pct:2f}\")"
+      ],
+      "solution": [
+        "pct = 0.8567",
+        "print(f\"Score: {pct:.2f}\")"
+      ],
+      "tests": [
+        {
+          "name": "prints Score: 0.86",
+          "stdout": "Score: 0.86"
+        }
+      ],
+      "hint": "Without the dot, 2 is a width. The number of decimals needs a dot: .2f.",
+      "gen": {
+        "hash": "1bff48b7619890f9d23a0c2752f100d46597c01e6f1a1b78bb39c87f0652a3ce",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so the colors are separated by a slash. It should print:\nred/green/blue",
+      "code": [
+        "print(\"red\", \"green\", \"blue\")"
+      ],
+      "solution": [
+        "print(\"red\", \"green\", \"blue\", sep=\"/\")"
+      ],
+      "tests": [
+        {
+          "name": "prints red/green/blue",
+          "stdout": "red/green/blue"
+        }
+      ],
+      "hint": "Add sep=\"/\" inside print's brackets.",
+      "gen": {
+        "hash": "163dfd0a317051debf31d34f60ddf1f9b44a18a6d9477ae4f796c3b9b4082509"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so the total has two decimals. It should print:\n3 x 5 = 15.00",
+      "code": [
+        "price = 5",
+        "qty = 3",
+        "print(f\"{qty} x {price} = {qty * price}\")"
+      ],
+      "solution": [
+        "price = 5",
+        "qty = 3",
+        "print(f\"{qty} x {price} = {qty * price:.2f}\")"
+      ],
+      "tests": [
+        {
+          "name": "prints 15.00",
+          "stdout": "3 x 5 = 15.00"
+        }
+      ],
+      "hint": "Add :.2f at the end of the last hole. It works on whole numbers too.",
+      "gen": {
+        "hash": "5a98bb0faed95caf15762533419d5d85fda2e6dddc625afa9e27b25ab8a0e1f8"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Item? and Price?, then print one receipt line: the item on the left, 10 characters wide, and the price on the right, 8 characters wide with 2 decimals. With soap and 2.5:\nItem? soap\nPrice? 2.5\nsoap          2.50",
+      "solution": [
+        "item = input(\"Item? \")",
+        "price = float(input(\"Price? \"))",
+        "print(f\"{item:<10}{price:>8.2f}\")"
+      ],
+      "tests": [
+        {
+          "name": "soap",
+          "stdin": [
+            "soap",
+            "2.5"
+          ],
+          "stdout": "Item? soap\nPrice? 2.5\nsoap          2.50"
+        },
+        {
+          "name": "toothpaste",
+          "stdin": [
+            "toothpaste",
+            "13"
+          ],
+          "stdout": "Item? toothpaste\nPrice? 13\ntoothpaste   13.00"
+        }
+      ],
+      "hints": [
+        "Turn the price into a float with float(...)",
+        "{item:<10} puts the item on the left in 10 characters",
+        "{price:>8.2f} puts the price on the right in 8 characters with 2 decimals"
+      ],
+      "gen": {
+        "hash": "ed7aef7c0867c0c96779cd311e1e92ca78848324bd3c54ddad3667e4a2b345b2"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `f\"{2 + 3} cats\"`?",
+      "options": [
+        "'5 cats'",
+        "'2 + 3 cats'",
+        "'{2 + 3} cats'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "The code inside the hole runs, and its result is put into the text."
+    },
+    {
+      "q": "What is `f\"{3.14159:.2f}\"`?",
+      "options": [
+        "'3.14'",
+        "'3.1'",
+        "'3.142'",
+        "'3.14159'"
+      ],
+      "answer": 0,
+      "why": ".2f means exactly 2 digits after the point."
+    },
+    {
+      "q": "What is `f\"{7:>3}\"`?",
+      "options": [
+        "'  7'",
+        "'7  '",
+        "' 7 '",
+        "'777'"
+      ],
+      "answer": 0,
+      "why": "Width 3, lined up on the right, so two spaces come first."
+    },
+    {
+      "q": "What does `print(1, 2, sep=\"\")` print?",
+      "options": [
+        "12",
+        "1 2",
+        "1,2",
+        "1\n2"
+      ],
+      "answer": 0,
+      "why": "sep is what goes between the values. An empty sep puts nothing there."
+    },
+    {
+      "q": "What does `end=\"\"` do in print?",
+      "options": [
+        "Stops print from adding a new line",
+        "Prints nothing",
+        "Ends the program",
+        "Adds an empty line"
+      ],
+      "answer": 0,
+      "why": "By default print ends with a new line. end=\"\" replaces it with nothing."
+    },
+    {
+      "q": "With `x = 4`, what does `print(f\"{x=}\")` print?",
+      "options": [
+        "x=4",
+        "4",
+        "x = 4",
+        "{x=}"
+      ],
+      "answer": 0,
+      "why": "= inside a hole shows the code, an equals sign and the value."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Decimals on text",
+      "code": [
+        "price = \"4.5\"",
+        "print(f\"{price:.2f}\")"
+      ],
+      "explain": "price is text, and .2f only works on numbers. Convert it first: float(price).",
+      "fix": [
+        "price = \"4.5\"",
+        "print(f\"{float(price):.2f}\")"
+      ],
+      "gen": {
+        "hash": "ba96f9d1b0a1af67ceb9bf4a13daeec3a336f3726de95a4ae335315efa607671",
+        "error": "ValueError: Unknown format code 'f' for object of type 'str'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A typo inside a hole",
+      "code": [
+        "name = \"Ola\"",
+        "print(f\"Hello {nam}\")"
+      ],
+      "explain": "The code inside a hole runs like any other code, so a misspelled name is a NameError.",
+      "fix": [
+        "name = \"Ola\"",
+        "print(f\"Hello {name}\")"
+      ],
+      "gen": {
+        "hash": "1bd19fee26d33cb11e317bced6aa816323bc2a692d976fda2565b8ec31080ead",
+        "error": "NameError: name 'nam' is not defined. Did you mean: 'name'?",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: formatted string literals (f-strings)",
+      "url": "https://docs.python.org/3/tutorial/inputoutput.html#formatted-string-literals"
+    },
+    {
+      "title": "Reference: format specification mini-language",
+      "url": "https://docs.python.org/3/library/string.html#format-specification-mini-language"
+    },
+    {
+      "title": "Reference: f-strings, including the = form",
+      "url": "https://docs.python.org/3/reference/lexical_analysis.html#f-strings"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 11. Assignments, Expressions, and Prints"
+    }
+  ]
+}

@@ -53,8 +53,10 @@
         "py-21-indexing",
         "py-22-slicing",
         "py-23-strings-never-change",
-        "py-24-searching-text"
-      ]
+        "py-24-searching-text",
+        "py-25-formatting-output"
+      ],
+      "project": "py-u4-project"
     }
   ]
 }

@@ -31,7 +31,7 @@ describe('explainPythonError', () => {
     expect(explainPythonError("TypeError: string indices must be integers, not 'tuple'")).toMatch(/colon/)
     expect(explainPythonError('TypeError: list indices must be integers or slices, not float')).toMatch(/not a float/)
     expect(explainPythonError("TypeError: 'str' object does not support item assignment")).toMatch(/never be changed/)
-    expect(explainPythonError("TypeError: 'in <string>' requires string as left operand, not int")).toMatch(/not a int|quotes/)
+    expect(explainPythonError("TypeError: 'in <string>' requires string as left operand, not int")).toMatch(/whole number. Put it in quotes/)
     expect(explainPythonError("ValueError: Unknown format code 'f' for object of type 'str'")).toMatch(/:f does not work on a str/)
   })
 
