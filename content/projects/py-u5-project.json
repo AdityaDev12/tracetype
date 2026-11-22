@@ -1,0 +1,132 @@
+{
+  "id": "py-u5-project",
+  "unit": "py-u5",
+  "title": "Class scores",
+  "summary": "Keep a class list with scores, add and drop students by command, then print the top three and the average.",
+  "language": "python",
+  "prompt": "Write a class score keeper. Keep two lists side by side: one with names, one with scores, so position 0 in both is the same student.\n\nAsk Command? again and again. Every command is one of:\n- add NAME SCORE: add the student and their whole-number score at the end of both lists\n- drop NAME: take that student out of both lists. If there is no such name, print No student called NAME.\n- done: stop asking\n\nAt the end, if nobody is left, print No students. Otherwise print the names in the order they were added, joined with a comma and a space. Then print Top three: and up to three lines with the place, name and score, best first (on a tie, the one added first goes first). Last, print the average score with 1 decimal. Do not change the two lists while finding the top three: work on copies.\n\nThe example adds Ana, Ben, Cy and Dee, then drops Ben.",
+  "output": "Command? add Ana 82\nCommand? add Ben 67\nCommand? add Cy 91\nCommand? add Dee 74\nCommand? drop Ben\nCommand? done\nStudents: Ana, Cy, Dee\nTop three:\n1. Cy 91\n2. Ana 82\n3. Dee 74\nAverage: 82.3",
+  "steps": [
+    {
+      "text": "Make two empty lists, names and scores. Write a while True loop that asks Command? and splits the answer into a list of words called parts. If the first word is done, break.",
+      "hint": "parts = input(\"Command? \").split() gives ['add', 'Ana', '82']."
+    },
+    {
+      "text": "For add, append the name to names and the score, as a whole number, to scores.",
+      "hint": "scores.append(int(parts[2]))"
+    },
+    {
+      "text": "For drop, check the name is in names. If it is, find its position with index and pop that position from both lists. If not, print the No student called message.",
+      "hint": "i = names.index(parts[1]), then names.pop(i) and scores.pop(i)."
+    },
+    {
+      "text": "After the loop, if names is empty print No students. Otherwise print Students: and the names joined with a comma and a space.",
+      "hint": "print(\"Students:\", \", \".join(names))"
+    },
+    {
+      "text": "For the top three, copy both lists. Up to three times: find the biggest score left with max, its position with index, print the place, name and score, then pop that position from both copies. Stop early if the copies run out.",
+      "hint": "left_scores = scores[:] makes a copy. for place in range(1, 4): and break when len(left_scores) == 0."
+    },
+    {
+      "text": "Print the average: the sum of the scores divided by how many there are, with 1 decimal.",
+      "hint": "print(f\"Average: {sum(scores) / len(scores):.1f}\")"
+    }
+  ],
+  "starter": [
+    "# Class scores",
+    "names = []",
+    "scores = []"
+  ],
+  "solution": [
+    "# Class scores",
+    "names = []",
+    "scores = []",
+    "",
+    "while True:",
+    "    parts = input(\"Command? \").split()",
+    "    if parts[0] == \"done\":",
+    "        break",
+    "    if parts[0] == \"add\":",
+    "        names.append(parts[1])",
+    "        scores.append(int(parts[2]))",
+    "    elif parts[0] == \"drop\":",
+    "        if parts[1] in names:",
+    "            i = names.index(parts[1])",
+    "            names.pop(i)",
+    "            scores.pop(i)",
+    "        else:",
+    "            print(\"No student called\", parts[1] + \".\")",
+    "",
+    "if len(names) == 0:",
+    "    print(\"No students.\")",
+    "else:",
+    "    print(\"Students:\", \", \".join(names))",
+    "    print(\"Top three:\")",
+    "    left_names = names[:]",
+    "    left_scores = scores[:]",
+    "    for place in range(1, 4):",
+    "        if len(left_scores) == 0:",
+    "            break",
+    "        best = max(left_scores)",
+    "        i = left_scores.index(best)",
+    "        print(f\"{place}. {left_names[i]} {best}\")",
+    "        left_names.pop(i)",
+    "        left_scores.pop(i)",
+    "    print(f\"Average: {sum(scores) / len(scores):.1f}\")"
+  ],
+  "tests": [
+    {
+      "name": "four students, one dropped",
+      "stdin": [
+        "add Ana 82",
+        "add Ben 67",
+        "add Cy 91",
+        "add Dee 74",
+        "drop Ben",
+        "done"
+      ],
+      "stdout": "Command? add Ana 82\nCommand? add Ben 67\nCommand? add Cy 91\nCommand? add Dee 74\nCommand? drop Ben\nCommand? done\nStudents: Ana, Cy, Dee\nTop three:\n1. Cy 91\n2. Ana 82\n3. Dee 74\nAverage: 82.3"
+    },
+    {
+      "name": "no students",
+      "stdin": [
+        "done"
+      ],
+      "stdout": "Command? done\nNo students."
+    },
+    {
+      "name": "unknown name, a tie, only two students",
+      "stdin": [
+        "add Max 60",
+        "drop Zed",
+        "add Ivy 60",
+        "done"
+      ],
+      "stdout": "Command? add Max 60\nCommand? drop Zed\nNo student called Zed.\nCommand? add Ivy 60\nCommand? done\nStudents: Max, Ivy\nTop three:\n1. Max 60\n2. Ivy 60\nAverage: 60.0"
+    },
+    {
+      "name": "everyone dropped",
+      "stdin": [
+        "add Bo 50",
+        "drop Bo",
+        "done"
+      ],
+      "stdout": "Command? add Bo 50\nCommand? drop Bo\nCommand? done\nNo students."
+    },
+    {
+      "name": "five students, only three shown",
+      "stdin": [
+        "add Lia 70",
+        "add Omar 95",
+        "add Pia 88",
+        "add Raf 40",
+        "add Sun 88",
+        "done"
+      ],
+      "stdout": "Command? add Lia 70\nCommand? add Omar 95\nCommand? add Pia 88\nCommand? add Raf 40\nCommand? add Sun 88\nCommand? done\nStudents: Lia, Omar, Pia, Raf, Sun\nTop three:\n1. Omar 95\n2. Pia 88\n3. Sun 88\nAverage: 76.2"
+    }
+  ],
+  "gen": {
+    "hash": "5dace22c0a7787d24cea8e763acf37797b592f51c96a81b28fd3a6efec94dadf"
+  }
+}

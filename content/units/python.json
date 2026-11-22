@@ -69,7 +69,8 @@
         "py-29-sorting-lists",
         "py-30-shared-lists",
         "py-31-split-join"
-      ]
+      ],
+      "project": "py-u5-project"
     }
   ]
 }

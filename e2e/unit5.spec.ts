@@ -65,3 +65,13 @@ test('split marks its cuts on the text and the words appear as a list row', asyn
   await expect(page.locator('.viz-cells .cells-row')).toHaveCount(2)
   await expect(page.locator('.viz-cells')).toContainText('split cuts at the marked cells')
 })
+
+test('the class scores project opens', async ({ page }) => {
+  await page.goto('#/project/py-u5-project')
+  await expect(page.getByText('Class scores').first()).toBeVisible()
+})
+
+test('the unit review mixes items from the Lists unit', async ({ page }) => {
+  await page.goto('#/unit-review/py-u5')
+  await expect(page.locator('.box-label').first()).toContainText('unit review: lists')
+})
