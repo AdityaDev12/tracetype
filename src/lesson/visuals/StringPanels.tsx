@@ -66,7 +66,7 @@ export function RefsPanel({ trace, index, focus }: { trace: TraceStep[]; index: 
       ) : (
         <ul className="refs">
           {objects.map((o) => (
-            <li key={o.key} className={`ref-row${o.gone ? ' gone' : ''}`}>
+            <li key={o.key} className={`ref-row${o.gone ? ' gone' : ''}${o.changed ? ' changed' : ''}`}>
               <span className="ref-names">
                 {o.gone ? (
                   <span className="ref-none">no name points here</span>
@@ -77,6 +77,7 @@ export function RefsPanel({ trace, index, focus }: { trace: TraceStep[]; index: 
               <span className="ref-obj">
                 <code>{o.repr}</code>
                 <span className="ref-type">{o.type}</span>
+                {o.changed && <span className="ref-changed">changed in place</span>}
               </span>
             </li>
           ))}

@@ -9,6 +9,10 @@ interface Rule {
 const RULES: Rule[] = [
   { test: /^Timeout/, explain: () => 'The code ran for too long and was stopped. Look for a loop that never ends.' },
   {
+    test: /^NameError: name '(.+?)' is not defined\. Did you forget to import/,
+    explain: (m) => `There is no ${m[1]} you can use on its own here. It lives in a module, which has to be imported first (modules come in a later unit).`,
+  },
+  {
     test: /^NameError: name '(.+?)' is not defined(?:\. Did you mean: '(.+?)'\?)?/,
     explain: (m) =>
       m[2]
@@ -88,6 +92,10 @@ const RULES: Rule[] = [
   { test: /^IndexError: list assignment index out of range/, explain: () => 'You can only change a position that already exists. To add a new item at the end, use append().' },
   { test: /^IndexError/, explain: () => 'You asked for a position that does not exist. Positions start at 0.' },
   { test: /^KeyError: (.+)/, explain: (m) => `The dictionary has no key ${m[1]}.` },
+  {
+    test: /^AttributeError: '(?:builtin_function_or_method|method)' object has no attribute/,
+    explain: () => 'This name holds a method itself, not its result. Did you forget the ( ) when you called it?',
+  },
   {
     test: /^AttributeError: 'NoneType' object has no attribute '(.+?)'/,
     explain: (m) => `This name holds None, not a list, so it has no ${m[1]}. Did you store the result of append() or sort()? They change the list and give back None.`,

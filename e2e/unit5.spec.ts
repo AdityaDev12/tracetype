@@ -38,3 +38,22 @@ test('sort keeps one list in the refs diagram and the cells say it was reordered
   await expect(page.locator('.viz-cells')).toContainText('same items, new order')
   await expect(page.locator('.viz-refs .ref-row')).toHaveCount(1)
 })
+
+test('two names on one list: one box with two names, marked when changed in place', async ({ page }) => {
+  await page.goto('#/lesson/py-30-shared-lists/examples')
+  await stepForward(page, 3)
+  await expect(page.locator('.viz-refs .ref-row')).toHaveCount(1)
+  await expect(page.locator('.viz-refs .ref-row.changed')).toContainText('changed in place')
+  await expect(page.locator('.viz-refs .ref-row .ref-name')).toHaveCount(2)
+})
+
+test('the copy-or-share knob reruns the code with a real copy', async ({ page }) => {
+  test.setTimeout(150_000)
+  await page.goto('#/lesson/py-30-shared-lists/examples')
+  await stepForward(page, 6)
+  await expect(page.locator('.visual-stack .toutput')).toContainText('True')
+  await page.getByRole('radio', { name: 'scores[:]' }).click()
+  await expect(page.getByRole('radio', { name: 'scores[:]' })).toHaveAttribute('aria-checked', 'true')
+  await expect(page.locator('.tcode')).toContainText('backup = scores[:]', { timeout: 120_000 })
+  await expect(page.locator('.viz-refs .ref-row')).toHaveCount(2, { timeout: 120_000 })
+})

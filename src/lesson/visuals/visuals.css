@@ -1126,3 +1126,13 @@
   background: var(--pen-blue);
   color: var(--bg);
 }
+
+.ref-row.changed .ref-obj {
+  border-color: var(--pen-yellow);
+}
+
+.ref-changed {
+  font-family: var(--hand);
+  font-size: 1rem;
+  color: var(--pen-yellow);
+}

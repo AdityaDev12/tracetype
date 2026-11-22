@@ -67,6 +67,17 @@ describe('reference diagram', () => {
     ])
   })
 
+  it('marks a list changed in place, seen through both names', () => {
+    const list = (repr: string): VarValue => ({ repr, type: 'list', ref: 'o1' })
+    const t = [s(1, { a: list('[1]'), b: list('[1]') }), s(2, { a: list('[1, 2]'), b: list('[1, 2]') })]
+    const o = refsAt(t, 1).objects
+    expect(o).toHaveLength(1)
+    expect(o[0].changed).toBe(true)
+    expect(o[0].names).toEqual(['a', 'b'])
+    expect(refsAt(t, 0).objects[0].changed).toBeUndefined()
+    expect(refsAt(trace, 2).objects.every((x) => !x.changed)).toBe(true)
+  })
+
   it('follows focus', () => {
     expect(refsAt(trace, 2, ['b']).objects.map((o) => o.key)).toEqual(['o1'])
   })

@@ -1,0 +1,2186 @@
+{
+  "id": "py-30-shared-lists",
+  "track": "python",
+  "unit": "py-u5",
+  "order": 30,
+  "title": "Two names, one list",
+  "summary": "b = a does not copy a list: both names point at the same one. Copy it with [:], list() or copy(), and tell == from is.",
+  "language": "python",
+  "minutes": 25,
+  "visual": "memory",
+  "visuals": [
+    "refs",
+    "memory"
+  ],
+  "intro": {
+    "text": "A name does not hold a list. It **points at** one. So this line copies nothing:\n\n```\nbackup = scores\n```\n\nNow two names point at **the same list**. Change the list through one name (`scores.append(90)`) and the other name sees it too, because there is only one list. With strings this never mattered, since a string can never be changed. With lists it matters a lot.\n\nTwo different things can happen to a name:\n\n- **change the object** it points at (`append`, `xs[0] = ...`): every name on that object sees the change\n- **move the name** to a new object (`xs = [...]`): only that one name moves\n\nTo get a separate list, **copy** it. All three of these do the same:\n\n- `scores[:]` (a slice of everything)\n- `list(scores)`\n- `scores.copy()`\n\nTwo checks tell the cases apart. `==` asks: **same items?** `is` asks: **the very same object?** A copy is `==` but not `is`.\n\nThe **refs** panel draws every name as an arrow to its object. Two arrows into one box means one shared list.",
+    "analogy": "A shared online document. Sending a link (b = a) gives a second way into the same document, so an edit by either person shows up for both. Downloading a copy (a[:]) gives you your own file that nobody else's edits can touch."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "a = [1, 2]",
+        "b = a",
+        "a.append(3)",
+        "print(b)"
+      ],
+      "kind": "choice",
+      "options": [
+        "[1, 2, 3]",
+        "[1, 2]",
+        "[3]",
+        "None"
+      ],
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "b = a made b point at the same list. append changed that one list, so b sees 3 too.",
+      "gen": {
+        "hash": "59ccdf9cc8dd411fb885f40dd72697cb5833c665db13f7d73fb1a8c55c0360e8",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "[1, 2]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "[1, 2]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "b": {
+                "repr": "[1, 2]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "a": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "b": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "[1, 2, 3]\n",
+            "vars": {
+              "a": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "b": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "[1, 2, 3]",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "x = [5, 6]",
+        "y = x[:]",
+        "x.append(7)",
+        "print(len(x), len(y))"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "x[:] made a separate copy. Only x got the new item, so x has 3 items and y still has 2.",
+      "gen": {
+        "hash": "fa2706376bb9432777e224d04a3095332ab7bed46a3a9f3353781ec45e3341f8",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "[5, 6]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "[5, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "y": {
+                "repr": "[5, 6]",
+                "type": "list",
+                "ref": "o4"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "[5, 6, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "y": {
+                "repr": "[5, 6]",
+                "type": "list",
+                "ref": "o4"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int",
+                    "id": "o5"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "3 2\n",
+            "vars": {
+              "x": {
+                "repr": "[5, 6, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "y": {
+                "repr": "[5, 6]",
+                "type": "list",
+                "ref": "o4"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int",
+                    "id": "o5"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "3 2"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "p = [\"red\"]",
+        "q = p",
+        "p = [\"blue\"]",
+        "print(q)"
+      ],
+      "kind": "choice",
+      "options": [
+        "['red']",
+        "['blue']",
+        "['red', 'blue']",
+        "None"
+      ],
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "Line 3 moves only the name p to a new list. q still points at the first list, which was never changed.",
+      "gen": {
+        "hash": "df6f7a8583bc9cace197e16d44394e526ee126338406e50a46936ca5f675d54e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "p": {
+                "repr": "['red']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'red'",
+                    "type": "str",
+                    "text": "red",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "p": {
+                "repr": "['red']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "q": {
+                "repr": "['red']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'red'",
+                    "type": "str",
+                    "text": "red",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "p": {
+                "repr": "['blue']",
+                "type": "list",
+                "ref": "o3"
+              },
+              "q": {
+                "repr": "['red']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o3": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'blue'",
+                    "type": "str",
+                    "text": "blue",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'red'",
+                    "type": "str",
+                    "text": "red",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "['red']\n",
+            "vars": {
+              "p": {
+                "repr": "['blue']",
+                "type": "list",
+                "ref": "o3"
+              },
+              "q": {
+                "repr": "['red']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o3": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'blue'",
+                    "type": "str",
+                    "text": "blue",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'red'",
+                    "type": "str",
+                    "text": "red",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "['red']",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p4",
+      "code": [
+        "m = [4, 5]",
+        "n = [4, 5]",
+        "print(m == n, m is n)"
+      ],
+      "kind": "choice",
+      "options": [
+        "True False",
+        "True True",
+        "False False",
+        "False True"
+      ],
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "Two lists were made, with the same items. == compares the items (True), is asks whether they are one object (False).",
+      "gen": {
+        "hash": "80e540ebeceafa18a2ab220db78d4f9699fe91a32a0bf37afcc7d7a3d61f61d4",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "m": {
+                "repr": "[4, 5]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "m": {
+                "repr": "[4, 5]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "[4, 5]",
+                "type": "list",
+                "ref": "o4"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "True False\n",
+            "vars": {
+              "m": {
+                "repr": "[4, 5]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "[4, 5]",
+                "type": "list",
+                "ref": "o4"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "True False",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Two names, one list",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "scores",
+          "label": "backup =",
+          "kind": "choice",
+          "options": [
+            "scores",
+            "scores[:]",
+            "list(scores)",
+            "scores.copy()"
+          ]
+        }
+      ],
+      "lines": [
+        {
+          "code": "scores = [70, 85]",
+          "explain": "One list, one name pointing at it.",
+          "task": "Store the numbers 70 and 85 in a list called scores."
+        },
+        {
+          "code": "backup = scores",
+          "explain": "No copy is made. backup points at the very same list: two arrows, one box. Try the knob to make a real copy instead.",
+          "task": "Make backup point at the same list as scores.",
+          "note": "two arrows, one list",
+          "circle": "backup = scores"
+        },
+        {
+          "code": "scores.append(90)",
+          "explain": "The one list gets a new item. The refs panel marks it as changed in place, with both names still on it.",
+          "task": "Add 90 to the end of scores."
+        },
+        {
+          "code": "print(scores)",
+          "explain": "Prints [70, 85, 90].",
+          "task": "Print scores."
+        },
+        {
+          "code": "print(backup)",
+          "explain": "Also [70, 85, 90]. The backup was never a backup.",
+          "task": "Print backup.",
+          "note": "the same list"
+        },
+        {
+          "code": "print(backup is scores)",
+          "explain": "is asks: is it the very same object? True. With a copy from the knob, it prints False.",
+          "task": "Print whether backup is the very same object as scores."
+        }
+      ],
+      "gen": {
+        "hash": "32a54739554e5a2691999c96f9d46af529a5b028e8fcace6a258d18391b85232",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "scores": {
+                "repr": "[70, 85]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "70",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "85",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "scores": {
+                "repr": "[70, 85]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "backup": {
+                "repr": "[70, 85]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "70",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "85",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "scores": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "backup": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "70",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "85",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "90",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "[70, 85, 90]\n",
+            "vars": {
+              "scores": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "backup": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "70",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "85",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "90",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "[70, 85, 90]\n",
+            "vars": {
+              "scores": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "backup": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "70",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "85",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "90",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "True\n",
+            "vars": {
+              "scores": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "backup": {
+                "repr": "[70, 85, 90]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "70",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "85",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "90",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Change the list or move the name",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "mine = [\"pen\", \"cup\"]",
+          "explain": "A list with one name.",
+          "task": "Store pen and cup in a list called mine."
+        },
+        {
+          "code": "yours = mine",
+          "explain": "A second name for the same list.",
+          "task": "Make yours point at the same list as mine."
+        },
+        {
+          "code": "yours[0] = \"ink\"",
+          "explain": "This changes the list object itself. Both names point at it, so both see ink.",
+          "task": "Put ink at position 0 of yours.",
+          "note": "changes the shared list"
+        },
+        {
+          "code": "print(mine)",
+          "explain": "Prints ['ink', 'cup'], even though the change went through yours.",
+          "task": "Print mine."
+        },
+        {
+          "code": "yours = [\"map\"]",
+          "explain": "This does not change any list. It moves the name yours to a brand new list. mine stays where it was.",
+          "task": "Store a new list holding map in yours.",
+          "note": "only yours moves",
+          "circle": "yours = [\"map\"]"
+        },
+        {
+          "code": "print(mine, yours)",
+          "explain": "Prints ['ink', 'cup'] ['map'].",
+          "task": "Print mine and yours."
+        }
+      ],
+      "gen": {
+        "hash": "6266bd8590ee1a721cbabb5ba605dffa7f858bc44bf12c08ab477224a0782732",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "mine": {
+                "repr": "['pen', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'pen'",
+                    "type": "str",
+                    "text": "pen",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'cup'",
+                    "type": "str",
+                    "text": "cup",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "mine": {
+                "repr": "['pen', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "yours": {
+                "repr": "['pen', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'pen'",
+                    "type": "str",
+                    "text": "pen",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'cup'",
+                    "type": "str",
+                    "text": "cup",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "mine": {
+                "repr": "['ink', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "yours": {
+                "repr": "['ink', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'ink'",
+                    "type": "str",
+                    "text": "ink",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'cup'",
+                    "type": "str",
+                    "text": "cup",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "['ink', 'cup']\n",
+            "vars": {
+              "mine": {
+                "repr": "['ink', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "yours": {
+                "repr": "['ink', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'ink'",
+                    "type": "str",
+                    "text": "ink",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'cup'",
+                    "type": "str",
+                    "text": "cup",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "mine": {
+                "repr": "['ink', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "yours": {
+                "repr": "['map']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'ink'",
+                    "type": "str",
+                    "text": "ink",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'cup'",
+                    "type": "str",
+                    "text": "cup",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'map'",
+                    "type": "str",
+                    "text": "map",
+                    "id": "o6"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "['ink', 'cup'] ['map']\n",
+            "vars": {
+              "mine": {
+                "repr": "['ink', 'cup']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "yours": {
+                "repr": "['map']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'ink'",
+                    "type": "str",
+                    "text": "ink",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'cup'",
+                    "type": "str",
+                    "text": "cup",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'map'",
+                    "type": "str",
+                    "text": "map",
+                    "id": "o6"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Making real copies",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "week = [\"Mon\", \"Tue\"]",
+          "explain": "The original list.",
+          "task": "Store Mon and Tue in a list called week."
+        },
+        {
+          "code": "plan = week.copy()",
+          "explain": "copy() makes a second list with the same items. Two boxes now.",
+          "task": "Store a copy of week in plan, using copy().",
+          "note": "a new list",
+          "circle": "week.copy()"
+        },
+        {
+          "code": "also = list(week)",
+          "explain": "list() also makes a new list from the items. A third box.",
+          "task": "Store a copy of week in also, using list()."
+        },
+        {
+          "code": "plan.append(\"Wed\")",
+          "explain": "Only plan changes. week and also are separate lists.",
+          "task": "Add Wed to the end of plan."
+        },
+        {
+          "code": "print(week, plan, also)",
+          "explain": "Prints ['Mon', 'Tue'] ['Mon', 'Tue', 'Wed'] ['Mon', 'Tue'].",
+          "task": "Print week, plan and also."
+        },
+        {
+          "code": "print(week == also, week is also)",
+          "explain": "True False: the same items, but two different objects.",
+          "task": "Print whether week and also have the same items, and whether they are the very same object.",
+          "note": "== items, is object"
+        }
+      ],
+      "gen": {
+        "hash": "5d06a1ed87804bf87b34f1d5dcc47d27246efbcc07d68ce506baecd2e7b1c34a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "week": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "week": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "plan": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o4"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "week": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "plan": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o4"
+              },
+              "also": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "week": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "plan": {
+                "repr": "['Mon', 'Tue', 'Wed']",
+                "type": "list",
+                "ref": "o4"
+              },
+              "also": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Wed'",
+                    "type": "str",
+                    "text": "Wed",
+                    "id": "o6"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "['Mon', 'Tue'] ['Mon', 'Tue', 'Wed'] ['Mon', 'Tue']\n",
+            "vars": {
+              "week": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "plan": {
+                "repr": "['Mon', 'Tue', 'Wed']",
+                "type": "list",
+                "ref": "o4"
+              },
+              "also": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Wed'",
+                    "type": "str",
+                    "text": "Wed",
+                    "id": "o6"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "True False\n",
+            "vars": {
+              "week": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "plan": {
+                "repr": "['Mon', 'Tue', 'Wed']",
+                "type": "list",
+                "ref": "o4"
+              },
+              "also": {
+                "repr": "['Mon', 'Tue']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              },
+              "o4": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Wed'",
+                    "type": "str",
+                    "text": "Wed",
+                    "id": "o6"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Mon'",
+                    "type": "str",
+                    "text": "Mon",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Tue'",
+                    "type": "str",
+                    "text": "Tue",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in backup after line 3?",
+      "options": [
+        "[70, 85, 90]",
+        "[70, 85]",
+        "[90]",
+        "None"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "backup"
+      },
+      "why": "backup and scores are one list, and line 3 added 90 to it."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 3,
+      "q": "What is stored in mine after line 3?",
+      "options": [
+        "['ink', 'cup']",
+        "['pen', 'cup']",
+        "['ink']",
+        "['pen', 'ink']"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "mine"
+      },
+      "why": "The change went through yours, but yours and mine point at the same list."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 4,
+      "q": "What is stored in week after line 4?",
+      "options": [
+        "['Mon', 'Tue']",
+        "['Mon', 'Tue', 'Wed']",
+        "['Wed']",
+        "[]"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "week"
+      },
+      "why": "plan is a copy, so adding to plan leaves week alone."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so safe is a real copy and the program prints [1, 2]",
+      "code": [
+        "orig = [1, 2]",
+        "safe = orig___",
+        "orig.append(3)",
+        "print(safe)"
+      ],
+      "answers": [
+        "[:]"
+      ],
+      "gen": {
+        "hash": "6f0d5de3401bef3f8a06a06eb17a24741f38a1a857adee8785e04c676c755819",
+        "expected": {
+          "stdout": "[1, 2]",
+          "vars": {
+            "orig": {
+              "repr": "[1, 2, 3]",
+              "type": "list"
+            },
+            "safe": {
+              "repr": "[1, 2]",
+              "type": "list"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints True False",
+      "code": [
+        "a = [8]",
+        "b = [8]",
+        "print(a ___ b, a ___ b)"
+      ],
+      "answers": [
+        "==",
+        "is"
+      ],
+      "gen": {
+        "hash": "438c283a7e8340d92ec4225561914de8ee8a1b520ccfc3987fc320ca485a82f4",
+        "expected": {
+          "stdout": "True False",
+          "vars": {
+            "a": {
+              "repr": "[8]",
+              "type": "list"
+            },
+            "b": {
+              "repr": "[8]",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so second is a copy made before y was added, and the program prints:\n['x', 'y']\n['x']",
+      "lines": [
+        "first = [\"x\"]",
+        "second = first[:]",
+        "first.append(\"y\")",
+        "print(first)",
+        "print(second)"
+      ],
+      "gen": {
+        "hash": "4aa839ab64d13645860a00863b6dd0ac8b821351232cec43734bce453517a52b",
+        "expected": {
+          "stdout": "['x', 'y']\n['x']",
+          "vars": {
+            "first": {
+              "repr": "['x', 'y']",
+              "type": "list"
+            },
+            "second": {
+              "repr": "['x']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should keep the numbers in their first order and also print them sorted:\n[3, 1, 2]\n[1, 2, 3]\nIt prints the sorted list twice. Fix it.",
+      "code": [
+        "nums = [3, 1, 2]",
+        "ordered = nums",
+        "ordered.sort()",
+        "print(nums)",
+        "print(ordered)"
+      ],
+      "solution": [
+        "nums = [3, 1, 2]",
+        "ordered = nums[:]",
+        "ordered.sort()",
+        "print(nums)",
+        "print(ordered)"
+      ],
+      "tests": [
+        {
+          "name": "prints both orders",
+          "stdout": "[3, 1, 2]\n[1, 2, 3]"
+        }
+      ],
+      "hint": "ordered = nums shares the list, so sorting one sorts both. Make ordered a copy.",
+      "gen": {
+        "hash": "5e6bf6b83ab54e232b30bcab453eb4f3350ef824dc13c04356269bc76cbd78fa",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change line 2 so team_b is its own copy. It should print:\n['Ann', 'Raj', 'Lu']\n['Ann', 'Raj']",
+      "code": [
+        "team_a = [\"Ann\", \"Raj\"]",
+        "team_b = team_a",
+        "team_a.append(\"Lu\")",
+        "print(team_a)",
+        "print(team_b)"
+      ],
+      "solution": [
+        "team_a = [\"Ann\", \"Raj\"]",
+        "team_b = team_a.copy()",
+        "team_a.append(\"Lu\")",
+        "print(team_a)",
+        "print(team_b)"
+      ],
+      "tests": [
+        {
+          "name": "team_b keeps two names",
+          "stdout": "['Ann', 'Raj', 'Lu']\n['Ann', 'Raj']"
+        }
+      ],
+      "hint": "Any of team_a[:], list(team_a) or team_a.copy() makes a copy.",
+      "gen": {
+        "hash": "150e4eeb4f931d997c5b930eb30f7e24443c97896e0b89b4606d133b0fc20f50"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so it checks whether the two names point at the very same list, not just equal items. It should print:\nFalse",
+      "code": [
+        "left = [0, 0]",
+        "right = [0, 0]",
+        "print(left == right)"
+      ],
+      "solution": [
+        "left = [0, 0]",
+        "right = [0, 0]",
+        "print(left is right)"
+      ],
+      "tests": [
+        {
+          "name": "prints False",
+          "stdout": "False"
+        }
+      ],
+      "hint": "is checks for the same object.",
+      "gen": {
+        "hash": "d13cb4416fd93516ae15ae76d823254fdfd344ec022c2c0932bb282de491b92b"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Item? three times and keep the answers in a list called today. Make a separate copy called tomorrow, then take the first item out of tomorrow only. Print both lists. With bread, eggs and tea:\nItem? bread\nItem? eggs\nItem? tea\ntoday: ['bread', 'eggs', 'tea']\ntomorrow: ['eggs', 'tea']",
+      "solution": [
+        "today = []",
+        "for i in range(3):",
+        "    today.append(input(\"Item? \"))",
+        "tomorrow = today[:]",
+        "tomorrow.pop(0)",
+        "print(\"today:\", today)",
+        "print(\"tomorrow:\", tomorrow)"
+      ],
+      "tests": [
+        {
+          "name": "three items",
+          "stdin": [
+            "bread",
+            "eggs",
+            "tea"
+          ],
+          "stdout": "Item? bread\nItem? eggs\nItem? tea\ntoday: ['bread', 'eggs', 'tea']\ntomorrow: ['eggs', 'tea']"
+        },
+        {
+          "name": "other items",
+          "stdin": [
+            "gym",
+            "gym",
+            "read"
+          ],
+          "stdout": "Item? gym\nItem? gym\nItem? read\ntoday: ['gym', 'gym', 'read']\ntomorrow: ['gym', 'read']"
+        }
+      ],
+      "hints": [
+        "Build today with append inside for i in range(3)",
+        "tomorrow = today would share the list. Use today[:] or today.copy()",
+        "tomorrow.pop(0) takes the first item out of tomorrow only"
+      ],
+      "gen": {
+        "hash": "c13c0ebbad5437b016f2197ccdf592ad3af1adb0e62044f8227895e92f7f3b55"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "After `a = [1]`, `b = a` and `b.append(2)`, what is a?",
+      "options": [
+        "[1, 2]",
+        "[1]",
+        "[2]",
+        "None"
+      ],
+      "answer": 0,
+      "why": "a and b point at one list, so a change through b shows through a."
+    },
+    {
+      "q": "Which line makes ys a separate copy of xs?",
+      "options": [
+        "ys = xs[:]",
+        "ys = xs",
+        "ys = xs.sort()",
+        "ys = xs.append(0)"
+      ],
+      "answer": 0,
+      "why": "A slice of everything is a new list. ys = xs only adds a second name."
+    },
+    {
+      "q": "What does `is` check?",
+      "options": [
+        "Whether two names point at the very same object",
+        "Whether two lists have the same items",
+        "Whether a value is in a list",
+        "Whether a list is empty"
+      ],
+      "answer": 0,
+      "why": "is checks identity. == checks the items."
+    },
+    {
+      "q": "After `a = [1]`, `b = a` and `a = [5]`, what is b?",
+      "options": [
+        "[1]",
+        "[5]",
+        "[1, 5]",
+        "None"
+      ],
+      "answer": 0,
+      "why": "a = [5] moves only the name a. b still points at the first list."
+    },
+    {
+      "q": "Why did sharing never cause surprises with strings?",
+      "options": [
+        "A string can never be changed, so no change can show through another name",
+        "Strings are always copied",
+        "Two names cannot point at one string",
+        "Python forbids b = a for strings"
+      ],
+      "answer": 0,
+      "why": "Only objects that can change in place, like lists, show a change through a second name."
+    },
+    {
+      "q": "With `inner = [0]` and `outer = [inner, inner]`, what does `inner.append(1)` then `print(outer)` show?",
+      "options": [
+        "[[0, 1], [0, 1]]",
+        "[[0], [0]]",
+        "[[0, 1], [0]]",
+        "[[0], [0], 1]"
+      ],
+      "answer": 0,
+      "why": "Both items of outer point at the same inner list, so the change shows twice."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Forgetting the brackets on copy",
+      "code": [
+        "first = [1, 2]",
+        "second = first.copy",
+        "second.append(3)"
+      ],
+      "explain": "Without ( ) you store the copy method itself, not a copied list. Call it: first.copy().",
+      "fix": [
+        "first = [1, 2]",
+        "second = first.copy()",
+        "second.append(3)"
+      ],
+      "gen": {
+        "hash": "b443a3c0c7b73c2e1d16a5c4f1ab878034a6b02571061826bc13f1d6cd335fef",
+        "error": "AttributeError: 'builtin_function_or_method' object has no attribute 'append'",
+        "line": 3
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Emptying a list that is shared",
+      "code": [
+        "todo = [\"call\", \"shop\"]",
+        "done = todo",
+        "todo.pop()",
+        "todo.pop()",
+        "print(done[0])"
+      ],
+      "explain": "done is not a second list, it is a second name for todo. Popping both items emptied the one list, so done has nothing at position 0.",
+      "fix": [
+        "todo = [\"call\", \"shop\"]",
+        "done = todo[:]",
+        "todo.pop()",
+        "todo.pop()",
+        "print(done[0])"
+      ],
+      "gen": {
+        "hash": "09c7d6895d765dc600f3fd2eb0ec855d85c3bb5f83e591874cfa7d0edf6edb20",
+        "error": "IndexError: list index out of range",
+        "line": 5
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Calling copy on its own",
+      "code": [
+        "pets = [\"cat\"]",
+        "spare = copy(pets)"
+      ],
+      "explain": "There is no copy function to call on its own. Use the list method pets.copy(), or list(pets).",
+      "fix": [
+        "pets = [\"cat\"]",
+        "spare = pets.copy()"
+      ],
+      "gen": {
+        "hash": "a4370e969a1fc138c7d607c454541de59aca7901d8b481d261c6ffcd0e8f13f7",
+        "error": "NameError: name 'copy' is not defined. Did you forget to import 'copy'?",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Programming FAQ: why did changing list y also change list x?",
+      "url": "https://docs.python.org/3/faq/programming.html#why-did-changing-list-y-also-change-list-x"
+    },
+    {
+      "title": "Python tutorial: more on lists (copy)",
+      "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 6. The Dynamic Typing Interlude"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 9. Tuples, Files, and Everything Else"
+    }
+  ]
+}

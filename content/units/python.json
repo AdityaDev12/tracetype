@@ -66,7 +66,8 @@
         "py-26-making-lists",
         "py-27-changing-lists",
         "py-28-looping-over-lists",
-        "py-29-sorting-lists"
+        "py-29-sorting-lists",
+        "py-30-shared-lists"
       ]
     }
   ]

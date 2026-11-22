@@ -35,6 +35,8 @@ export interface RefObject {
   names: string[]
   /** No name points at it any more (it was there earlier). */
   gone: boolean
+  /** The same object now holds something else than one step before (a list changed in place). */
+  changed?: boolean
 }
 
 const keyOf = (v: VarValue) => v.ref ?? v.id
@@ -62,6 +64,11 @@ export function refsAt(trace: TraceStep[], index: number, focus?: string[]): { o
     seen.set(key, o)
   }
   const prev = at > 0 ? trace[at - 1].vars : {}
+  const before = new Map(Object.values(prev).map((v) => [keyOf(v), v.repr]))
+  for (const o of seen.values()) {
+    const was = before.get(o.key)
+    if (!o.gone && was !== undefined && was !== o.repr) o.changed = true
+  }
   const moved = Object.entries(now)
     .filter(([name, v]) => keep(name) && prev[name] && keyOf(prev[name]) !== keyOf(v))
     .map(([name]) => name)
