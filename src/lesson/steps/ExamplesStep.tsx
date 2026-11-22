@@ -1,4 +1,4 @@
-import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useLayoutEffect, useMemo, useState } from 'react'
 import { CodeLine } from '../../components/CodeLine.tsx'
 import { RichText } from '../../components/RichText.tsx'
 import { AnnotationLayer, type Anno } from '../../design/Annotations.tsx'
@@ -50,7 +50,8 @@ function Learn({ example, n, onFinish }: { example: Example; n: number; onFinish
   const ran = linesRun(trace)
   const never = (n: number) => stoppedAt !== null && n > (stoppedAt ?? 0) && !ran.has(n)
 
-  useEffect(() => {
+  // Layout effect: the keys work as soon as the code is on screen.
+  useLayoutEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if ((e.target as HTMLElement).closest('input, textarea, .cm-editor')) return
       if (e.key === 'ArrowRight') {

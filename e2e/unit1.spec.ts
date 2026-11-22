@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test'
+import { stepForward } from './steps.ts'
 
 // Unit 1 visuals with real Python (Pyodide from the CDN): knobs rerun the code,
 // the timeline scrubs, the input tape feeds input(), and errors show where the
@@ -18,7 +19,7 @@ test('a knob reruns the example and the timeline scrubs through it', async ({ pa
   await page.goto('#/lesson/py-03-numbers/examples')
   // Example 1: step to the end, then change price with its knob.
   await expect(page.locator('.tcode')).toBeVisible()
-  for (let i = 0; i < 6; i++) await page.keyboard.press('ArrowRight')
+  await stepForward(page, 6)
   await expect(page.locator('.visual-stack .toutput')).toContainText('12\n6.0')
   await expect(page.locator('.viz-expr')).toContainText('half = 6.0')
   const price = page.locator('.knob').filter({ hasText: 'price' }).locator('input[type="number"]')

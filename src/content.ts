@@ -2,10 +2,13 @@ import tracksData from '../content/tracks.json'
 import type { Lesson, Project, Track, Unit } from './engine/types.ts'
 import { validateLesson, validateProject } from './engine/validate.ts'
 
-// All course content, bundled at build time. Invalid files are skipped (and
-// reported in the console) so one bad lesson cannot break the site.
+// Course content. Tracks, units, projects and lesson metadata are bundled at
+// build time; each full lesson (with its traces) is a separate file loaded when
+// it is opened. Invalid lessons are skipped (and reported in the console) so one
+// bad lesson cannot break the site.
 
-const lessonFiles = import.meta.glob('../content/lessons/**/*.json', { eager: true, import: 'default' })
+const lessonMetaFiles = import.meta.glob('../content/lessons/**/*.json', { eager: true, query: '?meta', import: 'default' })
+const lessonLoaders = import.meta.glob('../content/lessons/**/*.json', { import: 'default' })
 const projectFiles = import.meta.glob('../content/projects/*.json', { eager: true, import: 'default' })
 const unitFiles = import.meta.glob('../content/units/*.json', { eager: true, import: 'default' })
 
@@ -22,7 +25,41 @@ function load<T>(files: Record<string, unknown>, check: (d: unknown) => string[]
   return out
 }
 
-const lessons = load<Lesson>(lessonFiles, validateLesson)
+/** A lesson's metadata: enough for lists, the course tree and review queues. */
+export type LessonMeta = Pick<Lesson, 'id' | 'track' | 'unit' | 'order' | 'title' | 'summary' | 'language' | 'minutes'> & {
+  items: { predict: string[]; faded: string[]; fix: string[]; make: string[] }
+}
+
+const lessons = new Map<string, LessonMeta>()
+const lessonPaths = new Map<string, string>()
+for (const [path, data] of Object.entries(lessonMetaFiles)) {
+  const meta = data as LessonMeta
+  if (typeof meta?.id !== 'string') continue
+  lessons.set(meta.id, meta)
+  lessonPaths.set(meta.id, path)
+}
+
+const fullLessons = new Map<string, Promise<Lesson | undefined>>()
+
+/** Load a whole lesson (validated). Resolves to undefined if it is missing or invalid. */
+export function loadLesson(id: string): Promise<Lesson | undefined> {
+  const path = lessonPaths.get(id)
+  if (!path) return Promise.resolve(undefined)
+  if (!fullLessons.has(id)) {
+    fullLessons.set(
+      id,
+      lessonLoaders[path]().then((data) => {
+        const errors = validateLesson(data)
+        if (errors.length) {
+          console.error(`Skipping invalid content ${path}:\n${errors.join('\n')}`)
+          return undefined
+        }
+        return data as Lesson
+      }),
+    )
+  }
+  return fullLessons.get(id)!
+}
 const projects = load<Project>(projectFiles, validateProject)
 
 export const tracks: Track[] = [...(tracksData as Track[])].sort((a, b) => a.order - b.order)

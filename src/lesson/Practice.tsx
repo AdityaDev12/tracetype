@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState, type ReactNode } from 'react'
 import { Mascot, type MascotMood } from '../brand/Mascot.tsx'
-import { findLesson } from '../content.ts'
+import { useFullLesson } from '../useFullLesson.ts'
 import type { Lesson } from '../engine/types.ts'
 import { languagePack } from '../languages/index.ts'
 import { LanguageContext } from '../languages/LanguageContext.tsx'
@@ -53,9 +53,10 @@ export function PracticeProvider({ lesson, onWeak, children }: { lesson: Lesson;
  * prediction was wrong).
  */
 export function PracticeItem({ lessonId, kind, itemId, onFinish }: { lessonId: string; kind: PracticeKind; itemId: string; onFinish: (o: Outcome) => void }) {
-  const lesson = findLesson(lessonId)
+  const { lesson, status } = useFullLesson(lessonId)
   const weak = useRef(false)
   const right = useRef(true)
+  if (status === 'loading') return <p className="box-label">{'> loading...'}</p>
   if (!lesson) return <p className="box-label">{'> this item no longer exists'}</p>
   const finish = () => onFinish(weak.current || !right.current ? 'gaveUp' : 'correct')
   const onWeak = () => {

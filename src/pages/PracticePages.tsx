@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react'
 import { Mascot } from '../brand/Mascot.tsx'
 import { InlineText } from '../components/RichText.tsx'
 import { findLesson, findProject, findUnit } from '../content.ts'
+import { useFullLesson } from '../useFullLesson.ts'
 import { rng } from '../design/sketch.ts'
 import { Terminal } from '../design/Terminal.tsx'
 import { TypedHeading } from '../design/TypedHeading.tsx'
@@ -104,10 +105,10 @@ export function UnitReviewPage({ id }: { id: string }) {
     for (const lid of found.unit.lessons) {
       const l = findLesson(lid)
       if (!l) continue
-      all.push(...l.predict.map((x) => ({ lessonId: lid, kind: 'predict' as const, itemId: x.id })))
-      all.push(...l.faded.map((x) => ({ lessonId: lid, kind: 'faded' as const, itemId: x.id })))
-      all.push(...l.fix.map((x) => ({ lessonId: lid, kind: 'fix' as const, itemId: x.id })))
-      all.push(...l.make.map((x) => ({ lessonId: lid, kind: 'make' as const, itemId: x.id })))
+      all.push(...l.items.predict.map((itemId) => ({ lessonId: lid, kind: 'predict' as const, itemId })))
+      all.push(...l.items.faded.map((itemId) => ({ lessonId: lid, kind: 'faded' as const, itemId })))
+      all.push(...l.items.fix.map((itemId) => ({ lessonId: lid, kind: 'fix' as const, itemId })))
+      all.push(...l.items.make.map((itemId) => ({ lessonId: lid, kind: 'make' as const, itemId })))
     }
     // Shuffle so kinds and lessons are mixed, not in lesson order.
     const r = rng(all.length * 13 + 1)
@@ -165,8 +166,17 @@ export function ProjectPage({ id }: { id: string }) {
   const [shownHints, setShownHints] = useState<number[]>([])
   const [done, setDone] = useState(false)
   const [redo, setRedo] = useState(false)
+  // The project borrows the unit's first lesson for its language and visuals.
+  const { lesson, status } = useFullLesson(found?.unit.lessons[0])
   if (!project || !found) return <NotFound />
-  const lesson = findLesson(found.unit.lessons[0])!
+  if (status === 'loading') {
+    return (
+      <main className="page">
+        <p className="box-label">{'> loading...'}</p>
+      </main>
+    )
+  }
+  if (!lesson) return <NotFound />
   const task = {
     id: project.id,
     prompt: project.prompt,

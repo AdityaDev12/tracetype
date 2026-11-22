@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Mascot, type MascotMood } from '../brand/Mascot.tsx'
 import { ReadMore } from '../components/ReadMore.tsx'
-import { findLesson, findTrack, findUnit, nextLessonId } from '../content.ts'
+import { findTrack, findUnit, nextLessonId } from '../content.ts'
+import { useFullLesson } from '../useFullLesson.ts'
 import { checkMark } from '../design/sketch.ts'
-import { STEP_KINDS, type StepKind } from '../engine/types.ts'
+import { STEP_KINDS, type Lesson, type StepKind } from '../engine/types.ts'
 import { STEP_LABELS } from './labels.ts'
 import { languagePack } from '../languages/index.ts'
 import { LanguageContext } from '../languages/LanguageContext.tsx'
@@ -49,8 +50,8 @@ function StepBar({ current, done, onPick }: { current: number; done: Partial<Rec
   )
 }
 
-function Complete({ lessonId, onReview }: { lessonId: string; onReview: () => void }) {
-  const lesson = findLesson(lessonId)!
+function Complete({ lesson, onReview }: { lesson: Lesson; onReview: () => void }) {
+  const lessonId = lesson.id
   const next = nextLessonId(lessonId)
   const unit = findUnit(lesson.unit)
   const lastInUnit = unit && unit.unit.lessons[unit.unit.lessons.length - 1] === lessonId
@@ -88,7 +89,14 @@ function Complete({ lessonId, onReview }: { lessonId: string; onReview: () => vo
 }
 
 export function LessonPage({ id, step: stepParam }: { id: string; step?: string }) {
-  const lesson = findLesson(id)
+  const { lesson, status } = useFullLesson(id)
+  if (status === 'loading') {
+    return (
+      <main className="page">
+        <p className="box-label">{'> loading the lesson...'}</p>
+      </main>
+    )
+  }
   if (!lesson) {
     return (
       <main className="page">
@@ -99,11 +107,11 @@ export function LessonPage({ id, step: stepParam }: { id: string; step?: string 
       </main>
     )
   }
-  return <LessonInner key={id} id={id} stepParam={stepParam} />
+  return <LessonInner key={id} lesson={lesson} stepParam={stepParam} />
 }
 
-function LessonInner({ id, stepParam }: { id: string; stepParam?: string }) {
-  const lesson = findLesson(id)!
+function LessonInner({ lesson, stepParam }: { lesson: Lesson; stepParam?: string }) {
+  const id = lesson.id
   const progress = useProgress()
   const saved = progress.lessons[id]
   const fromUrl = STEP_KINDS.indexOf(stepParam as StepKind)
@@ -175,7 +183,7 @@ function LessonInner({ id, stepParam }: { id: string; stepParam?: string }) {
 
   const props = { item, setItem, onDone: finishStep }
   const body = showComplete ? (
-    <Complete lessonId={id} onReview={() => (setShowComplete(false), setStep(0))} />
+    <Complete lesson={lesson} onReview={() => (setShowComplete(false), setStep(0))} />
   ) : kind === 'intro' ? (
     <IntroStep onDone={finishStep} />
   ) : kind === 'predict' ? (
