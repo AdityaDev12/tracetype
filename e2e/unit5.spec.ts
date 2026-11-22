@@ -21,3 +21,13 @@ test('changing a list: a replaced cell shows its old value, append adds a new ce
   await expect(page.locator('.viz-cells .cell.new .cell-val')).toHaveText('8')
   await expect(page.locator('.viz-cells .cell')).toHaveCount(4)
 })
+
+test('looping over a list moves the pointer from cell to cell', async ({ page }) => {
+  await page.goto('#/lesson/py-28-looping-over-lists/examples')
+  await stepForward(page, 4)
+  await expect(page.locator('.viz-cells .cell.at .cell-val')).toHaveText('4')
+  await page.keyboard.press('ArrowRight')
+  await page.keyboard.press('ArrowRight')
+  await expect(page.locator('.viz-cells .cell.at .cell-val')).toHaveText('12')
+  await expect(page.locator('.viz-loop')).toContainText('round 2')
+})

@@ -1,0 +1,4090 @@
+{
+  "id": "py-28-looping-over-lists",
+  "track": "python",
+  "unit": "py-u5",
+  "order": 28,
+  "title": "Looping over lists",
+  "summary": "Visit every item with for, add them up with sum, find the smallest and biggest, and build new lists inside a loop.",
+  "language": "python",
+  "minutes": 25,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "loop",
+    "memory"
+  ],
+  "intro": {
+    "text": "A `for` loop works on a list just like it did on text and `range`. Each round, the loop name gets the **next item**:\n\n```\nfor price in prices:\n    total += price\n```\n\nNo positions needed. The **cells** panel shows a pointer moving from box to box.\n\nSome totals are so common that Python has them built in:\n\n- `sum(xs)` adds up all the numbers\n- `min(xs)` and `max(xs)` find the smallest and the biggest\n- the average is `sum(xs) / len(xs)`\n\nTo **build a new list**, start with an empty one before the loop and `append` inside it, often behind an `if` so only some items are kept.\n\nSlices work on lists too, and give back a new list: `xs[1:]` is everything but the first item, `xs[:3]` the first three. Loop over a slice to skip items.",
+    "analogy": "A conveyor belt at a checkout. Each item rolls past the scanner once, in order, and the scanner can add up the price or set some items aside in a new bag."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "nums = [2, 5, 3]",
+        "for n in nums:",
+        "    print(n * 10)"
+      ],
+      "kind": "choice",
+      "options": [
+        "20\n50\n30",
+        "10\n10\n10",
+        "100",
+        "0\n10\n20"
+      ],
+      "visuals": [
+        "cells",
+        "loop"
+      ],
+      "focus": [
+        "nums"
+      ],
+      "why": "n gets each item in turn: 2, then 5, then 3. Each round prints it times 10.",
+      "gen": {
+        "hash": "b056408a5affa82254e361d8f1915adb10c9e7a27073e98d9e8649f7b4389bef",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "20\n",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "50\n",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "30\n",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[2, 5, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          }
+        ],
+        "output": "20\n50\n30",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "coins = [5, 1, 10, 2]",
+        "print(sum(coins), max(coins), min(coins))"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "5 + 1 + 10 + 2 is 18, the biggest is 10 and the smallest is 1.",
+      "gen": {
+        "hash": "06352a482598f06eeb6e3e2a10099a94b41b76ee8bdc384e6ed010a5cb018bcf",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "coins": {
+                "repr": "[5, 1, 10, 2]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "10",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "18 10 1\n",
+            "vars": {
+              "coins": {
+                "repr": "[5, 1, 10, 2]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "5",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "10",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "18 10 1"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "names = [\"Al\", \"Bea\", \"Cy\", \"Di\"]",
+        "for name in names[1:3]:",
+        "    print(name)"
+      ],
+      "kind": "choice",
+      "options": [
+        "Bea\nCy",
+        "Al\nBea\nCy",
+        "Bea\nCy\nDi",
+        "Al\nBea"
+      ],
+      "visuals": [
+        "cells",
+        "loop"
+      ],
+      "focus": [
+        "names"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "names[1:3] is a new list with positions 1 and 2, so the loop only sees Bea and Cy.",
+      "gen": {
+        "hash": "1846e768ccbe211a0df102db8509a23f334dab56435e1258de271006c33af917",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "names": {
+                "repr": "['Al', 'Bea', 'Cy', 'Di']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Al'",
+                    "type": "str",
+                    "text": "Al"
+                  },
+                  {
+                    "repr": "'Bea'",
+                    "type": "str",
+                    "text": "Bea"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'Di'",
+                    "type": "str",
+                    "text": "Di"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "names": {
+                "repr": "['Al', 'Bea', 'Cy', 'Di']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Bea'",
+                "type": "str",
+                "text": "Bea"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Al'",
+                    "type": "str",
+                    "text": "Al"
+                  },
+                  {
+                    "repr": "'Bea'",
+                    "type": "str",
+                    "text": "Bea"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'Di'",
+                    "type": "str",
+                    "text": "Di"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "names",
+                "key": "1:3",
+                "len": 4,
+                "picked": [
+                  1,
+                  2
+                ],
+                "slice": true,
+                "value": "['Bea', 'Cy']"
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "for name in names[1:3]:"
+                  },
+                  {
+                    "text": "for name in ['Al', 'Bea', 'Cy', 'Di'][1:3]:"
+                  },
+                  {
+                    "text": "for name in ['Bea', 'Cy']:",
+                    "part": "['Al', 'Bea', 'Cy', 'Di'][1:3]",
+                    "value": "['Bea', 'Cy']"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Bea\n",
+            "vars": {
+              "names": {
+                "repr": "['Al', 'Bea', 'Cy', 'Di']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Bea'",
+                "type": "str",
+                "text": "Bea"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Al'",
+                    "type": "str",
+                    "text": "Al"
+                  },
+                  {
+                    "repr": "'Bea'",
+                    "type": "str",
+                    "text": "Bea"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'Di'",
+                    "type": "str",
+                    "text": "Di"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "names": {
+                "repr": "['Al', 'Bea', 'Cy', 'Di']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Cy'",
+                "type": "str",
+                "text": "Cy"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Al'",
+                    "type": "str",
+                    "text": "Al"
+                  },
+                  {
+                    "repr": "'Bea'",
+                    "type": "str",
+                    "text": "Bea"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'Di'",
+                    "type": "str",
+                    "text": "Di"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Cy\n",
+            "vars": {
+              "names": {
+                "repr": "['Al', 'Bea', 'Cy', 'Di']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Cy'",
+                "type": "str",
+                "text": "Cy"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Al'",
+                    "type": "str",
+                    "text": "Al"
+                  },
+                  {
+                    "repr": "'Bea'",
+                    "type": "str",
+                    "text": "Bea"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'Di'",
+                    "type": "str",
+                    "text": "Di"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "names": {
+                "repr": "['Al', 'Bea', 'Cy', 'Di']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Cy'",
+                "type": "str",
+                "text": "Cy"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Al'",
+                    "type": "str",
+                    "text": "Al"
+                  },
+                  {
+                    "repr": "'Bea'",
+                    "type": "str",
+                    "text": "Bea"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'Di'",
+                    "type": "str",
+                    "text": "Di"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2,
+                "done": true
+              }
+            ]
+          }
+        ],
+        "output": "Bea\nCy",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p4",
+      "code": [
+        "vals = [1, 2, 3]",
+        "for v in vals:",
+        "    v = v * 2",
+        "print(vals)"
+      ],
+      "kind": "choice",
+      "options": [
+        "[1, 2, 3]",
+        "[2, 4, 6]",
+        "6",
+        "None"
+      ],
+      "visuals": [
+        "loop",
+        "memory"
+      ],
+      "why": "v is just a name for the current item. Giving v a new value moves the name, it does not change the list.",
+      "gen": {
+        "hash": "352b361f7eb1f8761177e4e276262101aab612d5247eac679253c55ee55bd0e1",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "[1, 2, 3]\n",
+            "vars": {
+              "vals": {
+                "repr": "[1, 2, 3]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "v": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "[1, 2, 3]",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "One item per round",
+      "visuals": [
+        "cells",
+        "loop",
+        "memory"
+      ],
+      "focus": [
+        "prices"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "12",
+          "label": "middle price",
+          "kind": "number",
+          "min": 0,
+          "max": 30
+        }
+      ],
+      "lines": [
+        {
+          "code": "prices = [4, 12, 7]",
+          "explain": "Three prices in a list.",
+          "task": "Store the numbers 4, 12 and 7 in a list called prices."
+        },
+        {
+          "code": "total = 0",
+          "explain": "A running total starts at 0, as in the loops unit.",
+          "task": "Start total at 0."
+        },
+        {
+          "code": "for price in prices:",
+          "explain": "Each round price gets the next item: 4, then 12, then 7. Watch the pointer in the cells panel.",
+          "task": "Start a for loop over prices, using price.",
+          "note": "one item per round",
+          "circle": "for price in prices"
+        },
+        {
+          "code": "    total += price",
+          "explain": "Adds the current item to the total.",
+          "task": "Inside the loop, add price to total."
+        },
+        {
+          "code": "print(\"total\", total)",
+          "explain": "After the loop: total 23.",
+          "task": "After the loop, print the word total and total."
+        },
+        {
+          "code": "print(\"sum\", sum(prices))",
+          "explain": "sum does the same adding in one call: sum 23.",
+          "task": "Print the word sum and the sum of prices.",
+          "note": "the built-in way",
+          "circle": "sum(prices)"
+        }
+      ],
+      "gen": {
+        "hash": "5963a1e5d15547227bf48d112d5963a2e52bc9ebbb583dc3cdd06d9fd47825c8",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              },
+              "price": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "4",
+                "type": "int"
+              },
+              "price": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "4",
+                "type": "int"
+              },
+              "price": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "16",
+                "type": "int"
+              },
+              "price": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "16",
+                "type": "int"
+              },
+              "price": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "23",
+                "type": "int"
+              },
+              "price": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "23",
+                "type": "int"
+              },
+              "price": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "total 23\n",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "23",
+                "type": "int"
+              },
+              "price": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "sum 23\n",
+            "vars": {
+              "prices": {
+                "repr": "[4, 12, 7]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "total": {
+                "repr": "23",
+                "type": "int"
+              },
+              "price": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Finding the best time",
+      "visuals": [
+        "tracetable",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "times = [41, 38, 45, 36]",
+          "explain": "Four lap times in seconds. Smaller is better.",
+          "task": "Store the numbers 41, 38, 45 and 36 in a list called times."
+        },
+        {
+          "code": "best = times[0]",
+          "explain": "Start with the first time as the best so far.",
+          "task": "Store the first item of times in best."
+        },
+        {
+          "code": "for t in times:",
+          "explain": "Look at every time in turn. The trace table gets one row per round.",
+          "task": "Start a for loop over times, using t."
+        },
+        {
+          "code": "    if t < best:",
+          "explain": "Is this time better than the best so far?",
+          "task": "Inside the loop, check whether t is smaller than best."
+        },
+        {
+          "code": "        best = t",
+          "explain": "If it is, it becomes the new best. Watch best drop to 38, then 36.",
+          "task": "Inside the if, store t in best."
+        },
+        {
+          "code": "print(\"best\", best)",
+          "explain": "Prints best 36.",
+          "task": "After the loop, print the word best and best."
+        },
+        {
+          "code": "print(min(times), max(times))",
+          "explain": "min and max do that search for you: 36 45.",
+          "task": "Print the smallest and the biggest item of times.",
+          "note": "built in",
+          "circle": "min(times)"
+        }
+      ],
+      "gen": {
+        "hash": "9d1c932b90ce802362d81e9186fd91bb61af2d7e3a779c68c4f18c8a6ea9a04a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "41",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "41",
+                "type": "int"
+              },
+              "t": {
+                "repr": "41",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "41",
+                "type": "int"
+              },
+              "t": {
+                "repr": "41",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "41",
+                "type": "int"
+              },
+              "t": {
+                "repr": "38",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "41",
+                "type": "int"
+              },
+              "t": {
+                "repr": "38",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "38",
+                "type": "int"
+              },
+              "t": {
+                "repr": "38",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "38",
+                "type": "int"
+              },
+              "t": {
+                "repr": "45",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "38",
+                "type": "int"
+              },
+              "t": {
+                "repr": "45",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "38",
+                "type": "int"
+              },
+              "t": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "38",
+                "type": "int"
+              },
+              "t": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "36",
+                "type": "int"
+              },
+              "t": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "36",
+                "type": "int"
+              },
+              "t": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "best 36\n",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "36",
+                "type": "int"
+              },
+              "t": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "36 45\n",
+            "vars": {
+              "times": {
+                "repr": "[41, 38, 45, 36]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "best": {
+                "repr": "36",
+                "type": "int"
+              },
+              "t": {
+                "repr": "36",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "41",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "38",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "45",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "36",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Keep some, build a new list",
+      "visuals": [
+        "cells",
+        "loop",
+        "memory"
+      ],
+      "focus": [
+        "temps",
+        "warm"
+      ],
+      "lines": [
+        {
+          "code": "temps = [12, 25, 19, 28, 22]",
+          "explain": "Five daily temperatures.",
+          "task": "Store the numbers 12, 25, 19, 28 and 22 in a list called temps."
+        },
+        {
+          "code": "warm = []",
+          "explain": "An empty list to collect the warm days. It must be made before the loop, or it would start empty again every round.",
+          "task": "Make an empty list called warm.",
+          "note": "before the loop"
+        },
+        {
+          "code": "for temp in temps:",
+          "explain": "Visit each temperature.",
+          "task": "Start a for loop over temps, using temp."
+        },
+        {
+          "code": "    if temp > 20:",
+          "explain": "Only the warm ones pass this test.",
+          "task": "Inside the loop, check whether temp is more than 20."
+        },
+        {
+          "code": "        warm.append(temp)",
+          "explain": "A warm day is added to the end of warm. A new cell appears each time.",
+          "task": "Inside the if, add temp to the end of warm.",
+          "circle": "warm.append(temp)"
+        },
+        {
+          "code": "print(warm)",
+          "explain": "Prints [25, 28, 22]. temps itself is unchanged.",
+          "task": "After the loop, print warm."
+        },
+        {
+          "code": "print(len(warm), \"warm days\")",
+          "explain": "Prints 3 warm days.",
+          "task": "Print the length of warm and the words warm days."
+        }
+      ],
+      "gen": {
+        "hash": "71ada6fa4c7c4d1fe8d19ccae2deddd5975a0c3eb6a24252faf7df0bea442808",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[]",
+                "type": "list",
+                "ref": "o2"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": []
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": []
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": []
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "25",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": []
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "25",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": []
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "25",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "19",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "19",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "28",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "28",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "28",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "22",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 5
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "22",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28, 22]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "22",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28, 22]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "22",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 5,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "[25, 28, 22]\n",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28, 22]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "22",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "3 warm days\n",
+            "vars": {
+              "temps": {
+                "repr": "[12, 25, 19, 28, 22]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "warm": {
+                "repr": "[25, 28, 22]",
+                "type": "list",
+                "ref": "o2"
+              },
+              "temp": {
+                "repr": "22",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "19",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "25",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "22",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 5,
+      "q": "What is stored in total after line 5?",
+      "options": [
+        "23",
+        "7",
+        "12",
+        "0"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "total"
+      },
+      "why": "The loop added 4, 12 and 7, one per round."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 6,
+      "q": "What is stored in best after line 6?",
+      "options": [
+        "36",
+        "41",
+        "38",
+        "45"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 6,
+        "name": "best"
+      },
+      "why": "best only changes when a smaller time comes along, so it ends at the smallest: 36."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 6,
+      "q": "What is stored in warm after line 6?",
+      "options": [
+        "[25, 28, 22]",
+        "[12, 19]",
+        "[25, 19, 28, 22]",
+        "[22]"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 6,
+        "name": "warm"
+      },
+      "why": "Only temperatures above 20 were appended, in the order they came."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program adds up the points and prints 15",
+      "code": [
+        "points = [3, 7, 5]",
+        "total = 0",
+        "for p in ___:",
+        "    total += p",
+        "print(total)"
+      ],
+      "answers": [
+        "points"
+      ],
+      "gen": {
+        "hash": "258cace80867489fafa7f5925d03517081634d5d6c8673edcacfc0b1ac33a134",
+        "expected": {
+          "stdout": "15",
+          "vars": {
+            "points": {
+              "repr": "[3, 7, 5]",
+              "type": "list"
+            },
+            "total": {
+              "repr": "15",
+              "type": "int"
+            },
+            "p": {
+              "repr": "5",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program keeps the even numbers and prints [2, 4]",
+      "code": [
+        "nums = [1, 2, 3, 4]",
+        "evens = ___",
+        "for n in nums:",
+        "    if n % 2 == 0:",
+        "        evens.___(n)",
+        "print(evens)"
+      ],
+      "answers": [
+        "[]",
+        "append"
+      ],
+      "gen": {
+        "hash": "09ebdf90a5e7345094540bf036158b5276f780fd1fa90050e375c7fff88f2c05",
+        "expected": {
+          "stdout": "[2, 4]",
+          "vars": {
+            "nums": {
+              "repr": "[1, 2, 3, 4]",
+              "type": "list"
+            },
+            "evens": {
+              "repr": "[2, 4]",
+              "type": "list"
+            },
+            "n": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order (and indent them) so the program builds a list of the names in capitals and prints:\n['ANA', 'BO']",
+      "lines": [
+        "names = [\"ana\", \"bo\"]",
+        "loud = []",
+        "for name in names:",
+        "    loud.append(name.upper())",
+        "print(loud)"
+      ],
+      "gen": {
+        "hash": "c197aae3df750b4b68961640bbdb1c6a82595d4ce5fab0dd79d34f18e3ced0a4",
+        "expected": {
+          "stdout": "['ANA', 'BO']",
+          "vars": {
+            "names": {
+              "repr": "['ana', 'bo']",
+              "type": "list"
+            },
+            "loud": {
+              "repr": "['ANA', 'BO']",
+              "type": "list"
+            },
+            "name": {
+              "repr": "'bo'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should collect the two-letter words and print ['hi', 'yo']. It prints [] instead. Fix it.",
+      "code": [
+        "words = [\"hi\", \"yo\", \"hey\"]",
+        "for w in words:",
+        "    short = []",
+        "    if len(w) == 2:",
+        "        short.append(w)",
+        "print(short)"
+      ],
+      "solution": [
+        "words = [\"hi\", \"yo\", \"hey\"]",
+        "short = []",
+        "for w in words:",
+        "    if len(w) == 2:",
+        "        short.append(w)",
+        "print(short)"
+      ],
+      "tests": [
+        {
+          "name": "prints ['hi', 'yo']",
+          "stdout": "['hi', 'yo']"
+        }
+      ],
+      "hint": "short = [] runs every round, so the list starts empty again each time. Make it once, before the loop.",
+      "gen": {
+        "hash": "55f0760ef4c66398c7ed8e69a7077e9785684298fd1cc9d96b87bc6cddf2e9b9",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it prints the average age instead of the total. It should print:\n12.0",
+      "code": [
+        "ages = [12, 15, 9]",
+        "print(sum(ages))"
+      ],
+      "solution": [
+        "ages = [12, 15, 9]",
+        "print(sum(ages) / len(ages))"
+      ],
+      "tests": [
+        {
+          "name": "prints 12.0",
+          "stdout": "12.0"
+        }
+      ],
+      "hint": "The average is the sum divided by how many items there are.",
+      "gen": {
+        "hash": "b88cc479cbe509f746661ee59144f0472b30093e1af0ba7b08492428e6be1e4d"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "The first lap was a warm-up. Change the loop so it skips it. It should print:\n62\n59",
+      "code": [
+        "laps = [70, 62, 59]",
+        "for lap in laps:",
+        "    print(lap)"
+      ],
+      "solution": [
+        "laps = [70, 62, 59]",
+        "for lap in laps[1:]:",
+        "    print(lap)"
+      ],
+      "tests": [
+        {
+          "name": "prints 62 and 59",
+          "stdout": "62\n59"
+        }
+      ],
+      "hint": "Loop over a slice that starts at position 1.",
+      "gen": {
+        "hash": "0552190fbb48aeb42216796af1dde3666a28e3a6b3b494efa117a36f7f5afd6d"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask How many numbers? (at least 1), then ask Number? that many times. Collect the numbers in a list as whole numbers. Then print the list, and on the next line the total and the biggest. With 3, then 4, 9 and 2:\nHow many numbers? 3\nNumber? 4\nNumber? 9\nNumber? 2\n[4, 9, 2]\ntotal 15 biggest 9",
+      "solution": [
+        "count = int(input(\"How many numbers? \"))",
+        "nums = []",
+        "for i in range(count):",
+        "    nums.append(int(input(\"Number? \")))",
+        "print(nums)",
+        "print(\"total\", sum(nums), \"biggest\", max(nums))"
+      ],
+      "tests": [
+        {
+          "name": "three numbers",
+          "stdin": [
+            "3",
+            "4",
+            "9",
+            "2"
+          ],
+          "stdout": "How many numbers? 3\nNumber? 4\nNumber? 9\nNumber? 2\n[4, 9, 2]\ntotal 15 biggest 9"
+        },
+        {
+          "name": "one number",
+          "stdin": [
+            "1",
+            "7"
+          ],
+          "stdout": "How many numbers? 1\nNumber? 7\n[7]\ntotal 7 biggest 7"
+        },
+        {
+          "name": "negative numbers",
+          "stdin": [
+            "2",
+            "-5",
+            "-1"
+          ],
+          "stdout": "How many numbers? 2\nNumber? -5\nNumber? -1\n[-5, -1]\ntotal -6 biggest -1"
+        }
+      ],
+      "hints": [
+        "Make an empty list before the loop",
+        "for i in range(count): runs the right number of times",
+        "nums.append(int(input(\"Number? \"))) asks, converts and stores in one line. Then use sum and max"
+      ],
+      "gen": {
+        "hash": "5e1ebc79ec034a70c9c8086fb4d4083d38e13e89ce306dfe0bcffb54c92e2ae2"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "How many rounds does `for x in [3, 6]:` run?",
+      "options": [
+        "2",
+        "3",
+        "6",
+        "9"
+      ],
+      "answer": 0,
+      "why": "One round per item, and the list has 2 items."
+    },
+    {
+      "q": "What is `sum([2, 4, 6])`?",
+      "options": [
+        "12",
+        "6",
+        "3",
+        "[2, 4, 6]"
+      ],
+      "answer": 0,
+      "why": "sum adds up all the items."
+    },
+    {
+      "q": "What is `max([\"kiwi\", \"apple\", \"plum\"])`?",
+      "options": [
+        "'plum'",
+        "'apple'",
+        "'kiwi'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "Strings compare letter by letter, so the biggest is the one that comes last in the alphabet."
+    },
+    {
+      "q": "What is `[5, 6, 7, 8][1:3]`?",
+      "options": [
+        "[6, 7]",
+        "[5, 6, 7]",
+        "[6, 7, 8]",
+        "6"
+      ],
+      "answer": 0,
+      "why": "A slice of a list is a new list, from position 1 up to (not including) 3."
+    },
+    {
+      "q": "You build a new list inside a loop with append. Where does `result = []` go?",
+      "options": [
+        "Before the loop",
+        "Inside the loop",
+        "After the loop",
+        "Anywhere"
+      ],
+      "answer": 0,
+      "why": "Inside the loop it would start empty again every round."
+    },
+    {
+      "q": "With `xs = [10, 20]`, what does `for i in xs: print(xs[i])` do?",
+      "options": [
+        "Stops with an IndexError",
+        "Prints 10 and 20",
+        "Prints 0 and 1",
+        "Prints nothing"
+      ],
+      "answer": 0,
+      "why": "i is the item itself (10), not a position. There is no position 10."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Using the item as a position",
+      "code": [
+        "prices = [10, 20]",
+        "for p in prices:",
+        "    print(prices[p])"
+      ],
+      "explain": "p already is the item: 10, then 20. Asking for prices[10] looks for a position that does not exist. Just use p.",
+      "fix": [
+        "prices = [10, 20]",
+        "for p in prices:",
+        "    print(p)"
+      ],
+      "gen": {
+        "hash": "41129df2e1795f4032fadb339bb8498d669fa063f7ce4bde4abff2445c501b7b",
+        "error": "IndexError: list index out of range",
+        "line": 3
+      }
+    },
+    {
+      "id": "c2",
+      "title": "The average of an empty list",
+      "code": [
+        "scores = []",
+        "print(sum(scores) / len(scores))"
+      ],
+      "explain": "An empty list has a length of 0, and dividing by 0 has no answer. Check that the list has items first.",
+      "fix": [
+        "scores = []",
+        "if len(scores) > 0:",
+        "    print(sum(scores) / len(scores))",
+        "else:",
+        "    print(\"no scores yet\")"
+      ],
+      "gen": {
+        "hash": "c93c11c9c149b095e3ea458ee3ce2bc5b9e0e8f7cbffb7ff9185327533fb22b5",
+        "error": "ZeroDivisionError: division by zero",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Adding up numbers stored as text",
+      "code": [
+        "marks = [\"4\", \"5\"]",
+        "print(sum(marks))"
+      ],
+      "explain": "sum only adds numbers. Text that looks like a number is still text. Turn each item into an int first.",
+      "fix": [
+        "marks = [\"4\", \"5\"]",
+        "total = 0",
+        "for m in marks:",
+        "    total += int(m)",
+        "print(total)"
+      ],
+      "gen": {
+        "hash": "6fdb9ee9e7e6894dfbfb24ccd6d311e08bcef1b47402325fe9345cc2d8a3fcc4",
+        "error": "TypeError: unsupported operand type(s) for +: 'int' and 'str'",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: more on lists",
+      "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
+    },
+    {
+      "title": "Built-in functions: sum()",
+      "url": "https://docs.python.org/3/builtins/functions.html#sum"
+    },
+    {
+      "title": "Python tutorial: for statements",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 8. Lists and Dictionaries"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 13. while and for Loops"
+    }
+  ]
+}
