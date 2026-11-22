@@ -1,0 +1,1056 @@
+{
+  "id": "py-23-strings-never-change",
+  "track": "python",
+  "unit": "py-u4",
+  "order": 23,
+  "title": "Strings never change",
+  "summary": "String methods like upper, strip and replace make a new string. Keep the result by storing it.",
+  "language": "python",
+  "minutes": 25,
+  "visual": "memory",
+  "visuals": [
+    "refs",
+    "memory"
+  ],
+  "intro": {
+    "text": "A string can **never be changed** once it is made. Trying to swap one letter stops the program:\n\n```\nword = \"jam\"\nword[0] = \"h\"\n```\n\ngives **TypeError: 'str' object does not support item assignment**.\n\nInstead, strings have **methods**: tools you call with a dot after the string and brackets at the end, like `word.upper()`. Each one builds a **new** string and gives it back:\n\n- `upper()` and `lower()`: all capitals or all small letters\n- `title()`: a capital at the start of each word\n- `strip()`: removes spaces at both ends (not in the middle)\n- `replace(old, new)`: swaps every `old` for `new`\n\nThe old string is left exactly as it was. To keep the new one, store it: `word = word.upper()`. That line does not change the old string; it moves the name `word` to the new one. The **refs** panel draws each name as an arrow to the object it points at.\n\nMethods can be **chained**: `text.strip().lower()` runs left to right, each method working on the string the one before made.",
+    "analogy": "A printed label: you cannot rub out a letter on it. To get different text you print a new label and move your name tag onto it. The old label still says what it always said."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "shout = \"quiet please\"",
+        "shout.upper()",
+        "print(shout)"
+      ],
+      "kind": "choice",
+      "options": [
+        "quiet please",
+        "QUIET PLEASE",
+        "Quiet Please",
+        "Error"
+      ],
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "upper() built a new string, QUIET PLEASE, but nothing stored it. shout still points at the old string, which never changes.",
+      "gen": {
+        "hash": "3e6977c0073496a4bc6a9fb4173814dc4587f9b0ea101545052ac4d4f5dea5a4",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "shout": {
+                "repr": "'quiet please'",
+                "type": "str",
+                "text": "quiet please",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "shout": {
+                "repr": "'quiet please'",
+                "type": "str",
+                "text": "quiet please",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "quiet please\n",
+            "vars": {
+              "shout": {
+                "repr": "'quiet please'",
+                "type": "str",
+                "text": "quiet please",
+                "id": "o1"
+              }
+            }
+          }
+        ],
+        "output": "quiet please",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "pet = \"  Rex  \"",
+        "print(pet.strip() + \"!\")",
+        "print(pet.lower().strip())"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "strip() drops the spaces at both ends, so the first line is Rex!. The second line makes rex with spaces, then strips them: rex.",
+      "gen": {
+        "hash": "88c4cfaab20d568b6e8b45cf2a8d8c55c60a3c6e1d8220771a6bac964794a0e2",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "pet": {
+                "repr": "'  Rex  '",
+                "type": "str",
+                "text": "  Rex  ",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "Rex!\n",
+            "vars": {
+              "pet": {
+                "repr": "'  Rex  '",
+                "type": "str",
+                "text": "  Rex  ",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "rex\n",
+            "vars": {
+              "pet": {
+                "repr": "'  Rex  '",
+                "type": "str",
+                "text": "  Rex  ",
+                "id": "o1"
+              }
+            }
+          }
+        ],
+        "output": "Rex!\nrex"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "word = \"jam\"",
+        "word[0] = \"h\"",
+        "print(word)"
+      ],
+      "kind": "choice",
+      "raises": true,
+      "q": "What does this show? If Python stops with an error, the last line is the error's name.",
+      "options": [
+        "ham",
+        "jam",
+        "TypeError",
+        "h"
+      ],
+      "visuals": [
+        "refs",
+        "halt"
+      ],
+      "why": "A string can never be changed, not even one letter. Line 2 stops the program with a TypeError, so nothing is printed.",
+      "gen": {
+        "hash": "3b009a6873bad9c52a42f5f000cbc2e4d610c8294a39337cc44be0fd8039f09a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'jam'",
+                "type": "str",
+                "text": "jam",
+                "id": "o1"
+              }
+            }
+          }
+        ],
+        "output": "TypeError",
+        "error": {
+          "type": "TypeError",
+          "message": "TypeError: 'str' object does not support item assignment",
+          "line": 2
+        },
+        "events": [
+          {
+            "kind": "raise",
+            "type": "TypeError",
+            "message": "TypeError: 'str' object does not support item assignment",
+            "line": 2,
+            "func": "<module>"
+          }
+        ],
+        "answer": 2
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Methods make new strings",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"oslo\"",
+          "label": "city",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "city = \"oslo\"",
+          "explain": "One name, one string object. The refs panel draws the name as an arrow to it.",
+          "task": "Store the text oslo in city."
+        },
+        {
+          "code": "loud = city.upper()",
+          "explain": "upper() builds a brand new string in capitals. city still points at the old one, so now there are two objects.",
+          "task": "Store city in capitals in loud, using upper().",
+          "note": "a new string",
+          "circle": ".upper()"
+        },
+        {
+          "code": "print(city, loud)",
+          "explain": "Prints oslo OSLO. The old string was not touched.",
+          "task": "Print city and loud."
+        },
+        {
+          "code": "city = city.title()",
+          "explain": "title() makes another new string, Oslo, and the name city moves to it. The old oslo now has no name pointing at it, so Python will throw it away.",
+          "task": "Store city with a capital first letter back in city, using title().",
+          "note": "the arrow moves"
+        },
+        {
+          "code": "print(city)",
+          "explain": "Prints Oslo.",
+          "task": "Print city."
+        }
+      ],
+      "gen": {
+        "hash": "c0dd31f7507a06f35bdd18cabc7beb3e68fde89b8eaa2e5c91390cab134eb67d",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "city": {
+                "repr": "'oslo'",
+                "type": "str",
+                "text": "oslo",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "city": {
+                "repr": "'oslo'",
+                "type": "str",
+                "text": "oslo",
+                "id": "o1"
+              },
+              "loud": {
+                "repr": "'OSLO'",
+                "type": "str",
+                "text": "OSLO",
+                "id": "o2"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "oslo OSLO\n",
+            "vars": {
+              "city": {
+                "repr": "'oslo'",
+                "type": "str",
+                "text": "oslo",
+                "id": "o1"
+              },
+              "loud": {
+                "repr": "'OSLO'",
+                "type": "str",
+                "text": "OSLO",
+                "id": "o2"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "city": {
+                "repr": "'Oslo'",
+                "type": "str",
+                "text": "Oslo",
+                "id": "o3"
+              },
+              "loud": {
+                "repr": "'OSLO'",
+                "type": "str",
+                "text": "OSLO",
+                "id": "o2"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "Oslo\n",
+            "vars": {
+              "city": {
+                "repr": "'Oslo'",
+                "type": "str",
+                "text": "Oslo",
+                "id": "o3"
+              },
+              "loud": {
+                "repr": "'OSLO'",
+                "type": "str",
+                "text": "OSLO",
+                "id": "o2"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Two names, one string",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "first = \"tea\"",
+          "explain": "A string with one name.",
+          "task": "Store the text tea in first."
+        },
+        {
+          "code": "second = first",
+          "explain": "No copy is made. second points at the very same string object: two arrows, one box.",
+          "task": "Make second point at the same string as first.",
+          "note": "two arrows, one object"
+        },
+        {
+          "code": "first = first + \" time\"",
+          "explain": "+ builds a new string, tea time, and only first moves to it. second still points at tea.",
+          "task": "Store first with the text space time added on the end back in first."
+        },
+        {
+          "code": "print(first)",
+          "explain": "Prints tea time.",
+          "task": "Print first."
+        },
+        {
+          "code": "print(second)",
+          "explain": "Prints tea. Because strings never change, nothing done through first can ever change what second sees.",
+          "task": "Print second."
+        }
+      ],
+      "gen": {
+        "hash": "d0e7192958e8217263baefb1766230f6398b5c0550281571235999c219203993",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea",
+                "id": "o1"
+              },
+              "second": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "first": {
+                "repr": "'tea time'",
+                "type": "str",
+                "text": "tea time",
+                "id": "o2"
+              },
+              "second": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "tea time\n",
+            "vars": {
+              "first": {
+                "repr": "'tea time'",
+                "type": "str",
+                "text": "tea time",
+                "id": "o2"
+              },
+              "second": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea",
+                "id": "o1"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "tea\n",
+            "vars": {
+              "first": {
+                "repr": "'tea time'",
+                "type": "str",
+                "text": "tea time",
+                "id": "o2"
+              },
+              "second": {
+                "repr": "'tea'",
+                "type": "str",
+                "text": "tea",
+                "id": "o1"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Cleaning up text, step by step",
+      "visuals": [
+        "expr",
+        "memory"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"  Pea SOUP  \"",
+          "label": "raw",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "raw = \"  Pea SOUP  \"",
+          "explain": "Messy text: spaces at both ends and mixed capitals.",
+          "task": "Store the text Pea SOUP with two spaces before and after it in raw."
+        },
+        {
+          "code": "clean = raw.strip()",
+          "explain": "strip() removes the spaces at both ends. The space in the middle stays.",
+          "task": "Store raw without the spaces at its ends in clean.",
+          "expr": true
+        },
+        {
+          "code": "clean = clean.lower()",
+          "explain": "All small letters now: pea soup.",
+          "task": "Store clean in small letters back in clean.",
+          "expr": true
+        },
+        {
+          "code": "clean = clean.replace(\"soup\", \"salad\")",
+          "explain": "replace(old, new) swaps every match. It runs after lower(), so it finds soup in small letters.",
+          "task": "Replace soup with salad in clean, and store the result back in clean.",
+          "note": "old, then new",
+          "circle": "replace(\"soup\", \"salad\")",
+          "expr": true
+        },
+        {
+          "code": "print(clean)",
+          "explain": "Prints pea salad.",
+          "task": "Print clean."
+        },
+        {
+          "code": "print(raw.strip().title())",
+          "explain": "A chain: strip() runs first, then title() works on its result. raw itself is still the messy text.",
+          "task": "Print raw with its spaces stripped and then in title case, in one line.",
+          "note": "left to right",
+          "expr": true
+        }
+      ],
+      "gen": {
+        "hash": "a58b6c06215ffd2ce0a34e5b823c62c9ea745077347dad68318fd3e9c11d5c97",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "raw": {
+                "repr": "'  Pea SOUP  '",
+                "type": "str",
+                "text": "  Pea SOUP  "
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "raw": {
+                "repr": "'  Pea SOUP  '",
+                "type": "str",
+                "text": "  Pea SOUP  "
+              },
+              "clean": {
+                "repr": "'Pea SOUP'",
+                "type": "str",
+                "text": "Pea SOUP"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "clean = raw.strip()"
+                  },
+                  {
+                    "text": "clean = 'Pea SOUP'",
+                    "part": "raw.strip()",
+                    "value": "'Pea SOUP'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "raw": {
+                "repr": "'  Pea SOUP  '",
+                "type": "str",
+                "text": "  Pea SOUP  "
+              },
+              "clean": {
+                "repr": "'pea soup'",
+                "type": "str",
+                "text": "pea soup"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "clean = clean.lower()"
+                  },
+                  {
+                    "text": "clean = 'pea soup'",
+                    "part": "clean.lower()",
+                    "value": "'pea soup'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "raw": {
+                "repr": "'  Pea SOUP  '",
+                "type": "str",
+                "text": "  Pea SOUP  "
+              },
+              "clean": {
+                "repr": "'pea salad'",
+                "type": "str",
+                "text": "pea salad"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "clean = clean.replace('soup', 'salad')"
+                  },
+                  {
+                    "text": "clean = 'pea salad'",
+                    "part": "clean.replace('soup', 'salad')",
+                    "value": "'pea salad'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "pea salad\n",
+            "vars": {
+              "raw": {
+                "repr": "'  Pea SOUP  '",
+                "type": "str",
+                "text": "  Pea SOUP  "
+              },
+              "clean": {
+                "repr": "'pea salad'",
+                "type": "str",
+                "text": "pea salad"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "Pea Soup\n",
+            "vars": {
+              "raw": {
+                "repr": "'  Pea SOUP  '",
+                "type": "str",
+                "text": "  Pea SOUP  "
+              },
+              "clean": {
+                "repr": "'pea salad'",
+                "type": "str",
+                "text": "pea salad"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 6,
+                "steps": [
+                  {
+                    "text": "print(raw.strip().title())"
+                  },
+                  {
+                    "text": "print('Pea SOUP'.title())",
+                    "part": "raw.strip()",
+                    "value": "'Pea SOUP'"
+                  },
+                  {
+                    "text": "print('Pea Soup')",
+                    "part": "'Pea SOUP'.title()",
+                    "value": "'Pea Soup'"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in loud after line 2?",
+      "options": [
+        "'OSLO'",
+        "'oslo'",
+        "'Oslo'",
+        "None"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "loud"
+      },
+      "why": "upper() gave back a new string in capitals, and line 2 stored it in loud."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in city after line 2?",
+      "options": [
+        "'oslo'",
+        "'OSLO'",
+        "'Oslo'",
+        "''"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "city"
+      },
+      "why": "Calling a method never changes the string it was called on."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 3,
+      "q": "What is stored in second after line 3?",
+      "options": [
+        "'tea'",
+        "'tea time'",
+        "' time'",
+        "''"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "second"
+      },
+      "why": "Line 3 made a new string and moved only first to it."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints ADA",
+      "code": [
+        "name = \"ada\"",
+        "name = name.___()",
+        "print(name)"
+      ],
+      "answers": [
+        "upper"
+      ],
+      "gen": {
+        "hash": "b170930f694a7ae8d60271c574ede411edc208c5f9fceadecee92c281502c6e3",
+        "expected": {
+          "stdout": "ADA",
+          "vars": {
+            "name": {
+              "repr": "'ADA'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints I like dogs",
+      "code": [
+        "msg = \"I like cats\"",
+        "msg = msg.___(\"cats\", ___)",
+        "print(msg)"
+      ],
+      "answers": [
+        "replace",
+        "\"dogs\""
+      ],
+      "gen": {
+        "hash": "d43da45077f37aff0ee7daa8d773dc3fff5b0731d5b42edd4745ca1ace706902",
+        "expected": {
+          "stdout": "I like dogs",
+          "vars": {
+            "msg": {
+              "repr": "'I like dogs'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program tidies the reply and prints:\nTrue",
+      "lines": [
+        "reply = \"  YES \"",
+        "reply = reply.strip()",
+        "reply = reply.lower()",
+        "print(reply == \"yes\")"
+      ],
+      "gen": {
+        "hash": "190f34c8455cdf81716ae33223b21ce4d3f180ed3d1e9918f3d2efaa4fc57461",
+        "expected": {
+          "stdout": "True",
+          "vars": {
+            "reply": {
+              "repr": "'yes'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print The Lost Key. It prints the lost key. Fix it.",
+      "code": [
+        "book = \"the lost key\"",
+        "book.title()",
+        "print(book)"
+      ],
+      "solution": [
+        "book = \"the lost key\"",
+        "book = book.title()",
+        "print(book)"
+      ],
+      "tests": [
+        {
+          "name": "prints The Lost Key",
+          "stdout": "The Lost Key"
+        }
+      ],
+      "hint": "title() gives back a new string. Store it in book.",
+      "gen": {
+        "hash": "9bb47134bb37a279f746914c6584569ba8952dff809cf28da9ba17c9db50f4fd",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it prints the color in small letters. It should print:\ndark green",
+      "code": [
+        "color = \"Dark Green\"",
+        "print(color.upper())"
+      ],
+      "solution": [
+        "color = \"Dark Green\"",
+        "print(color.lower())"
+      ],
+      "tests": [
+        {
+          "name": "prints dark green",
+          "stdout": "dark green"
+        }
+      ],
+      "hint": "The method for small letters is lower().",
+      "gen": {
+        "hash": "e777a781924e15bb3abb0f8cfac8d7822d39fb818d8389e3b07db56fed0c700f"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so every comma becomes a space and a plus sign. It should print:\none + two + three",
+      "code": [
+        "text = \"one, two, three\"",
+        "text = text.replace(\",\", \"\")",
+        "print(text)"
+      ],
+      "solution": [
+        "text = \"one, two, three\"",
+        "text = text.replace(\",\", \" +\")",
+        "print(text)"
+      ],
+      "tests": [
+        {
+          "name": "prints one + two + three",
+          "stdout": "one + two + three"
+        }
+      ],
+      "hint": "Replace \",\" with \" +\". The space after each comma is already there.",
+      "gen": {
+        "hash": "113893bfb0be2f87e3136f7364c1c3551ceb5897aea5d7c72114534515607b71"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Name? and greet the person with their name tidied up: no spaces at the ends and a capital at the start of each word. With   ada LOVELACE:\nName?   ada LOVELACE\nHello, Ada Lovelace!",
+      "solution": [
+        "name = input(\"Name? \")",
+        "name = name.strip().title()",
+        "print(\"Hello,\", name + \"!\")"
+      ],
+      "tests": [
+        {
+          "name": "messy name",
+          "stdin": [
+            "  ada LOVELACE"
+          ],
+          "stdout": "Name?   ada LOVELACE\nHello, Ada Lovelace!"
+        },
+        {
+          "name": "one word",
+          "stdin": [
+            "grace"
+          ],
+          "stdout": "Name? grace\nHello, Grace!"
+        }
+      ],
+      "hints": [
+        "strip() removes the spaces at the ends",
+        "title() gives each word a capital letter",
+        "Store the result: name = name.strip().title()"
+      ],
+      "gen": {
+        "hash": "3150695a0700ecd51adc0dd90eb4fc6b3b23bff55032323c9919590dcd60dda9"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "After `s.upper()` runs on its own line, what has happened to s?",
+      "options": [
+        "Nothing, s is unchanged",
+        "s is now in capitals",
+        "s is empty",
+        "s is deleted"
+      ],
+      "answer": 0,
+      "why": "Methods give back a new string. Without storing it, the result is lost."
+    },
+    {
+      "q": "What is `\"  hi there  \".strip()`?",
+      "options": [
+        "'hi there'",
+        "'hithere'",
+        "'hi there  '",
+        "'  hi there'"
+      ],
+      "answer": 0,
+      "why": "strip() only removes spaces at the two ends."
+    },
+    {
+      "q": "What is `\"banana\".replace(\"a\", \"o\")`?",
+      "options": [
+        "'bonono'",
+        "'bonana'",
+        "'banana'",
+        "'bnn'"
+      ],
+      "answer": 0,
+      "why": "replace() swaps every match, not just the first."
+    },
+    {
+      "q": "What is `\"good day\".title()`?",
+      "options": [
+        "'Good Day'",
+        "'Good day'",
+        "'GOOD DAY'",
+        "'good day'"
+      ],
+      "answer": 0,
+      "why": "title() puts a capital at the start of each word."
+    },
+    {
+      "q": "What does `s = s.lower()` do?",
+      "options": [
+        "Makes a new string and moves the name s to it",
+        "Changes the letters of the old string",
+        "Copies s into a second name",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "The old string never changes. s just points at the new one afterwards."
+    },
+    {
+      "q": "What is `\" Hey \".strip().lower()`?",
+      "options": [
+        "'hey'",
+        "' hey '",
+        "'Hey'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "The methods run left to right: strip gives 'Hey', then lower gives 'hey'."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Forgetting the brackets on a method",
+      "code": [
+        "name = \"zoe\"",
+        "print(name.upper + \"!\")"
+      ],
+      "explain": "Without ( ) you get the method itself, not its result, and a method cannot be joined to text. Call it: name.upper().",
+      "fix": [
+        "name = \"zoe\"",
+        "print(name.upper() + \"!\")"
+      ],
+      "gen": {
+        "hash": "9477c2769fe089251d2d305d39584ec49e03bbd75e0f7c6d98e3cbaeedd6274e",
+        "error": "TypeError: unsupported operand type(s) for +: 'builtin_function_or_method' and 'str'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A method name that does not exist",
+      "code": [
+        "text = \"hi\"",
+        "print(text.uppercase())"
+      ],
+      "explain": "Strings have no uppercase method. The one that makes capitals is upper().",
+      "fix": [
+        "text = \"hi\"",
+        "print(text.upper())"
+      ],
+      "gen": {
+        "hash": "b37c07420a180c6d8260bd151419548bb1904b7c45c6d57122524f2e1292d92c",
+        "error": "AttributeError: 'str' object has no attribute 'uppercase'",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: string methods",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#string-methods"
+    },
+    {
+      "title": "Python tutorial: text (strings cannot be changed)",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#text"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 6. The Dynamic Typing Interlude"
+    }
+  ]
+}

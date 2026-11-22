@@ -445,7 +445,10 @@ class _Number(ast.NodeVisitor):
             self.mark(node)
             return
         if isinstance(node, ast.Call):
-            # The function itself (print, len, obj.method) is not a value step.
+            # The function itself (print, len, obj.method) is not a value step,
+            # but in a chain like s.strip().title() the inner call is.
+            if isinstance(node.func, ast.Attribute) and not isinstance(node.func.value, ast.Name):
+                self.visit(node.func.value)
             for a in node.args:
                 self.visit(a)
             for k in node.keywords:

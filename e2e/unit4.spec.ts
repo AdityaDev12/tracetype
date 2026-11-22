@@ -18,3 +18,13 @@ test('a slice lights its window, and a backwards slice numbers the order', async
   await expect(page.locator('.viz-cells .cell.pick')).toHaveCount(4)
   await expect(page.locator('.viz-cells .cells-use')).toContainText('positions 0, 1, 2, 3')
 })
+
+test('refs: a method makes a new object and the name moves to it', async ({ page }) => {
+  await page.goto('#/lesson/py-23-strings-never-change/examples')
+  await stepForward(page, 2)
+  await expect(page.locator('.viz-refs .ref-row')).toHaveCount(2)
+  await page.keyboard.press('ArrowRight')
+  await page.keyboard.press('ArrowRight')
+  await expect(page.locator('.viz-refs .ref-row.gone')).toContainText("'oslo'")
+  await expect(page.locator('.viz-refs .ref-name.moved')).toContainText('city')
+})

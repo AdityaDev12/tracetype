@@ -363,6 +363,12 @@ class Strings(unittest.TestCase):
         hole = events(r, "format")[0]["holes"][0]
         self.assertIn("Unknown format code", hole["error"])
 
+    def test_method_chain_shows_each_call(self):
+        r = trace('raw = " Ab "\nx = raw.strip().lower()', expr=[2])
+        steps = events(r, "expr")[0]["steps"]
+        self.assertEqual([s.get("part") for s in steps], [None, "raw.strip()", "'Ab'.lower()"])
+        self.assertEqual(steps[-1]["text"], "x = 'ab'")
+
     def test_plain_ids_follow_the_object(self):
         r = trace('a = "pear"\nb = a\na = a.upper()', ids=True)
         v = r["steps"][-1]["vars"]
