@@ -54,11 +54,15 @@ function checkVisuals(c: Checker, item: Obj, code: string[], where: string) {
     const line = code[(k.line as number) - 1]
     c.need(Number.isInteger(k.line) && line !== undefined, `${w}.line must be a line of the code`)
     c.need(nonEmpty(k.label), `${w}.label is missing`)
-    c.need(k.kind === 'number' || k.kind === 'text', `${w}.kind must be "number" or "text"`)
+    c.need(k.kind === 'number' || k.kind === 'text' || k.kind === 'choice', `${w}.kind must be "number", "text" or "choice"`)
     if (!c.need(nonEmpty(k.find) && line !== undefined && line.includes(k.find as string), `${w}.find must be part of line ${String(k.line)}`)) return
     const find = k.find as string
     if (k.kind === 'number') c.need(!Number.isNaN(Number(find)), `${w}.find must be a number for a number knob`)
     if (k.kind === 'text') c.need(/^(["']).*\1$/.test(find), `${w}.find must be a quoted string for a text knob`)
+    if (k.kind === 'choice') {
+      const opts = k.options
+      c.need(Array.isArray(opts) && opts.length >= 2 && opts.every(nonEmpty) && opts[0] === find, `${w}.options must list 2 or more code pieces, starting with find`)
+    }
   })
 }
 

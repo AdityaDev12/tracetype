@@ -38,4 +38,18 @@ describe('explainPythonError', () => {
   it('returns null for something unknown', () => {
     expect(explainPythonError('SomethingNew: hm')).toBeNull()
   })
+
+  it('explains list errors in plain words', () => {
+    expect(explainPythonError('ValueError: list.remove(x): x not in list')).toMatch(/^remove\(\) looks for that value/)
+    expect(explainPythonError('ValueError: list.index(x): x not in list')).toMatch(/^index\(\)/)
+    expect(explainPythonError('IndexError: pop from empty list')).toMatch(/empty/)
+    expect(explainPythonError('IndexError: pop index out of range')).toMatch(/pop\(i\)/)
+    expect(explainPythonError('IndexError: list assignment index out of range')).toMatch(/append\(\)/)
+    expect(explainPythonError("AttributeError: 'NoneType' object has no attribute 'append'")).toMatch(/holds None/)
+    expect(explainPythonError('TypeError: can only concatenate list (not "int") to list')).toMatch(/\[x\]/)
+    expect(explainPythonError('TypeError: sequence item 0: expected str instance, int found')).toBe("join() only joins text. Item 0 is not text (its type is int), so turn each item into text with str() first.")
+    expect(explainPythonError('ValueError: max() iterable argument is empty')).toMatch(/^max\(\) needs/)
+    expect(explainPythonError('ValueError: empty separator')).toMatch(/split\(\)/)
+    expect(explainPythonError('IndexError: list index out of range')).toMatch(/Positions start at 0/)
+  })
 })

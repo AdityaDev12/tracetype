@@ -9,10 +9,21 @@ export function KnobBar({ knobs, run }: { knobs: Knob[] | undefined; run: KnobRu
   return (
     <div className="knobs" role="group" aria-label="Change a value and watch">
       <span className="knobs-title">change it and watch</span>
-      {knobs.map((k, i) => (
-        <label key={i} className="knob">
+      {knobs.map((k, i) => {
+        // A label passes clicks on its text to the first button, so choices sit in a plain span.
+        const Wrap = k.kind === 'choice' ? 'span' : 'label'
+        return (
+          <Wrap key={i} className="knob">
           <span className="knob-label">{k.label}</span>
-          {k.kind === 'number' ? (
+          {k.kind === 'choice' ? (
+            <span className="knob-choice" role="radiogroup" aria-label={k.label}>
+              {(k.options ?? []).map((o) => (
+                <button key={o} type="button" role="radio" aria-checked={run.values[i] === o} className={`knob-opt${run.values[i] === o ? ' on' : ''}`} onClick={() => run.setValue(i, o)}>
+                  <code>{o}</code>
+                </button>
+              ))}
+            </span>
+          ) : k.kind === 'number' ? (
             <>
               <input
                 type="range"
@@ -33,8 +44,9 @@ export function KnobBar({ knobs, run }: { knobs: Knob[] | undefined; run: KnobRu
           ) : (
             <input className="knob-text" type="text" value={run.values[i]} maxLength={30} onChange={(e) => run.setValue(i, e.target.value)} />
           )}
-        </label>
-      ))}
+          </Wrap>
+        )
+      })}
       {run.changed && (
         <button type="button" className="tt-btn bracket small" onClick={run.reset}>
           reset

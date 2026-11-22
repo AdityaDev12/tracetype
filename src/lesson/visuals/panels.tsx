@@ -6,6 +6,7 @@ import { useLanguagePack } from '../../languages/LanguageContext.tsx'
 import { ladderAt } from './branch.ts'
 import { useHoverProps } from './hover.ts'
 import { gridAt, loopRunAt, loopVar } from './loops.ts'
+import { listChange, listItemsAt, type ListChange } from './lists.ts'
 import { indexUsesAt, usesNegatives, type IndexEvent } from './strings.ts'
 
 type ExprEvent = Extract<TraceEvent, { kind: 'expr' }>
@@ -231,7 +232,7 @@ function CellsUse({ name, use, line }: { name: string; use: IndexEvent; line?: n
   )
 }
 
-function Cells({ name, items, pointer, uses = [], line, negatives }: { name: string; items: string[]; pointer?: number; uses?: IndexEvent[]; line?: number; negatives?: boolean }) {
+function Cells({ name, items, pointer, uses = [], line, negatives, change }: { name: string; items: string[]; pointer?: number; uses?: IndexEvent[]; line?: number; negatives?: boolean; change?: ListChange }) {
   const hover = useHoverProps(name)
   const ok = uses.filter((u) => !u.error)
   const use = ok[ok.length - 1]
@@ -251,8 +252,9 @@ function Cells({ name, items, pointer, uses = [], line, negatives }: { name: str
           {items.map((c, i) => {
             const k = picked.indexOf(i)
             return (
-              <span key={i} className={`cell${pointer === i ? ' at' : ''}${k >= 0 ? ' pick' : ''}`} role="listitem">
+              <span key={i} className={`cell${pointer === i ? ' at' : ''}${k >= 0 ? ' pick' : ''}${mark(change, i)}`} role="listitem">
                 {ordered && k >= 0 && <span className="cell-order">{k + 1}</span>}
+                {change?.was[i] !== undefined && <span className="cell-was">{`was ${change.was[i]}`}</span>}
                 <span className="cell-val">{showChar(c)}</span>
                 <span className="cell-idx">{i}</span>
                 {negatives && <span className="cell-idx neg">{i - items.length}</span>}
@@ -268,6 +270,13 @@ function Cells({ name, items, pointer, uses = [], line, negatives }: { name: str
           )}
         </div>
       )}
+      {change?.removed.map((r) => (
+        <p key={`gone${r.at}`} className="cells-use gone">
+          <span className="cells-note">removed </span>
+          <code>{r.repr}</code>
+          <span className="cells-note">{` (it was at position ${r.at}; the items after it moved left)`}</span>
+        </p>
+      ))}
       {uses.map((u, k) => (
         <CellsUse key={k} name={name} use={u} line={line} />
       ))}
@@ -275,24 +284,30 @@ function Cells({ name, items, pointer, uses = [], line, negatives }: { name: str
   )
 }
 
+const mark = (change: ListChange | undefined, i: number) => (change && change.marks[i] !== 'same' ? ` ${change.marks[i]}` : '')
+
 /** Sequence cells: each character of a string (or item of a list) in its own
  * numbered cell. */
 export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepView; focus?: string[]; pointer?: number; trace?: TraceStep[] }) {
   const negatives = usesNegatives(trace)
-  const rows: { name: string; items: string[] }[] = []
+  const rows: { name: string; items: string[]; change?: ListChange; text?: boolean }[] = []
   for (const v of view.vars) {
     if (focus?.length && !focus.includes(v.name)) continue
     if (v.value.text !== undefined) {
-      if (v.value.text.length <= 30) rows.push({ name: v.name, items: [...v.value.text] })
+      if (v.value.text.length <= 30) rows.push({ name: v.name, items: [...v.value.text], text: true })
     } else if (v.value.ref) {
       const o = view.heap[v.value.ref]
       if (o && (o.kind === 'list' || o.kind === 'tuple') && o.items.length <= 20) {
-        rows.push({ name: v.name, items: o.items.map((x) => x.repr) })
+        const items = o.items.map((x) => x.repr)
+        // A list can change in place: show what this step added, replaced or removed.
+        const change = o.kind === 'list' && view.index > 0 ? listChange(listItemsAt(trace, view.index - 1, v.name), items) : undefined
+        rows.push({ name: v.name, items, change })
       }
     }
   }
+  const label = rows.length && !rows.some((r) => r.text) ? 'one box per item' : 'one box per character'
   return (
-    <Terminal title="cells" label="one box per character" className="viz-cells">
+    <Terminal title="cells" label={label} className="viz-cells">
       {rows.length === 0 ? (
         <p className="mem-empty">{'> no text stored yet'}</p>
       ) : (
@@ -305,6 +320,7 @@ export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepVie
             uses={indexUsesAt(trace, view.index, r.name)}
             line={view.line ?? undefined}
             negatives={negatives}
+            change={r.change}
           />
         ))
       )}

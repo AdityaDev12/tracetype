@@ -20,6 +20,13 @@ describe('knobs', () => {
     expect(applyKnobs(code, [txt], ['say "hi"'])[1]).toBe('city = "say \\"hi\\""')
   })
 
+  it('a choice knob swaps in one of its options, and nothing else', () => {
+    const pick: Knob = { line: 1, find: 'a', label: 'copy?', kind: 'choice', options: ['a', 'a[:]'] }
+    expect(knobStart(pick)).toBe('a')
+    expect(applyKnobs(['b = a'], [pick], ['a[:]'])).toEqual(['b = a[:]'])
+    expect(applyKnobs(['b = a'], [pick], ['evil()'])).toEqual(['b = a'])
+  })
+
   it('ignores a number box that is empty or not a number', () => {
     expect(applyKnobs(code, [num], [''])[0]).toBe('n = 7 // 2')
     expect(applyKnobs(code, [num], ['abc'])[0]).toBe('n = 7 // 2')

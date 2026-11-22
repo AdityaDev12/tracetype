@@ -1,0 +1,1928 @@
+{
+  "id": "py-26-making-lists",
+  "track": "python",
+  "unit": "py-u5",
+  "order": 26,
+  "title": "Making lists",
+  "summary": "Keep many values under one name with a list. Positions, len and in work just like they do on text.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "memory"
+  ],
+  "intro": {
+    "text": "So far every name held **one** value. A **list** holds many values, in order, under one name:\n\n```\ntemps = [18, 21, 16, 24]\n```\n\nSquare brackets, with commas between the items. `[]` is an **empty** list.\n\nGood news: you already know how to use it. Lists follow the same position rules as text:\n\n- `temps[0]` is the first item, `temps[-1]` the last\n- `len(temps)` counts the **items**: 4\n- a position past the end stops the program with an **IndexError**\n\nOne difference matters: `in` checks **whole items**. `\"Be\" in [\"Ben\", \"Cleo\"]` is False, because no item is exactly `\"Be\"`.\n\nA list can hold any kind of value, even a mix: `[\"tea\", 2, 1.5]`. The **cells** panel shows one box per item, with its position underneath.",
+    "analogy": "A row of numbered lockers with one name over the whole row. Each locker holds one thing, and you open a locker by its number, starting from 0."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "pets = [\"cat\", \"dog\", \"fish\"]",
+        "print(pets[1])",
+        "print(len(pets))"
+      ],
+      "kind": "choice",
+      "options": [
+        "dog\n3",
+        "cat\n3",
+        "dog\n2",
+        "cat\n2"
+      ],
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "Positions start at 0, so pets[1] is the second item, dog. len counts items: there are 3.",
+      "gen": {
+        "hash": "8e7b51878817e22f8f870f2472c41d4d154914593294992b99cd1145f25a2da9",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "pets": {
+                "repr": "['cat', 'dog', 'fish']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'dog'",
+                    "type": "str",
+                    "text": "dog"
+                  },
+                  {
+                    "repr": "'fish'",
+                    "type": "str",
+                    "text": "fish"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "dog\n",
+            "vars": {
+              "pets": {
+                "repr": "['cat', 'dog', 'fish']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'dog'",
+                    "type": "str",
+                    "text": "dog"
+                  },
+                  {
+                    "repr": "'fish'",
+                    "type": "str",
+                    "text": "fish"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "pets",
+                "key": "1",
+                "len": 3,
+                "at": 1,
+                "picked": [
+                  1
+                ],
+                "value": "'dog'"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(pets[1])"
+                  },
+                  {
+                    "text": "print(['cat', 'dog', 'fish'][1])"
+                  },
+                  {
+                    "text": "print('dog')",
+                    "part": "['cat', 'dog', 'fish'][1]",
+                    "value": "'dog'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "3\n",
+            "vars": {
+              "pets": {
+                "repr": "['cat', 'dog', 'fish']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'dog'",
+                    "type": "str",
+                    "text": "dog"
+                  },
+                  {
+                    "repr": "'fish'",
+                    "type": "str",
+                    "text": "fish"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "dog\n3",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "codes = [7, 14, 21, 28]",
+        "print(codes[-1], codes[0])"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "-1 is the last item, 28, and 0 is the first, 7. print puts a space between them.",
+      "gen": {
+        "hash": "9238df6524947edfa75854dcab091d82080aa7600f6640da9c7cdc86c5d24b1d",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "codes": {
+                "repr": "[7, 14, 21, 28]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "14",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "28 7\n",
+            "vars": {
+              "codes": {
+                "repr": "[7, 14, 21, 28]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "7",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "14",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "28",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "codes",
+                "key": "-1",
+                "len": 4,
+                "at": -1,
+                "picked": [
+                  3
+                ],
+                "value": "28"
+              },
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "codes",
+                "key": "0",
+                "len": 4,
+                "at": 0,
+                "picked": [
+                  0
+                ],
+                "value": "7"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(codes[-1], codes[0])"
+                  },
+                  {
+                    "text": "print([7, 14, 21, 28][-1], codes[0])"
+                  },
+                  {
+                    "text": "print([7, 14, 21, 28][(-1)], codes[0])",
+                    "part": "-1",
+                    "value": "-1"
+                  },
+                  {
+                    "text": "print(28, codes[0])",
+                    "part": "[7, 14, 21, 28][(-1)]",
+                    "value": "28"
+                  },
+                  {
+                    "text": "print(28, [7, 14, 21, 28][0])"
+                  },
+                  {
+                    "text": "print(28, 7)",
+                    "part": "[7, 14, 21, 28][0]",
+                    "value": "7"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "28 7"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "seats = [\"A1\", \"A2\", \"A3\"]",
+        "print(seats[3])"
+      ],
+      "kind": "choice",
+      "raises": true,
+      "q": "What does this show? If Python stops with an error, the last line is the error's name.",
+      "options": [
+        "A3",
+        "IndexError",
+        "A1",
+        "None"
+      ],
+      "visuals": [
+        "cells",
+        "halt"
+      ],
+      "expr": [
+        2
+      ],
+      "why": "3 items sit at positions 0, 1 and 2. There is no position 3, so Python stops with an IndexError.",
+      "gen": {
+        "hash": "d12bde4c564a2c3bd3922f452303da82ff63a1909d87c4511c857a3dce38bed9",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "seats": {
+                "repr": "['A1', 'A2', 'A3']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'A1'",
+                    "type": "str",
+                    "text": "A1"
+                  },
+                  {
+                    "repr": "'A2'",
+                    "type": "str",
+                    "text": "A2"
+                  },
+                  {
+                    "repr": "'A3'",
+                    "type": "str",
+                    "text": "A3"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "seats",
+                "key": "3",
+                "len": 3,
+                "at": 3,
+                "picked": [],
+                "error": true
+              }
+            ]
+          }
+        ],
+        "output": "IndexError",
+        "error": {
+          "type": "IndexError",
+          "message": "IndexError: list index out of range",
+          "line": 2
+        },
+        "events": [
+          {
+            "kind": "raise",
+            "type": "IndexError",
+            "message": "IndexError: list index out of range",
+            "line": 2,
+            "func": "<module>"
+          }
+        ],
+        "answer": 1
+      }
+    },
+    {
+      "id": "p4",
+      "code": [
+        "fruit = [\"apple\", \"pear\"]",
+        "print(\"pea\" in fruit)",
+        "print(\"pea\" in \"pear\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "False\nTrue",
+        "True\nTrue",
+        "False\nFalse",
+        "True\nFalse"
+      ],
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "On a list, in looks for a whole item, and no item is exactly pea. On text, in looks for a piece of the text, and pear does contain pea.",
+      "gen": {
+        "hash": "baa2d51586cdc1dcc72df314be3b4e82b0a641ab9ed249d83b963dcb0f787a96",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "fruit": {
+                "repr": "['apple', 'pear']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'apple'",
+                    "type": "str",
+                    "text": "apple"
+                  },
+                  {
+                    "repr": "'pear'",
+                    "type": "str",
+                    "text": "pear"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "False\n",
+            "vars": {
+              "fruit": {
+                "repr": "['apple', 'pear']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'apple'",
+                    "type": "str",
+                    "text": "apple"
+                  },
+                  {
+                    "repr": "'pear'",
+                    "type": "str",
+                    "text": "pear"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "True\n",
+            "vars": {
+              "fruit": {
+                "repr": "['apple', 'pear']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'apple'",
+                    "type": "str",
+                    "text": "apple"
+                  },
+                  {
+                    "repr": "'pear'",
+                    "type": "str",
+                    "text": "pear"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "False\nTrue",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "A row of numbers",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "temps"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "0",
+          "label": "position",
+          "kind": "number",
+          "min": 0,
+          "max": 5
+        }
+      ],
+      "lines": [
+        {
+          "code": "temps = [18, 21, 16, 24]",
+          "explain": "One name, four numbers in order. The cells panel shows one box per item, numbered 0 to 3.",
+          "task": "Store the numbers 18, 21, 16 and 24 in a list called temps.",
+          "note": "brackets and commas",
+          "circle": "[18, 21, 16, 24]"
+        },
+        {
+          "code": "first = temps[0]",
+          "explain": "Position 0 is the first item: 18. The result is the number itself, not a list. Try the position knob, and push it past 3.",
+          "task": "Store the first item of temps in first.",
+          "expr": true
+        },
+        {
+          "code": "last = temps[-1]",
+          "explain": "-1 counts from the end, so it is always the last item: 24.",
+          "task": "Store the last item of temps in last, using a negative position.",
+          "note": "-1 is the last",
+          "expr": true
+        },
+        {
+          "code": "print(first, last)",
+          "explain": "Prints 18 24.",
+          "task": "Print first and last."
+        },
+        {
+          "code": "print(len(temps), \"days\")",
+          "explain": "len counts the items in the list: 4 days.",
+          "task": "Print the length of temps and the word days."
+        }
+      ],
+      "gen": {
+        "hash": "937c1145bf7a50dfb8acb97dff3f6a752cc475a7b801f289bd5f63b66733f4b4",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[18, 21, 16, 24]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "18",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "16",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "24",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[18, 21, 16, 24]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "first": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "18",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "16",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "24",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 2,
+                "target": "temps",
+                "key": "0",
+                "len": 4,
+                "at": 0,
+                "picked": [
+                  0
+                ],
+                "value": "18"
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "first = temps[0]"
+                  },
+                  {
+                    "text": "first = [18, 21, 16, 24][0]"
+                  },
+                  {
+                    "text": "first = 18",
+                    "part": "[18, 21, 16, 24][0]",
+                    "value": "18"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "temps": {
+                "repr": "[18, 21, 16, 24]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "first": {
+                "repr": "18",
+                "type": "int"
+              },
+              "last": {
+                "repr": "24",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "18",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "16",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "24",
+                    "type": "int"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "temps",
+                "key": "-1",
+                "len": 4,
+                "at": -1,
+                "picked": [
+                  3
+                ],
+                "value": "24"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "last = temps[-1]"
+                  },
+                  {
+                    "text": "last = [18, 21, 16, 24][-1]"
+                  },
+                  {
+                    "text": "last = [18, 21, 16, 24][(-1)]",
+                    "part": "-1",
+                    "value": "-1"
+                  },
+                  {
+                    "text": "last = 24",
+                    "part": "[18, 21, 16, 24][(-1)]",
+                    "value": "24"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "18 24\n",
+            "vars": {
+              "temps": {
+                "repr": "[18, 21, 16, 24]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "first": {
+                "repr": "18",
+                "type": "int"
+              },
+              "last": {
+                "repr": "24",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "18",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "16",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "24",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "4 days\n",
+            "vars": {
+              "temps": {
+                "repr": "[18, 21, 16, 24]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "first": {
+                "repr": "18",
+                "type": "int"
+              },
+              "last": {
+                "repr": "24",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "18",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "16",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "24",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Is it on the list?",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "guests"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "\"Ben\"",
+          "label": "name",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "guests = [\"Ana\", \"Ben\", \"Cleo\"]",
+          "explain": "A list of three strings. Each name sits in its own box.",
+          "task": "Store the names Ana, Ben and Cleo in a list called guests."
+        },
+        {
+          "code": "name = \"Ben\"",
+          "explain": "The name to look for. Try changing it with the knob.",
+          "task": "Store the text Ben in name."
+        },
+        {
+          "code": "if name in guests:",
+          "explain": "in asks: is one of the items exactly equal to name? Ben is, so the test is True.",
+          "task": "Start an if that checks whether name is in guests.",
+          "note": "a whole item",
+          "circle": "name in guests"
+        },
+        {
+          "code": "    print(name, \"is invited\")",
+          "explain": "Runs only when the test was True. Prints Ben is invited.",
+          "task": "Inside the if, print name and is invited."
+        },
+        {
+          "code": "print(\"Be\" in guests)",
+          "explain": "False. Be is part of Ben, but no item is exactly Be. On a list, in never looks inside the items.",
+          "task": "Print whether the text Be is in guests."
+        }
+      ],
+      "gen": {
+        "hash": "b913a0a15d82980d4506f06f9416037e3c94e9c5bb3b245dc8b8f59d22bdc08e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "guests": {
+                "repr": "['Ana', 'Ben', 'Cleo']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "'Ben'",
+                    "type": "str",
+                    "text": "Ben"
+                  },
+                  {
+                    "repr": "'Cleo'",
+                    "type": "str",
+                    "text": "Cleo"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "guests": {
+                "repr": "['Ana', 'Ben', 'Cleo']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Ben'",
+                "type": "str",
+                "text": "Ben"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "'Ben'",
+                    "type": "str",
+                    "text": "Ben"
+                  },
+                  {
+                    "repr": "'Cleo'",
+                    "type": "str",
+                    "text": "Cleo"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "guests": {
+                "repr": "['Ana', 'Ben', 'Cleo']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Ben'",
+                "type": "str",
+                "text": "Ben"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "'Ben'",
+                    "type": "str",
+                    "text": "Ben"
+                  },
+                  {
+                    "repr": "'Cleo'",
+                    "type": "str",
+                    "text": "Cleo"
+                  }
+                ]
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Ben is invited\n",
+            "vars": {
+              "guests": {
+                "repr": "['Ana', 'Ben', 'Cleo']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Ben'",
+                "type": "str",
+                "text": "Ben"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "'Ben'",
+                    "type": "str",
+                    "text": "Ben"
+                  },
+                  {
+                    "repr": "'Cleo'",
+                    "type": "str",
+                    "text": "Cleo"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "False\n",
+            "vars": {
+              "guests": {
+                "repr": "['Ana', 'Ben', 'Cleo']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "name": {
+                "repr": "'Ben'",
+                "type": "str",
+                "text": "Ben"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "'Ben'",
+                    "type": "str",
+                    "text": "Ben"
+                  },
+                  {
+                    "repr": "'Cleo'",
+                    "type": "str",
+                    "text": "Cleo"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Mixed values, joined lists",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "order = [\"tea\", 2, 1.5]",
+          "explain": "One list can hold a string, an int and a float together.",
+          "task": "Store a list with the text tea, the number 2 and the number 1.5 in order."
+        },
+        {
+          "code": "print(order)",
+          "explain": "Printing a list shows the brackets and puts quotes around the strings: ['tea', 2, 1.5].",
+          "task": "Print order."
+        },
+        {
+          "code": "extra = order + [\"cake\"]",
+          "explain": "+ joins two lists into a brand new list. order itself still has 3 items.",
+          "task": "Store order joined with a list holding the text cake in extra.",
+          "note": "a new list",
+          "circle": "+ [\"cake\"]"
+        },
+        {
+          "code": "print(len(order), len(extra))",
+          "explain": "Prints 3 4.",
+          "task": "Print the length of order and the length of extra."
+        },
+        {
+          "code": "zeros = [0] * 3",
+          "explain": "* repeats a list: three zeros in a row.",
+          "task": "Store the list holding 0, repeated 3 times, in zeros."
+        },
+        {
+          "code": "print(zeros)",
+          "explain": "Prints [0, 0, 0].",
+          "task": "Print zeros."
+        }
+      ],
+      "gen": {
+        "hash": "69ce132855aeab7ddda59fe9d645ab59520f070c117d8dc92134b7393cce5d77",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "order": {
+                "repr": "['tea', 2, 1.5]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "['tea', 2, 1.5]\n",
+            "vars": {
+              "order": {
+                "repr": "['tea', 2, 1.5]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "order": {
+                "repr": "['tea', 2, 1.5]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "extra": {
+                "repr": "['tea', 2, 1.5, 'cake']",
+                "type": "list",
+                "ref": "o2"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  },
+                  {
+                    "repr": "'cake'",
+                    "type": "str",
+                    "text": "cake"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "3 4\n",
+            "vars": {
+              "order": {
+                "repr": "['tea', 2, 1.5]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "extra": {
+                "repr": "['tea', 2, 1.5, 'cake']",
+                "type": "list",
+                "ref": "o2"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  },
+                  {
+                    "repr": "'cake'",
+                    "type": "str",
+                    "text": "cake"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "order": {
+                "repr": "['tea', 2, 1.5]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "extra": {
+                "repr": "['tea', 2, 1.5, 'cake']",
+                "type": "list",
+                "ref": "o2"
+              },
+              "zeros": {
+                "repr": "[0, 0, 0]",
+                "type": "list",
+                "ref": "o3"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  },
+                  {
+                    "repr": "'cake'",
+                    "type": "str",
+                    "text": "cake"
+                  }
+                ]
+              },
+              "o3": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "0",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "0",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "0",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "[0, 0, 0]\n",
+            "vars": {
+              "order": {
+                "repr": "['tea', 2, 1.5]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "extra": {
+                "repr": "['tea', 2, 1.5, 'cake']",
+                "type": "list",
+                "ref": "o2"
+              },
+              "zeros": {
+                "repr": "[0, 0, 0]",
+                "type": "list",
+                "ref": "o3"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  }
+                ]
+              },
+              "o2": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'tea'",
+                    "type": "str",
+                    "text": "tea"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1.5",
+                    "type": "float"
+                  },
+                  {
+                    "repr": "'cake'",
+                    "type": "str",
+                    "text": "cake"
+                  }
+                ]
+              },
+              "o3": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "0",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "0",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "0",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in first after line 2?",
+      "options": [
+        "18",
+        "21",
+        "[18]",
+        "24"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "first"
+      },
+      "why": "Position 0 is the first item, and indexing gives the item itself, not a list."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in last after line 3?",
+      "options": [
+        "24",
+        "16",
+        "18",
+        "4"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "last"
+      },
+      "why": "-1 always means the last item."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 3,
+      "q": "What is stored in extra after line 3?",
+      "options": [
+        "['tea', 2, 1.5, 'cake']",
+        "['tea', 2, 1.5]",
+        "['cake']",
+        "['tea', 2, 1.5, ['cake']]"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "extra"
+      },
+      "why": "+ puts the items of both lists into one new list."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints the last color: blue",
+      "code": [
+        "colors = [\"red\", \"green\", \"blue\"]",
+        "print(colors[___])"
+      ],
+      "answers": [
+        "-1"
+      ],
+      "gen": {
+        "hash": "94857811d0868e5a50aae02214605d78b11db11a5ac37b65aac9334be3266b27",
+        "expected": {
+          "stdout": "blue",
+          "vars": {
+            "colors": {
+              "repr": "['red', 'green', 'blue']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints 4 items, tape included",
+      "code": [
+        "tools = [\"saw\", \"drill\", ___, \"glue\"]",
+        "if \"tape\" ___ tools:",
+        "    print(len(tools), \"items, tape included\")"
+      ],
+      "answers": [
+        "\"tape\"",
+        "in"
+      ],
+      "gen": {
+        "hash": "2ac57fe0547cc2f8d43bb980a21f433981128b8a61133c43444ad3d9664a50fd",
+        "expected": {
+          "stdout": "4 items, tape included",
+          "vars": {
+            "tools": {
+              "repr": "['saw', 'drill', 'tape', 'glue']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints how many snacks there are, then the last one:\n3\nmango",
+      "lines": [
+        "snacks = [\"chips\", \"nuts\", \"mango\"]",
+        "count = len(snacks)",
+        "print(count)",
+        "print(snacks[count - 1])"
+      ],
+      "gen": {
+        "hash": "a2cc597fb16bf34680618213e93e0186370a781aa2a32e165cc1549ddcbbe669",
+        "expected": {
+          "stdout": "3\nmango",
+          "vars": {
+            "snacks": {
+              "repr": "['chips', 'nuts', 'mango']",
+              "type": "list"
+            },
+            "count": {
+              "repr": "3",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print the last score, 77. It stops with an IndexError. Fix it.",
+      "code": [
+        "scores = [90, 85, 77]",
+        "print(scores[3])"
+      ],
+      "solution": [
+        "scores = [90, 85, 77]",
+        "print(scores[2])"
+      ],
+      "tests": [
+        {
+          "name": "prints 77",
+          "stdout": "77"
+        }
+      ],
+      "hint": "3 items sit at positions 0, 1 and 2. The last one is at 2, or at -1.",
+      "gen": {
+        "hash": "797def0d17c85110bd06daf2ce397e3eabd7635c3ed710a5582c7096d058cd1f",
+        "error": "IndexError: list index out of range"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it prints the first and the last planet. It should print:\nMercury Neptune",
+      "code": [
+        "planets = [\"Mercury\", \"Venus\", \"Earth\", \"Neptune\"]",
+        "print(planets[1], planets[2])"
+      ],
+      "solution": [
+        "planets = [\"Mercury\", \"Venus\", \"Earth\", \"Neptune\"]",
+        "print(planets[0], planets[-1])"
+      ],
+      "tests": [
+        {
+          "name": "prints Mercury Neptune",
+          "stdout": "Mercury Neptune"
+        }
+      ],
+      "hint": "The first item is at 0 and the last is at -1.",
+      "gen": {
+        "hash": "6e65f90e9c8095cf8a13b62387566e285bf1a368ff2c15aacb891c2ede5e9d34"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add one more size to the list so the program prints:\n4 sizes\n['S', 'M', 'L', 'XL']",
+      "code": [
+        "sizes = [\"S\", \"M\", \"L\"]",
+        "print(len(sizes), \"sizes\")",
+        "print(sizes)"
+      ],
+      "solution": [
+        "sizes = [\"S\", \"M\", \"L\", \"XL\"]",
+        "print(len(sizes), \"sizes\")",
+        "print(sizes)"
+      ],
+      "tests": [
+        {
+          "name": "prints 4 sizes and the list",
+          "stdout": "4 sizes\n['S', 'M', 'L', 'XL']"
+        }
+      ],
+      "hint": "Put a comma and \"XL\" before the closing bracket.",
+      "gen": {
+        "hash": "d12855e96d3362b5c5ca9ccc6136f9a4fb0c99343035ab7880ce83cd6bc6e826"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "The shop has the list [\"apple\", \"kiwi\", \"plum\"]. Ask Fruit? and say whether it is in stock. Tidy the answer first: no spaces at the ends, all small letters. With kiwi:\nFruit? kiwi\nYes, we have kiwi.\nWith grape:\nFruit? grape\nSorry, no grape.",
+      "solution": [
+        "stock = [\"apple\", \"kiwi\", \"plum\"]",
+        "fruit = input(\"Fruit? \").strip().lower()",
+        "if fruit in stock:",
+        "    print(f\"Yes, we have {fruit}.\")",
+        "else:",
+        "    print(f\"Sorry, no {fruit}.\")"
+      ],
+      "tests": [
+        {
+          "name": "in stock",
+          "stdin": [
+            "kiwi"
+          ],
+          "stdout": "Fruit? kiwi\nYes, we have kiwi."
+        },
+        {
+          "name": "not in stock",
+          "stdin": [
+            "grape"
+          ],
+          "stdout": "Fruit? grape\nSorry, no grape."
+        },
+        {
+          "name": "capitals and spaces",
+          "stdin": [
+            " PLUM"
+          ],
+          "stdout": "Fruit?  PLUM\nYes, we have plum."
+        }
+      ],
+      "hints": [
+        "Store the three fruits in a list first",
+        "input(\"Fruit? \").strip().lower() tidies the answer",
+        "if fruit in stock: checks for a whole item"
+      ],
+      "gen": {
+        "hash": "256d800edcbd6df9dc661f577ef23dd5f5ac5f85f3e5b0d42e256abd3a874f8b"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `[\"a\", \"b\", \"c\"][1]`?",
+      "options": [
+        "'b'",
+        "'a'",
+        "'c'",
+        "['b']"
+      ],
+      "answer": 0,
+      "why": "Positions start at 0, so position 1 is the second item."
+    },
+    {
+      "q": "What is `len([\"hello\", \"hi\"])`?",
+      "options": [
+        "2",
+        "7",
+        "5",
+        "1"
+      ],
+      "answer": 0,
+      "why": "len counts items in a list, not the letters inside them."
+    },
+    {
+      "q": "A list has 5 items. Which position holds the last one?",
+      "options": [
+        "4",
+        "5",
+        "1",
+        "0"
+      ],
+      "answer": 0,
+      "why": "Positions go 0 to len - 1, so 0 to 4. -1 works too."
+    },
+    {
+      "q": "What is `\"ap\" in [\"apple\", \"grape\"]`?",
+      "options": [
+        "False",
+        "True",
+        "Error",
+        "'apple'"
+      ],
+      "answer": 0,
+      "why": "in on a list looks for an item that is exactly \"ap\". There is none."
+    },
+    {
+      "q": "What is `[1, 2] + [3]`?",
+      "options": [
+        "[1, 2, 3]",
+        "[1, 2, [3]]",
+        "[4, 2]",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "+ joins the items of two lists into one new list."
+    },
+    {
+      "q": "Which of these is an empty list?",
+      "options": [
+        "[]",
+        "[0]",
+        "\"\"",
+        "[\"\"]"
+      ],
+      "answer": 0,
+      "why": "[] has no items. [0] and [\"\"] each hold one item, and \"\" is empty text, not a list."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Forgetting a comma between items",
+      "code": [
+        "nums = [1, 2 3]",
+        "print(nums)"
+      ],
+      "explain": "Every item needs a comma before the next one. Python sees 2 and 3 side by side and cannot read the line.",
+      "fix": [
+        "nums = [1, 2, 3]",
+        "print(nums)"
+      ],
+      "gen": {
+        "hash": "eac6229644aa4277a88338d9b027bdeaa0b6b274b99f5c2c1e01b75974f02e27",
+        "error": "SyntaxError: invalid syntax. Perhaps you forgot a comma?",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Using len as the last position",
+      "code": [
+        "days = [\"Mon\", \"Tue\", \"Wed\"]",
+        "print(days[len(days)])"
+      ],
+      "explain": "len is 3, but the positions are 0, 1 and 2. The last one is len - 1, or simply -1.",
+      "fix": [
+        "days = [\"Mon\", \"Tue\", \"Wed\"]",
+        "print(days[len(days) - 1])"
+      ],
+      "gen": {
+        "hash": "d55bec4b5e318ed64fd7d66a7328c4aff0a498c12e8921c1d61cec5a87816676",
+        "error": "IndexError: list index out of range",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Adding a number to a list with +",
+      "code": [
+        "marks = [6, 8]",
+        "print(marks + 9)"
+      ],
+      "explain": "+ only joins a list to another list. Put the number in brackets so it becomes a list of one item.",
+      "fix": [
+        "marks = [6, 8]",
+        "print(marks + [9])"
+      ],
+      "gen": {
+        "hash": "c94e592a086bc6159cf07d0171b85ff19d8e7f8596e8e8dca5bef846696cc0a5",
+        "error": "TypeError: can only concatenate list (not \"int\") to list",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: lists",
+      "url": "https://docs.python.org/3/tutorial/introduction.html#lists"
+    },
+    {
+      "title": "Reference: common sequence operations",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#common-sequence-operations"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 8. Lists and Dictionaries"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 4. Introducing Python Object Types"
+    }
+  ]
+}

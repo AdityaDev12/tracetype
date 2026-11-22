@@ -15,7 +15,9 @@ export function applyKnobs(lines: string[], knobs: Knob[], values: string[]): st
   knobs.forEach((k, i) => {
     const v = values[i]
     let literal = v
-    if (k.kind === 'text') {
+    if (k.kind === 'choice') {
+      literal = k.options?.includes(v) ? v : k.find
+    } else if (k.kind === 'text') {
       const q = k.find[0]
       literal = q + v.replaceAll('\\', '\\\\').replaceAll(q, `\\${q}`) + q
     } else if (v.trim() === '' || Number.isNaN(Number(v))) {

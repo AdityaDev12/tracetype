@@ -175,8 +175,11 @@ export interface Knob {
   /** The exact text to replace on that line (its first occurrence). */
   find: string
   label: string
-  /** number: a slider/number box. text: a text box (quotes are kept). */
-  kind: 'number' | 'text'
+  /** number: a slider/number box. text: a text box (quotes are kept).
+   * choice: buttons that swap in one of `options` (pieces of code). */
+  kind: 'number' | 'text' | 'choice'
+  /** For a choice knob: the code pieces to pick from (the first is `find`). */
+  options?: string[]
   min?: number
   max?: number
   step?: number
