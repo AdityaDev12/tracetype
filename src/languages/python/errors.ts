@@ -68,6 +68,7 @@ const RULES: Rule[] = [
         ? 'Inside [ ] a comma makes a pair of numbers. For a slice, use a colon: [0:3].'
         : `A position in a ${m[1]} must be a whole number, not a ${m[2]}. If it came from /, use // instead.`,
   },
+  { test: /^TypeError: 'in <string>' requires string as left operand, not (\w+)/, explain: (m) => `in on text looks for text, not a ${m[1]}. Put it in quotes, or turn it into text with str().` },
   { test: /^TypeError: '(.+?)' object does not support item assignment/, explain: (m) => `A ${m[1]} can never be changed. Make a new one instead, for example with a method or with slices and +.` },
   { test: /^TypeError: '(.+?)' object is not callable/, explain: (m) => `You put ( ) after something that is a ${m[1]}, not a function.` },
   { test: /^TypeError/, explain: () => 'A value of the wrong type was used here.' },

@@ -1,0 +1,1453 @@
+{
+  "id": "py-24-searching-text",
+  "track": "python",
+  "unit": "py-u4",
+  "order": 24,
+  "title": "Searching text",
+  "summary": "Ask if text contains something, where it is, how many times it appears, and what kind of characters it has.",
+  "language": "python",
+  "minutes": 25,
+  "visual": "memory",
+  "visuals": [
+    "expr",
+    "memory"
+  ],
+  "intro": {
+    "text": "Python has ready-made tools for searching inside a string:\n\n- `part in text` is **True** or **False**. `not in` is the opposite.\n- `text.find(part)` gives the **position** where `part` first starts, or **-1** when it is not there.\n- `text.count(part)` says **how many times** `part` appears.\n- `text.startswith(part)` and `text.endswith(part)` check the two ends.\n- `text.isdigit()` is True when every character is a digit, so `int(text)` will work. `text.isalpha()` is True when every character is a letter.\n\n```\nnote = \"meet at noon\"\nprint(\"noon\" in note)\nprint(note.find(\"at\"))\n```\n\nprints True and then 5.\n\nAll of these are **case sensitive**: \"Noon\" is not \"noon\". Use `lower()` on the text first when case should not matter. And watch out for -1 from find: it is a normal number, not False.",
+    "analogy": "The search box in a document: is the word there at all, where is the first hit, and how many hits are there?"
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "song = \"happy birthday\"",
+        "print(\"birth\" in song)",
+        "print(\"Happy\" in song)"
+      ],
+      "kind": "choice",
+      "options": [
+        "True\nFalse",
+        "True\nTrue",
+        "False\nFalse",
+        "False\nTrue"
+      ],
+      "expr": [
+        2,
+        3
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"happy birthday\"",
+          "label": "song",
+          "kind": "text"
+        }
+      ],
+      "why": "birth is inside the text, so the first line is True. Happy with a capital H is not, because searching is case sensitive.",
+      "gen": {
+        "hash": "294d7f960eb5147d707a45ea4c193437254ba2a06e667474be9c4745e0c1c354",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "song": {
+                "repr": "'happy birthday'",
+                "type": "str",
+                "text": "happy birthday"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "True\n",
+            "vars": {
+              "song": {
+                "repr": "'happy birthday'",
+                "type": "str",
+                "text": "happy birthday"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print('birth' in song)"
+                  },
+                  {
+                    "text": "print('birth' in 'happy birthday')"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "'birth' in 'happy birthday'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "False\n",
+            "vars": {
+              "song": {
+                "repr": "'happy birthday'",
+                "type": "str",
+                "text": "happy birthday"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print('Happy' in song)"
+                  },
+                  {
+                    "text": "print('Happy' in 'happy birthday')"
+                  },
+                  {
+                    "text": "print(False)",
+                    "part": "'Happy' in 'happy birthday'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "True\nFalse",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "word = \"cookbook\"",
+        "print(word.find(\"k\"))",
+        "print(word.count(\"oo\"))",
+        "print(word.find(\"z\"))"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "expr": [
+        2,
+        3,
+        4
+      ],
+      "why": "The first k is at position 3 (c, o, o, k). oo appears twice. There is no z, so find gives -1.",
+      "gen": {
+        "hash": "0c9c0f5f5acf4380d3867d2a78677ea08dd98f6f48bb0b988d62946288d57783",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'cookbook'",
+                "type": "str",
+                "text": "cookbook"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "3\n",
+            "vars": {
+              "word": {
+                "repr": "'cookbook'",
+                "type": "str",
+                "text": "cookbook"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(word.find('k'))"
+                  },
+                  {
+                    "text": "print(3)",
+                    "part": "word.find('k')",
+                    "value": "3"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "2\n",
+            "vars": {
+              "word": {
+                "repr": "'cookbook'",
+                "type": "str",
+                "text": "cookbook"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(word.count('oo'))"
+                  },
+                  {
+                    "text": "print(2)",
+                    "part": "word.count('oo')",
+                    "value": "2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "-1\n",
+            "vars": {
+              "word": {
+                "repr": "'cookbook'",
+                "type": "str",
+                "text": "cookbook"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "print(word.find('z'))"
+                  },
+                  {
+                    "text": "print((-1))",
+                    "part": "word.find('z')",
+                    "value": "-1"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "3\n2\n-1"
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "code = \"A-1234\"",
+        "print(code.startswith(\"A\"))",
+        "print(code[2:].isdigit())"
+      ],
+      "kind": "choice",
+      "options": [
+        "True\nTrue",
+        "True\nFalse",
+        "False\nTrue",
+        "A\n1234"
+      ],
+      "visuals": [
+        "cells",
+        "expr"
+      ],
+      "expr": [
+        2,
+        3
+      ],
+      "why": "The code starts with A. code[2:] is 1234, and every character of it is a digit.",
+      "gen": {
+        "hash": "63a6258b66b57d9eba916557f70fdb8731b82ce7d88a77d9703fdd8b2e0c1d09",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "code": {
+                "repr": "'A-1234'",
+                "type": "str",
+                "text": "A-1234"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "True\n",
+            "vars": {
+              "code": {
+                "repr": "'A-1234'",
+                "type": "str",
+                "text": "A-1234"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print(code.startswith('A'))"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "code.startswith('A')",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "True\n",
+            "vars": {
+              "code": {
+                "repr": "'A-1234'",
+                "type": "str",
+                "text": "A-1234"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 3,
+                "target": "code",
+                "key": "2:",
+                "len": 6,
+                "picked": [
+                  2,
+                  3,
+                  4,
+                  5
+                ],
+                "slice": true,
+                "value": "'1234'"
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "print(code[2:].isdigit())"
+                  },
+                  {
+                    "text": "print('A-1234'[2:].isdigit())"
+                  },
+                  {
+                    "text": "print('1234'.isdigit())",
+                    "part": "'A-1234'[2:]",
+                    "value": "'1234'"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "'1234'.isdigit()",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        "output": "True\nTrue",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Is it there, and where?",
+      "visuals": [
+        "expr",
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "note"
+      ],
+      "knobs": [
+        {
+          "line": 3,
+          "find": "\"at\"",
+          "label": "search",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "note = \"meet at the park at noon\"",
+          "explain": "24 characters to search through.",
+          "task": "Store the text meet at the park at noon in note."
+        },
+        {
+          "code": "print(\"park\" in note)",
+          "explain": "in only says yes or no: True.",
+          "task": "Print whether park is in note.",
+          "expr": true
+        },
+        {
+          "code": "where = note.find(\"at\")",
+          "explain": "find gives the position where the first match starts. Counting from 0: m e e t space, then a is at 5.",
+          "task": "Store the position of the first at in note in where.",
+          "note": "the first match",
+          "circle": "find(\"at\")",
+          "expr": true
+        },
+        {
+          "code": "count = note.count(\"at\")",
+          "explain": "count gives how many matches there are: 2.",
+          "task": "Store how many times at appears in note in count.",
+          "expr": true
+        },
+        {
+          "code": "missing = note.find(\"beach\")",
+          "explain": "Not found gives -1. It is not an error and not False, just the number -1.",
+          "task": "Store the position of beach in note in missing.",
+          "note": "-1 means not found",
+          "expr": true
+        },
+        {
+          "code": "rest = note[where + 3:]",
+          "explain": "find and a slice together: skip the 3 characters of at and the space, and take the rest.",
+          "task": "Store everything after the first at and its space in rest, using where + 3.",
+          "expr": true
+        },
+        {
+          "code": "print(where, count, missing)",
+          "explain": "Prints 5 2 -1.",
+          "task": "Print where, count and missing."
+        },
+        {
+          "code": "print(rest)",
+          "explain": "Prints the park at noon. Try other search words with the knob.",
+          "task": "Print rest."
+        }
+      ],
+      "gen": {
+        "hash": "ab256a91aee969476f477de8c8cf8f8d1271d1154b2e1c95c9eb059962cda394",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "True\n",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "print('park' in note)"
+                  },
+                  {
+                    "text": "print('park' in 'meet at the park at noon')"
+                  },
+                  {
+                    "text": "print(True)",
+                    "part": "'park' in 'meet at the park at noon'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              },
+              "where": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "where = note.find('at')"
+                  },
+                  {
+                    "text": "where = 5",
+                    "part": "note.find('at')",
+                    "value": "5"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              },
+              "where": {
+                "repr": "5",
+                "type": "int"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "count = note.count('at')"
+                  },
+                  {
+                    "text": "count = 2",
+                    "part": "note.count('at')",
+                    "value": "2"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              },
+              "where": {
+                "repr": "5",
+                "type": "int"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "missing": {
+                "repr": "-1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 5,
+                "steps": [
+                  {
+                    "text": "missing = note.find('beach')"
+                  },
+                  {
+                    "text": "missing = -1",
+                    "part": "note.find('beach')",
+                    "value": "-1"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              },
+              "where": {
+                "repr": "5",
+                "type": "int"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "missing": {
+                "repr": "-1",
+                "type": "int"
+              },
+              "rest": {
+                "repr": "'the park at noon'",
+                "type": "str",
+                "text": "the park at noon"
+              }
+            },
+            "events": [
+              {
+                "kind": "index",
+                "line": 6,
+                "target": "note",
+                "key": "where + 3:",
+                "len": 24,
+                "picked": [
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  13,
+                  14,
+                  15,
+                  16,
+                  17,
+                  18,
+                  19,
+                  20,
+                  21,
+                  22,
+                  23
+                ],
+                "slice": true,
+                "value": "'the park at noon'"
+              },
+              {
+                "kind": "expr",
+                "line": 6,
+                "steps": [
+                  {
+                    "text": "rest = note[where + 3:]"
+                  },
+                  {
+                    "text": "rest = 'meet at the park at noon'[5 + 3:]"
+                  },
+                  {
+                    "text": "rest = 'meet at the park at noon'[8:]",
+                    "part": "5 + 3",
+                    "value": "8"
+                  },
+                  {
+                    "text": "rest = 'the park at noon'",
+                    "part": "'meet at the park at noon'[8:]",
+                    "value": "'the park at noon'"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "5 2 -1\n",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              },
+              "where": {
+                "repr": "5",
+                "type": "int"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "missing": {
+                "repr": "-1",
+                "type": "int"
+              },
+              "rest": {
+                "repr": "'the park at noon'",
+                "type": "str",
+                "text": "the park at noon"
+              }
+            }
+          },
+          {
+            "line": 8,
+            "stdout": "the park at noon\n",
+            "vars": {
+              "note": {
+                "repr": "'meet at the park at noon'",
+                "type": "str",
+                "text": "meet at the park at noon"
+              },
+              "where": {
+                "repr": "5",
+                "type": "int"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "missing": {
+                "repr": "-1",
+                "type": "int"
+              },
+              "rest": {
+                "repr": "'the park at noon'",
+                "type": "str",
+                "text": "the park at noon"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Checking the ends",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"report_2031.pdf\"",
+          "label": "file",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "file = \"report_2031.pdf\"",
+          "explain": "A file name.",
+          "task": "Store the text report_2031.pdf in file."
+        },
+        {
+          "code": "is_pdf = file.endswith(\".pdf\")",
+          "explain": "Does it end with .pdf? True.",
+          "task": "Store whether file ends with .pdf in is_pdf.",
+          "expr": true
+        },
+        {
+          "code": "is_report = file.startswith(\"report\")",
+          "explain": "Does it start with report? True.",
+          "task": "Store whether file starts with report in is_report.",
+          "expr": true
+        },
+        {
+          "code": "if is_pdf and is_report:",
+          "explain": "Both are True, so the first block runs. Change the file knob to notes.pdf or report.txt.",
+          "task": "Test whether is_pdf and is_report are both True.",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Opening the report\")",
+          "explain": "Prints Opening the report.",
+          "task": "Inside the if, print Opening the report."
+        },
+        {
+          "code": "else:",
+          "explain": "For any other file.",
+          "task": "Add an else."
+        },
+        {
+          "code": "    print(\"Not a report PDF\")",
+          "explain": "Skipped this time.",
+          "task": "Inside the else, print Not a report PDF."
+        }
+      ],
+      "gen": {
+        "hash": "0c9e0597b211fd242d1fb260856e67ad9eb724a9583c34f7d8accfe2bd875afe",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'report_2031.pdf'",
+                "type": "str",
+                "text": "report_2031.pdf"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'report_2031.pdf'",
+                "type": "str",
+                "text": "report_2031.pdf"
+              },
+              "is_pdf": {
+                "repr": "True",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "is_pdf = file.endswith('.pdf')"
+                  },
+                  {
+                    "text": "is_pdf = True",
+                    "part": "file.endswith('.pdf')",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'report_2031.pdf'",
+                "type": "str",
+                "text": "report_2031.pdf"
+              },
+              "is_pdf": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "is_report": {
+                "repr": "True",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "is_report = file.startswith('report')"
+                  },
+                  {
+                    "text": "is_report = True",
+                    "part": "file.startswith('report')",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "file": {
+                "repr": "'report_2031.pdf'",
+                "type": "str",
+                "text": "report_2031.pdf"
+              },
+              "is_pdf": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "is_report": {
+                "repr": "True",
+                "type": "bool"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if is_pdf and is_report:"
+                  },
+                  {
+                    "text": "if True and True:"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "True and True",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Opening the report\n",
+            "vars": {
+              "file": {
+                "repr": "'report_2031.pdf'",
+                "type": "str",
+                "text": "report_2031.pdf"
+              },
+              "is_pdf": {
+                "repr": "True",
+                "type": "bool"
+              },
+              "is_report": {
+                "repr": "True",
+                "type": "bool"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Checking before converting",
+      "visuals": [
+        "stdin",
+        "expr",
+        "memory"
+      ],
+      "stdin": [
+        "3"
+      ],
+      "lines": [
+        {
+          "code": "answer = input(\"How many tickets? \")",
+          "explain": "input always gives text, here \"3\".",
+          "task": "Ask How many tickets? and store the answer in answer."
+        },
+        {
+          "code": "if answer.isdigit():",
+          "explain": "isdigit is True only if every character is a digit 0 to 9. Then int() is safe.",
+          "task": "Test whether answer is all digits.",
+          "note": "safe to convert?",
+          "expr": true
+        },
+        {
+          "code": "    tickets = int(answer)",
+          "explain": "Now the text 3 becomes the number 3.",
+          "task": "Inside the if, turn answer into a whole number and store it in tickets."
+        },
+        {
+          "code": "    print(\"Total:\", tickets * 12)",
+          "explain": "Prints Total: 36.",
+          "task": "Print Total: and tickets times 12."
+        },
+        {
+          "code": "else:",
+          "explain": "Text like three or 2.5 would come here, instead of crashing in int().",
+          "task": "Add an else."
+        },
+        {
+          "code": "    print(\"Please type a whole number\")",
+          "explain": "Skipped this time.",
+          "task": "Inside the else, print Please type a whole number."
+        }
+      ],
+      "gen": {
+        "hash": "0ce31bb1790362361044d05856ea12f2fca7422d52c0cc69b303ab6fd657346c",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "How many tickets? 3\n",
+            "vars": {
+              "answer": {
+                "repr": "'3'",
+                "type": "str",
+                "text": "3"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "How many tickets? ",
+                "value": "3",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "answer": {
+                "repr": "'3'",
+                "type": "str",
+                "text": "3"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "if answer.isdigit():"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "answer.isdigit()",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "answer": {
+                "repr": "'3'",
+                "type": "str",
+                "text": "3"
+              },
+              "tickets": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Total: 36\n",
+            "vars": {
+              "answer": {
+                "repr": "'3'",
+                "type": "str",
+                "text": "3"
+              },
+              "tickets": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 3,
+      "q": "What is stored in where after line 3?",
+      "options": [
+        "5",
+        "6",
+        "4",
+        "True"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "where"
+      },
+      "why": "m, e, e, t and the space are positions 0 to 4, so at starts at 5."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 5,
+      "q": "What is stored in missing after line 5?",
+      "options": [
+        "-1",
+        "False",
+        "None",
+        "0"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "missing"
+      },
+      "why": "find gives -1 when there is no match."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 2,
+      "q": "What is stored in is_pdf after line 2?",
+      "options": [
+        "True",
+        "False",
+        "'.pdf'",
+        "11"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "is_pdf"
+      },
+      "why": "endswith gives True or False, and the name does end with .pdf."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints True",
+      "code": [
+        "text = \"rainy day\"",
+        "print(\"rain\" ___ text)"
+      ],
+      "answers": [
+        "in"
+      ],
+      "gen": {
+        "hash": "d3dd7b2ce293ecafbaf4260347997992ed5da57fe28e228c4a5b55e34cdb8c95",
+        "expected": {
+          "stdout": "True",
+          "vars": {
+            "text": {
+              "repr": "'rainy day'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints site.com, the part after the @",
+      "code": [
+        "email = \"kim@site.com\"",
+        "at = email.___(\"@\")",
+        "print(email[at ___ 1:])"
+      ],
+      "answers": [
+        "find",
+        "+"
+      ],
+      "gen": {
+        "hash": "68be2931dfe7aab96b61179046bed6cb2b7ffb9e8da9b1488cc95b0824b2822d",
+        "expected": {
+          "stdout": "site.com",
+          "vars": {
+            "email": {
+              "repr": "'kim@site.com'",
+              "type": "str"
+            },
+            "at": {
+              "repr": "3",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program counts the s letters, big or small, and prints:\ns appears 4 times",
+      "lines": [
+        "word = \"Mississippi\"",
+        "small = word.lower()",
+        "n = small.count(\"s\")",
+        "print(\"s appears\", n, \"times\")"
+      ],
+      "gen": {
+        "hash": "9650d8971a3666bf6d0a4375b10a565bcfe6d75974126db7af96ab216be56703",
+        "expected": {
+          "stdout": "s appears 4 times",
+          "vars": {
+            "word": {
+              "repr": "'Mississippi'",
+              "type": "str"
+            },
+            "small": {
+              "repr": "'mississippi'",
+              "type": "str"
+            },
+            "n": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print found apple, because the text does contain apple. It prints no apple. Fix it.",
+      "code": [
+        "text = \"apple pie\"",
+        "if text.find(\"apple\"):",
+        "    print(\"found apple\")",
+        "else:",
+        "    print(\"no apple\")"
+      ],
+      "solution": [
+        "text = \"apple pie\"",
+        "if \"apple\" in text:",
+        "    print(\"found apple\")",
+        "else:",
+        "    print(\"no apple\")"
+      ],
+      "tests": [
+        {
+          "name": "prints found apple",
+          "stdout": "found apple"
+        }
+      ],
+      "hint": "apple starts at position 0, and if treats 0 as false. Ask \"apple\" in text instead, or compare the result of find with -1.",
+      "gen": {
+        "hash": "618401bc8a7582cae88a10e57e5e1997e8a98c41ba1b7394d6c7ce0ebe603a26",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it counts the letter a instead of the word the. It should print:\n3",
+      "code": [
+        "title = \"the old man and the sea\"",
+        "print(title.count(\"the\"))"
+      ],
+      "solution": [
+        "title = \"the old man and the sea\"",
+        "print(title.count(\"a\"))"
+      ],
+      "tests": [
+        {
+          "name": "prints 3",
+          "stdout": "3"
+        }
+      ],
+      "hint": "Put the letter a in the brackets of count.",
+      "gen": {
+        "hash": "0d524fc30792a69237f97b3056b9384a960ba49639d0deee0a69c1aa30284640"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "The gate should open only for a pass number made of digits. Change the test so 4821 opens it and 48a1 does not:\nPass? 4821\nGate open",
+      "code": [
+        "code = input(\"Pass? \")",
+        "if code.isalpha():",
+        "    print(\"Gate open\")",
+        "else:",
+        "    print(\"Gate closed\")"
+      ],
+      "solution": [
+        "code = input(\"Pass? \")",
+        "if code.isdigit():",
+        "    print(\"Gate open\")",
+        "else:",
+        "    print(\"Gate closed\")"
+      ],
+      "tests": [
+        {
+          "name": "4821 opens",
+          "stdin": [
+            "4821"
+          ],
+          "stdout": "Pass? 4821\nGate open"
+        },
+        {
+          "name": "48a1 stays closed",
+          "stdin": [
+            "48a1"
+          ],
+          "stdout": "Pass? 48a1\nGate closed"
+        }
+      ],
+      "hint": "isalpha checks for letters. The check for digits is isdigit.",
+      "gen": {
+        "hash": "c267801639df59231905f9bd07dce0048dc015a690c4c5298ee3942a64fe0246"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Sentence? and print how many times the word the appears, big or small letters, and whether the sentence ends with a question mark. With The cat saw the dog?:\nSentence? The cat saw the dog?\nthe: 2\nQuestion: True",
+      "solution": [
+        "sentence = input(\"Sentence? \")",
+        "small = sentence.lower()",
+        "print(\"the:\", small.count(\"the\"))",
+        "print(\"Question:\", sentence.endswith(\"?\"))"
+      ],
+      "tests": [
+        {
+          "name": "a question",
+          "stdin": [
+            "The cat saw the dog?"
+          ],
+          "stdout": "Sentence? The cat saw the dog?\nthe: 2\nQuestion: True"
+        },
+        {
+          "name": "not a question",
+          "stdin": [
+            "Rain again."
+          ],
+          "stdout": "Sentence? Rain again.\nthe: 0\nQuestion: False"
+        }
+      ],
+      "hints": [
+        "lower() first, so The and the both count",
+        "count(\"the\") gives the number",
+        "endswith(\"?\") gives True or False"
+      ],
+      "gen": {
+        "hash": "37419770ffd7e2b0e51a5070bc3cff2ce419e62a5cc0f085e7476a2c50455cd1"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `\"cat\" in \"concatenate\"`?",
+      "options": [
+        "True",
+        "False",
+        "3",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "c, a, t appear together inside conCATenate."
+    },
+    {
+      "q": "What is `\"hello\".find(\"l\")`?",
+      "options": [
+        "2",
+        "3",
+        "1",
+        "True"
+      ],
+      "answer": 0,
+      "why": "find gives the first match: h is 0, e is 1, l is 2."
+    },
+    {
+      "q": "What is `\"hello\".find(\"z\")`?",
+      "options": [
+        "-1",
+        "False",
+        "None",
+        "An error"
+      ],
+      "answer": 0,
+      "why": "find gives -1 when there is no match."
+    },
+    {
+      "q": "What is `\"banana\".count(\"an\")`?",
+      "options": [
+        "2",
+        "3",
+        "1",
+        "6"
+      ],
+      "answer": 0,
+      "why": "b-an-an-a: an appears twice."
+    },
+    {
+      "q": "Which one is True?",
+      "options": [
+        "\"42\".isdigit()",
+        "\"4.2\".isdigit()",
+        "\"-42\".isdigit()",
+        "\"4 2\".isdigit()"
+      ],
+      "answer": 0,
+      "why": "Every character must be a digit. A dot, a minus sign or a space makes it False."
+    },
+    {
+      "q": "What is `\"Report\".startswith(\"re\")`?",
+      "options": [
+        "False",
+        "True",
+        "'Re'",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "Searching is case sensitive: R is not r."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Calling a string method on a number",
+      "code": [
+        "age = 15",
+        "print(age.isdigit())"
+      ],
+      "explain": "isdigit is a string method. age is already a number. It is used on text, like the answer from input(), before converting it.",
+      "fix": [
+        "age = \"15\"",
+        "print(age.isdigit())"
+      ],
+      "gen": {
+        "hash": "e59ea3300cd38193b88c7d14b6e70633d8098c8a91235b5e6d0cc34c77b30b38",
+        "error": "AttributeError: 'int' object has no attribute 'isdigit'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Searching text for a number",
+      "code": [
+        "code = \"A7\"",
+        "print(7 in code)"
+      ],
+      "explain": "in on text looks for text. Put the number in quotes: \"7\".",
+      "fix": [
+        "code = \"A7\"",
+        "print(\"7\" in code)"
+      ],
+      "gen": {
+        "hash": "21af9c019ea0767982c8002e065e1518eba1c7ed2f7127922873adcc68f69f84",
+        "error": "TypeError: 'in <string>' requires string as left operand, not int",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: string methods (find, count, startswith, isdigit...)",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#string-methods"
+    },
+    {
+      "title": "Reference: common sequence operations (in)",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#common-sequence-operations"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}
