@@ -1,0 +1,2907 @@
+{
+  "id": "py-20-looping-text",
+  "track": "python",
+  "unit": "py-u3",
+  "order": 20,
+  "title": "Looping over text",
+  "summary": "Step through a string one character at a time to count letters or build new text.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "loop",
+    "history"
+  ],
+  "intro": {
+    "text": "A for loop can step through a string, **one character at a time**, from left to right:\n\n```\nfor ch in \"cat\":\n    print(ch)\n```\n\nprints c, a and t on separate lines. The **cells** panel points at the current character.\n\nWith this you can:\n\n- **count** characters: a counter that grows when `ch` matches\n- check if a character is one of several with `in`: `ch in \"aeiou\"` is True for a vowel\n- **build** a new string: start with `\"\"` and add to it each round\n\nStrings never change. Building a new string means making a slightly longer one each round; the **history** panel shows every version.",
+    "analogy": "Reading a word letter by letter with your finger under each one, keeping a tally of the letters you care about on a sticky note as you go."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "for ch in \"hey\":",
+        "    print(ch)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "why": "The loop gives one character per round: h, e and y.",
+      "gen": {
+        "hash": "b925266e268b0fc825ac8f2c8cb2d636e6c7fdb8118f849753c8381aeaa9f915",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "ch": {
+                "repr": "'h'",
+                "type": "str",
+                "text": "h"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "h\n",
+            "vars": {
+              "ch": {
+                "repr": "'h'",
+                "type": "str",
+                "text": "h"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "e\n",
+            "vars": {
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "ch": {
+                "repr": "'y'",
+                "type": "str",
+                "text": "y"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "y\n",
+            "vars": {
+              "ch": {
+                "repr": "'y'",
+                "type": "str",
+                "text": "y"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "ch": {
+                "repr": "'y'",
+                "type": "str",
+                "text": "y"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          }
+        ],
+        "output": "h\ne\ny"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "word = \"banana\"",
+        "count = 0",
+        "for ch in word:",
+        "    if ch == \"a\":",
+        "        count += 1",
+        "print(count)"
+      ],
+      "kind": "choice",
+      "options": [
+        "3",
+        "6",
+        "1",
+        "2"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"banana\"",
+          "label": "word",
+          "kind": "text"
+        }
+      ],
+      "why": "banana has three a's, and count goes up by 1 for each one.",
+      "gen": {
+        "hash": "fab33dd7402099023b09ae65e06e8ad654bde066c4db7d05cdc83f16844fda26",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 5
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 6
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 6,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "3\n",
+            "vars": {
+              "word": {
+                "repr": "'banana'",
+                "type": "str",
+                "text": "banana"
+              },
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          }
+        ],
+        "output": "3",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "out = \"\"",
+        "for ch in \"abc\":",
+        "    out = ch + out",
+        "print(out)"
+      ],
+      "kind": "choice",
+      "options": [
+        "cba",
+        "abc",
+        "a",
+        "c"
+      ],
+      "why": "Each new character goes in front: a, then ba, then cba. Adding in front reverses the text.",
+      "gen": {
+        "hash": "33f239c5e35747189d2924c5d06b9a3b4bf88386dd55f7e54ef3a91d8ef60efc",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              },
+              "ch": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "'ba'",
+                "type": "str",
+                "text": "ba"
+              },
+              "ch": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "'ba'",
+                "type": "str",
+                "text": "ba"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "'cba'",
+                "type": "str",
+                "text": "cba"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "out": {
+                "repr": "'cba'",
+                "type": "str",
+                "text": "cba"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "cba\n",
+            "vars": {
+              "out": {
+                "repr": "'cba'",
+                "type": "str",
+                "text": "cba"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            }
+          }
+        ],
+        "output": "cba",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "One character at a time",
+      "focus": [
+        "word"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"code\"",
+          "label": "word",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "word = \"code\"",
+          "explain": "Four characters. The cells panel shows each in a box.",
+          "task": "Store the text code in word."
+        },
+        {
+          "code": "for ch in word:",
+          "explain": "ch gets c, then o, then d, then e. Watch the pointer move along the cells.",
+          "task": "Start a for loop over word, using ch.",
+          "note": "one character per round",
+          "circle": "for ch in word"
+        },
+        {
+          "code": "    print(ch, \"is a letter\")",
+          "explain": "Runs once per character.",
+          "task": "Inside the loop, print ch and is a letter."
+        },
+        {
+          "code": "print(len(word), \"rounds\")",
+          "explain": "One round per character: 4 rounds.",
+          "task": "After the loop, print the length of word and rounds."
+        }
+      ],
+      "gen": {
+        "hash": "ab1d37bdfce9909e26d964119e56d8aa611221d6196229f25a35f4c6de64f78e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "c is a letter\n",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "o is a letter\n",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'d'",
+                "type": "str",
+                "text": "d"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "d is a letter\n",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'d'",
+                "type": "str",
+                "text": "d"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "e is a letter\n",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "4 rounds\n",
+            "vars": {
+              "word": {
+                "repr": "'code'",
+                "type": "str",
+                "text": "code"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Counting vowels",
+      "focus": [
+        "text"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"education\"",
+          "label": "text",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "text = \"education\"",
+          "explain": "9 characters.",
+          "task": "Store the text education in text."
+        },
+        {
+          "code": "vowels = 0",
+          "explain": "A counter, before the loop.",
+          "task": "Start vowels at 0."
+        },
+        {
+          "code": "for ch in text:",
+          "explain": "Step through every character.",
+          "task": "Start a for loop over text, using ch."
+        },
+        {
+          "code": "    if ch in \"aeiou\":",
+          "explain": "`in` asks if ch is one of the five vowel letters.",
+          "task": "Inside, test whether ch is one of a, e, i, o and u.",
+          "note": "is it one of these?",
+          "circle": "in \"aeiou\"",
+          "expr": true
+        },
+        {
+          "code": "        vowels += 1",
+          "explain": "Count it.",
+          "task": "Inside the if, add 1 to vowels."
+        },
+        {
+          "code": "print(vowels, \"vowels\")",
+          "explain": "e, u, a, i and o: prints 5 vowels.",
+          "task": "After the loop, print vowels and the text vowels."
+        }
+      ],
+      "gen": {
+        "hash": "69d1f0f79e1961987398421ca97dfdfd28757d0be39fd4495d15ad527b1a1ae2",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "0",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'e' in 'aeiou':"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "'e' in 'aeiou'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'e'",
+                "type": "str",
+                "text": "e"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'d'",
+                "type": "str",
+                "text": "d"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'d'",
+                "type": "str",
+                "text": "d"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'd' in 'aeiou':"
+                  },
+                  {
+                    "text": "if False:",
+                    "part": "'d' in 'aeiou'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'u'",
+                "type": "str",
+                "text": "u"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "1",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'u'",
+                "type": "str",
+                "text": "u"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'u' in 'aeiou':"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "'u' in 'aeiou'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'u'",
+                "type": "str",
+                "text": "u"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'c'",
+                "type": "str",
+                "text": "c"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'c' in 'aeiou':"
+                  },
+                  {
+                    "text": "if False:",
+                    "part": "'c' in 'aeiou'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 5
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "2",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'a' in 'aeiou':"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "'a' in 'aeiou'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 6
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'t'",
+                "type": "str",
+                "text": "t"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 't' in 'aeiou':"
+                  },
+                  {
+                    "text": "if False:",
+                    "part": "'t' in 'aeiou'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'i'",
+                "type": "str",
+                "text": "i"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 7
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "3",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'i'",
+                "type": "str",
+                "text": "i"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'i' in 'aeiou':"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "'i' in 'aeiou'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "4",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'i'",
+                "type": "str",
+                "text": "i"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "4",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 8
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "4",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'o' in 'aeiou':"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "'o' in 'aeiou'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "5",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "5",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 9
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "5",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 4,
+                "stmt": "if",
+                "result": false
+              },
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "if ch in 'aeiou':"
+                  },
+                  {
+                    "text": "if 'n' in 'aeiou':"
+                  },
+                  {
+                    "text": "if False:",
+                    "part": "'n' in 'aeiou'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "5",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 9,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "5 vowels\n",
+            "vars": {
+              "text": {
+                "repr": "'education'",
+                "type": "str",
+                "text": "education"
+              },
+              "vowels": {
+                "repr": "5",
+                "type": "int"
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Building new text",
+      "focus": [
+        "name"
+      ],
+      "lines": [
+        {
+          "code": "name = \"robin\"",
+          "explain": "The original. It will not change.",
+          "task": "Store the text robin in name."
+        },
+        {
+          "code": "spaced = \"\"",
+          "explain": "Start with an empty string.",
+          "task": "Start spaced as an empty string.",
+          "note": "start empty"
+        },
+        {
+          "code": "for ch in name:",
+          "explain": "One letter per round.",
+          "task": "Start a for loop over name, using ch."
+        },
+        {
+          "code": "    spaced += ch + \" \"",
+          "explain": "Add the letter and a space. The history panel shows the new string growing each round.",
+          "task": "Inside the loop, add ch and a space to spaced.",
+          "note": "a new, longer string",
+          "expr": true
+        },
+        {
+          "code": "print(spaced)",
+          "explain": "Prints r o b i n with spaces.",
+          "task": "After the loop, print spaced."
+        },
+        {
+          "code": "print(name)",
+          "explain": "name is unchanged: robin.",
+          "task": "Print name."
+        }
+      ],
+      "gen": {
+        "hash": "137d588c50117c3d0d3e5cfdacea2e6c59e81152753cf7df384965fdaaf72a3f",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "''",
+                "type": "str",
+                "text": ""
+              },
+              "ch": {
+                "repr": "'r'",
+                "type": "str",
+                "text": "r"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r '",
+                "type": "str",
+                "text": "r "
+              },
+              "ch": {
+                "repr": "'r'",
+                "type": "str",
+                "text": "r"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "spaced += ch + ' '"
+                  },
+                  {
+                    "text": "spaced += 'r' + ' '"
+                  },
+                  {
+                    "text": "spaced += 'r '",
+                    "part": "'r' + ' '",
+                    "value": "'r '"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r '",
+                "type": "str",
+                "text": "r "
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o '",
+                "type": "str",
+                "text": "r o "
+              },
+              "ch": {
+                "repr": "'o'",
+                "type": "str",
+                "text": "o"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "spaced += ch + ' '"
+                  },
+                  {
+                    "text": "spaced += 'o' + ' '"
+                  },
+                  {
+                    "text": "spaced += 'o '",
+                    "part": "'o' + ' '",
+                    "value": "'o '"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o '",
+                "type": "str",
+                "text": "r o "
+              },
+              "ch": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b '",
+                "type": "str",
+                "text": "r o b "
+              },
+              "ch": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "spaced += ch + ' '"
+                  },
+                  {
+                    "text": "spaced += 'b' + ' '"
+                  },
+                  {
+                    "text": "spaced += 'b '",
+                    "part": "'b' + ' '",
+                    "value": "'b '"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b '",
+                "type": "str",
+                "text": "r o b "
+              },
+              "ch": {
+                "repr": "'i'",
+                "type": "str",
+                "text": "i"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b i '",
+                "type": "str",
+                "text": "r o b i "
+              },
+              "ch": {
+                "repr": "'i'",
+                "type": "str",
+                "text": "i"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "spaced += ch + ' '"
+                  },
+                  {
+                    "text": "spaced += 'i' + ' '"
+                  },
+                  {
+                    "text": "spaced += 'i '",
+                    "part": "'i' + ' '",
+                    "value": "'i '"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b i '",
+                "type": "str",
+                "text": "r o b i "
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 5
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b i n '",
+                "type": "str",
+                "text": "r o b i n "
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 4,
+                "steps": [
+                  {
+                    "text": "spaced += ch + ' '"
+                  },
+                  {
+                    "text": "spaced += 'n' + ' '"
+                  },
+                  {
+                    "text": "spaced += 'n '",
+                    "part": "'n' + ' '",
+                    "value": "'n '"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b i n '",
+                "type": "str",
+                "text": "r o b i n "
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 5,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "r o b i n \n",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b i n '",
+                "type": "str",
+                "text": "r o b i n "
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "robin\n",
+            "vars": {
+              "name": {
+                "repr": "'robin'",
+                "type": "str",
+                "text": "robin"
+              },
+              "spaced": {
+                "repr": "'r o b i n '",
+                "type": "str",
+                "text": "r o b i n "
+              },
+              "ch": {
+                "repr": "'n'",
+                "type": "str",
+                "text": "n"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 4,
+      "q": "What is stored in ch after the loop?",
+      "options": [
+        "'e'",
+        "'c'",
+        "'code'",
+        "Nothing"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "ch"
+      },
+      "why": "The loop variable keeps the last character it got."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 6,
+      "q": "What is stored in vowels at the end?",
+      "options": [
+        "5",
+        "4",
+        "9",
+        "3"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 6,
+        "name": "vowels"
+      },
+      "why": "education has the vowels e, u, a, i and o."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 6,
+      "q": "What is stored in spaced at the end?",
+      "options": [
+        "'r o b i n '",
+        "'robin'",
+        "'r o b i n'",
+        "'nibor'"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 6,
+        "name": "spaced"
+      },
+      "why": "A space is added after every letter, including the last one."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints each letter of sun on its own line",
+      "code": [
+        "___ letter ___ \"sun\":",
+        "    print(letter)"
+      ],
+      "answers": [
+        "for",
+        "in"
+      ],
+      "gen": {
+        "hash": "65f7b1bdf050a9c9425ad05c22017e527c9d3003ae6cd490f36562ba7ec4e98d",
+        "expected": {
+          "stdout": "s\nu\nn",
+          "vars": {
+            "letter": {
+              "repr": "'n'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program counts the letter s in mississippi and prints 4",
+      "code": [
+        "n = 0",
+        "for ch in \"mississippi\":",
+        "    if ch == ___:",
+        "        n ___ 1",
+        "print(n)"
+      ],
+      "answers": [
+        "\"s\"",
+        "+="
+      ],
+      "gen": {
+        "hash": "9a7cf95e61222208daa380afca37e0a290b4803ef5420d1d87db0d157c37938d",
+        "expected": {
+          "stdout": "4",
+          "vars": {
+            "n": {
+              "repr": "4",
+              "type": "int"
+            },
+            "ch": {
+              "repr": "'i'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints the word with dashes between letters:\n-c-a-t",
+      "indent": true,
+      "lines": [
+        "result = \"\"",
+        "for ch in \"cat\":",
+        "    result += \"-\" + ch",
+        "print(result)"
+      ],
+      "gen": {
+        "hash": "24c8b5c004b91051d044d363dccc9bd06e47819d36bbe6a8fa73597d6e6e709e",
+        "expected": {
+          "stdout": "-c-a-t",
+          "vars": {
+            "result": {
+              "repr": "'-c-a-t'",
+              "type": "str"
+            },
+            "ch": {
+              "repr": "'t'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should count the spaces in the sentence and print 3. It prints 0. Fix it.",
+      "code": [
+        "sentence = \"I like green tea\"",
+        "spaces = 0",
+        "for ch in sentence:",
+        "    if ch == \"\":",
+        "        spaces += 1",
+        "print(spaces)"
+      ],
+      "solution": [
+        "sentence = \"I like green tea\"",
+        "spaces = 0",
+        "for ch in sentence:",
+        "    if ch == \" \":",
+        "        spaces += 1",
+        "print(spaces)"
+      ],
+      "tests": [
+        {
+          "name": "counts 3 spaces",
+          "stdout": "3"
+        }
+      ],
+      "hint": "\"\" is empty text. A space is \" \".",
+      "gen": {
+        "hash": "cf714bc57da6eee44bd12b1e4e8cd7d78c90833bb0311ce35454c3647c856cb5",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it counts the capital letters instead of the letter o. With the text Hello Old World it should print:\n3",
+      "code": [
+        "text = \"Hello Old World\"",
+        "n = 0",
+        "for ch in text:",
+        "    if ch == \"o\":",
+        "        n += 1",
+        "print(n)"
+      ],
+      "solution": [
+        "text = \"Hello Old World\"",
+        "n = 0",
+        "for ch in text:",
+        "    if ch in \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\":",
+        "        n += 1",
+        "print(n)"
+      ],
+      "tests": [
+        {
+          "name": "3 capitals",
+          "stdout": "3"
+        }
+      ],
+      "hint": "Test ch in \"ABCDEFGHIJKLMNOPQRSTUVWXYZ\".",
+      "gen": {
+        "hash": "d97f44c8fd1b43383a5107c26d89c173b815bd9cda58ee8ca01d3ba811056271"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so it builds the word backwards and prints it. With stressed it should print:\ndesserts",
+      "code": [
+        "word = \"stressed\"",
+        "out = \"\"",
+        "for ch in word:",
+        "    out = out + ch",
+        "print(out)"
+      ],
+      "solution": [
+        "word = \"stressed\"",
+        "out = \"\"",
+        "for ch in word:",
+        "    out = ch + out",
+        "print(out)"
+      ],
+      "tests": [
+        {
+          "name": "prints desserts",
+          "stdout": "desserts"
+        }
+      ],
+      "hint": "Put each new character in front instead of at the end.",
+      "gen": {
+        "hash": "167f86a98cfaff27c2ffa4212cb3eb4219f3f98f7fe7c283595d36b6a86b3b56"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Word? and print it with every vowel replaced by *. With banana:\nWord? banana\nb*n*n*",
+      "solution": [
+        "word = input(\"Word? \")",
+        "out = \"\"",
+        "for ch in word:",
+        "    if ch in \"aeiou\":",
+        "        out += \"*\"",
+        "    else:",
+        "        out += ch",
+        "print(out)"
+      ],
+      "tests": [
+        {
+          "name": "banana",
+          "stdin": [
+            "banana"
+          ],
+          "stdout": "Word? banana\nb*n*n*"
+        },
+        {
+          "name": "sky",
+          "stdin": [
+            "sky"
+          ],
+          "stdout": "Word? sky\nsky"
+        },
+        {
+          "name": "audio",
+          "stdin": [
+            "audio"
+          ],
+          "stdout": "Word? audio\n**d**"
+        }
+      ],
+      "hints": [
+        "Start out = \"\" before the loop",
+        "if ch in \"aeiou\": add \"*\", else add ch",
+        "Print out after the loop"
+      ],
+      "gen": {
+        "hash": "7da1f01300e8017f7acb9957e23798af5633f98231d03a5c2746dc71a517bda7"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What does `for ch in \"dog\":` give ch in its first round?",
+      "options": [
+        "'d'",
+        "'dog'",
+        "0",
+        "'g'"
+      ],
+      "answer": 0,
+      "why": "The loop starts with the first character."
+    },
+    {
+      "q": "How many rounds does `for ch in \"a b\":` run?",
+      "options": [
+        "3",
+        "2",
+        "1",
+        "4"
+      ],
+      "answer": 0,
+      "why": "The space is a character too: a, space, b."
+    },
+    {
+      "q": "What is `\"e\" in \"hello\"`?",
+      "options": [
+        "True",
+        "False",
+        "1",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "in checks whether the text contains it."
+    },
+    {
+      "q": "To build a new string in a loop, what do you start with?",
+      "options": [
+        "\"\"",
+        "0",
+        "None",
+        "\" \""
+      ],
+      "answer": 0,
+      "why": "The empty string, so adding text to it works."
+    },
+    {
+      "q": "`out = ch + out` in a loop over \"abc\" gives...",
+      "options": [
+        "'cba'",
+        "'abc'",
+        "'aabbcc'",
+        "'c'"
+      ],
+      "answer": 0,
+      "why": "Each new character goes in front, which reverses the text."
+    },
+    {
+      "q": "After `for ch in word:` runs, what happened to word?",
+      "options": [
+        "Nothing, it is unchanged",
+        "It is empty",
+        "It holds the last character",
+        "It is reversed"
+      ],
+      "answer": 0,
+      "why": "Looping over a string only reads it."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Adding to a string that was never made",
+      "code": [
+        "for ch in \"hi\":",
+        "    out += ch"
+      ],
+      "explain": "+= needs a starting value. Start with out = \"\" before the loop.",
+      "fix": [
+        "out = \"\"",
+        "for ch in \"hi\":",
+        "    out += ch"
+      ],
+      "gen": {
+        "hash": "a39389d182c849b85ce6d4277c247c5292c9ffdc871e73920493f56859c9e48f",
+        "error": "NameError: name 'out' is not defined. Did you mean: 'oct'?",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Adding a number to text",
+      "code": [
+        "out = \"\"",
+        "for n in range(3):",
+        "    out += n"
+      ],
+      "explain": "out is text and n is a number, so += cannot join them. Turn n into text with str().",
+      "fix": [
+        "out = \"\"",
+        "for n in range(3):",
+        "    out += str(n)"
+      ],
+      "gen": {
+        "hash": "8dd74bbb4a93770891d9cf4aba580bde954c9129b71eb40f0eafa9d10086870b",
+        "error": "TypeError: can only concatenate str (not \"int\") to str",
+        "line": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: for statements (looping over a string)",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements"
+    },
+    {
+      "title": "Reference: common sequence operations (in)",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#common-sequence-operations"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 13. while and for Loops"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}

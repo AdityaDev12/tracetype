@@ -1,0 +1,2723 @@
+{
+  "id": "py-16-accumulators",
+  "track": "python",
+  "unit": "py-u3",
+  "order": 16,
+  "title": "Running totals and counters",
+  "summary": "Build up a total, a count or a biggest value while a loop runs.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "tracetable",
+    "loop"
+  ],
+  "intro": {
+    "text": "Many loops collect something as they go. The pattern is always the same:\n\n1. **Before** the loop, make a variable with a starting value\n2. **Inside** the loop, update it\n3. **After** the loop, use it\n\n```\ntotal = 0\nfor n in range(1, 5):\n    total += n\nprint(total)\n```\n\n- A **sum** starts at 0 and adds\n- A **count** starts at 0 and adds 1 when something is true\n- A **product** starts at 1 and multiplies\n- A **biggest so far** starts with the first value and is replaced when a bigger one comes\n\nThe **trace table** builds a row for every round, the same way you would trace it on paper.",
+    "analogy": "A tally counter at a stadium gate. It shows 0 before the gates open, clicks once for each person who walks in, and when the gates close you read the final number. You never reset it while people are still coming in."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "total = 0",
+        "for n in range(1, 4):",
+        "    total += n",
+        "print(total)"
+      ],
+      "kind": "choice",
+      "options": [
+        "6",
+        "3",
+        "10",
+        "0"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "4",
+          "label": "stop",
+          "kind": "number",
+          "min": 1,
+          "max": 10
+        }
+      ],
+      "why": "total goes 0, then 1, then 3, then 6. range(1, 4) gives 1, 2 and 3.",
+      "gen": {
+        "hash": "a6e008be4318fbb7ece59c359f7e68d9b799d013b593bc3e9a00766b6f6d020c",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "total": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "6\n",
+            "vars": {
+              "total": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "6",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "for n in range(3):",
+        "    total = 0",
+        "    total += 5",
+        "print(total)"
+      ],
+      "kind": "choice",
+      "options": [
+        "5",
+        "15",
+        "0",
+        "Error"
+      ],
+      "why": "total = 0 is inside the loop, so it is reset every round. After the last round it is just 5. The start value belongs before the loop.",
+      "gen": {
+        "hash": "1576ad560a33e0fd0821f0ef8d2c49ead445b14e3f33ac922a9c0d3400ebfd2f",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "1",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "1",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "1",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "2",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "2",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "2",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "2",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "5\n",
+            "vars": {
+              "n": {
+                "repr": "2",
+                "type": "int"
+              },
+              "total": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "5",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "A sum",
+      "knobs": [
+        {
+          "line": 2,
+          "find": "5",
+          "label": "days",
+          "kind": "number",
+          "min": 1,
+          "max": 10
+        }
+      ],
+      "lines": [
+        {
+          "code": "steps = 0",
+          "explain": "The total starts at 0, **before** the loop.",
+          "task": "Start steps at 0, before the loop.",
+          "note": "start before the loop"
+        },
+        {
+          "code": "for day in range(1, 5):",
+          "explain": "Four days: 1, 2, 3 and 4.",
+          "task": "Start a for loop over days 1 to 4."
+        },
+        {
+          "code": "    steps += day * 1000",
+          "explain": "Each day adds day times 1000 steps. The trace table shows steps growing round by round.",
+          "task": "Inside the loop, add day times 1000 to steps.",
+          "note": "update inside",
+          "circle": "+=",
+          "expr": true
+        },
+        {
+          "code": "print(\"Total steps:\", steps)",
+          "explain": "After the loop: 1000 + 2000 + 3000 + 4000 = 10000.",
+          "task": "After the loop, print Total steps: and steps."
+        }
+      ],
+      "gen": {
+        "hash": "79dedea033fafd76efcd1c2fe5da86055fbd3f7a140d854326f202e71ab8b13a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "0",
+                "type": "int"
+              },
+              "day": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "1000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "steps += day * 1000"
+                  },
+                  {
+                    "text": "steps += 1 * 1000"
+                  },
+                  {
+                    "text": "steps += 1000",
+                    "part": "1 * 1000",
+                    "value": "1000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "1000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "3000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "steps += day * 1000"
+                  },
+                  {
+                    "text": "steps += 2 * 1000"
+                  },
+                  {
+                    "text": "steps += 2000",
+                    "part": "2 * 1000",
+                    "value": "2000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "3000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "6000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "steps += day * 1000"
+                  },
+                  {
+                    "text": "steps += 3 * 1000"
+                  },
+                  {
+                    "text": "steps += 3000",
+                    "part": "3 * 1000",
+                    "value": "3000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "6000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "10000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "steps += day * 1000"
+                  },
+                  {
+                    "text": "steps += 4 * 1000"
+                  },
+                  {
+                    "text": "steps += 4000",
+                    "part": "4 * 1000",
+                    "value": "4000"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "steps": {
+                "repr": "10000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Total steps: 10000\n",
+            "vars": {
+              "steps": {
+                "repr": "10000",
+                "type": "int"
+              },
+              "day": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "A count",
+      "lines": [
+        {
+          "code": "count = 0",
+          "explain": "Nothing counted yet.",
+          "task": "Start count at 0."
+        },
+        {
+          "code": "for n in range(1, 21):",
+          "explain": "The numbers 1 to 20.",
+          "task": "Start a for loop over the numbers 1 to 20."
+        },
+        {
+          "code": "    if n % 3 == 0:",
+          "explain": "Only numbers that divide by 3 are counted.",
+          "task": "Inside the loop, test whether n divides by 3 with no remainder."
+        },
+        {
+          "code": "        count += 1",
+          "explain": "Add 1 for each match: 3, 6, 9, 12, 15, 18.",
+          "task": "Inside the if, add 1 to count.",
+          "note": "only when the test is True"
+        },
+        {
+          "code": "print(count, \"numbers divide by 3\")",
+          "explain": "Prints 6 numbers divide by 3.",
+          "task": "After the loop, print count and the text numbers divide by 3."
+        }
+      ],
+      "gen": {
+        "hash": "4ac44d0de971f63d50cdb8e1e2907098686e9b364a3fa975e65efcc363e2ef31",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 5
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 6
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              },
+              "n": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 7
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 8
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 9
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              },
+              "n": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "9",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 10
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "11",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 11
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "11",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 12
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              },
+              "n": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "13",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 13
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "13",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "14",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 14
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "14",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "15",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 15
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "4",
+                "type": "int"
+              },
+              "n": {
+                "repr": "15",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "15",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "16",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 16
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "16",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "17",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 17
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "17",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 18
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "5",
+                "type": "int"
+              },
+              "n": {
+                "repr": "18",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "18",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "19",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 19
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "19",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "20",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 20
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "20",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "20",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "for",
+                "round": 20,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "6 numbers divide by 3\n",
+            "vars": {
+              "count": {
+                "repr": "6",
+                "type": "int"
+              },
+              "n": {
+                "repr": "20",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Biggest so far and an average",
+      "stdin": [
+        "12",
+        "30",
+        "7"
+      ],
+      "visuals": [
+        "tracetable",
+        "stdin"
+      ],
+      "lines": [
+        {
+          "code": "biggest = 0",
+          "explain": "No reading yet. All readings will be above 0, so 0 is a safe start.",
+          "task": "Start biggest at 0."
+        },
+        {
+          "code": "total = 0",
+          "explain": "A sum for the average.",
+          "task": "Start total at 0."
+        },
+        {
+          "code": "for i in range(3):",
+          "explain": "Three readings.",
+          "task": "Start a loop that runs 3 times."
+        },
+        {
+          "code": "    reading = int(input(\"Reading? \"))",
+          "explain": "Ask for one reading each round: 12, 30 and 7.",
+          "task": "Inside the loop, ask Reading? and store it as an int in reading."
+        },
+        {
+          "code": "    total += reading",
+          "explain": "Add it to the total.",
+          "task": "Inside the loop, add reading to total."
+        },
+        {
+          "code": "    if reading > biggest:",
+          "explain": "Is this one bigger than the biggest so far?",
+          "task": "Inside the loop, test whether reading is bigger than biggest."
+        },
+        {
+          "code": "        biggest = reading",
+          "explain": "Then it becomes the new biggest. 12, then 30. 7 is not bigger, so biggest stays 30.",
+          "task": "Inside the if, store reading in biggest.",
+          "note": "replace when bigger"
+        },
+        {
+          "code": "print(\"Biggest:\", biggest)",
+          "explain": "Prints Biggest: 30.",
+          "task": "After the loop, print Biggest: and biggest."
+        },
+        {
+          "code": "print(\"Average:\", total / 3)",
+          "explain": "49 / 3 is about 16.33.",
+          "task": "After the loop, print Average: and total divided by 3."
+        }
+      ],
+      "gen": {
+        "hash": "8e358e1dd21a5ef3d310873c3737fd37b8d994da8e41042fe8e0c59dee678668",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              },
+              "i": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Reading? 12\n",
+            "vars": {
+              "biggest": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "0",
+                "type": "int"
+              },
+              "i": {
+                "repr": "0",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Reading? ",
+                "value": "12",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "12",
+                "type": "int"
+              },
+              "i": {
+                "repr": "0",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "0",
+                "type": "int"
+              },
+              "total": {
+                "repr": "12",
+                "type": "int"
+              },
+              "i": {
+                "repr": "0",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 6,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "12",
+                "type": "int"
+              },
+              "total": {
+                "repr": "12",
+                "type": "int"
+              },
+              "i": {
+                "repr": "0",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "12",
+                "type": "int"
+              },
+              "total": {
+                "repr": "12",
+                "type": "int"
+              },
+              "i": {
+                "repr": "1",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Reading? 30\n",
+            "vars": {
+              "biggest": {
+                "repr": "12",
+                "type": "int"
+              },
+              "total": {
+                "repr": "12",
+                "type": "int"
+              },
+              "i": {
+                "repr": "1",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "30",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Reading? ",
+                "value": "30",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "12",
+                "type": "int"
+              },
+              "total": {
+                "repr": "42",
+                "type": "int"
+              },
+              "i": {
+                "repr": "1",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "30",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "12",
+                "type": "int"
+              },
+              "total": {
+                "repr": "42",
+                "type": "int"
+              },
+              "i": {
+                "repr": "1",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "30",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 6,
+                "stmt": "if",
+                "result": true
+              }
+            ]
+          },
+          {
+            "line": 7,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "42",
+                "type": "int"
+              },
+              "i": {
+                "repr": "1",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "30",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "42",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "30",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "Reading? 7\n",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "42",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Reading? ",
+                "value": "7",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "49",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "49",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 6,
+                "stmt": "if",
+                "result": false
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "49",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 8,
+            "stdout": "Biggest: 30\n",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "49",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 9,
+            "stdout": "Average: 16.333333333333332\n",
+            "vars": {
+              "biggest": {
+                "repr": "30",
+                "type": "int"
+              },
+              "total": {
+                "repr": "49",
+                "type": "int"
+              },
+              "i": {
+                "repr": "2",
+                "type": "int"
+              },
+              "reading": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 4,
+      "q": "What is stored in steps at the end?",
+      "options": [
+        "10000",
+        "4000",
+        "1000",
+        "0"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "steps"
+      },
+      "why": "1000 + 2000 + 3000 + 4000 is 10000."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 5,
+      "q": "What is stored in count at the end?",
+      "options": [
+        "6",
+        "20",
+        "7",
+        "3"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "count"
+      },
+      "why": "Six numbers from 1 to 20 divide by 3."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 8,
+      "q": "What is stored in biggest at the end?",
+      "options": [
+        "30",
+        "7",
+        "12",
+        "49"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 8,
+        "name": "biggest"
+      },
+      "why": "30 replaced 12, and 7 was not bigger than 30."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program adds 2 + 4 + 6 + 8 and prints 20",
+      "code": [
+        "total = ___",
+        "for n in range(2, 10, 2):",
+        "    total ___ n",
+        "print(total)"
+      ],
+      "answers": [
+        "0",
+        "+="
+      ],
+      "gen": {
+        "hash": "36294c7027e9aab3bd67392c316090456fdba6e0c7b96f87dd984f4d448109d8",
+        "expected": {
+          "stdout": "20",
+          "vars": {
+            "total": {
+              "repr": "20",
+              "type": "int"
+            },
+            "n": {
+              "repr": "8",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the program multiplies 1 * 2 * 3 * 4 and prints 24",
+      "code": [
+        "result = ___",
+        "for n in range(1, 5):",
+        "    result *= n",
+        "print(result)"
+      ],
+      "answers": [
+        "1"
+      ],
+      "gen": {
+        "hash": "658da294f3b511fd0b8783e08bdd44068da878f3c24ad2995de144d6665afe17",
+        "expected": {
+          "stdout": "24",
+          "vars": {
+            "result": {
+              "repr": "24",
+              "type": "int"
+            },
+            "n": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program counts the even numbers from 1 to 10 and prints:\n5",
+      "indent": true,
+      "lines": [
+        "evens = 0",
+        "for n in range(1, 11):",
+        "    if n % 2 == 0:",
+        "        evens += 1",
+        "print(evens)"
+      ],
+      "gen": {
+        "hash": "406adfd9d8cc4a8a6d4c2f73e7ce5ca40d4d931cd5cb073664a3c45958564c6f",
+        "expected": {
+          "stdout": "5",
+          "vars": {
+            "evens": {
+              "repr": "5",
+              "type": "int"
+            },
+            "n": {
+              "repr": "10",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should add 5 + 10 + 15 and print 30. It prints 15. Fix it.",
+      "code": [
+        "for n in range(5, 20, 5):",
+        "    total = 0",
+        "    total += n",
+        "print(total)"
+      ],
+      "solution": [
+        "total = 0",
+        "for n in range(5, 20, 5):",
+        "    total += n",
+        "print(total)"
+      ],
+      "tests": [
+        {
+          "name": "prints 30",
+          "stdout": "30"
+        }
+      ],
+      "hint": "Where should the total start?",
+      "gen": {
+        "hash": "a7116af6be6bd40cdf4bcfaf8d11132cc91a387278848f29772960ec0924e5d7",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it adds the numbers from 1 to 100 instead of 1 to 10. It should print:\n5050",
+      "code": [
+        "total = 0",
+        "for n in range(1, 11):",
+        "    total += n",
+        "print(total)"
+      ],
+      "solution": [
+        "total = 0",
+        "for n in range(1, 101):",
+        "    total += n",
+        "print(total)"
+      ],
+      "tests": [
+        {
+          "name": "prints 5050",
+          "stdout": "5050"
+        }
+      ],
+      "hint": "The stop is not included.",
+      "gen": {
+        "hash": "1412b185a699f6e850c3ce1989758ad2f0227f5fdf382f96842722a61103d7e3"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Add a counter so the program also prints how many of the numbers 1 to 30 end in 7 (that is, n % 10 == 7). It should print:\n3",
+      "code": [
+        "for n in range(1, 31):",
+        "    pass"
+      ],
+      "solution": [
+        "sevens = 0",
+        "for n in range(1, 31):",
+        "    if n % 10 == 7:",
+        "        sevens += 1",
+        "print(sevens)"
+      ],
+      "tests": [
+        {
+          "name": "prints 3",
+          "stdout": "3"
+        }
+      ],
+      "hint": "Start a counter before the loop, add 1 inside an if, print after.",
+      "gen": {
+        "hash": "5f3f031df5fa0d48ebcf4b8b05535c2272f9cc2338c6398d6b6e6a637bb980ad"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask for 4 prices with the prompt Price? (decimal numbers). Add them up and print the total. With 1.5, 2.5, 3 and 4:\nPrice? 1.5\nPrice? 2.5\nPrice? 3\nPrice? 4\nTotal: 11.0",
+      "solution": [
+        "total = 0",
+        "for i in range(4):",
+        "    total += float(input(\"Price? \"))",
+        "print(\"Total:\", total)"
+      ],
+      "tests": [
+        {
+          "name": "four prices",
+          "stdin": [
+            "1.5",
+            "2.5",
+            "3",
+            "4"
+          ],
+          "stdout": "Price? 1.5\nPrice? 2.5\nPrice? 3\nPrice? 4\nTotal: 11.0"
+        },
+        {
+          "name": "all zeros",
+          "stdin": [
+            "0",
+            "0",
+            "0",
+            "0"
+          ],
+          "stdout": "Price? 0\nPrice? 0\nPrice? 0\nPrice? 0\nTotal: 0.0"
+        }
+      ],
+      "hints": [
+        "Start total = 0 before the loop",
+        "for i in range(4): and inside it add float(input(\"Price? \"))",
+        "Print after the loop"
+      ],
+      "gen": {
+        "hash": "55e55cbe0580d4db1661f12127341eac37c1f6fa92395096611d7061ac93a367"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "Where does `total = 0` go for a running sum?",
+      "options": [
+        "Before the loop",
+        "Inside the loop",
+        "After the loop",
+        "Anywhere"
+      ],
+      "answer": 0,
+      "why": "Inside the loop it would reset every round."
+    },
+    {
+      "q": "What should a product start at?",
+      "options": [
+        "1",
+        "0",
+        "-1",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "Anything times 0 is 0, so a product must start at 1."
+    },
+    {
+      "q": "`c = 0`, then `for n in range(5):` with `c += 1`. What is c?",
+      "options": [
+        "5",
+        "4",
+        "10",
+        "0"
+      ],
+      "answer": 0,
+      "why": "The loop runs 5 times and adds 1 each time."
+    },
+    {
+      "q": "Where do you print the final total?",
+      "options": [
+        "After the loop, not indented",
+        "Inside the loop",
+        "Before the loop",
+        "In the range"
+      ],
+      "answer": 0,
+      "why": "Inside the loop it would print every round. After the loop it prints once, when the total is complete."
+    },
+    {
+      "q": "How do you keep the biggest value seen so far?",
+      "options": [
+        "Replace it whenever a new value is bigger",
+        "Add every value to it",
+        "Store the last value",
+        "Store the first value"
+      ],
+      "answer": 0,
+      "why": "if value > biggest: biggest = value."
+    },
+    {
+      "q": "What is the average of the values in a loop?",
+      "options": [
+        "The total divided by how many there are",
+        "The biggest divided by 2",
+        "The total",
+        "The last value"
+      ],
+      "answer": 0,
+      "why": "Sum them and count them, then divide after the loop."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Adding to a total that was never started",
+      "code": [
+        "for n in range(3):",
+        "    total += n"
+      ],
+      "explain": "+= reads the old value, but there is none yet. Start the total before the loop.",
+      "fix": [
+        "total = 0",
+        "for n in range(3):",
+        "    total += n"
+      ],
+      "gen": {
+        "hash": "c4aa11ce90231ed3b654b4c2a5ba6b3bb88d3839c910c50a96fa00ece67726c4",
+        "error": "NameError: name 'total' is not defined",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "An average of nothing",
+      "code": [
+        "total = 0",
+        "count = 0",
+        "print(total / count)"
+      ],
+      "explain": "With no values the count is 0, and dividing by 0 is an error. Check the count first.",
+      "fix": [
+        "total = 0",
+        "count = 0",
+        "if count > 0:",
+        "    print(total / count)"
+      ],
+      "gen": {
+        "hash": "14510b18942cee157bb5a2e3287c86d750ce647f424b8da9f22ca5bde6a32979",
+        "error": "ZeroDivisionError: division by zero",
+        "line": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: for statements",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 13. while and for Loops"
+    }
+  ]
+}

@@ -1,0 +1,1935 @@
+{
+  "id": "py-14-while",
+  "track": "python",
+  "unit": "py-u3",
+  "order": 14,
+  "title": "while loops",
+  "summary": "Repeat a block of code as long as a test stays True.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "loop",
+    "memory"
+  ],
+  "intro": {
+    "text": "A **loop** repeats code. `while` repeats its indented block **as long as** its test is True:\n\n```\nn = 1\nwhile n <= 3:\n    print(n)\n    n += 1\n```\n\nEach time round, Python checks the test first. True: run the block, then go back up and check again. False: skip the block and carry on below the loop.\n\nSomething in the block must change so the test eventually becomes False. Here `n += 1` does that. If nothing changes, the loop runs forever: an **infinite loop**. These lessons stop such code after a moment; on your own computer you press Ctrl-C.\n\nThe **loop** panel counts the rounds and shows the test's answer each time.",
+    "analogy": "Stirring soup while it is still lumpy. Before each stir you look: still lumpy? Stir again. Smooth? Stop and serve. If you never look, you stir forever."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "count = 3",
+        "while count > 0:",
+        "    print(count)",
+        "    count -= 1",
+        "print(\"Lift off\")"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "3",
+          "label": "count",
+          "kind": "number",
+          "min": 0,
+          "max": 8
+        }
+      ],
+      "why": "count goes 3, 2, 1 and each is printed. When count is 0 the test is False, the loop ends, and Lift off prints.",
+      "gen": {
+        "hash": "f1cf662266e936a3dcc4e442fabb06c0d30f925f17f796c0ba1048c554b88154",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "3\n",
+            "vars": {
+              "count": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "2\n",
+            "vars": {
+              "count": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "1\n",
+            "vars": {
+              "count": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Lift off\n",
+            "vars": {
+              "count": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "3\n2\n1\nLift off"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "n = 10",
+        "while n < 5:",
+        "    print(n)",
+        "    n += 1",
+        "print(\"end\")"
+      ],
+      "kind": "choice",
+      "options": [
+        "end",
+        "10\nend",
+        "10\n11\n12\n13\n14\nend",
+        "Nothing, it loops forever"
+      ],
+      "why": "10 < 5 is False at the very first check, so the block never runs at all.",
+      "gen": {
+        "hash": "8f9941892549a2e1fcf51bdb499c67f08af036ff457bc43e34c14308545c22d3",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 0,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "end\n",
+            "vars": {
+              "n": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "end",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Counting up",
+      "visuals": [
+        "loop",
+        "tracetable"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "4",
+          "label": "stop at",
+          "kind": "number",
+          "min": 0,
+          "max": 8
+        }
+      ],
+      "lines": [
+        {
+          "code": "step = 1",
+          "explain": "The counter starts at 1, before the loop.",
+          "task": "Start step at 1."
+        },
+        {
+          "code": "while step <= 4:",
+          "explain": "The test is checked before every round. 1 <= 4: True, so the block runs.",
+          "task": "Start a while loop that runs while step is at most 4.",
+          "note": "checked every round",
+          "circle": "while",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Step\", step)",
+          "explain": "Prints Step 1 in the first round.",
+          "task": "Inside the loop, print Step and step."
+        },
+        {
+          "code": "    step += 1",
+          "explain": "The counter grows, so one day the test will be False. Watch the loop panel count rounds.",
+          "task": "Inside the loop, add 1 to step.",
+          "note": "the loop's way out"
+        },
+        {
+          "code": "print(\"Done\")",
+          "explain": "After round 4, step is 5, 5 <= 4 is False, and Python comes here.",
+          "task": "After the loop, print Done."
+        }
+      ],
+      "gen": {
+        "hash": "bdab38c425e147710abd526c87f54d8ce1ea9ddf39b8a4112930670b15c63bbd",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 1
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while step <= 4:"
+                  },
+                  {
+                    "text": "while 1 <= 4:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "1 <= 4",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Step 1\n",
+            "vars": {
+              "step": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 2
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while step <= 4:"
+                  },
+                  {
+                    "text": "while 2 <= 4:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "2 <= 4",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Step 2\n",
+            "vars": {
+              "step": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 3
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while step <= 4:"
+                  },
+                  {
+                    "text": "while 3 <= 4:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "3 <= 4",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Step 3\n",
+            "vars": {
+              "step": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 4
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while step <= 4:"
+                  },
+                  {
+                    "text": "while 4 <= 4:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "4 <= 4",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Step 4\n",
+            "vars": {
+              "step": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "step": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 4,
+                "done": true
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while step <= 4:"
+                  },
+                  {
+                    "text": "while 5 <= 4:"
+                  },
+                  {
+                    "text": "while False:",
+                    "part": "5 <= 4",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Done\n",
+            "vars": {
+              "step": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Doubling until big enough",
+      "visuals": [
+        "loop",
+        "tracetable"
+      ],
+      "lines": [
+        {
+          "code": "savings = 1",
+          "explain": "One coin.",
+          "task": "Start savings at 1."
+        },
+        {
+          "code": "weeks = 0",
+          "explain": "No weeks yet.",
+          "task": "Start weeks at 0."
+        },
+        {
+          "code": "while savings < 100:",
+          "explain": "We do not know how many rounds we need. That is what while is good at.",
+          "task": "Start a while loop that runs while savings is under 100.",
+          "note": "rounds unknown",
+          "expr": true
+        },
+        {
+          "code": "    savings *= 2",
+          "explain": "Double the savings each week.",
+          "task": "Inside the loop, double savings."
+        },
+        {
+          "code": "    weeks += 1",
+          "explain": "Count the week.",
+          "task": "Inside the loop, add 1 to weeks."
+        },
+        {
+          "code": "print(weeks, \"weeks:\", savings)",
+          "explain": "1, 2, 4, 8, 16, 32, 64, 128: after 7 weeks savings is 128. Prints 7 weeks: 128.",
+          "task": "After the loop, print weeks, the text weeks:, and savings."
+        }
+      ],
+      "gen": {
+        "hash": "783d2f8f174a45d94b7d1ecedce044d08f12cd9893e3ddc1c8c48264e6236874",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "1",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "1",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 1
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 1 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "1 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "2",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "2",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "2",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 2
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 2 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "2 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "4",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "4",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "4",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 3
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 4 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "4 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "8",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "8",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "8",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 4
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 8 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "8 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "16",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "16",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "16",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 5
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 16 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "16 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "32",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "32",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "32",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 6
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 32 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "32 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "64",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "64",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "64",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 7
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 64 < 100:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "64 < 100",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "128",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "128",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "savings": {
+                "repr": "128",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 3,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "while",
+                "round": 7,
+                "done": true
+              },
+              {
+                "kind": "expr",
+                "line": 3,
+                "steps": [
+                  {
+                    "text": "while savings < 100:"
+                  },
+                  {
+                    "text": "while 128 < 100:"
+                  },
+                  {
+                    "text": "while False:",
+                    "part": "128 < 100",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 6,
+            "stdout": "7 weeks: 128\n",
+            "vars": {
+              "savings": {
+                "repr": "128",
+                "type": "int"
+              },
+              "weeks": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Ask until the answer is right",
+      "stdin": [
+        "4",
+        "9",
+        "7"
+      ],
+      "visuals": [
+        "loop",
+        "stdin",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "guess = int(input(\"Guess? \"))",
+          "explain": "The first guess is 4.",
+          "task": "Ask Guess? and store the answer as an int in guess."
+        },
+        {
+          "code": "while guess != 7:",
+          "explain": "4 is not 7, so the loop runs.",
+          "task": "Start a while loop that runs while guess is not 7.",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Nope\")",
+          "explain": "Tell the user.",
+          "task": "Inside the loop, print Nope."
+        },
+        {
+          "code": "    guess = int(input(\"Guess? \"))",
+          "explain": "Ask again. This changes guess, which is what lets the loop end.",
+          "task": "Inside the loop, ask again and store the new guess.",
+          "note": "the new answer is tested next"
+        },
+        {
+          "code": "print(\"Got it!\")",
+          "explain": "The third answer is 7, the test is False, and this prints.",
+          "task": "After the loop, print Got it!"
+        }
+      ],
+      "gen": {
+        "hash": "ebebeff7ba84ad345dc068d2a4d46d00e72df4d35cf0ed68c8ac518d48af3148",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "Guess? 4\n",
+            "vars": {
+              "guess": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Guess? ",
+                "value": "4",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "guess": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 1
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while guess != 7:"
+                  },
+                  {
+                    "text": "while 4 != 7:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "4 != 7",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Nope\n",
+            "vars": {
+              "guess": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Guess? 9\n",
+            "vars": {
+              "guess": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Guess? ",
+                "value": "9",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "guess": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 2
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while guess != 7:"
+                  },
+                  {
+                    "text": "while 9 != 7:"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "9 != 7",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Nope\n",
+            "vars": {
+              "guess": {
+                "repr": "9",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Guess? 7\n",
+            "vars": {
+              "guess": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Guess? ",
+                "value": "7",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "guess": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 2,
+                "done": true
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while guess != 7:"
+                  },
+                  {
+                    "text": "while 7 != 7:"
+                  },
+                  {
+                    "text": "while False:",
+                    "part": "7 != 7",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Got it!\n",
+            "vars": {
+              "guess": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 4,
+      "q": "How many times does line 3 run?",
+      "options": [
+        "4",
+        "5",
+        "3",
+        "1"
+      ],
+      "answer": 0,
+      "why": "The test is True for step 1, 2, 3 and 4. For 5 it is False."
+    },
+    {
+      "id": "i2",
+      "example": 0,
+      "line": 5,
+      "q": "What is stored in step after the loop ends?",
+      "options": [
+        "5",
+        "4",
+        "1",
+        "0"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 5,
+        "name": "step"
+      },
+      "why": "The loop only stops once step is 5, because that is when step <= 4 becomes False."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 6,
+      "q": "What is stored in savings at the end?",
+      "options": [
+        "128",
+        "100",
+        "64",
+        "7"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 6,
+        "name": "savings"
+      },
+      "why": "64 is still under 100, so it doubles once more to 128, and then the test is False."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints 1, 2 and 3 on separate lines",
+      "code": [
+        "x = 1",
+        "___ x <= 3:",
+        "    print(x)",
+        "    x ___ 1"
+      ],
+      "answers": [
+        "while",
+        "+="
+      ],
+      "gen": {
+        "hash": "2fe7f4e5adadae9268e268800b4b6ad8707fbb0c12e5dc16af140cacd8ca16ba",
+        "expected": {
+          "stdout": "1\n2\n3",
+          "vars": {
+            "x": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blank so the countdown prints 5, 4, 3, 2, 1 on separate lines",
+      "code": [
+        "t = 5",
+        "while t ___ 0:",
+        "    print(t)",
+        "    t -= 1"
+      ],
+      "answers": [
+        ">"
+      ],
+      "gen": {
+        "hash": "bd17a5e42465b196e77ec9c7089d3b2ebb6b6f6a4eeba232c3cfdb6f1fab617b",
+        "expected": {
+          "stdout": "5\n4\n3\n2\n1",
+          "vars": {
+            "t": {
+              "repr": "0",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\n2\n4\n6\nend",
+      "indent": true,
+      "lines": [
+        "n = 2",
+        "while n <= 6:",
+        "    print(n)",
+        "    n += 2",
+        "print(\"end\")"
+      ],
+      "gen": {
+        "hash": "4d19ee6fa22494edf75c1098635d7fc07d4476825264f9f4d2324adf7d453144",
+        "expected": {
+          "stdout": "2\n4\n6\nend",
+          "vars": {
+            "n": {
+              "repr": "8",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print 1 to 3 and then Finished. It never stops. Fix it.",
+      "code": [
+        "k = 1",
+        "while k <= 3:",
+        "    print(k)",
+        "print(\"Finished\")"
+      ],
+      "solution": [
+        "k = 1",
+        "while k <= 3:",
+        "    print(k)",
+        "    k += 1",
+        "print(\"Finished\")"
+      ],
+      "tests": [
+        {
+          "name": "prints 1 to 3 then Finished",
+          "stdout": "1\n2\n3\nFinished"
+        }
+      ],
+      "hint": "Nothing inside the loop changes k, so the test is True forever.",
+      "gen": {
+        "hash": "66eb8f9068cf783a38b24c534e918f115ffd21fccf9aa5991a8061255577e080",
+        "error": "Timeout: stopped after 200000 lines"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the loop so it counts to 6 instead of 3. It should print 1 to 6, one per line.",
+      "code": [
+        "i = 1",
+        "while i <= 3:",
+        "    print(i)",
+        "    i += 1"
+      ],
+      "solution": [
+        "i = 1",
+        "while i <= 6:",
+        "    print(i)",
+        "    i += 1"
+      ],
+      "tests": [
+        {
+          "name": "prints 1 to 6",
+          "stdout": "1\n2\n3\n4\n5\n6"
+        }
+      ],
+      "hint": "Only the test needs to change.",
+      "gen": {
+        "hash": "dcaadfc3b765be3ffb52029effd9957b15f0f11d8926c8468bfb3b2c75665cbf"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the loop so it counts down in fives from 20 to 0. It should print 20, 15, 10, 5, 0, one per line.",
+      "code": [
+        "i = 1",
+        "while i <= 3:",
+        "    print(i)",
+        "    i += 1"
+      ],
+      "solution": [
+        "i = 20",
+        "while i >= 0:",
+        "    print(i)",
+        "    i -= 5"
+      ],
+      "tests": [
+        {
+          "name": "counts down in fives",
+          "stdout": "20\n15\n10\n5\n0"
+        }
+      ],
+      "hint": "Change the start, the test and the step.",
+      "gen": {
+        "hash": "c898a73f0db370ab3420aeeb3366c79420b84d92c9ba79b988f73d1dd9a7fa06"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 0
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Start a variable height at 1. While height is less than 50, double it and print it. It should print:\n2\n4\n8\n16\n32\n64",
+      "solution": [
+        "height = 1",
+        "while height < 50:",
+        "    height *= 2",
+        "    print(height)"
+      ],
+      "tests": [
+        {
+          "name": "prints the doubling",
+          "stdout": "2\n4\n8\n16\n32\n64"
+        },
+        {
+          "name": "height ends at 64",
+          "post": "assert height == 64, 'height should end at 64'"
+        }
+      ],
+      "hints": [
+        "height = 1",
+        "while height < 50:",
+        "Inside: height *= 2 then print(height)"
+      ],
+      "gen": {
+        "hash": "9f0d4a129f00e5b0f2b6557e2805db83179ddbd64cd608209edbc44af02c6c79"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "When is the test of a while loop checked?",
+      "options": [
+        "Before every round",
+        "Only once, at the start",
+        "After the loop",
+        "Only when it is False"
+      ],
+      "answer": 0,
+      "why": "Python checks it each time before running the block again."
+    },
+    {
+      "q": "`n = 5` then `while n < 3:` with an indented print. How many times does it print?",
+      "options": [
+        "0",
+        "1",
+        "3",
+        "Forever"
+      ],
+      "answer": 0,
+      "why": "The test is False from the start, so the block never runs."
+    },
+    {
+      "q": "What makes a while loop run forever?",
+      "options": [
+        "Nothing in the block ever makes the test False",
+        "Using print in the block",
+        "A test with <",
+        "An if inside the loop"
+      ],
+      "answer": 0,
+      "why": "If the test can never become False, the loop never ends."
+    },
+    {
+      "q": "`x = 0`, then `while x < 3:` with `x += 1` inside. What is x after the loop?",
+      "options": [
+        "3",
+        "2",
+        "4",
+        "0"
+      ],
+      "answer": 0,
+      "why": "The loop stops once x reaches 3."
+    },
+    {
+      "q": "When is while a better choice than counting a fixed number of times?",
+      "options": [
+        "When you do not know how many rounds you need",
+        "Never",
+        "When printing",
+        "When using numbers"
+      ],
+      "answer": 0,
+      "why": "while keeps going until something happens, like the right answer being typed."
+    },
+    {
+      "q": "Which line starts a while loop correctly?",
+      "options": [
+        "while n < 10:",
+        "while (n < 10)",
+        "while n < 10 do",
+        "loop while n < 10:"
+      ],
+      "answer": 0,
+      "why": "while, the test, then a colon."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "The counter never changes",
+      "code": [
+        "n = 0",
+        "while n < 3:",
+        "    print(n)"
+      ],
+      "explain": "n stays 0, so n < 3 is always True and the loop never ends. The lesson stops it after a moment. Add n += 1 inside the loop.",
+      "fix": [
+        "n = 0",
+        "while n < 3:",
+        "    print(n)",
+        "    n += 1"
+      ],
+      "gen": {
+        "hash": "49581f3759733ed8b86a2b296f568eb7e112dd929c068af32c45ef005438df0c",
+        "error": "Timeout: stopped after 200000 lines",
+        "line": null
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Forgetting to indent the block",
+      "code": [
+        "n = 0",
+        "while n < 3:",
+        "n += 1"
+      ],
+      "explain": "The loop's block must be indented under the while line.",
+      "fix": [
+        "n = 0",
+        "while n < 3:",
+        "    n += 1"
+      ],
+      "gen": {
+        "hash": "962759bf771b40a774084ef9b3d37cdc442ca0980d756d5a17533234b1430136",
+        "error": "IndentationError: expected an indented block after 'while' statement on line 2",
+        "line": 3
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: the while statement",
+      "url": "https://docs.python.org/3/reference/compound_stmts.html#the-while-statement"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 13. while and for Loops"
+    }
+  ]
+}

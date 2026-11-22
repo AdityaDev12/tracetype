@@ -30,6 +30,7 @@ const RULES: Rule[] = [
     test: /^SyntaxError: name capture '(.+?)' makes remaining patterns unreachable/,
     explain: (m) => `A plain name like ${m[1]} in a case matches anything, so the cases below it can never run. Compare with a value in quotes or a number, or use case _: last.`,
   },
+  { test: /^SyntaxError: '(break|continue)' outside loop/, explain: (m) => `${m[1]} only works inside a for or while loop. Check its indentation.` },
   { test: /^SyntaxError: expected ':'/, explain: () => 'This line needs a colon : at the end.' },
   { test: /^SyntaxError: invalid decimal literal/, explain: () => 'A name cannot start with a digit, and numbers cannot have letters in them.' },
   {
@@ -58,6 +59,8 @@ const RULES: Rule[] = [
     test: /^TypeError: '(.+?)' not supported between instances of '(.+?)' and '(.+?)'/,
     explain: (m) => `${m[1]} cannot compare a ${m[2]} with a ${m[3]}. Convert one of them first, for example with int().`,
   },
+  { test: /^TypeError: '(.+?)' object is not iterable/, explain: (m) => `A for loop needs something with items to step through, like text or range(). A ${m[1]} has no items. Did you mean range(...)?` },
+  { test: /^TypeError: 'float' object cannot be interpreted as an integer/, explain: () => 'range() only takes whole numbers. Use int() or // to get a whole number.' },
   { test: /^TypeError: '(.+?)' object is not callable/, explain: (m) => `You put ( ) after something that is a ${m[1]}, not a function.` },
   { test: /^TypeError/, explain: () => 'A value of the wrong type was used here.' },
   { test: /^ZeroDivisionError/, explain: () => 'You divided by zero, which has no answer.' },

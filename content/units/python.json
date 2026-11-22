@@ -29,6 +29,21 @@
         "py-13-nested-if"
       ],
       "project": "py-u2-project"
+    },
+    {
+      "id": "py-u3",
+      "title": "Loops",
+      "summary": "Repeat work: while and for loops, running totals, break and continue, nested loops and looping over text.",
+      "lessons": [
+        "py-14-while",
+        "py-15-for-range",
+        "py-16-accumulators",
+        "py-17-break-continue",
+        "py-18-walrus",
+        "py-19-nested-loops",
+        "py-20-looping-text"
+      ],
+      "project": "py-u3-project"
     }
   ]
 }

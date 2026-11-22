@@ -120,11 +120,18 @@ export interface Grid {
 
 /** Nested loops as a grid: one row per outer round, one column per inner round. */
 export function gridAt(trace: TraceStep[], index: number, code: string[]): Grid | null {
-  const inner = latestLoop(trace, index)
-  if (!inner) return null
-  const innerLine = inner.ev.line
-  const outerLine = outerLoop(code, innerLine)
-  if (outerLine === null) return null
+  // The latest loop event that belongs to an inner loop (one with a loop around it).
+  let innerLine: number | null = null
+  let outerLine: number | null = null
+  for (let i = Math.min(index, trace.length - 1); i >= 0 && innerLine === null; i--) {
+    for (const e of trace[i].events ?? []) {
+      if (e.kind === 'loop' && outerLoop(code, e.line) !== null) {
+        innerLine = e.line
+        outerLine = outerLoop(code, e.line)
+      }
+    }
+  }
+  if (innerLine === null || outerLine === null) return null
   const outerVar = loopVar(code, outerLine)
   const innerVar = loopVar(code, innerLine)
   const rowLabels: string[] = []

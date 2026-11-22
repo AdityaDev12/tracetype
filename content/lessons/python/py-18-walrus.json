@@ -1,0 +1,1262 @@
+{
+  "id": "py-18-walrus",
+  "track": "python",
+  "unit": "py-u3",
+  "order": 18,
+  "title": "Assign and test at once: the walrus :=",
+  "summary": "Store a value inside a test, so a loop can read and check in one line.",
+  "language": "python",
+  "minutes": 15,
+  "visual": "memory",
+  "visuals": [
+    "expr",
+    "stdin",
+    "loop"
+  ],
+  "intro": {
+    "text": "A loop that reads answers until the user types quit often has to call input() twice: once before the loop and once at the end of the block. The **walrus operator** `:=` (it looks like a walrus on its side) fixes that.\n\n`name := value` stores the value in the name **and** gives the value back, so it can sit inside a test:\n\n```\nwhile (word := input(\"Word? \")) != \"quit\":\n    print(word)\n```\n\nEach round, Python asks for a word, stores it in `word`, then compares it with \"quit\". The brackets are needed: without them the comparison would happen first.\n\nA plain `=` cannot go inside a test, and `:=` cannot be used on a line of its own. Use the walrus when it removes a repeated line; otherwise plain `=` is clearer. It arrived in Python 3.8, after the book.",
+    "analogy": "Reading a parcel's label while you put it on the shelf, in one move, instead of putting it down first and then bending over to read it."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "if (n := 7 * 6) > 40:",
+        "    print(\"big\", n)"
+      ],
+      "kind": "choice",
+      "options": [
+        "big 42",
+        "big True",
+        "Nothing",
+        "Error"
+      ],
+      "expr": [
+        1
+      ],
+      "why": "7 * 6 is 42. The walrus stores 42 in n and gives it to the comparison. 42 > 40 is True, so big 42 prints.",
+      "gen": {
+        "hash": "e87f0941f7d611b9308371d9893a376e19c15149d8a2f2f30bb38d844b60eaf0",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "n": {
+                "repr": "42",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "if (n := (7 * 6)) > 40:"
+                  },
+                  {
+                    "text": "if (n := 42) > 40:",
+                    "part": "7 * 6",
+                    "value": "42"
+                  },
+                  {
+                    "text": "if 42 > 40:",
+                    "part": "(n := 42)",
+                    "value": "42"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "42 > 40",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "big 42\n",
+            "vars": {
+              "n": {
+                "repr": "42",
+                "type": "int"
+              }
+            }
+          }
+        ],
+        "output": "big 42",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "while (cmd := input()) != \"stop\":",
+        "    print(\"got\", cmd)"
+      ],
+      "kind": "typed",
+      "stdin": [
+        "a",
+        "b",
+        "stop"
+      ],
+      "q": "The user types a, b, then stop. What is on the screen? Type it exactly.",
+      "why": "Each typed answer is shown on screen as it is typed. a and b are printed back with got. stop ends the loop.",
+      "gen": {
+        "hash": "28636136347f6d52483adc480f58df6289ad0ee36044d60e3356994db3bda2fb",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "a\n",
+            "vars": {
+              "cmd": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "",
+                "value": "a",
+                "index": 0
+              },
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "while",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "got a\n",
+            "vars": {
+              "cmd": {
+                "repr": "'a'",
+                "type": "str",
+                "text": "a"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "b\n",
+            "vars": {
+              "cmd": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "",
+                "value": "b",
+                "index": 1
+              },
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "while",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "got b\n",
+            "vars": {
+              "cmd": {
+                "repr": "'b'",
+                "type": "str",
+                "text": "b"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "stop\n",
+            "vars": {
+              "cmd": {
+                "repr": "'stop'",
+                "type": "str",
+                "text": "stop"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "",
+                "value": "stop",
+                "index": 2
+              },
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "while",
+                "round": 2,
+                "done": true
+              }
+            ]
+          }
+        ],
+        "output": "a\ngot a\nb\ngot b\nstop"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "The old way: read twice",
+      "stdin": [
+        "milk",
+        "eggs",
+        "done"
+      ],
+      "lines": [
+        {
+          "code": "item = input(\"Item? \")",
+          "explain": "Read the first answer before the loop.",
+          "task": "Ask Item? and store the answer in item."
+        },
+        {
+          "code": "while item != \"done\":",
+          "explain": "Test it.",
+          "task": "Start a while loop that runs while item is not done.",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Added\", item)",
+          "explain": "Use it.",
+          "task": "Inside the loop, print Added and item."
+        },
+        {
+          "code": "    item = input(\"Item? \")",
+          "explain": "Read the next answer at the end of the block. The same input line appears twice in the program.",
+          "task": "Inside the loop, ask again and store the answer in item.",
+          "note": "the same line again",
+          "circle": "input(\"Item? \")"
+        },
+        {
+          "code": "print(\"List done\")",
+          "explain": "After done is typed.",
+          "task": "After the loop, print List done."
+        }
+      ],
+      "gen": {
+        "hash": "4c5095706e08f0918aa3c4cd4c494ded6212011f8c096615a33d3e8040eda535",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "Item? milk\n",
+            "vars": {
+              "item": {
+                "repr": "'milk'",
+                "type": "str",
+                "text": "milk"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Item? ",
+                "value": "milk",
+                "index": 0
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "item": {
+                "repr": "'milk'",
+                "type": "str",
+                "text": "milk"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 1
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while item != 'done':"
+                  },
+                  {
+                    "text": "while 'milk' != 'done':"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "'milk' != 'done'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Added milk\n",
+            "vars": {
+              "item": {
+                "repr": "'milk'",
+                "type": "str",
+                "text": "milk"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Item? eggs\n",
+            "vars": {
+              "item": {
+                "repr": "'eggs'",
+                "type": "str",
+                "text": "eggs"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Item? ",
+                "value": "eggs",
+                "index": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "item": {
+                "repr": "'eggs'",
+                "type": "str",
+                "text": "eggs"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 2
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while item != 'done':"
+                  },
+                  {
+                    "text": "while 'eggs' != 'done':"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "'eggs' != 'done'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Added eggs\n",
+            "vars": {
+              "item": {
+                "repr": "'eggs'",
+                "type": "str",
+                "text": "eggs"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Item? done\n",
+            "vars": {
+              "item": {
+                "repr": "'done'",
+                "type": "str",
+                "text": "done"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Item? ",
+                "value": "done",
+                "index": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "item": {
+                "repr": "'done'",
+                "type": "str",
+                "text": "done"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 2,
+                "stmt": "while",
+                "round": 2,
+                "done": true
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "while item != 'done':"
+                  },
+                  {
+                    "text": "while 'done' != 'done':"
+                  },
+                  {
+                    "text": "while False:",
+                    "part": "'done' != 'done'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "List done\n",
+            "vars": {
+              "item": {
+                "repr": "'done'",
+                "type": "str",
+                "text": "done"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "The walrus way: read and test in one line",
+      "stdin": [
+        "milk",
+        "eggs",
+        "done"
+      ],
+      "lines": [
+        {
+          "code": "while (item := input(\"Item? \")) != \"done\":",
+          "explain": "input runs, := stores the answer in item, and the same value is compared with \"done\". Watch the working it out panel: item is set in the middle of the test.",
+          "task": "Start a while loop that stores each answer to Item? in item and runs while it is not done.",
+          "note": "store and test",
+          "circle": ":=",
+          "expr": true
+        },
+        {
+          "code": "    print(\"Added\", item)",
+          "explain": "item already holds this round's answer.",
+          "task": "Inside the loop, print Added and item."
+        },
+        {
+          "code": "print(\"List done\")",
+          "explain": "Same result, one line shorter, and input appears only once.",
+          "task": "After the loop, print List done."
+        }
+      ],
+      "gen": {
+        "hash": "380a2b6dcae5a2cad8a6408d3f324f4e7dcd2377712e9a5885d77df23bdd5308",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "Item? milk\n",
+            "vars": {
+              "item": {
+                "repr": "'milk'",
+                "type": "str",
+                "text": "milk"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Item? ",
+                "value": "milk",
+                "index": 0
+              },
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "while",
+                "round": 1
+              },
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "while (item := input('Item? ')) != 'done':"
+                  },
+                  {
+                    "text": "while (item := 'milk') != 'done':",
+                    "part": "input('Item? ')",
+                    "value": "'milk'"
+                  },
+                  {
+                    "text": "while 'milk' != 'done':",
+                    "part": "(item := 'milk')",
+                    "value": "'milk'"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "'milk' != 'done'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Added milk\n",
+            "vars": {
+              "item": {
+                "repr": "'milk'",
+                "type": "str",
+                "text": "milk"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "Item? eggs\n",
+            "vars": {
+              "item": {
+                "repr": "'eggs'",
+                "type": "str",
+                "text": "eggs"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Item? ",
+                "value": "eggs",
+                "index": 1
+              },
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "while",
+                "result": true
+              },
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "while",
+                "round": 2
+              },
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "while (item := input('Item? ')) != 'done':"
+                  },
+                  {
+                    "text": "while (item := 'eggs') != 'done':",
+                    "part": "input('Item? ')",
+                    "value": "'eggs'"
+                  },
+                  {
+                    "text": "while 'eggs' != 'done':",
+                    "part": "(item := 'eggs')",
+                    "value": "'eggs'"
+                  },
+                  {
+                    "text": "while True:",
+                    "part": "'eggs' != 'done'",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Added eggs\n",
+            "vars": {
+              "item": {
+                "repr": "'eggs'",
+                "type": "str",
+                "text": "eggs"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "Item? done\n",
+            "vars": {
+              "item": {
+                "repr": "'done'",
+                "type": "str",
+                "text": "done"
+              }
+            },
+            "events": [
+              {
+                "kind": "input",
+                "prompt": "Item? ",
+                "value": "done",
+                "index": 2
+              },
+              {
+                "kind": "test",
+                "line": 1,
+                "stmt": "while",
+                "result": false
+              },
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "while",
+                "round": 2,
+                "done": true
+              },
+              {
+                "kind": "expr",
+                "line": 1,
+                "steps": [
+                  {
+                    "text": "while (item := input('Item? ')) != 'done':"
+                  },
+                  {
+                    "text": "while (item := 'done') != 'done':",
+                    "part": "input('Item? ')",
+                    "value": "'done'"
+                  },
+                  {
+                    "text": "while 'done' != 'done':",
+                    "part": "(item := 'done')",
+                    "value": "'done'"
+                  },
+                  {
+                    "text": "while False:",
+                    "part": "'done' != 'done'",
+                    "value": "False"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "List done\n",
+            "vars": {
+              "item": {
+                "repr": "'done'",
+                "type": "str",
+                "text": "done"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Keep a value you just worked out",
+      "lines": [
+        {
+          "code": "price = 120",
+          "explain": "A price.",
+          "task": "Store 120 in price."
+        },
+        {
+          "code": "if (discount := price // 10) >= 10:",
+          "explain": "Work out a tenth of the price (12), store it in discount and test it in one go.",
+          "task": "Start an if that stores price floor-divided by 10 in discount and tests whether it is at least 10.",
+          "circle": "discount :=",
+          "expr": true
+        },
+        {
+          "code": "    print(\"You save\", discount)",
+          "explain": "discount can be used inside the block: You save 12.",
+          "task": "Inside the if, print You save and discount."
+        },
+        {
+          "code": "print(\"Pay\", price - discount)",
+          "explain": "And after it: Pay 108.",
+          "task": "Print Pay and price minus discount."
+        }
+      ],
+      "gen": {
+        "hash": "fbeeae353e97aba95d942ebaf03d0351c3fd9e2971ae7230578eac76c123b241",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "120",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "price": {
+                "repr": "120",
+                "type": "int"
+              },
+              "discount": {
+                "repr": "12",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "test",
+                "line": 2,
+                "stmt": "if",
+                "result": true
+              },
+              {
+                "kind": "expr",
+                "line": 2,
+                "steps": [
+                  {
+                    "text": "if (discount := (price // 10)) >= 10:"
+                  },
+                  {
+                    "text": "if (discount := (120 // 10)) >= 10:"
+                  },
+                  {
+                    "text": "if (discount := 12) >= 10:",
+                    "part": "120 // 10",
+                    "value": "12"
+                  },
+                  {
+                    "text": "if 12 >= 10:",
+                    "part": "(discount := 12)",
+                    "value": "12"
+                  },
+                  {
+                    "text": "if True:",
+                    "part": "12 >= 10",
+                    "value": "True"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "You save 12\n",
+            "vars": {
+              "price": {
+                "repr": "120",
+                "type": "int"
+              },
+              "discount": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "Pay 108\n",
+            "vars": {
+              "price": {
+                "repr": "120",
+                "type": "int"
+              },
+              "discount": {
+                "repr": "12",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 1,
+      "line": 2,
+      "q": "How many times does input() run in example 2?",
+      "options": [
+        "3",
+        "2",
+        "1",
+        "4"
+      ],
+      "answer": 0,
+      "why": "Once per check of the test: milk, eggs, and done (which ends the loop)."
+    },
+    {
+      "id": "i2",
+      "example": 2,
+      "line": 2,
+      "q": "What is stored in discount after line 2 runs?",
+      "options": [
+        "12",
+        "True",
+        "120",
+        "10"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "discount"
+      },
+      "why": "The walrus stores the value 12, not the result of the comparison."
+    },
+    {
+      "id": "i3",
+      "example": 1,
+      "line": 1,
+      "q": "Why are there brackets around item := input(...)?",
+      "options": [
+        "So the answer is stored before it is compared",
+        "Python needs brackets around every input",
+        "They make the loop faster",
+        "They are optional decoration"
+      ],
+      "answer": 0,
+      "why": ":= has a very low priority. Without brackets, the comparison would run first and item would store True or False."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program stores 25 in area and prints: 25 is big",
+      "code": [
+        "side = 5",
+        "if (area ___ side * side) > 20:",
+        "    print(area, \"is big\")"
+      ],
+      "answers": [
+        ":="
+      ],
+      "gen": {
+        "hash": "259e73fee616f27ab23e1ef91017fb334ae8a5e66d046604271aee3060770381",
+        "expected": {
+          "stdout": "25 is big",
+          "vars": {
+            "side": {
+              "repr": "5",
+              "type": "int"
+            },
+            "area": {
+              "repr": "25",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program echoes words until the user types bye. With hi and bye it shows:\nhi\nyou said hi\nbye",
+      "stdin": [
+        "hi",
+        "bye"
+      ],
+      "code": [
+        "___ (w := input()) != \"bye\":",
+        "    print(\"you said\", ___)"
+      ],
+      "answers": [
+        "while",
+        "w"
+      ],
+      "gen": {
+        "hash": "cea445b26908194237d431170aafbbfc07f831cf50f0a2fa85f264ca85c9ec5b",
+        "expected": {
+          "stdout": "hi\nyou said hi\nbye",
+          "vars": {
+            "w": {
+              "repr": "'bye'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation. With the answers 3, 4 and 0 the program shows:\n3\n4\n0\nSum: 7",
+      "indent": true,
+      "stdin": [
+        "3",
+        "4",
+        "0"
+      ],
+      "lines": [
+        "total = 0",
+        "while (n := int(input())) != 0:",
+        "    total += n",
+        "print(\"Sum:\", total)"
+      ],
+      "gen": {
+        "hash": "22326af0013c6f64a525c3e9c09b0906d65a5abd0aa4b9312c89ae23292e2d6d",
+        "expected": {
+          "stdout": "3\n4\n0\nSum: 7",
+          "vars": {
+            "total": {
+              "repr": "7",
+              "type": "int"
+            },
+            "n": {
+              "repr": "0",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print each typed word until stop. With go, run and stop it should show:\ngo\ngo\nrun\nrun\nstop\nIt prints True instead of the words. Fix it.",
+      "stdin": [
+        "go",
+        "run",
+        "stop"
+      ],
+      "code": [
+        "while w := input() != \"stop\":",
+        "    print(w)"
+      ],
+      "solution": [
+        "while (w := input()) != \"stop\":",
+        "    print(w)"
+      ],
+      "tests": [
+        {
+          "name": "echoes words",
+          "stdin": [
+            "go",
+            "run",
+            "stop"
+          ],
+          "stdout": "go\ngo\nrun\nrun\nstop"
+        }
+      ],
+      "hint": "Without brackets the comparison happens first, and w stores its True or False.",
+      "gen": {
+        "hash": "af59fef49dae7101f9a7f40ff8ffed1c3ff489e3422ca20ac935da46e6bdce6f",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the test so the loop also stops when the user just presses Enter (an empty answer). With hi and then an empty answer it shows:\n? hi\nhi\n?",
+      "code": [
+        "while (w := input(\"? \")) != \"stop\":",
+        "    print(w)"
+      ],
+      "solution": [
+        "while (w := input(\"? \")) != \"stop\" and w != \"\":",
+        "    print(w)"
+      ],
+      "tests": [
+        {
+          "name": "stops on empty",
+          "stdin": [
+            "hi",
+            ""
+          ],
+          "stdout": "? hi\nhi\n?"
+        },
+        {
+          "name": "still stops on stop",
+          "stdin": [
+            "a",
+            "stop"
+          ],
+          "stdout": "? a\na\n? stop"
+        }
+      ],
+      "hint": "w already holds the answer after the walrus, so you can add and w != \"\" to the test.",
+      "gen": {
+        "hash": "2e947f44df51c56e7e307a3a381ab249ff10c5f6e45de47d58d987e2e07c4e1c"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so it also counts the names and prints the count at the end. With Ana, Ben and an empty answer:\nName? Ana\nName? Ben\nName?\n2 names",
+      "code": [
+        "while (name := input(\"Name? \")) != \"\":",
+        "    pass"
+      ],
+      "solution": [
+        "count = 0",
+        "while (name := input(\"Name? \")) != \"\":",
+        "    count += 1",
+        "print(count, \"names\")"
+      ],
+      "tests": [
+        {
+          "name": "two names",
+          "stdin": [
+            "Ana",
+            "Ben",
+            ""
+          ],
+          "stdout": "Name? Ana\nName? Ben\nName?\n2 names"
+        },
+        {
+          "name": "no names",
+          "stdin": [
+            ""
+          ],
+          "stdout": "Name?\n0 names"
+        }
+      ],
+      "hint": "Start a counter before the loop and add 1 inside it.",
+      "gen": {
+        "hash": "e511a7abaf68e4e2477cb556c9acdb914bd27dcfd27aa40dac01216cc956d4f1"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Using the walrus in a while loop, keep asking Word? and print each word in a line of its own until the user types an empty answer. Then print: bye. With sun and moon:\nWord? sun\nsun\nWord? moon\nmoon\nWord?\nbye",
+      "solution": [
+        "while (word := input(\"Word? \")) != \"\":",
+        "    print(word)",
+        "print(\"bye\")"
+      ],
+      "tests": [
+        {
+          "name": "two words",
+          "stdin": [
+            "sun",
+            "moon",
+            ""
+          ],
+          "stdout": "Word? sun\nsun\nWord? moon\nmoon\nWord?\nbye"
+        },
+        {
+          "name": "no words",
+          "stdin": [
+            ""
+          ],
+          "stdout": "Word?\nbye"
+        }
+      ],
+      "hints": [
+        "while (word := input(\"Word? \")) != \"\":",
+        "Inside: print(word)",
+        "After the loop: print(\"bye\")"
+      ],
+      "gen": {
+        "hash": "2a5a5d2aa8fb9a17ee51f48c1cb803c1d603586ef3a6c5b86c85f0c894e7b56e"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What does `:=` do?",
+      "options": [
+        "Stores a value and also gives it back inside an expression",
+        "Compares two values",
+        "Makes a constant",
+        "Starts a loop"
+      ],
+      "answer": 0,
+      "why": "It is an assignment that can sit inside a test."
+    },
+    {
+      "q": "Which line is a SyntaxError?",
+      "options": [
+        "x := 5",
+        "print(x := 5)",
+        "if (x := 5) > 2: pass",
+        "x = 5"
+      ],
+      "answer": 0,
+      "why": "On a line of its own, use a plain =. := is only for inside expressions."
+    },
+    {
+      "q": "In `while (w := input()) != \"q\":`, what does w hold?",
+      "options": [
+        "The typed answer",
+        "True or False",
+        "\"q\"",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "The brackets make := store the answer first."
+    },
+    {
+      "q": "In `while w := input() != \"q\":`, what does w hold?",
+      "options": [
+        "True or False",
+        "The typed answer",
+        "\"q\"",
+        "An error"
+      ],
+      "answer": 0,
+      "why": "Without brackets, input() != \"q\" is worked out first and its bool result is stored."
+    },
+    {
+      "q": "When is the walrus useful?",
+      "options": [
+        "When it saves writing the same line twice",
+        "Always, instead of =",
+        "Only in for loops",
+        "Never"
+      ],
+      "answer": 0,
+      "why": "Like reading input once in a while test. Elsewhere, = is clearer."
+    },
+    {
+      "q": "In which Python version did := arrive?",
+      "options": [
+        "3.8",
+        "2.7",
+        "3.0",
+        "It is not in Python"
+      ],
+      "answer": 0,
+      "why": "It came in Python 3.8, in 2019."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Using := on its own line",
+      "code": [
+        "total := 10"
+      ],
+      "explain": "On a line of its own, a plain = is the way to store a value. := only works inside a bigger expression.",
+      "fix": [
+        "total = 10"
+      ],
+      "gen": {
+        "hash": "7835bc613c0e53c96509a812f7240cafa6ff5c018fbbc1ec6be5555cb2d6c62f",
+        "error": "SyntaxError: invalid syntax",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Using = inside a test",
+      "code": [
+        "if (n = 5) > 3:",
+        "    print(n)"
+      ],
+      "explain": "A plain = cannot be used inside a test. Use := if you really want to store and test at once.",
+      "fix": [
+        "if (n := 5) > 3:",
+        "    print(n)"
+      ],
+      "gen": {
+        "hash": "1115432933852aeb96f724498ec9a9c692dbb9d21c23d054cdc470c494c0ee38",
+        "error": "SyntaxError: invalid syntax. Maybe you meant '==' or ':=' instead of '='?",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: assignment expressions (:=)",
+      "url": "https://docs.python.org/3/reference/expressions.html#assignment-expressions"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 13. while and for Loops"
+    }
+  ]
+}

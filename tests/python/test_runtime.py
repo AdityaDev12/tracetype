@@ -336,6 +336,12 @@ class Grading(unittest.TestCase):
         self.assertFalse(res[1]["ok"])
         self.assertEqual(res[1]["message"], "wrong file")
 
+    def test_runaway_loop_in_run_and_tests_is_stopped(self):
+        r = rt.run_program("n = 0\nwhile n < 3:\n    print(n)\n")
+        self.assertEqual(r["error"]["type"], "Timeout")
+        res = rt.run_tests("while True:\n    pass\n", [{"name": "t", "stdout": ""}])
+        self.assertFalse(res[0]["ok"])
+
     def test_run_program_vars_are_v1_shape(self):
         r = rt.run_program("a = [1]\n")
         self.assertEqual(r["vars"]["a"], {"repr": "[1]", "type": "list"})

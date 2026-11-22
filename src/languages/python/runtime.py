@@ -45,7 +45,8 @@ from contextlib import redirect_stdout
 
 TRACE_VERSION = 2
 FILENAME = "<lesson>"
-MAX_STEPS = 5000  # execution limit: more than this is treated as a runaway loop
+MAX_STEPS = 5000  # trace limit: more steps than this is treated as a runaway loop
+MAX_RUN_LINES = 200_000  # run and tests: lines of learner code before giving up
 MAX_REPR = 200
 MAX_TEXT = 200
 MAX_ITEMS = 50
@@ -844,7 +845,25 @@ def run_program(source, pre="", post="", options=None):
     namespace = box.namespace()
     error = None
     stage = "pre"
+    count = [0]
+
+    def limit(frame, event, arg):
+        # Count lines of the learner's code so a runaway loop stops (offline too).
+        if frame.f_code.co_filename != FILENAME:
+            return None
+
+        def per_line(frame, event, arg):
+            if event == "line":
+                count[0] += 1
+                if count[0] > MAX_RUN_LINES:
+                    raise StepLimit(f"stopped after {MAX_RUN_LINES} lines")
+            return per_line
+
+        return per_line
+
     with box:
+        old = sys.gettrace()
+        sys.settrace(limit)
         try:
             with redirect_stdout(box.buffer):
                 if pre:
@@ -857,6 +876,10 @@ def run_program(source, pre="", post="", options=None):
         except BaseException as exc:  # noqa: BLE001
             error = error_info(exc)
             error["stage"] = stage
+            if isinstance(exc, StepLimit):
+                error = {"type": "Timeout", "message": f"Timeout: {exc}", "line": None, "stage": stage}
+        finally:
+            sys.settrace(old)
         files = box.files()
     out = {"stdout": box.buffer.getvalue(), "vars": snapshot(namespace), "error": error}
     if files is not None:

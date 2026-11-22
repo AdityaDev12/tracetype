@@ -78,6 +78,11 @@ describe('grid for nested loops', () => {
     s(2, { r: '1', c: '0' }, [loop(2, 1)]),
   ]
 
+  it('still shows the grid after the outer loop has finished', () => {
+    const done = [...trace, s(1, { r: '1', c: '1' }, [loop(1, 2, true)])]
+    expect(gridAt(done, done.length - 1, code)?.cells).toHaveLength(3)
+  })
+
   it('finds the outer loop by indentation', () => {
     expect(outerLoop(code, 2)).toBe(1)
     expect(outerLoop(code, 1)).toBeNull()

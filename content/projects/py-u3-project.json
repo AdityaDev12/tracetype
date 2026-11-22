@@ -1,0 +1,123 @@
+{
+  "id": "py-u3-project",
+  "unit": "py-u3",
+  "title": "Number guessing game",
+  "summary": "A guessing game with hints, a limited number of tries and a score at the end.",
+  "language": "python",
+  "prompt": "Write a guessing game. The secret number is 42 and the player gets 6 tries. Start by printing Guess the number between 1 and 100. Each round, ask Guess? and:\n- if it is right, print Correct! You got it in 4 tries (with the real count; use try instead of tries when it is 1) and stop\n- if it is too low, print Too low, or Too low, but very close when it is at most 3 away\n- if it is too high, print Too high, or Too high, but very close when it is at most 3 away\nIf all 6 tries are used without a win, print Out of tries. It was 42. At the end, always print how many guesses were too low and too high. The example is for the guesses 50, 30, 41 and 42.",
+  "output": "Guess the number between 1 and 100\nGuess? 50\nToo high\nGuess? 30\nToo low\nGuess? 41\nToo low, but very close\nGuess? 42\nCorrect! You got it in 4 tries\nLow guesses: 2\nHigh guesses: 1",
+  "steps": [
+    {
+      "text": "Make the variables: secret, max_tries, tries, and counters low and high. Print the opening line.",
+      "hint": "secret = 42 and max_tries = 6. The counters start at 0."
+    },
+    {
+      "text": "Write a while loop that runs while tries is under max_tries. Inside, ask for a guess and add 1 to tries.",
+      "hint": "while tries < max_tries: then guess = int(input(\"Guess? \"))"
+    },
+    {
+      "text": "If the guess is right, print the winning line and break. Use a one-line if to pick try or tries.",
+      "hint": "word = \"try\" if tries == 1 else \"tries\""
+    },
+    {
+      "text": "Otherwise give a hint with elif and else, counting low and high guesses, and say very close when the difference is at most 3.",
+      "hint": "elif guess < secret: low += 1, then if secret - guess <= 3:"
+    },
+    {
+      "text": "Add a loop else for running out of tries, then print the two counters after the loop.",
+      "hint": "The else lines up with while, so it only runs when no break happened."
+    }
+  ],
+  "starter": [
+    "# Number guessing game",
+    "secret = 42",
+    "max_tries = 6"
+  ],
+  "solution": [
+    "# Number guessing game",
+    "secret = 42",
+    "max_tries = 6",
+    "tries = 0",
+    "low = 0",
+    "high = 0",
+    "",
+    "print(\"Guess the number between 1 and 100\")",
+    "while tries < max_tries:",
+    "    guess = int(input(\"Guess? \"))",
+    "    tries += 1",
+    "    if guess == secret:",
+    "        word = \"try\" if tries == 1 else \"tries\"",
+    "        print(\"Correct! You got it in\", tries, word)",
+    "        break",
+    "    elif guess < secret:",
+    "        low += 1",
+    "        if secret - guess <= 3:",
+    "            print(\"Too low, but very close\")",
+    "        else:",
+    "            print(\"Too low\")",
+    "    else:",
+    "        high += 1",
+    "        if guess - secret <= 3:",
+    "            print(\"Too high, but very close\")",
+    "        else:",
+    "            print(\"Too high\")",
+    "else:",
+    "    print(\"Out of tries. It was\", secret)",
+    "",
+    "print(\"Low guesses:\", low)",
+    "print(\"High guesses:\", high)"
+  ],
+  "tests": [
+    {
+      "name": "a win after hints",
+      "stdin": [
+        "50",
+        "30",
+        "41",
+        "42"
+      ],
+      "stdout": "Guess the number between 1 and 100\nGuess? 50\nToo high\nGuess? 30\nToo low\nGuess? 41\nToo low, but very close\nGuess? 42\nCorrect! You got it in 4 tries\nLow guesses: 2\nHigh guesses: 1"
+    },
+    {
+      "name": "first guess wins",
+      "stdin": [
+        "42"
+      ],
+      "stdout": "Guess the number between 1 and 100\nGuess? 42\nCorrect! You got it in 1 try\nLow guesses: 0\nHigh guesses: 0"
+    },
+    {
+      "name": "very close from above",
+      "stdin": [
+        "44",
+        "43",
+        "42"
+      ],
+      "stdout": "Guess the number between 1 and 100\nGuess? 44\nToo high, but very close\nGuess? 43\nToo high, but very close\nGuess? 42\nCorrect! You got it in 3 tries\nLow guesses: 0\nHigh guesses: 2"
+    },
+    {
+      "name": "out of tries",
+      "stdin": [
+        "1",
+        "2",
+        "3",
+        "99",
+        "98",
+        "97"
+      ],
+      "stdout": "Guess the number between 1 and 100\nGuess? 1\nToo low\nGuess? 2\nToo low\nGuess? 3\nToo low\nGuess? 99\nToo high\nGuess? 98\nToo high\nGuess? 97\nToo high\nOut of tries. It was 42\nLow guesses: 3\nHigh guesses: 3"
+    },
+    {
+      "name": "tries counts the guesses",
+      "stdin": [
+        "50",
+        "30",
+        "41",
+        "42"
+      ],
+      "post": "assert tries == 4, 'tries should count every guess'"
+    }
+  ],
+  "gen": {
+    "hash": "e319c7d8ce2492e0d15ab82c95503932eb5d05dd4d1515f9e62388eac7b9b1a1"
+  }
+}

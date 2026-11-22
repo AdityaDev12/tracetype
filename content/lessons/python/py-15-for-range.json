@@ -1,0 +1,1365 @@
+{
+  "id": "py-15-for-range",
+  "track": "python",
+  "unit": "py-u3",
+  "order": 15,
+  "title": "for loops and range()",
+  "summary": "Run a block once for every number in a range, without managing a counter yourself.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "loop",
+    "memory"
+  ],
+  "intro": {
+    "text": "A `for` loop runs its block once for **each item** in something, and gives you the item in a variable:\n\n```\nfor n in range(3):\n    print(n)\n```\n\nprints 0, 1 and 2. `range(3)` gives three numbers, **starting at 0 and stopping before 3**. The stop number is never included.\n\n- `range(stop)`: 0 up to stop - 1\n- `range(start, stop)`: start up to stop - 1\n- `range(start, stop, step)`: jump by step; a negative step counts down\n\nThere is no counter to forget, so no infinite loop. `range(n)` is the easy way to repeat something n times. The loop panel shows the value of the loop variable in each round.",
+    "analogy": "A for loop is like dealing cards: you take the cards one at a time from the top of the deck until it is empty. range(5) is a deck with the cards 0, 1, 2, 3 and 4 in order."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "for i in range(4):",
+        "    print(i)"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "4",
+          "label": "stop",
+          "kind": "number",
+          "min": 0,
+          "max": 8
+        }
+      ],
+      "why": "range(4) gives 0, 1, 2 and 3. It starts at 0 and stops before 4.",
+      "gen": {
+        "hash": "dbda1362b960c830ad781a18b0fa3558915e6004aa180ee1c2ad4fce5b58260e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "i": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "0\n",
+            "vars": {
+              "i": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "i": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "1\n",
+            "vars": {
+              "i": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "i": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "2\n",
+            "vars": {
+              "i": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "i": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "3\n",
+            "vars": {
+              "i": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "i": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          }
+        ],
+        "output": "0\n1\n2\n3"
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "for x in range(10, 0, -3):",
+        "    print(x)"
+      ],
+      "kind": "choice",
+      "options": [
+        "10\n7\n4\n1",
+        "10\n7\n4\n1\n-2",
+        "10\n7\n4",
+        "9\n6\n3"
+      ],
+      "why": "Start at 10 and add -3 each time: 10, 7, 4, 1. The next one, -2, is past the stop (0), so it is not included.",
+      "gen": {
+        "hash": "07b155ff19fe412f7ae67fda8862685ea6963b135b009e963a70ababb537a1b0",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "10",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "10\n",
+            "vars": {
+              "x": {
+                "repr": "10",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "7\n",
+            "vars": {
+              "x": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "4",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "4\n",
+            "vars": {
+              "x": {
+                "repr": "4",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "1\n",
+            "vars": {
+              "x": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "x": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          }
+        ],
+        "output": "10\n7\n4\n1",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "Repeat a fixed number of times",
+      "lines": [
+        {
+          "code": "for lap in range(3):",
+          "explain": "range(3) gives 0, 1, 2. lap gets each one in turn. Watch the loop panel.",
+          "task": "Start a for loop over range(3), with lap as the loop variable.",
+          "note": "0, 1, 2",
+          "circle": "range(3)"
+        },
+        {
+          "code": "    print(\"Lap\", lap + 1)",
+          "explain": "lap starts at 0, so lap + 1 shows 1, 2, 3 to the user.",
+          "task": "Inside the loop, print Lap and lap plus 1.",
+          "circle": "lap + 1"
+        },
+        {
+          "code": "print(\"Race over\")",
+          "explain": "Runs once, after all 3 rounds.",
+          "task": "After the loop, print Race over."
+        }
+      ],
+      "gen": {
+        "hash": "526333fa789382e12eb5d49ae334cb86c831d35d17d1828279218374ece6581a",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "lap": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Lap 1\n",
+            "vars": {
+              "lap": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "lap": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Lap 2\n",
+            "vars": {
+              "lap": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "lap": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Lap 3\n",
+            "vars": {
+              "lap": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "lap": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Race over\n",
+            "vars": {
+              "lap": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Start and stop",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "5",
+          "label": "start",
+          "kind": "number",
+          "min": 0,
+          "max": 9
+        },
+        {
+          "line": 1,
+          "find": "9",
+          "label": "stop",
+          "kind": "number",
+          "min": 0,
+          "max": 15
+        }
+      ],
+      "lines": [
+        {
+          "code": "for floor in range(5, 9):",
+          "explain": "Starts at 5 and stops before 9: 5, 6, 7, 8. Try the knobs.",
+          "task": "Start a for loop over the numbers from 5 up to but not including 9, using floor.",
+          "note": "9 is not included",
+          "circle": "range(5, 9)"
+        },
+        {
+          "code": "    print(\"Floor\", floor)",
+          "explain": "Prints Floor 5, then 6, 7 and 8.",
+          "task": "Inside the loop, print Floor and floor."
+        },
+        {
+          "code": "print(\"Top floor was\", floor)",
+          "explain": "After the loop, floor still holds the last value it got: 8.",
+          "task": "After the loop, print Top floor was and floor.",
+          "note": "keeps the last value"
+        }
+      ],
+      "gen": {
+        "hash": "6be6b598261bd1354a99c0e1351d6fdfd173d43eb6143655a67888ca9d06d888",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "floor": {
+                "repr": "5",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Floor 5\n",
+            "vars": {
+              "floor": {
+                "repr": "5",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "floor": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Floor 6\n",
+            "vars": {
+              "floor": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "floor": {
+                "repr": "7",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Floor 7\n",
+            "vars": {
+              "floor": {
+                "repr": "7",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "floor": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Floor 8\n",
+            "vars": {
+              "floor": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "floor": {
+                "repr": "8",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "Top floor was 8\n",
+            "vars": {
+              "floor": {
+                "repr": "8",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Jumps and counting down",
+      "knobs": [
+        {
+          "line": 1,
+          "find": "3",
+          "label": "step",
+          "kind": "number",
+          "min": 1,
+          "max": 6
+        }
+      ],
+      "lines": [
+        {
+          "code": "for seat in range(0, 12, 3):",
+          "explain": "The third number is the step: 0, 3, 6, 9. 12 is the stop, so it is not included.",
+          "task": "Start a for loop from 0 up to 12 in steps of 3, using seat.",
+          "note": "jump by 3",
+          "circle": ", 3)"
+        },
+        {
+          "code": "    print(\"Seat\", seat)",
+          "explain": "Prints Seat 0, 3, 6 and 9.",
+          "task": "Inside the loop, print Seat and seat."
+        },
+        {
+          "code": "for t in range(3, 0, -1):",
+          "explain": "A negative step counts down: 3, 2, 1.",
+          "task": "Start a for loop that counts down from 3 to 1, using t.",
+          "note": "count down",
+          "circle": "-1"
+        },
+        {
+          "code": "    print(t)",
+          "explain": "Prints 3, 2, 1.",
+          "task": "Inside the loop, print t."
+        },
+        {
+          "code": "print(\"Go!\")",
+          "explain": "After the countdown.",
+          "task": "After the loop, print Go!"
+        }
+      ],
+      "gen": {
+        "hash": "e93ea5a696653abc06a7aa0fb4faf9bd285ea0fb8f393c3ca5ebb27b4077e14f",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "0",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Seat 0\n",
+            "vars": {
+              "seat": {
+                "repr": "0",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Seat 3\n",
+            "vars": {
+              "seat": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "6",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Seat 6\n",
+            "vars": {
+              "seat": {
+                "repr": "6",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4
+              }
+            ]
+          },
+          {
+            "line": 2,
+            "stdout": "Seat 9\n",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 1,
+                "stmt": "for",
+                "round": 4,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 1
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "3\n",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "3",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "2",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 2
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "2\n",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "2",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3
+              }
+            ]
+          },
+          {
+            "line": 4,
+            "stdout": "1\n",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "events": [
+              {
+                "kind": "loop",
+                "line": 3,
+                "stmt": "for",
+                "round": 3,
+                "done": true
+              }
+            ]
+          },
+          {
+            "line": 5,
+            "stdout": "Go!\n",
+            "vars": {
+              "seat": {
+                "repr": "9",
+                "type": "int"
+              },
+              "t": {
+                "repr": "1",
+                "type": "int"
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What values does lap take?",
+      "options": [
+        "0, 1, 2",
+        "1, 2, 3",
+        "0, 1, 2, 3",
+        "3"
+      ],
+      "answer": 0,
+      "why": "range(3) starts at 0 and stops before 3."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 3,
+      "q": "What is stored in floor after the loop?",
+      "options": [
+        "8",
+        "9",
+        "5",
+        "Nothing, it is gone"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "floor"
+      },
+      "why": "The loop variable keeps the last value it got, and 9 is never reached."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 2,
+      "q": "How many seats are printed?",
+      "options": [
+        "4",
+        "12",
+        "3",
+        "5"
+      ],
+      "answer": 0,
+      "why": "0, 3, 6 and 9: four numbers before reaching 12."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blanks so the program prints Hi 5 times",
+      "code": [
+        "___ n in range(___):",
+        "    print(\"Hi\")"
+      ],
+      "answers": [
+        "for",
+        "5"
+      ],
+      "gen": {
+        "hash": "df04453cd26d6c65809b63cb86a46fb6b61a5b75cb7b4227a26df4a2423ca693",
+        "expected": {
+          "stdout": "Hi\nHi\nHi\nHi\nHi",
+          "vars": {
+            "n": {
+              "repr": "4",
+              "type": "int"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints 2, 4, 6, 8 on separate lines",
+      "code": [
+        "for e in range(2, ___, ___):",
+        "    print(e)"
+      ],
+      "answers": [
+        "10",
+        "2"
+      ],
+      "gen": {
+        "hash": "3a4943c31177145604ef01f21cd7d4d96c985082897f3aa829a324f8d2c6ce60",
+        "expected": {
+          "stdout": "2\n4\n6\n8",
+          "vars": {
+            "e": {
+              "repr": "8",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order, with the right indentation, so the program prints:\n1 squared is 1\n2 squared is 4\n3 squared is 9\nThat is all",
+      "indent": true,
+      "lines": [
+        "for k in range(1, 4):",
+        "    square = k * k",
+        "    print(k, \"squared is\", square)",
+        "print(\"That is all\")"
+      ],
+      "gen": {
+        "hash": "8eb683e6ee63ef88cdb1699f457982f55db695cc62707e270672104d357aa7c2",
+        "expected": {
+          "stdout": "1 squared is 1\n2 squared is 4\n3 squared is 9\nThat is all",
+          "vars": {
+            "k": {
+              "repr": "3",
+              "type": "int"
+            },
+            "square": {
+              "repr": "9",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print the numbers 1 to 5. It prints 0 to 4. Fix the range.",
+      "code": [
+        "for n in range(5):",
+        "    print(n)"
+      ],
+      "solution": [
+        "for n in range(1, 6):",
+        "    print(n)"
+      ],
+      "tests": [
+        {
+          "name": "prints 1 to 5",
+          "stdout": "1\n2\n3\n4\n5"
+        }
+      ],
+      "hint": "Start at 1, and remember the stop is not included.",
+      "gen": {
+        "hash": "ca37bc90efb676bd659dbd5c061b99e6a3fe9619424899af0594609c97f6207a",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the loop so it prints the 3 times table from 3 to 30, one number per line (3, 6, 9 and so on).",
+      "code": [
+        "for n in range(1, 11):",
+        "    print(n)"
+      ],
+      "solution": [
+        "for n in range(1, 11):",
+        "    print(n * 3)"
+      ],
+      "tests": [
+        {
+          "name": "3 to 30",
+          "stdout": "3\n6\n9\n12\n15\n18\n21\n24\n27\n30"
+        }
+      ],
+      "hint": "Print n * 3.",
+      "gen": {
+        "hash": "36fbd886f003b494cd02cfdc9b28aaf3f46572787018f81f071bdc2d8efd1d1e"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Make the program ask How many? and print that many stars, each on its own line. With 3:\nHow many? 3\n*\n*\n*",
+      "code": [
+        "for i in range(2):",
+        "    print(\"*\")"
+      ],
+      "solution": [
+        "n = int(input(\"How many? \"))",
+        "for i in range(n):",
+        "    print(\"*\")"
+      ],
+      "tests": [
+        {
+          "name": "3 stars",
+          "stdin": [
+            "3"
+          ],
+          "stdout": "How many? 3\n*\n*\n*"
+        },
+        {
+          "name": "1 star",
+          "stdin": [
+            "1"
+          ],
+          "stdout": "How many? 1\n*"
+        },
+        {
+          "name": "0 stars",
+          "stdin": [
+            "0"
+          ],
+          "stdout": "How many? 0"
+        }
+      ],
+      "hint": "range(n) repeats n times.",
+      "gen": {
+        "hash": "6fb01e82b2207c425108a0c46b56c358bd15c0dc2c3df2b29897edff1394b841"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Write a loop that prints the odd numbers from 1 to 9, one per line, using range with a step.",
+      "solution": [
+        "for odd in range(1, 10, 2):",
+        "    print(odd)"
+      ],
+      "tests": [
+        {
+          "name": "1 3 5 7 9",
+          "stdout": "1\n3\n5\n7\n9"
+        }
+      ],
+      "hints": [
+        "Start at 1 and jump by 2",
+        "range(1, 10, 2)",
+        "Print the loop variable inside the loop"
+      ],
+      "gen": {
+        "hash": "92c1d76473aa203be747c6564b4972fa230260a9638ab72c248d93ce15c1021c"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What numbers does `range(5)` give?",
+      "options": [
+        "0, 1, 2, 3, 4",
+        "1, 2, 3, 4, 5",
+        "0, 1, 2, 3, 4, 5",
+        "5"
+      ],
+      "answer": 0,
+      "why": "It starts at 0 and stops before 5."
+    },
+    {
+      "q": "What does `range(2, 6)` give?",
+      "options": [
+        "2, 3, 4, 5",
+        "2, 3, 4, 5, 6",
+        "3, 4, 5, 6",
+        "2, 6"
+      ],
+      "answer": 0,
+      "why": "From 2, stopping before 6."
+    },
+    {
+      "q": "What does `range(10, 0, -5)` give?",
+      "options": [
+        "10, 5",
+        "10, 5, 0",
+        "5, 0",
+        "Nothing"
+      ],
+      "answer": 0,
+      "why": "Count down by 5, stopping before 0."
+    },
+    {
+      "q": "How do you repeat something 7 times?",
+      "options": [
+        "for i in range(7):",
+        "for i in range(1, 7):",
+        "for i in 7:",
+        "while 7:"
+      ],
+      "answer": 0,
+      "why": "range(7) gives exactly seven numbers."
+    },
+    {
+      "q": "What does `range(1, 10, -1)` give?",
+      "options": [
+        "Nothing",
+        "1 to 9",
+        "10 down to 2",
+        "An error"
+      ],
+      "answer": 0,
+      "why": "A negative step counts down, but 1 is already below 10, so there are no numbers."
+    },
+    {
+      "q": "Why can a `for i in range(...)` loop not run forever?",
+      "options": [
+        "range has a fixed number of items",
+        "Python stops it after 100 rounds",
+        "i is always 0",
+        "It can, if you forget i += 1"
+      ],
+      "answer": 0,
+      "why": "The loop stops when range runs out of numbers. You do not change i yourself."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Looping over a number instead of a range",
+      "code": [
+        "for i in 5:",
+        "    print(i)"
+      ],
+      "explain": "A for loop needs something with items. The number 5 has no items, but range(5) does.",
+      "fix": [
+        "for i in range(5):",
+        "    print(i)"
+      ],
+      "gen": {
+        "hash": "a496cbe99e18562c91009d32cfb86b7f846ecb91adeb579a77b60686e1a86ec8",
+        "error": "TypeError: 'int' object is not iterable",
+        "line": 1
+      }
+    },
+    {
+      "id": "c2",
+      "title": "A decimal number in range",
+      "code": [
+        "for i in range(10 / 2):",
+        "    print(i)"
+      ],
+      "explain": "10 / 2 gives 5.0, a float, and range only takes whole numbers. Use // to get an int.",
+      "fix": [
+        "for i in range(10 // 2):",
+        "    print(i)"
+      ],
+      "gen": {
+        "hash": "ac2f3360a96058d18f7369cdc8a416c002e5de95dd682155d2210dafb68519b8",
+        "error": "TypeError: 'float' object cannot be interpreted as an integer",
+        "line": 1
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python tutorial: for statements",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#for-statements"
+    },
+    {
+      "title": "Python tutorial: the range() function",
+      "url": "https://docs.python.org/3/tutorial/controlflow.html#the-range-function"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 13. while and for Loops"
+    },
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 14. Iterations and Comprehensions"
+    }
+  ]
+}
