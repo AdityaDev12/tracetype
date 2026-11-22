@@ -53,6 +53,7 @@ describe('explainPythonError', () => {
     expect(explainPythonError("AttributeError: 'list' object has no attribute 'sorted'. Did you mean: 'sort'?")).toBe('A list has no sorted. Did you mean sort?')
     expect(explainPythonError("AttributeError: 'builtin_function_or_method' object has no attribute 'append'")).toMatch(/forget the \( \)/)
     expect(explainPythonError("NameError: name 'copy' is not defined. Did you forget to import 'copy'?")).toMatch(/^There is no copy/)
+    expect(explainPythonError("AttributeError: 'list' object has no attribute 'join'")).toMatch(/separator/)
     expect(explainPythonError('ValueError: empty separator')).toMatch(/split\(\)/)
     expect(explainPythonError('IndexError: list index out of range')).toMatch(/Positions start at 0/)
   })

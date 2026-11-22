@@ -6,7 +6,7 @@ import { useLanguagePack } from '../../languages/LanguageContext.tsx'
 import { ladderAt } from './branch.ts'
 import { useHoverProps } from './hover.ts'
 import { gridAt, loopRunAt, loopVar } from './loops.ts'
-import { listChange, listItemsAt, type ListChange } from './lists.ts'
+import { listChange, listItemsAt, splitCuts, type ListChange } from './lists.ts'
 import { indexUsesAt, usesNegatives, type IndexEvent } from './strings.ts'
 
 type ExprEvent = Extract<TraceEvent, { kind: 'expr' }>
@@ -232,7 +232,7 @@ function CellsUse({ name, use, line }: { name: string; use: IndexEvent; line?: n
   )
 }
 
-function Cells({ name, items, pointer, uses = [], line, negatives, change }: { name: string; items: string[]; pointer?: number; uses?: IndexEvent[]; line?: number; negatives?: boolean; change?: ListChange }) {
+function Cells({ name, items, pointer, uses = [], line, negatives, change, cuts }: { name: string; items: string[]; pointer?: number; uses?: IndexEvent[]; line?: number; negatives?: boolean; change?: ListChange; cuts?: number[] | null }) {
   const hover = useHoverProps(name)
   const ok = uses.filter((u) => !u.error)
   const use = ok[ok.length - 1]
@@ -252,7 +252,7 @@ function Cells({ name, items, pointer, uses = [], line, negatives, change }: { n
           {items.map((c, i) => {
             const k = picked.indexOf(i)
             return (
-              <span key={i} className={`cell${pointer === i ? ' at' : ''}${k >= 0 ? ' pick' : ''}${mark(change, i)}`} role="listitem">
+              <span key={i} className={`cell${pointer === i ? ' at' : ''}${k >= 0 ? ' pick' : ''}${mark(change, i)}${cuts?.includes(i) ? ' cut' : ''}`} role="listitem">
                 {ordered && k >= 0 && <span className="cell-order">{k + 1}</span>}
                 {change?.was[i] !== undefined && <span className="cell-was">{`was ${change.was[i]}`}</span>}
                 <span className="cell-val">{showChar(c)}</span>
@@ -269,6 +269,11 @@ function Cells({ name, items, pointer, uses = [], line, negatives, change }: { n
             </span>
           )}
         </div>
+      )}
+      {cuts && (
+        <p className="cells-use">
+          <span className="cells-note">{cuts.length ? '✂ split cuts at the marked cells, and they are left out of the pieces' : '✂ nothing to cut at, so one piece'}</span>
+        </p>
       )}
       {change?.reordered && (
         <p className="cells-use">
@@ -293,7 +298,7 @@ const mark = (change: ListChange | undefined, i: number) => (change && change.ma
 
 /** Sequence cells: each character of a string (or item of a list) in its own
  * numbered cell. */
-export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepView; focus?: string[]; pointer?: number; trace?: TraceStep[] }) {
+export function CellsPanel({ view, focus, pointer, trace = [], code = [] }: { view: StepView; focus?: string[]; pointer?: number; trace?: TraceStep[]; code?: string[] }) {
   const negatives = usesNegatives(trace)
   const rows: { name: string; items: string[]; change?: ListChange; text?: boolean }[] = []
   for (const v of view.vars) {
@@ -310,7 +315,8 @@ export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepVie
       }
     }
   }
-  const label = rows.length && !rows.some((r) => r.text) ? 'one box per item' : 'one box per character'
+  const texts = rows.filter((r) => r.text).length
+  const label = texts === 0 && rows.length ? 'one box per item' : texts === rows.length ? 'one box per character' : 'one box per character or item'
   return (
     <Terminal title="cells" label={label} className="viz-cells">
       {rows.length === 0 ? (
@@ -326,6 +332,7 @@ export function CellsPanel({ view, focus, pointer, trace = [] }: { view: StepVie
             line={view.line ?? undefined}
             negatives={negatives}
             change={r.change}
+            cuts={r.text ? splitCuts(view.line ? code[view.line - 1] : undefined, r.name, r.items.join('')) : null}
           />
         ))
       )}

@@ -50,7 +50,7 @@ export function Visual({ view, kinds, file = 'main.py', trace, error, stdin, foc
       case 'stdin':
         return <StdinPanel key={k} trace={t} index={view.index} stdin={stdin} />
       case 'cells':
-        return <CellsPanel key={k} view={view} focus={focus} pointer={pointer} trace={t} />
+        return <CellsPanel key={k} view={view} focus={focus} pointer={pointer} trace={t} code={code} />
       case 'branch':
         return <BranchPanel key={k} trace={t} index={view.index} code={code} />
       case 'loop':

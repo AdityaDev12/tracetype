@@ -1136,3 +1136,12 @@
   font-size: 1rem;
   color: var(--pen-yellow);
 }
+
+.cell.cut {
+  border-style: dashed;
+  border-color: var(--pen-red);
+}
+
+.cell.cut .cell-val {
+  color: var(--pen-red);
+}

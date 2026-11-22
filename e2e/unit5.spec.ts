@@ -57,3 +57,11 @@ test('the copy-or-share knob reruns the code with a real copy', async ({ page })
   await expect(page.locator('.tcode')).toContainText('backup = scores[:]', { timeout: 120_000 })
   await expect(page.locator('.viz-refs .ref-row')).toHaveCount(2, { timeout: 120_000 })
 })
+
+test('split marks its cuts on the text and the words appear as a list row', async ({ page }) => {
+  await page.goto('#/lesson/py-31-split-join/examples')
+  await stepForward(page, 2)
+  await expect(page.locator('.viz-cells .cell.cut')).toHaveCount(3)
+  await expect(page.locator('.viz-cells .cells-row')).toHaveCount(2)
+  await expect(page.locator('.viz-cells')).toContainText('split cuts at the marked cells')
+})

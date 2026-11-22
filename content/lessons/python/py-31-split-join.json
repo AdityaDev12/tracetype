@@ -1,0 +1,1678 @@
+{
+  "id": "py-31-split-join",
+  "track": "python",
+  "unit": "py-u5",
+  "order": 31,
+  "title": "split and join",
+  "summary": "split() cuts text into a list of words, join() glues a list of strings back into one text.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "memory"
+  ],
+  "intro": {
+    "text": "Text and lists turn into each other all the time.\n\n**split** cuts text into a list of strings:\n\n- `\"the cat sat\".split()` cuts at spaces: `['the', 'cat', 'sat']`. Extra spaces are ignored\n- `\"4,9,2\".split(\",\")` cuts at every comma exactly: `['4', '9', '2']`\n\nThe pieces are always **strings**, even when they look like numbers. Use `int()` on a piece to do math with it.\n\n**join** does the opposite. It is called on the **separator**, and glues the items of a list together with it:\n\n```\n\"-\".join([\"up\", \"and\", \"away\"])\n```\n\ngives `'up-and-away'`. join only takes strings, so a list of numbers needs `str()` first.\n\nIn the **cells** panel the text gets red cut marks where split cuts, and the list it makes appears as a second row of boxes.",
+    "analogy": "A loaf of bread and a knife. split slices the loaf wherever the marks are and drops the marks. join lays the slices in a row again, with whatever you choose in between, like butter."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "line = \"red green blue\"",
+        "parts = line.split()",
+        "print(len(parts), parts[1])"
+      ],
+      "kind": "choice",
+      "options": [
+        "3 green",
+        "14 e",
+        "3 red",
+        "1 red green blue"
+      ],
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "split() cut the text at the spaces into 3 words. Position 1 is the second word, green.",
+      "gen": {
+        "hash": "47622181bb238643b02ec2e7e3297414c2cc9dfaa600ef43b50edae46b4fb90e",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "line": {
+                "repr": "'red green blue'",
+                "type": "str",
+                "text": "red green blue"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "line": {
+                "repr": "'red green blue'",
+                "type": "str",
+                "text": "red green blue"
+              },
+              "parts": {
+                "repr": "['red', 'green', 'blue']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'red'",
+                    "type": "str",
+                    "text": "red"
+                  },
+                  {
+                    "repr": "'green'",
+                    "type": "str",
+                    "text": "green"
+                  },
+                  {
+                    "repr": "'blue'",
+                    "type": "str",
+                    "text": "blue"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "3 green\n",
+            "vars": {
+              "line": {
+                "repr": "'red green blue'",
+                "type": "str",
+                "text": "red green blue"
+              },
+              "parts": {
+                "repr": "['red', 'green', 'blue']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'red'",
+                    "type": "str",
+                    "text": "red"
+                  },
+                  {
+                    "repr": "'green'",
+                    "type": "str",
+                    "text": "green"
+                  },
+                  {
+                    "repr": "'blue'",
+                    "type": "str",
+                    "text": "blue"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "3 green",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "row = \"4,9,2\"",
+        "nums = row.split(\",\")",
+        "print(nums[0] + nums[1])"
+      ],
+      "kind": "choice",
+      "options": [
+        "49",
+        "13",
+        "4,9",
+        "TypeError"
+      ],
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "The pieces from split are strings, '4' and '9'. + on two strings joins them: 49.",
+      "gen": {
+        "hash": "9e55aa50a0429c2fec64d60a0f1b4900db14a2c67618de6266362abfbdab20f3",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "row": {
+                "repr": "'4,9,2'",
+                "type": "str",
+                "text": "4,9,2"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "row": {
+                "repr": "'4,9,2'",
+                "type": "str",
+                "text": "4,9,2"
+              },
+              "nums": {
+                "repr": "['4', '9', '2']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'4'",
+                    "type": "str",
+                    "text": "4"
+                  },
+                  {
+                    "repr": "'9'",
+                    "type": "str",
+                    "text": "9"
+                  },
+                  {
+                    "repr": "'2'",
+                    "type": "str",
+                    "text": "2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "49\n",
+            "vars": {
+              "row": {
+                "repr": "'4,9,2'",
+                "type": "str",
+                "text": "4,9,2"
+              },
+              "nums": {
+                "repr": "['4', '9', '2']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'4'",
+                    "type": "str",
+                    "text": "4"
+                  },
+                  {
+                    "repr": "'9'",
+                    "type": "str",
+                    "text": "9"
+                  },
+                  {
+                    "repr": "'2'",
+                    "type": "str",
+                    "text": "2"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "49",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "words = [\"up\", \"and\", \"away\"]",
+        "print(\"-\".join(words))"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "why": "join puts the separator - between each pair of items, not at the ends.",
+      "gen": {
+        "hash": "b1ebd40bc24793a024af4f5c3c58944a1d023939497aebe0d1f0f83c89523a8c",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "words": {
+                "repr": "['up', 'and', 'away']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'up'",
+                    "type": "str",
+                    "text": "up"
+                  },
+                  {
+                    "repr": "'and'",
+                    "type": "str",
+                    "text": "and"
+                  },
+                  {
+                    "repr": "'away'",
+                    "type": "str",
+                    "text": "away"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "up-and-away\n",
+            "vars": {
+              "words": {
+                "repr": "['up', 'and', 'away']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'up'",
+                    "type": "str",
+                    "text": "up"
+                  },
+                  {
+                    "repr": "'and'",
+                    "type": "str",
+                    "text": "and"
+                  },
+                  {
+                    "repr": "'away'",
+                    "type": "str",
+                    "text": "away"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "up-and-away"
+      }
+    },
+    {
+      "id": "p4",
+      "code": [
+        "parts = [\"a\", 1]",
+        "print(\" \".join(parts))"
+      ],
+      "kind": "choice",
+      "raises": true,
+      "q": "What does this show? If Python stops with an error, the last line is the error's name.",
+      "options": [
+        "a 1",
+        "TypeError",
+        "a1",
+        "['a', 1]"
+      ],
+      "visuals": [
+        "cells",
+        "halt"
+      ],
+      "why": "join only glues strings. The item 1 is a number, so Python stops with a TypeError.",
+      "gen": {
+        "hash": "dd04fcf1c101ef1b9583770035b32f167f03f4012931b4be1ad0078f165ed596",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "parts": {
+                "repr": "['a', 1]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'a'",
+                    "type": "str",
+                    "text": "a"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "TypeError",
+        "error": {
+          "type": "TypeError",
+          "message": "TypeError: sequence item 1: expected str instance, int found",
+          "line": 2
+        },
+        "events": [
+          {
+            "kind": "raise",
+            "type": "TypeError",
+            "message": "TypeError: sequence item 1: expected str instance, int found",
+            "line": 2,
+            "func": "<module>"
+          }
+        ],
+        "answer": 1
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "A sentence into words",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "sentence",
+        "words"
+      ],
+      "knobs": [
+        {
+          "line": 1,
+          "find": "\"the  cat sat\"",
+          "label": "sentence",
+          "kind": "text"
+        }
+      ],
+      "lines": [
+        {
+          "code": "sentence = \"the  cat sat\"",
+          "explain": "Three words, with two spaces after the first one. The cells show every character, spaces as ␣.",
+          "task": "Store the text the cat sat in sentence, with two spaces after the."
+        },
+        {
+          "code": "words = sentence.split()",
+          "explain": "split() cuts at the spaces, marked in red, and leaves them out. Two spaces in a row count as one cut. A new list appears below.",
+          "task": "Store sentence split into words in words.",
+          "note": "cuts at spaces",
+          "circle": "sentence.split()"
+        },
+        {
+          "code": "print(words)",
+          "explain": "Prints ['the', 'cat', 'sat'].",
+          "task": "Print words."
+        },
+        {
+          "code": "print(len(words), \"words\")",
+          "explain": "len of the list counts words, not characters: 3 words.",
+          "task": "Print the length of words and the word words."
+        },
+        {
+          "code": "print(words[-1])",
+          "explain": "The last word: sat.",
+          "task": "Print the last item of words."
+        }
+      ],
+      "gen": {
+        "hash": "7c80d6af1fbe0b452515261f354b3c0c1567e1ab1d2ea0b8261f446d5310510b",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "sentence": {
+                "repr": "'the  cat sat'",
+                "type": "str",
+                "text": "the  cat sat"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "sentence": {
+                "repr": "'the  cat sat'",
+                "type": "str",
+                "text": "the  cat sat"
+              },
+              "words": {
+                "repr": "['the', 'cat', 'sat']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'the'",
+                    "type": "str",
+                    "text": "the"
+                  },
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'sat'",
+                    "type": "str",
+                    "text": "sat"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "['the', 'cat', 'sat']\n",
+            "vars": {
+              "sentence": {
+                "repr": "'the  cat sat'",
+                "type": "str",
+                "text": "the  cat sat"
+              },
+              "words": {
+                "repr": "['the', 'cat', 'sat']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'the'",
+                    "type": "str",
+                    "text": "the"
+                  },
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'sat'",
+                    "type": "str",
+                    "text": "sat"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "3 words\n",
+            "vars": {
+              "sentence": {
+                "repr": "'the  cat sat'",
+                "type": "str",
+                "text": "the  cat sat"
+              },
+              "words": {
+                "repr": "['the', 'cat', 'sat']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'the'",
+                    "type": "str",
+                    "text": "the"
+                  },
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'sat'",
+                    "type": "str",
+                    "text": "sat"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "sat\n",
+            "vars": {
+              "sentence": {
+                "repr": "'the  cat sat'",
+                "type": "str",
+                "text": "the  cat sat"
+              },
+              "words": {
+                "repr": "['the', 'cat', 'sat']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'the'",
+                    "type": "str",
+                    "text": "the"
+                  },
+                  {
+                    "repr": "'cat'",
+                    "type": "str",
+                    "text": "cat"
+                  },
+                  {
+                    "repr": "'sat'",
+                    "type": "str",
+                    "text": "sat"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "Cutting at commas",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "row",
+        "fields"
+      ],
+      "lines": [
+        {
+          "code": "row = \"Ana, 34, Lima\"",
+          "explain": "One line of data with commas between the parts, like a row of a spreadsheet.",
+          "task": "Store the text Ana, 34, Lima in row."
+        },
+        {
+          "code": "fields = row.split(\",\")",
+          "explain": "split(\",\") cuts exactly at each comma. The space after each comma is not a comma, so it stays in the next piece.",
+          "task": "Store row split at the commas in fields.",
+          "note": "cuts at commas only",
+          "circle": "split(\",\")"
+        },
+        {
+          "code": "print(fields)",
+          "explain": "Prints ['Ana', ' 34', ' Lima']. Look at the spaces at the start of the last two.",
+          "task": "Print fields."
+        },
+        {
+          "code": "age = int(fields[1])",
+          "explain": "The piece is the text ' 34'. int() turns it into a number (it does not mind spaces at the ends).",
+          "task": "Store the item at position 1 of fields, as a whole number, in age."
+        },
+        {
+          "code": "print(age + 1)",
+          "explain": "Real math now: 35.",
+          "task": "Print age plus 1."
+        },
+        {
+          "code": "city = fields[2].strip()",
+          "explain": "strip() removes the leftover space from the text piece.",
+          "task": "Store the item at position 2 of fields, without spaces at its ends, in city."
+        },
+        {
+          "code": "print(city)",
+          "explain": "Prints Lima.",
+          "task": "Print city."
+        }
+      ],
+      "gen": {
+        "hash": "19cff71df2469298c27993903e3fc7d8b3a68ccc5503896d8852b42bcc3b85fd",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              },
+              "fields": {
+                "repr": "['Ana', ' 34', ' Lima']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "' 34'",
+                    "type": "str",
+                    "text": " 34"
+                  },
+                  {
+                    "repr": "' Lima'",
+                    "type": "str",
+                    "text": " Lima"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "['Ana', ' 34', ' Lima']\n",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              },
+              "fields": {
+                "repr": "['Ana', ' 34', ' Lima']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "' 34'",
+                    "type": "str",
+                    "text": " 34"
+                  },
+                  {
+                    "repr": "' Lima'",
+                    "type": "str",
+                    "text": " Lima"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              },
+              "fields": {
+                "repr": "['Ana', ' 34', ' Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "age": {
+                "repr": "34",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "' 34'",
+                    "type": "str",
+                    "text": " 34"
+                  },
+                  {
+                    "repr": "' Lima'",
+                    "type": "str",
+                    "text": " Lima"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "35\n",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              },
+              "fields": {
+                "repr": "['Ana', ' 34', ' Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "age": {
+                "repr": "34",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "' 34'",
+                    "type": "str",
+                    "text": " 34"
+                  },
+                  {
+                    "repr": "' Lima'",
+                    "type": "str",
+                    "text": " Lima"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              },
+              "fields": {
+                "repr": "['Ana', ' 34', ' Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "age": {
+                "repr": "34",
+                "type": "int"
+              },
+              "city": {
+                "repr": "'Lima'",
+                "type": "str",
+                "text": "Lima"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "' 34'",
+                    "type": "str",
+                    "text": " 34"
+                  },
+                  {
+                    "repr": "' Lima'",
+                    "type": "str",
+                    "text": " Lima"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "Lima\n",
+            "vars": {
+              "row": {
+                "repr": "'Ana, 34, Lima'",
+                "type": "str",
+                "text": "Ana, 34, Lima"
+              },
+              "fields": {
+                "repr": "['Ana', ' 34', ' Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "age": {
+                "repr": "34",
+                "type": "int"
+              },
+              "city": {
+                "repr": "'Lima'",
+                "type": "str",
+                "text": "Lima"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Ana'",
+                    "type": "str",
+                    "text": "Ana"
+                  },
+                  {
+                    "repr": "' 34'",
+                    "type": "str",
+                    "text": " 34"
+                  },
+                  {
+                    "repr": "' Lima'",
+                    "type": "str",
+                    "text": " Lima"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Split, change, join back",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "title",
+        "words"
+      ],
+      "lines": [
+        {
+          "code": "title = \"a tale of two cities\"",
+          "explain": "A book title, all in small letters.",
+          "task": "Store the text a tale of two cities in title."
+        },
+        {
+          "code": "words = title.split()",
+          "explain": "Text cannot be changed, but a list can. So split it into words first.",
+          "task": "Store title split into words in words."
+        },
+        {
+          "code": "words[0] = \"A\"",
+          "explain": "Replace the first word in the list.",
+          "task": "Put the text A at position 0 of words."
+        },
+        {
+          "code": "words[-1] = words[-1].upper()",
+          "explain": "Replace the last word with a shouted copy of it.",
+          "task": "Put the last word of words in capitals back at the last position."
+        },
+        {
+          "code": "print(\" \".join(words))",
+          "explain": "join is called on the separator, a space, and glues the words back: A tale of two CITIES.",
+          "task": "Print the words of words joined with a space.",
+          "note": "separator first",
+          "circle": "\" \".join(words)"
+        },
+        {
+          "code": "print(\"/\".join(words))",
+          "explain": "Any text can be the separator: A/tale/of/two/CITIES.",
+          "task": "Print the words of words joined with a slash."
+        }
+      ],
+      "gen": {
+        "hash": "5cd2af12e858cdff12bf040fbfc4fe6fdf2695585da6651d9fc4203812bb1f13",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'a tale of two cities'",
+                "type": "str",
+                "text": "a tale of two cities"
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'a tale of two cities'",
+                "type": "str",
+                "text": "a tale of two cities"
+              },
+              "words": {
+                "repr": "['a', 'tale', 'of', 'two', 'cities']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'a'",
+                    "type": "str",
+                    "text": "a"
+                  },
+                  {
+                    "repr": "'tale'",
+                    "type": "str",
+                    "text": "tale"
+                  },
+                  {
+                    "repr": "'of'",
+                    "type": "str",
+                    "text": "of"
+                  },
+                  {
+                    "repr": "'two'",
+                    "type": "str",
+                    "text": "two"
+                  },
+                  {
+                    "repr": "'cities'",
+                    "type": "str",
+                    "text": "cities"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'a tale of two cities'",
+                "type": "str",
+                "text": "a tale of two cities"
+              },
+              "words": {
+                "repr": "['A', 'tale', 'of', 'two', 'cities']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'A'",
+                    "type": "str",
+                    "text": "A"
+                  },
+                  {
+                    "repr": "'tale'",
+                    "type": "str",
+                    "text": "tale"
+                  },
+                  {
+                    "repr": "'of'",
+                    "type": "str",
+                    "text": "of"
+                  },
+                  {
+                    "repr": "'two'",
+                    "type": "str",
+                    "text": "two"
+                  },
+                  {
+                    "repr": "'cities'",
+                    "type": "str",
+                    "text": "cities"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "title": {
+                "repr": "'a tale of two cities'",
+                "type": "str",
+                "text": "a tale of two cities"
+              },
+              "words": {
+                "repr": "['A', 'tale', 'of', 'two', 'CITIES']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'A'",
+                    "type": "str",
+                    "text": "A"
+                  },
+                  {
+                    "repr": "'tale'",
+                    "type": "str",
+                    "text": "tale"
+                  },
+                  {
+                    "repr": "'of'",
+                    "type": "str",
+                    "text": "of"
+                  },
+                  {
+                    "repr": "'two'",
+                    "type": "str",
+                    "text": "two"
+                  },
+                  {
+                    "repr": "'CITIES'",
+                    "type": "str",
+                    "text": "CITIES"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "A tale of two CITIES\n",
+            "vars": {
+              "title": {
+                "repr": "'a tale of two cities'",
+                "type": "str",
+                "text": "a tale of two cities"
+              },
+              "words": {
+                "repr": "['A', 'tale', 'of', 'two', 'CITIES']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'A'",
+                    "type": "str",
+                    "text": "A"
+                  },
+                  {
+                    "repr": "'tale'",
+                    "type": "str",
+                    "text": "tale"
+                  },
+                  {
+                    "repr": "'of'",
+                    "type": "str",
+                    "text": "of"
+                  },
+                  {
+                    "repr": "'two'",
+                    "type": "str",
+                    "text": "two"
+                  },
+                  {
+                    "repr": "'CITIES'",
+                    "type": "str",
+                    "text": "CITIES"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "A/tale/of/two/CITIES\n",
+            "vars": {
+              "title": {
+                "repr": "'a tale of two cities'",
+                "type": "str",
+                "text": "a tale of two cities"
+              },
+              "words": {
+                "repr": "['A', 'tale', 'of', 'two', 'CITIES']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'A'",
+                    "type": "str",
+                    "text": "A"
+                  },
+                  {
+                    "repr": "'tale'",
+                    "type": "str",
+                    "text": "tale"
+                  },
+                  {
+                    "repr": "'of'",
+                    "type": "str",
+                    "text": "of"
+                  },
+                  {
+                    "repr": "'two'",
+                    "type": "str",
+                    "text": "two"
+                  },
+                  {
+                    "repr": "'CITIES'",
+                    "type": "str",
+                    "text": "CITIES"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in words after line 2?",
+      "options": [
+        "['the', 'cat', 'sat']",
+        "['the', '', 'cat', 'sat']",
+        "['the  cat sat']",
+        "['t', 'h', 'e']"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "words"
+      },
+      "why": "split() with nothing inside treats a run of spaces as one cut, so there is no empty piece."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 2,
+      "q": "What is stored in fields after line 2?",
+      "options": [
+        "['Ana', ' 34', ' Lima']",
+        "['Ana', '34', 'Lima']",
+        "['Ana', 34, 'Lima']",
+        "['Ana,', '34,', 'Lima']"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "fields"
+      },
+      "why": "split(\",\") cuts only at the commas. The spaces stay, and every piece is a string."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 3,
+      "q": "What is stored in words after line 3?",
+      "options": [
+        "['A', 'tale', 'of', 'two', 'cities']",
+        "['a', 'tale', 'of', 'two', 'cities']",
+        "'A tale of two cities'",
+        "['A']"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 3,
+        "name": "words"
+      },
+      "why": "Line 3 replaced the item at position 0 of the list. title itself is unchanged."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints ['x', 'y', 'z']",
+      "code": [
+        "text = \"x;y;z\"",
+        "print(text.split(___))"
+      ],
+      "answers": [
+        "\";\""
+      ],
+      "gen": {
+        "hash": "8ea9625ab51080a430995ce32760e53c5129dadd6bf9fd030ad009c92774a4e6",
+        "expected": {
+          "stdout": "['x', 'y', 'z']",
+          "vars": {
+            "text": {
+              "repr": "'x;y;z'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints 2026-11-21",
+      "code": [
+        "parts = [\"2026\", \"11\", \"21\"]",
+        "print(___.___(parts))"
+      ],
+      "answers": [
+        "\"-\"",
+        "join"
+      ],
+      "gen": {
+        "hash": "875440f0544b1e96145a84cf69d4a47a7d8bdfab3a411561f7a0d8dcf73a6ba2",
+        "expected": {
+          "stdout": "2026-11-21",
+          "vars": {
+            "parts": {
+              "repr": "['2026', '11', '21']",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order (and indent them) so the program adds up the numbers in the text and prints:\n16",
+      "lines": [
+        "line = \"3 5 8\"",
+        "total = 0",
+        "for piece in line.split():",
+        "    total += int(piece)",
+        "print(total)"
+      ],
+      "gen": {
+        "hash": "a09d7d98cf68a1f540fe81e320a7af2ef3ef92c5b86c95be9601fc09d12b5bb6",
+        "expected": {
+          "stdout": "16",
+          "vars": {
+            "line": {
+              "repr": "'3 5 8'",
+              "type": "str"
+            },
+            "total": {
+              "repr": "16",
+              "type": "int"
+            },
+            "piece": {
+              "repr": "'8'",
+              "type": "str"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print one, two. It stops with an error. Fix it.",
+      "code": [
+        "words = [\"one\", \"two\"]",
+        "print(words.join(\", \"))"
+      ],
+      "solution": [
+        "words = [\"one\", \"two\"]",
+        "print(\", \".join(words))"
+      ],
+      "tests": [
+        {
+          "name": "prints one, two",
+          "stdout": "one, two"
+        }
+      ],
+      "hint": "join belongs to the separator text, and the list goes inside the brackets.",
+      "gen": {
+        "hash": "371f3b19c438fef4afc8769fde779ce023779f6f5931dd7dcca1ded728cbf9b0",
+        "error": "AttributeError: 'list' object has no attribute 'join'"
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so it cuts the date at the slashes. It should print:\n['10', '04', '2025']",
+      "code": [
+        "date = \"10/04/2025\"",
+        "print(date.split())"
+      ],
+      "solution": [
+        "date = \"10/04/2025\"",
+        "print(date.split(\"/\"))"
+      ],
+      "tests": [
+        {
+          "name": "prints the three parts",
+          "stdout": "['10', '04', '2025']"
+        }
+      ],
+      "hint": "Put the text to cut at inside the brackets of split.",
+      "gen": {
+        "hash": "b40470a1af5a44d83a0f754861691a347a16e6760e3fe0ba8320fc71fa3b0eac"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the separator so the items are joined with a comma and a space. It should print:\nmilk, eggs, flour",
+      "code": [
+        "items = [\"milk\", \"eggs\", \"flour\"]",
+        "print(\" \".join(items))"
+      ],
+      "solution": [
+        "items = [\"milk\", \"eggs\", \"flour\"]",
+        "print(\", \".join(items))"
+      ],
+      "tests": [
+        {
+          "name": "prints with commas",
+          "stdout": "milk, eggs, flour"
+        }
+      ],
+      "hint": "The separator is the text before .join.",
+      "gen": {
+        "hash": "d6c5f7e165663a957ec430b053091b1657b3bafbe27d9607d511923227dfe395"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 2
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Numbers? and read a line of whole numbers with spaces between them. Print how many there are and their total. Then print them again joined by + signs. With 4 10 6:\nNumbers? 4 10 6\nCount 3, total 20\n4+10+6",
+      "solution": [
+        "line = input(\"Numbers? \")",
+        "pieces = line.split()",
+        "total = 0",
+        "for p in pieces:",
+        "    total += int(p)",
+        "print(f\"Count {len(pieces)}, total {total}\")",
+        "print(\"+\".join(pieces))"
+      ],
+      "tests": [
+        {
+          "name": "three numbers",
+          "stdin": [
+            "4 10 6"
+          ],
+          "stdout": "Numbers? 4 10 6\nCount 3, total 20\n4+10+6"
+        },
+        {
+          "name": "extra spaces",
+          "stdin": [
+            " 7   3"
+          ],
+          "stdout": "Numbers?  7   3\nCount 2, total 10\n7+3"
+        },
+        {
+          "name": "one number",
+          "stdin": [
+            "42"
+          ],
+          "stdout": "Numbers? 42\nCount 1, total 42\n42"
+        }
+      ],
+      "hints": [
+        "line.split() gives a list of text pieces and ignores extra spaces",
+        "Add int(p) for each piece to a total that starts at 0",
+        "The pieces are already text, so \"+\".join(pieces) works"
+      ],
+      "gen": {
+        "hash": "9b5270ac0087f1213091570a4761ab046d640a723c206fa0d173a7319b3b81e3"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "What is `\"a b c\".split()`?",
+      "options": [
+        "['a', 'b', 'c']",
+        "['a b c']",
+        "['a', ' ', 'b', ' ', 'c']",
+        "'abc'"
+      ],
+      "answer": 0,
+      "why": "split() cuts at the spaces and leaves them out."
+    },
+    {
+      "q": "What is `\"1,2\".split(\",\")`?",
+      "options": [
+        "['1', '2']",
+        "[1, 2]",
+        "['1,2']",
+        "3"
+      ],
+      "answer": 0,
+      "why": "The pieces from split are always strings."
+    },
+    {
+      "q": "What is `\"-\".join([\"a\", \"b\"])`?",
+      "options": [
+        "'a-b'",
+        "'-a-b-'",
+        "['a', '-', 'b']",
+        "'ab-'"
+      ],
+      "answer": 0,
+      "why": "The separator goes between the items, not at the ends."
+    },
+    {
+      "q": "What is `\"  hi   there \".split()`?",
+      "options": [
+        "['hi', 'there']",
+        "['', 'hi', '', 'there', '']",
+        "['  hi   there ']",
+        "['hi there']"
+      ],
+      "answer": 0,
+      "why": "split() with nothing inside ignores extra spaces, at the ends and in between."
+    },
+    {
+      "q": "Which line glues the list words together with spaces?",
+      "options": [
+        "\" \".join(words)",
+        "words.join(\" \")",
+        "join(words, \" \")",
+        "words.split(\" \")"
+      ],
+      "answer": 0,
+      "why": "join is a method of the separator text, and the list goes inside the brackets."
+    },
+    {
+      "q": "What is `\"a,,b\".split(\",\")`?",
+      "options": [
+        "['a', '', 'b']",
+        "['a', 'b']",
+        "['a', ',', 'b']",
+        "['a,,b']"
+      ],
+      "answer": 0,
+      "why": "split with a separator cuts at every comma exactly, so two commas in a row leave an empty piece between them."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Calling join on the list",
+      "code": [
+        "tags = [\"sun\", \"sea\"]",
+        "print(tags.join(\"#\"))"
+      ],
+      "explain": "Lists have no join. It belongs to the separator: \"#\".join(tags).",
+      "fix": [
+        "tags = [\"sun\", \"sea\"]",
+        "print(\"#\".join(tags))"
+      ],
+      "gen": {
+        "hash": "1d13d96f1f8d0bde54635238904265fbd9b16046c679ac407c4f6fb12039386c",
+        "error": "AttributeError: 'list' object has no attribute 'join'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Joining numbers",
+      "code": [
+        "nums = [1, 2, 3]",
+        "print(\", \".join(nums))"
+      ],
+      "explain": "join only glues strings. Turn each number into text with str() first.",
+      "fix": [
+        "nums = [1, 2, 3]",
+        "texts = []",
+        "for n in nums:",
+        "    texts.append(str(n))",
+        "print(\", \".join(texts))"
+      ],
+      "gen": {
+        "hash": "fd42a5deb7f6bc6400f8424fd2508dad17a12ee7ead756f12de27aee3040a73b",
+        "error": "TypeError: sequence item 0: expected str instance, int found",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Doing math on the pieces",
+      "code": [
+        "pair = \"9 4\".split()",
+        "print(pair[0] - pair[1])"
+      ],
+      "explain": "The pieces are the strings '9' and '4', and text cannot be subtracted. Turn them into numbers with int() first.",
+      "fix": [
+        "pair = \"9 4\".split()",
+        "print(int(pair[0]) - int(pair[1]))"
+      ],
+      "gen": {
+        "hash": "963ffc77d6f5a70a256b944bc8c7f76026bd4a32969540b81103e1c13c6f5240",
+        "error": "TypeError: unsupported operand type(s) for -: 'str' and 'str'",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Reference: str.split",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#str.split"
+    },
+    {
+      "title": "Reference: str.join",
+      "url": "https://docs.python.org/3/builtins/stdtypes.html#str.join"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 7. String Fundamentals"
+    }
+  ]
+}

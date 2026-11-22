@@ -96,6 +96,7 @@ const RULES: Rule[] = [
     test: /^AttributeError: '(?:builtin_function_or_method|method)' object has no attribute/,
     explain: () => 'This name holds a method itself, not its result. Did you forget the ( ) when you called it?',
   },
+  { test: /^AttributeError: 'list' object has no attribute 'join'/, explain: () => 'Lists have no join. join belongs to the separator text, with the list inside the brackets: " ".join(words).' },
   {
     test: /^AttributeError: 'NoneType' object has no attribute '(.+?)'/,
     explain: (m) => `This name holds None, not a list, so it has no ${m[1]}. Did you store the result of append() or sort()? They change the list and give back None.`,

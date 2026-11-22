@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { TraceStep } from '../../engine/types.ts'
-import { listChange, listItemsAt } from './lists.ts'
+import { listChange, listItemsAt, splitCuts } from './lists.ts'
 
 describe('list changes in cells', () => {
   it('marks nothing on the first step', () => {
@@ -51,5 +51,23 @@ describe('list changes in cells', () => {
     expect(listItemsAt(trace, 0, 'xs')).toEqual(['1'])
     expect(listItemsAt(trace, 0, 'n')).toBeNull()
     expect(listItemsAt(trace, -1, 'xs')).toBeNull()
+  })
+})
+
+describe('split cut marks', () => {
+  it('split() cuts at every space', () => {
+    expect(splitCuts('words = line.split()', 'line', 'hi  you')).toEqual([2, 3])
+  })
+
+  it('split(sep) cuts at each separator, whole', () => {
+    expect(splitCuts('parts = row.split(",")', 'row', 'a,b,c')).toEqual([1, 3])
+    expect(splitCuts("parts = row.split(', ')", 'row', 'a, b')).toEqual([1, 2])
+  })
+
+  it('only for the name that is split, on this line', () => {
+    expect(splitCuts('parts = other.split()', 'row', 'a b')).toBeNull()
+    expect(splitCuts('parts = my_row.split()', 'row', 'a b')).toBeNull()
+    expect(splitCuts('print(row)', 'row', 'a b')).toBeNull()
+    expect(splitCuts(undefined, 'row', 'a b')).toBeNull()
   })
 })

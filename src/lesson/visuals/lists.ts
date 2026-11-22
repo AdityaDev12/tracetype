@@ -75,3 +75,24 @@ export function listChange(before: string[] | null, now: string[]): ListChange {
   for (const a of added) marks[a] = 'new'
   return { marks, was, removed }
 }
+
+/** Where `name.split(...)` on a line cuts the text: the positions of every
+ * separator (or of the spaces, tabs and new lines for split() with nothing
+ * inside). Null when the line does not split this name. */
+export function splitCuts(codeLine: string | undefined, name: string, text: string): number[] | null {
+  if (!codeLine) return null
+  const esc = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  const m = codeLine.match(new RegExp(`(?<![\\w.])${esc}\\.split\\(\\s*(?:(["'])((?:(?!\\1)[^\\\\])*)\\1)?\\s*\\)`))
+  if (!m) return null
+  const sep = m[2]
+  const cuts: number[] = []
+  if (sep === undefined) {
+    for (let i = 0; i < text.length; i++) if (/\s/.test(text[i])) cuts.push(i)
+    return cuts
+  }
+  if (sep === '') return null
+  for (let i = text.indexOf(sep); i >= 0; i = text.indexOf(sep, i + sep.length)) {
+    for (let k = 0; k < sep.length; k++) cuts.push(i + k)
+  }
+  return cuts
+}
