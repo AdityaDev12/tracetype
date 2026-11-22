@@ -1,0 +1,2106 @@
+{
+  "id": "py-29-sorting-lists",
+  "track": "python",
+  "unit": "py-u5",
+  "order": 29,
+  "title": "Sorting and list tools",
+  "summary": "sort() puts the same list in order, sorted() makes a new sorted list. Plus reverse, count and index.",
+  "language": "python",
+  "minutes": 20,
+  "visual": "memory",
+  "visuals": [
+    "cells",
+    "refs",
+    "memory"
+  ],
+  "intro": {
+    "text": "There are two ways to put a list in order, and the difference matters:\n\n- `xs.sort()` sorts **the same list**. It changes it and gives back **None**\n- `sorted(xs)` makes a **new** sorted list and leaves `xs` exactly as it was\n\nAdd `reverse=True` inside the brackets of either one to go from biggest to smallest. A `name=value` inside the brackets is a **setting** for the call.\n\nThe **refs** panel shows the difference: after `sort()` there is still one list, after `sorted()` there are two.\n\nNumbers sort by size. Text sorts letter by letter, and **every capital comes before every small letter**, so `\"Zoe\"` comes before `\"amy\"`.\n\nMore tools that only look and never change the list:\n\n- `xs.count(6)`: how many items equal 6\n- `xs.index(6)`: the position of the first 6 (an error if there is none)\n\nAnd `xs.reverse()` flips the list in place, without sorting.",
+    "analogy": "Sorting a hand of cards. sort() is rearranging the cards in your own hand. sorted() is laying out a second, ordered copy on the table while your hand stays as it was."
+  },
+  "predict": [
+    {
+      "id": "p1",
+      "code": [
+        "nums = [8, 3, 5]",
+        "nums.sort()",
+        "print(nums)"
+      ],
+      "kind": "choice",
+      "options": [
+        "[3, 5, 8]",
+        "[8, 3, 5]",
+        "[8, 5, 3]",
+        "None"
+      ],
+      "visuals": [
+        "cells",
+        "refs"
+      ],
+      "why": "sort() changes the list itself into small to big order. The name still points at the same, now sorted, list.",
+      "gen": {
+        "hash": "c02c5dff81414d058e2a1892f0c34a0e7c0c894cb9af02d7cd77fdcfe6d36403",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[8, 3, 5]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "8",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "3",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "nums": {
+                "repr": "[3, 5, 8]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "3",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "8",
+                    "type": "int",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "[3, 5, 8]\n",
+            "vars": {
+              "nums": {
+                "repr": "[3, 5, 8]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "3",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "5",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "8",
+                    "type": "int",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "[3, 5, 8]",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p2",
+      "code": [
+        "words = [\"pear\", \"fig\"]",
+        "words = words.sort()",
+        "print(words)"
+      ],
+      "kind": "choice",
+      "options": [
+        "None",
+        "['fig', 'pear']",
+        "['pear', 'fig']",
+        "Error"
+      ],
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "why": "sort() gives back None. Line 2 stores that None in words, so the sorted list is lost.",
+      "gen": {
+        "hash": "24865a5eb9ef78402b2b5f9de54b0f44ea9a26d1831af80eb3f6ecad78c152a3",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "words": {
+                "repr": "['pear', 'fig']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'pear'",
+                    "type": "str",
+                    "text": "pear",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'fig'",
+                    "type": "str",
+                    "text": "fig",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "words": {
+                "repr": "None",
+                "type": "NoneType",
+                "id": "o4"
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "None\n",
+            "vars": {
+              "words": {
+                "repr": "None",
+                "type": "NoneType",
+                "id": "o4"
+              }
+            }
+          }
+        ],
+        "output": "None",
+        "answer": 0
+      }
+    },
+    {
+      "id": "p3",
+      "code": [
+        "ages = [30, 12, 21]",
+        "young_first = sorted(ages)",
+        "print(ages[0], young_first[0])"
+      ],
+      "kind": "typed",
+      "q": "What does this print? Type it exactly.",
+      "visuals": [
+        "refs",
+        "cells"
+      ],
+      "why": "sorted() made a new list [12, 21, 30]. ages was not touched, so its first item is still 30.",
+      "gen": {
+        "hash": "47c5b8e303c4d695d91deeac7927b0f15a36379d3ae218cf9c6c3067a87232b7",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "ages": {
+                "repr": "[30, 12, 21]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "30",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "ages": {
+                "repr": "[30, 12, 21]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "young_first": {
+                "repr": "[12, 21, 30]",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "30",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "30",
+                    "type": "int",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "30 12\n",
+            "vars": {
+              "ages": {
+                "repr": "[30, 12, 21]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "young_first": {
+                "repr": "[12, 21, 30]",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "30",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "12",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "12",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "21",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "30",
+                    "type": "int",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "30 12"
+      }
+    },
+    {
+      "id": "p4",
+      "code": [
+        "names = [\"bo\", \"Cy\", \"al\"]",
+        "print(sorted(names))"
+      ],
+      "kind": "choice",
+      "options": [
+        "['Cy', 'al', 'bo']",
+        "['al', 'bo', 'Cy']",
+        "['bo', 'Cy', 'al']",
+        "['al', 'Cy', 'bo']"
+      ],
+      "visuals": [
+        "memory"
+      ],
+      "why": "Every capital letter sorts before every small letter, so Cy comes first, then al and bo.",
+      "gen": {
+        "hash": "16b13d973e8d61dca0a4c993ea4641e0b1a6eba1219b7ee5cb35a1d5fe18eef5",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "names": {
+                "repr": "['bo', 'Cy', 'al']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'bo'",
+                    "type": "str",
+                    "text": "bo"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'al'",
+                    "type": "str",
+                    "text": "al"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "['Cy', 'al', 'bo']\n",
+            "vars": {
+              "names": {
+                "repr": "['bo', 'Cy', 'al']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'bo'",
+                    "type": "str",
+                    "text": "bo"
+                  },
+                  {
+                    "repr": "'Cy'",
+                    "type": "str",
+                    "text": "Cy"
+                  },
+                  {
+                    "repr": "'al'",
+                    "type": "str",
+                    "text": "al"
+                  }
+                ]
+              }
+            }
+          }
+        ],
+        "output": "['Cy', 'al', 'bo']",
+        "answer": 0
+      }
+    }
+  ],
+  "examples": [
+    {
+      "id": "e1",
+      "title": "sort() changes the list",
+      "visuals": [
+        "cells",
+        "refs"
+      ],
+      "focus": [
+        "scores"
+      ],
+      "lines": [
+        {
+          "code": "scores = [72, 95, 64, 88]",
+          "explain": "Four scores in the order they came in.",
+          "task": "Store the numbers 72, 95, 64 and 88 in a list called scores."
+        },
+        {
+          "code": "scores.sort()",
+          "explain": "The same list is put in order, small to big. The refs panel still shows one list: nothing new was made.",
+          "task": "Sort scores in place.",
+          "note": "the same list, in order",
+          "circle": "scores.sort()"
+        },
+        {
+          "code": "print(scores)",
+          "explain": "Prints [64, 72, 88, 95].",
+          "task": "Print scores."
+        },
+        {
+          "code": "scores.sort(reverse=True)",
+          "explain": "reverse=True is a setting: sort from big to small instead.",
+          "task": "Sort scores in place from biggest to smallest.",
+          "note": "big to small",
+          "circle": "reverse=True"
+        },
+        {
+          "code": "print(scores)",
+          "explain": "Prints [95, 88, 72, 64].",
+          "task": "Print scores."
+        },
+        {
+          "code": "print(\"top\", scores[0])",
+          "explain": "After a big to small sort, the top score is at position 0: top 95.",
+          "task": "Print the word top and the first item of scores."
+        }
+      ],
+      "gen": {
+        "hash": "b23dd399801196c07cfec89113776fa35300c6c2107f417239e12e2710229969",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "scores": {
+                "repr": "[72, 95, 64, 88]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "72",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "95",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "64",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "88",
+                    "type": "int",
+                    "id": "o5"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "scores": {
+                "repr": "[64, 72, 88, 95]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "64",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "72",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "88",
+                    "type": "int",
+                    "id": "o5"
+                  },
+                  {
+                    "repr": "95",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "[64, 72, 88, 95]\n",
+            "vars": {
+              "scores": {
+                "repr": "[64, 72, 88, 95]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "64",
+                    "type": "int",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "72",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "88",
+                    "type": "int",
+                    "id": "o5"
+                  },
+                  {
+                    "repr": "95",
+                    "type": "int",
+                    "id": "o3"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "scores": {
+                "repr": "[95, 88, 72, 64]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "95",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "88",
+                    "type": "int",
+                    "id": "o5"
+                  },
+                  {
+                    "repr": "72",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "64",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "[95, 88, 72, 64]\n",
+            "vars": {
+              "scores": {
+                "repr": "[95, 88, 72, 64]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "95",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "88",
+                    "type": "int",
+                    "id": "o5"
+                  },
+                  {
+                    "repr": "72",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "64",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "top 95\n",
+            "vars": {
+              "scores": {
+                "repr": "[95, 88, 72, 64]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "95",
+                    "type": "int",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "88",
+                    "type": "int",
+                    "id": "o5"
+                  },
+                  {
+                    "repr": "72",
+                    "type": "int",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "64",
+                    "type": "int",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e2",
+      "title": "sorted() makes a new list",
+      "visuals": [
+        "refs",
+        "memory"
+      ],
+      "lines": [
+        {
+          "code": "cities = [\"Rome\", \"Oslo\", \"Lima\"]",
+          "explain": "One list, one arrow in the refs panel.",
+          "task": "Store Rome, Oslo and Lima in a list called cities."
+        },
+        {
+          "code": "ordered = sorted(cities)",
+          "explain": "sorted() builds a second list in order. Now there are two lists and two arrows.",
+          "task": "Store a sorted copy of cities in ordered.",
+          "note": "a new list",
+          "circle": "sorted(cities)"
+        },
+        {
+          "code": "print(cities)",
+          "explain": "Unchanged: ['Rome', 'Oslo', 'Lima'].",
+          "task": "Print cities."
+        },
+        {
+          "code": "print(ordered)",
+          "explain": "In order: ['Lima', 'Oslo', 'Rome'].",
+          "task": "Print ordered."
+        },
+        {
+          "code": "backwards = sorted(cities, reverse=True)",
+          "explain": "The same setting works on sorted(): a third list, from Z to A.",
+          "task": "Store cities sorted from Z to A in backwards."
+        },
+        {
+          "code": "print(backwards[0])",
+          "explain": "Prints Rome.",
+          "task": "Print the first item of backwards."
+        }
+      ],
+      "gen": {
+        "hash": "8190c913ac3daa86d6f9cfa8e3d7b529ea365e1676f1a460bde5ff447bc4e605",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "cities": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "cities": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "ordered": {
+                "repr": "['Lima', 'Oslo', 'Rome']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "['Rome', 'Oslo', 'Lima']\n",
+            "vars": {
+              "cities": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "ordered": {
+                "repr": "['Lima', 'Oslo', 'Rome']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "['Lima', 'Oslo', 'Rome']\n",
+            "vars": {
+              "cities": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "ordered": {
+                "repr": "['Lima', 'Oslo', 'Rome']",
+                "type": "list",
+                "ref": "o5"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "",
+            "vars": {
+              "cities": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "ordered": {
+                "repr": "['Lima', 'Oslo', 'Rome']",
+                "type": "list",
+                "ref": "o5"
+              },
+              "backwards": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o6"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  }
+                ]
+              },
+              "o6": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "Rome\n",
+            "vars": {
+              "cities": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o1"
+              },
+              "ordered": {
+                "repr": "['Lima', 'Oslo', 'Rome']",
+                "type": "list",
+                "ref": "o5"
+              },
+              "backwards": {
+                "repr": "['Rome', 'Oslo', 'Lima']",
+                "type": "list",
+                "ref": "o6"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              },
+              "o5": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  }
+                ]
+              },
+              "o6": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "'Rome'",
+                    "type": "str",
+                    "text": "Rome",
+                    "id": "o2"
+                  },
+                  {
+                    "repr": "'Oslo'",
+                    "type": "str",
+                    "text": "Oslo",
+                    "id": "o3"
+                  },
+                  {
+                    "repr": "'Lima'",
+                    "type": "str",
+                    "text": "Lima",
+                    "id": "o4"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "id": "e3",
+      "title": "Counting, finding, flipping",
+      "visuals": [
+        "cells",
+        "memory"
+      ],
+      "focus": [
+        "rolls"
+      ],
+      "knobs": [
+        {
+          "line": 2,
+          "find": "6",
+          "label": "count which",
+          "kind": "number",
+          "min": 1,
+          "max": 6
+        }
+      ],
+      "lines": [
+        {
+          "code": "rolls = [4, 6, 2, 6, 1, 6]",
+          "explain": "Six rolls of a dice.",
+          "task": "Store the numbers 4, 6, 2, 6, 1 and 6 in a list called rolls."
+        },
+        {
+          "code": "sixes = rolls.count(6)",
+          "explain": "count tells how many items equal 6. It only looks, the list is not changed. Try counting other numbers with the knob.",
+          "task": "Store how many times 6 appears in rolls in sixes.",
+          "circle": "count(6)"
+        },
+        {
+          "code": "print(\"sixes:\", sixes)",
+          "explain": "Prints sixes: 3.",
+          "task": "Print sixes: and sixes."
+        },
+        {
+          "code": "where = rolls.index(6)",
+          "explain": "index gives the position of the first 6. Careful: index searches for a value, it is not the same as indexing with [ ].",
+          "task": "Store the position of the first 6 in rolls in where.",
+          "note": "the first match only"
+        },
+        {
+          "code": "print(\"first six at\", where)",
+          "explain": "Prints first six at 1.",
+          "task": "Print first six at and where."
+        },
+        {
+          "code": "rolls.reverse()",
+          "explain": "reverse flips the same list end to end. It does not sort.",
+          "task": "Reverse rolls in place."
+        },
+        {
+          "code": "print(rolls)",
+          "explain": "Prints [6, 1, 6, 2, 6, 4].",
+          "task": "Print rolls."
+        }
+      ],
+      "gen": {
+        "hash": "b0c4536969209237f8a5cdda34c4a6107dab2c394ebcf2488cb42715df7ebd64",
+        "traceVersion": 2,
+        "trace": [
+          {
+            "line": 1,
+            "stdout": "",
+            "vars": {
+              "rolls": {
+                "repr": "[4, 6, 2, 6, 1, 6]",
+                "type": "list",
+                "ref": "o1"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 2,
+            "stdout": "",
+            "vars": {
+              "rolls": {
+                "repr": "[4, 6, 2, 6, 1, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "sixes": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 3,
+            "stdout": "sixes: 3\n",
+            "vars": {
+              "rolls": {
+                "repr": "[4, 6, 2, 6, 1, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "sixes": {
+                "repr": "3",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 4,
+            "stdout": "",
+            "vars": {
+              "rolls": {
+                "repr": "[4, 6, 2, 6, 1, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "sixes": {
+                "repr": "3",
+                "type": "int"
+              },
+              "where": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 5,
+            "stdout": "first six at 1\n",
+            "vars": {
+              "rolls": {
+                "repr": "[4, 6, 2, 6, 1, 6]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "sixes": {
+                "repr": "3",
+                "type": "int"
+              },
+              "where": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 6,
+            "stdout": "",
+            "vars": {
+              "rolls": {
+                "repr": "[6, 1, 6, 2, 6, 4]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "sixes": {
+                "repr": "3",
+                "type": "int"
+              },
+              "where": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "line": 7,
+            "stdout": "[6, 1, 6, 2, 6, 4]\n",
+            "vars": {
+              "rolls": {
+                "repr": "[6, 1, 6, 2, 6, 4]",
+                "type": "list",
+                "ref": "o1"
+              },
+              "sixes": {
+                "repr": "3",
+                "type": "int"
+              },
+              "where": {
+                "repr": "1",
+                "type": "int"
+              }
+            },
+            "heap": {
+              "o1": {
+                "kind": "list",
+                "type": "list",
+                "items": [
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "1",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "2",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "6",
+                    "type": "int"
+                  },
+                  {
+                    "repr": "4",
+                    "type": "int"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "investigate": [
+    {
+      "id": "i1",
+      "example": 0,
+      "line": 2,
+      "q": "What is stored in scores after line 2?",
+      "options": [
+        "[64, 72, 88, 95]",
+        "[72, 95, 64, 88]",
+        "[95, 88, 72, 64]",
+        "None"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "scores"
+      },
+      "why": "sort() put the same list in order from small to big."
+    },
+    {
+      "id": "i2",
+      "example": 1,
+      "line": 2,
+      "q": "What is stored in cities after line 2?",
+      "options": [
+        "['Rome', 'Oslo', 'Lima']",
+        "['Lima', 'Oslo', 'Rome']",
+        "None",
+        "[]"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 2,
+        "name": "cities"
+      },
+      "why": "sorted() never changes the list you give it. It makes a new one."
+    },
+    {
+      "id": "i3",
+      "example": 2,
+      "line": 4,
+      "q": "What is stored in where after line 4?",
+      "options": [
+        "1",
+        "3",
+        "5",
+        "6"
+      ],
+      "answer": 0,
+      "verify": {
+        "line": 4,
+        "name": "where"
+      },
+      "why": "There are sixes at 1, 3 and 5, and index gives the first one."
+    }
+  ],
+  "faded": [
+    {
+      "id": "f1",
+      "prompt": "Fill in the blank so the program prints [1, 2, 9]",
+      "code": [
+        "digits = [9, 1, 2]",
+        "digits.___()",
+        "print(digits)"
+      ],
+      "answers": [
+        "sort"
+      ],
+      "gen": {
+        "hash": "fceb427dd373b6e9a435997e3c011f9a8fa8abed525ea0fbf358bcb519e9978c",
+        "expected": {
+          "stdout": "[1, 2, 9]",
+          "vars": {
+            "digits": {
+              "repr": "[1, 2, 9]",
+              "type": "list"
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "f2",
+      "prompt": "Fill in the blanks so the program prints a new list from biggest to smallest:\n[50, 20, 10]",
+      "code": [
+        "bids = [20, 50, 10]",
+        "high_first = ___(bids, reverse=___)",
+        "print(high_first)"
+      ],
+      "answers": [
+        "sorted",
+        "True"
+      ],
+      "gen": {
+        "hash": "0dc255bc7b7ca3beed5e5a3b04a27537ba1b834b22ad3be3e0bf4e21d491de08",
+        "expected": {
+          "stdout": "[50, 20, 10]",
+          "vars": {
+            "bids": {
+              "repr": "[20, 50, 10]",
+              "type": "list"
+            },
+            "high_first": {
+              "repr": "[50, 20, 10]",
+              "type": "list"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "parsons": [
+    {
+      "id": "s1",
+      "prompt": "Put the lines in order so the program prints the tallest height:\ntallest 172",
+      "lines": [
+        "heights = [150, 172, 165]",
+        "heights.sort()",
+        "tallest = heights[-1]",
+        "print(\"tallest\", tallest)"
+      ],
+      "gen": {
+        "hash": "d64b94339333fd7c2408a0414c99a61d8525482b5db63e701e5780121aa2bca2",
+        "expected": {
+          "stdout": "tallest 172",
+          "vars": {
+            "heights": {
+              "repr": "[150, 165, 172]",
+              "type": "list"
+            },
+            "tallest": {
+              "repr": "172",
+              "type": "int"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "fix": [
+    {
+      "id": "x1",
+      "prompt": "This program should print the prices from cheapest to dearest: [1.25, 2.0, 3.5]. It prints None. Fix it.",
+      "code": [
+        "prices = [3.5, 1.25, 2.0]",
+        "cheap_first = prices.sort()",
+        "print(cheap_first)"
+      ],
+      "solution": [
+        "prices = [3.5, 1.25, 2.0]",
+        "cheap_first = sorted(prices)",
+        "print(cheap_first)"
+      ],
+      "tests": [
+        {
+          "name": "prints the sorted prices",
+          "stdout": "[1.25, 2.0, 3.5]"
+        }
+      ],
+      "hint": "sort() gives back None. sorted() gives back a new sorted list you can store.",
+      "gen": {
+        "hash": "141185be8facee5aa430dd9e5026c181524fcb821553d6fdd82103b43c37dcd5",
+        "error": null
+      }
+    }
+  ],
+  "modify": [
+    {
+      "id": "m1",
+      "prompt": "Change the program so the votes go from most to fewest. It should print:\n[9, 7, 3]",
+      "code": [
+        "votes = [7, 3, 9]",
+        "votes.sort()",
+        "print(votes)"
+      ],
+      "solution": [
+        "votes = [7, 3, 9]",
+        "votes.sort(reverse=True)",
+        "print(votes)"
+      ],
+      "tests": [
+        {
+          "name": "prints [9, 7, 3]",
+          "stdout": "[9, 7, 3]"
+        }
+      ],
+      "hint": "Add the setting reverse=True inside the brackets.",
+      "gen": {
+        "hash": "51c5254c6c8742e877f317ac9ca3a8565fee69425b200561b6250259d7de58c4"
+      }
+    },
+    {
+      "id": "m2",
+      "prompt": "Change the program so it prints how many times b appears, instead of where the first b is. It should print:\n3",
+      "code": [
+        "grades = [\"a\", \"b\", \"c\", \"b\", \"b\"]",
+        "print(grades.index(\"b\"))"
+      ],
+      "solution": [
+        "grades = [\"a\", \"b\", \"c\", \"b\", \"b\"]",
+        "print(grades.count(\"b\"))"
+      ],
+      "tests": [
+        {
+          "name": "prints 3",
+          "stdout": "3"
+        }
+      ],
+      "hint": "count tells how many, index tells where.",
+      "gen": {
+        "hash": "cc276a6c3d2d80c4687cc418671ae7a67a65e65fbf487927ac599fae5a310390"
+      }
+    }
+  ],
+  "recall": [
+    {
+      "example": 1
+    }
+  ],
+  "make": [
+    {
+      "id": "k1",
+      "prompt": "Ask Score? five times (whole numbers) and keep them in a list. Then print the top three, biggest first, and the lowest score. With 40, 85, 62, 91 and 77:\nScore? 40\nScore? 85\nScore? 62\nScore? 91\nScore? 77\nTop three: [91, 85, 77]\nLowest: 40",
+      "solution": [
+        "scores = []",
+        "for i in range(5):",
+        "    scores.append(int(input(\"Score? \")))",
+        "top = sorted(scores, reverse=True)",
+        "print(\"Top three:\", top[:3])",
+        "print(\"Lowest:\", top[-1])"
+      ],
+      "tests": [
+        {
+          "name": "five scores",
+          "stdin": [
+            "40",
+            "85",
+            "62",
+            "91",
+            "77"
+          ],
+          "stdout": "Score? 40\nScore? 85\nScore? 62\nScore? 91\nScore? 77\nTop three: [91, 85, 77]\nLowest: 40"
+        },
+        {
+          "name": "a tie",
+          "stdin": [
+            "5",
+            "9",
+            "9",
+            "1",
+            "3"
+          ],
+          "stdout": "Score? 5\nScore? 9\nScore? 9\nScore? 1\nScore? 3\nTop three: [9, 9, 5]\nLowest: 1"
+        },
+        {
+          "name": "already in order",
+          "stdin": [
+            "1",
+            "2",
+            "3",
+            "4",
+            "5"
+          ],
+          "stdout": "Score? 1\nScore? 2\nScore? 3\nScore? 4\nScore? 5\nTop three: [5, 4, 3]\nLowest: 1"
+        }
+      ],
+      "hints": [
+        "Collect the scores with append inside for i in range(5)",
+        "sorted(scores, reverse=True) puts the biggest first",
+        "A slice [:3] gives the first three. min(scores) also finds the lowest"
+      ],
+      "gen": {
+        "hash": "b0f3f3dbbf3d823eb9dfea9e8f39773f095ad2037613d1143b7b9244e040c093"
+      }
+    }
+  ],
+  "quiz": [
+    {
+      "q": "Which of these changes the list xs itself?",
+      "options": [
+        "xs.sort()",
+        "sorted(xs)",
+        "xs[::-1]",
+        "len(xs)"
+      ],
+      "answer": 0,
+      "why": "sort() changes the same list. The others make something new or just look."
+    },
+    {
+      "q": "What is `sorted([3, 1, 2])`?",
+      "options": [
+        "[1, 2, 3]",
+        "[3, 2, 1]",
+        "[3, 1, 2]",
+        "None"
+      ],
+      "answer": 0,
+      "why": "sorted() gives back a new list in order, small to big."
+    },
+    {
+      "q": "After `xs = [5, 2]` and `ys = sorted(xs)`, what is xs?",
+      "options": [
+        "[5, 2]",
+        "[2, 5]",
+        "None",
+        "[]"
+      ],
+      "answer": 0,
+      "why": "sorted() leaves the original list alone."
+    },
+    {
+      "q": "What does `print([4, 1].sort())` show?",
+      "options": [
+        "None",
+        "[1, 4]",
+        "[4, 1]",
+        "Error"
+      ],
+      "answer": 0,
+      "why": "sort() gives back None, and print shows that None."
+    },
+    {
+      "q": "What is `[\"b\", \"a\", \"b\"].count(\"b\")`?",
+      "options": [
+        "2",
+        "0",
+        "1",
+        "3"
+      ],
+      "answer": 0,
+      "why": "count tells how many items equal \"b\"."
+    },
+    {
+      "q": "What is `[10, 20, 30].index(30)`?",
+      "options": [
+        "2",
+        "3",
+        "30",
+        "1"
+      ],
+      "answer": 0,
+      "why": "index gives the position of the value, and 30 is at position 2."
+    },
+    {
+      "q": "What is `sorted([\"b\", \"A\", \"a\"])`?",
+      "options": [
+        "['A', 'a', 'b']",
+        "['a', 'A', 'b']",
+        "['a', 'b', 'A']",
+        "['b', 'A', 'a']"
+      ],
+      "answer": 0,
+      "why": "Capitals sort before small letters, so A comes first."
+    }
+  ],
+  "mistakes": [
+    {
+      "id": "c1",
+      "title": "Sorting numbers mixed with text",
+      "code": [
+        "mix = [3, \"two\", 1]",
+        "mix.sort()"
+      ],
+      "explain": "Python cannot tell whether a number is smaller than a piece of text, so it refuses to sort. Keep one kind of value in a list you sort.",
+      "fix": [
+        "mix = [3, 2, 1]",
+        "mix.sort()"
+      ],
+      "gen": {
+        "hash": "c05b8c7ce063c951fc220e9e9decad127d34f53cdb0ea07f8ad3e05c2f7fe066",
+        "error": "TypeError: '<' not supported between instances of 'str' and 'int'",
+        "line": 2
+      }
+    },
+    {
+      "id": "c2",
+      "title": "Looking up a value that is not there",
+      "code": [
+        "colors = [\"red\", \"blue\"]",
+        "print(colors.index(\"green\"))"
+      ],
+      "explain": "index stops the program when the value is missing. Check with in first.",
+      "fix": [
+        "colors = [\"red\", \"blue\"]",
+        "if \"green\" in colors:",
+        "    print(colors.index(\"green\"))",
+        "else:",
+        "    print(\"no green\")"
+      ],
+      "gen": {
+        "hash": "7e68b726c2986ca8010a47dac751a66cf9eaa107a1533421d6682ba1b0a61122",
+        "error": "ValueError: list.index(x): x not in list",
+        "line": 2
+      }
+    },
+    {
+      "id": "c3",
+      "title": "Calling sorted like a method",
+      "code": [
+        "nums = [2, 1]",
+        "print(nums.sorted())"
+      ],
+      "explain": "sorted is not a list method. It is a function that takes the list inside its brackets.",
+      "fix": [
+        "nums = [2, 1]",
+        "print(sorted(nums))"
+      ],
+      "gen": {
+        "hash": "574481cf2f0a08661c16546c36a075bdeb74d972ca70538f48e373f5dd5f6eb1",
+        "error": "AttributeError: 'list' object has no attribute 'sorted'. Did you mean: 'sort'?",
+        "line": 2
+      }
+    }
+  ],
+  "links": [
+    {
+      "title": "Python HOWTO: sorting techniques",
+      "url": "https://docs.python.org/3/howto/sorting.html"
+    },
+    {
+      "title": "Built-in functions: sorted()",
+      "url": "https://docs.python.org/3/builtins/functions.html#sorted"
+    },
+    {
+      "title": "Python tutorial: more on lists",
+      "url": "https://docs.python.org/3/tutorial/datastructures.html#more-on-lists"
+    }
+  ],
+  "bookRefs": [
+    {
+      "book": "learning-python",
+      "chapter": "Chapter 8. Lists and Dictionaries"
+    }
+  ]
+}

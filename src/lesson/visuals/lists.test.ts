@@ -31,6 +31,14 @@ describe('list changes in cells', () => {
     expect(c.removed).toEqual([])
   })
 
+  it('the same items in a new order is a reorder, not removals', () => {
+    const c = listChange(['3', '1', '2'], ['1', '2', '3'])
+    expect(c.reordered).toBe(true)
+    expect(c.marks).toEqual(['same', 'same', 'same'])
+    expect(c.removed).toEqual([])
+    expect(listChange(['1', '2'], ['1', '2']).reordered).toBeUndefined()
+  })
+
   it('reads list items from the heap of a step', () => {
     const trace: TraceStep[] = [
       {

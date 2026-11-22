@@ -31,3 +31,10 @@ test('looping over a list moves the pointer from cell to cell', async ({ page })
   await expect(page.locator('.viz-cells .cell.at .cell-val')).toHaveText('12')
   await expect(page.locator('.viz-loop')).toContainText('round 2')
 })
+
+test('sort keeps one list in the refs diagram and the cells say it was reordered', async ({ page }) => {
+  await page.goto('#/lesson/py-29-sorting-lists/examples')
+  await stepForward(page, 2)
+  await expect(page.locator('.viz-cells')).toContainText('same items, new order')
+  await expect(page.locator('.viz-refs .ref-row')).toHaveCount(1)
+})

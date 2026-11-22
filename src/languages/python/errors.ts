@@ -92,7 +92,10 @@ const RULES: Rule[] = [
     test: /^AttributeError: 'NoneType' object has no attribute '(.+?)'/,
     explain: (m) => `This name holds None, not a list, so it has no ${m[1]}. Did you store the result of append() or sort()? They change the list and give back None.`,
   },
-  { test: /^AttributeError: '(.+?)' object has no attribute '(.+?)'/, explain: (m) => `A ${m[1]} has no ${m[2]}.` },
+  {
+    test: /^AttributeError: '(.+?)' object has no attribute '(.+?)'(?:\. Did you mean: '(.+?)'\?)?/,
+    explain: (m) => `A ${m[1]} has no ${m[2]}.${m[3] ? ` Did you mean ${m[3]}?` : ''}`,
+  },
   {
     test: /^EOFError/,
     explain: () => 'input() asked for an answer, but there were no typed answers left. Add one more line in the typed answers box.',

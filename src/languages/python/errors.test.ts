@@ -50,6 +50,7 @@ describe('explainPythonError', () => {
     expect(explainPythonError('TypeError: sequence item 0: expected str instance, int found')).toBe("join() only joins text. Item 0 is not text (its type is int), so turn each item into text with str() first.")
     expect(explainPythonError('ValueError: max() iterable argument is empty')).toMatch(/^max\(\) needs/)
     expect(explainPythonError("TypeError: object of type 'NoneType' has no len()")).toMatch(/holds None/)
+    expect(explainPythonError("AttributeError: 'list' object has no attribute 'sorted'. Did you mean: 'sort'?")).toBe('A list has no sorted. Did you mean sort?')
     expect(explainPythonError('ValueError: empty separator')).toMatch(/split\(\)/)
     expect(explainPythonError('IndexError: list index out of range')).toMatch(/Positions start at 0/)
   })

@@ -12,6 +12,8 @@ export interface ListChange {
   was: (string | undefined)[]
   /** Items that left the list, with the position they had before. */
   removed: { at: number; repr: string }[]
+  /** Same items as before in a new order (sort, reverse). */
+  reordered?: boolean
 }
 
 /** Items of a list variable at one step, or null when it is not a list there. */
@@ -31,6 +33,10 @@ export function listChange(before: string[] | null, now: string[]): ListChange {
   const marks: CellMark[] = now.map(() => 'same')
   const was: (string | undefined)[] = now.map(() => undefined)
   if (!before) return { marks, was, removed: [] }
+  const key = (xs: string[]) => [...xs].sort().join('\u0000')
+  if (before.length === now.length && before.some((x, k) => x !== now[k]) && key(before) === key(now)) {
+    return { marks, was, removed: [], reordered: true }
+  }
   const n = before.length
   const m = now.length
   // lcs[i][j]: longest common run of before[i:] and now[j:]

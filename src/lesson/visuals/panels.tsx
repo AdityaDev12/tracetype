@@ -270,6 +270,11 @@ function Cells({ name, items, pointer, uses = [], line, negatives, change }: { n
           )}
         </div>
       )}
+      {change?.reordered && (
+        <p className="cells-use">
+          <span className="cells-note">same items, new order</span>
+        </p>
+      )}
       {change?.removed.map((r) => (
         <p key={`gone${r.at}`} className="cells-use gone">
           <span className="cells-note">removed </span>
